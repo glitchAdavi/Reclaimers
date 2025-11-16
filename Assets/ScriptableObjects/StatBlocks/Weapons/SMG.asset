@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c22bd9ed10cd9454989a0b57bea33825, type: 3}
+  m_Name: SMG
+  m_EditorClassIdentifier: 
+  weaponName: SMG
+  weaponType: WepProjectile
+  clipSize:
+    baseVal: 30
+    addVal: 0
+    multVal: 1
+  bulletPerShot:
+    baseVal: 1
+    addVal: 0
+    multVal: 1
+  fireRate:
+    baseVal: 0.1
+    addVal: 0
+    multVal: 1
+  reloadTime:
+    baseVal: 2
+    addVal: 0
+    multVal: 1
+  projDamage:
+    baseVal: 1
+    addVal: 0
+    multVal: 1
+  projSpeed:
+    baseVal: 25
+    addVal: 0
+    multVal: 1
+  projPenetration:
+    baseVal: 1
+    addVal: 0
+    multVal: 1
+  projUseDistance: 0
+  projMaxDistance:
+    baseVal: 10
+    addVal: 0
+    multVal: 1
+  projMaxLifetime:
+    baseVal: 1
+    addVal: 0
+    multVal: 1
+  knockback:
+    baseVal: 0
+    addVal: 0
+    multVal: 1

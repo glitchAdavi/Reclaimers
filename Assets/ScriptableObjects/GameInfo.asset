@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d42987d5608fe234880a6f2e868dac48, type: 3}
+  m_Name: GameInfo
+  m_EditorClassIdentifier: 
+  playerPositionVar: {fileID: 11400000, guid: 6be5b5df7bc10914db09704354f79a3d, type: 2}
+  alternativePositionVar: {fileID: 11400000, guid: 091644676a6eeea4796470f13943eff0, type: 2}
+  playablePawnPrefab: {fileID: 8418645380850837868, guid: 0b7e26dbaf2b2ca46adcc6ea8e7bbdd2, type: 3}
+  playerCameraPrefab: {fileID: 4425283191490408489, guid: 36f144c874aa7ed4b872cbaae5d6364d, type: 3}
+  enemyPawnPrefab: {fileID: 289805666693742518, guid: c179bf0f67cc1b646bb528aba493bce8, type: 3}
+  projectilePrefab: {fileID: 7636891095021424926, guid: a7a55dc650500624fb142a3f69296909, type: 3}
+  playerUIPrefab: {fileID: 1197550489632115910, guid: d721256fb0c64eb4cb8fdc59fccce3fe, type: 3}
+  uiDamageNumberPrefab: {fileID: 6193712909782860619, guid: 207d86af3e7a4904380afa0edad51aa5, type: 3}
+  poXpPrefab: {fileID: 6498839685055560241, guid: 9c3a381d857c492448252b858234341d, type: 3}
+  defaultStatBlock: {fileID: 11400000, guid: 0280918b95d279a4ab02c3268abc60f5, type: 2}
+  currentPlayerStatBlock: {fileID: 11400000, guid: 862a0ea39af23cf49adf90f75653856b, type: 2}

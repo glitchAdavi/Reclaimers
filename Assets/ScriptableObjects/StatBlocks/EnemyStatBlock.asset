@@ -1,0 +1,88 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8049b2b7ff881c14fb97e71d0a471463, type: 3}
+  m_Name: EnemyStatBlock
+  m_EditorClassIdentifier: 
+  pawnName: Enemy
+  equippedWeapon: {fileID: 0}
+  scale:
+    baseVal: 1
+    addVal: 0
+    multVal: 1
+  totalXp:
+    baseVal: 0
+    addVal: 0
+    multVal: 1
+  xp:
+    baseVal: 0
+    addVal: 0
+    multVal: 1
+  xpGain:
+    baseVal: 1
+    addVal: 0
+    multVal: 1
+  level:
+    baseVal: 0
+    addVal: 0
+    multVal: 1
+  speed:
+    baseVal: 2
+    addVal: 0
+    multVal: 1
+  lifepoints:
+    baseVal: 10
+    addVal: 0
+    multVal: 1
+  lpRegen:
+    baseVal: 0
+    addVal: 0
+    multVal: 1
+  lpRegenDelay:
+    baseVal: 1
+    addVal: 0
+    multVal: 1
+  lpRegenTickTime:
+    baseVal: 1
+    addVal: 0
+    multVal: 1
+  damageMultiplier:
+    baseVal: 1
+    addVal: 0
+    multVal: 1
+  healingMultiplier:
+    baseVal: 1
+    addVal: 0
+    multVal: 1
+  meleeDamage:
+    baseVal: 1
+    addVal: 0
+    multVal: 1
+  meleeCooldown:
+    baseVal: 0.5
+    addVal: 0
+    multVal: 1
+  pickUpRange:
+    baseVal: 5
+    addVal: 0
+    multVal: 1
+  interactionRange:
+    baseVal: 3
+    addVal: 0
+    multVal: 1
+  iFrameDuration:
+    baseVal: 0
+    addVal: 0
+    multVal: 0
+  xpKillValue:
+    baseVal: 1
+    addVal: 0
+    multVal: 1
