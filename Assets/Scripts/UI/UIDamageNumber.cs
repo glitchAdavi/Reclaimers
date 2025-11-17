@@ -12,6 +12,8 @@ public class UIDamageNumber : MonoBehaviour, IUpdate, IPause
     public float speed = 2f;
     public float deathTimerTime = 0.5f;
 
+    public float drift = 0f;
+
     private bool isPaused = false;
 
     private void OnEnable()
@@ -20,13 +22,17 @@ public class UIDamageNumber : MonoBehaviour, IUpdate, IPause
 
         GameManager.current.updateService.RegisterUpdate(this);
         GameManager.current.updateService.RegisterPause(this);
+
+        drift = Random.Range(-2f, 2f);
+
+        damageText.color = Color.white;
     }
 
     public void ExecuteUpdate()
     {
         if (!isPaused)
         {
-            transform.position += transform.up * speed * Time.deltaTime;
+            transform.position += transform.up * speed * Time.deltaTime + transform.right * drift * Time.deltaTime;
         }
     }
 
@@ -44,7 +50,11 @@ public class UIDamageNumber : MonoBehaviour, IUpdate, IPause
     public void SetText(float damage, bool isCrit)
     {
         damageText.text = "";
-        if (isCrit) damageText.text += "Crit!\n";
+        if (isCrit)
+        {
+            damageText.color = Color.red;
+            damageText.text += "Crit!\n";
+        }
         damageText.text += $"{damage}";
     }
 

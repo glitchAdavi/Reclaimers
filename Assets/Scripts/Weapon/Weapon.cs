@@ -9,6 +9,12 @@ public abstract class Weapon : MonoBehaviour, IPause
     public int maxClipSize = 7;
     public int currentClipSize = 0;
     public int bulletsPerShot = 1;
+    public int bulletsPerShotCost = 1;
+    public float bulletPerShotSpread = 0f;
+    public float bulletSpreadMax = 0f;
+    public float bulletSpread = 0f;
+    public float bulletSpreadGain = 0f;
+    Timer timerBulletSpreadReset;
 
     public float reloadTime = 3f;
     Timer timerReload;
@@ -55,11 +61,19 @@ public abstract class Weapon : MonoBehaviour, IPause
             return;
         }
 
-        currentClipSize -= bulletsPerShot;
+        currentClipSize -= bulletsPerShotCost;
         GameManager.current.eventService.RequestUIUpdateWeaponAmmo(currentClipSize, maxClipSize);
 
         canShoot = false;
         timerFireRate = GameManager.current.timerService.StartTimer(fireRate, ShootEndTimer);
+
+        if (bulletSpreadMax > 0)
+        {
+            if (timerBulletSpreadReset != null) timerBulletSpreadReset.Cancel();
+            bulletSpread += bulletSpreadGain;
+            if (bulletSpread > bulletSpreadMax) bulletSpread = bulletSpreadMax;
+            timerBulletSpreadReset = GameManager.current.timerService.StartTimer(0.5f, () => bulletSpread = 0f);
+        }
 
         ShootEffect();
     }
@@ -100,9 +114,13 @@ public abstract class Weapon : MonoBehaviour, IPause
     {
         ApplyClipSize();
         ApplyBulletsPerShot();
+        ApplyBulletsPerShotCost();
+        ApplyBulletsPerShotSpread();
+        ApplyBulletSpread();
+        ApplyBulletSpreadGain();
         ApplyReloadTime();
         ApplyFireRate();
-
+        ApplyAutomatic();
 
 
         currentClipSize = maxClipSize;
@@ -119,6 +137,26 @@ public abstract class Weapon : MonoBehaviour, IPause
         bulletsPerShot = statBlock.bulletPerShot.ValueInt();
     }
 
+    public void ApplyBulletsPerShotCost()
+    {
+        bulletsPerShotCost = statBlock.bulletPerShotCost.ValueInt();
+    }
+
+    public void ApplyBulletsPerShotSpread()
+    {
+        bulletPerShotSpread = statBlock.bulletPerShotSpread.Value();
+    }
+
+    public void ApplyBulletSpread()
+    {
+        bulletSpreadMax = statBlock.bulletSpread.Value();
+    }
+
+    public void ApplyBulletSpreadGain()
+    {
+        bulletSpreadGain = statBlock.bulletSpreadGain.Value();
+    }
+
     public void ApplyReloadTime()
     {
         reloadTime = statBlock.reloadTime.Value();
@@ -128,6 +166,11 @@ public abstract class Weapon : MonoBehaviour, IPause
     public void ApplyFireRate()
     {
         fireRate = statBlock.fireRate.Value();
+    }
+
+    public void ApplyAutomatic()
+    {
+        automatic = statBlock.automatic;
     }
 
     #endregion

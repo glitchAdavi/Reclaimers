@@ -169,13 +169,11 @@ public abstract class Pawn : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdate, 
     #region LpRegen
     public virtual void StartLpRegen()
     {
-        Debug.Log("start delay");
         lpRegenTickTimer = GameManager.current.timerService.StartTimer(3600f, null, lpRegenTickTime, LpRegen);
     }
 
     public virtual void LpRegen()
     {
-        Debug.Log("healing");
         Heal(lpRegen);
     }
     #endregion

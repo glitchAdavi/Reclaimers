@@ -14,16 +14,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponName: Glock
   weaponType: WepProjectile
+  automatic: 1
   clipSize:
-    baseVal: 17
+    baseVal: 500
     addVal: 0
     multVal: 1
   bulletPerShot:
     baseVal: 1
     addVal: 0
     multVal: 1
+  bulletPerShotCost:
+    baseVal: 1
+    addVal: 0
+    multVal: 1
+  bulletPerShotSpread:
+    baseVal: 1
+    addVal: 0
+    multVal: 1
+  bulletSpread:
+    baseVal: 10
+    addVal: 0
+    multVal: 1
+  bulletSpreadGain:
+    baseVal: 1
+    addVal: 0
+    multVal: 1
   fireRate:
-    baseVal: 0.3
+    baseVal: 0.05
     addVal: 0
     multVal: 1
   reloadTime:
@@ -31,15 +48,15 @@ MonoBehaviour:
     addVal: 0
     multVal: 1
   projDamage:
-    baseVal: 2
+    baseVal: 1
     addVal: 0
     multVal: 1
   projSpeed:
-    baseVal: 25
+    baseVal: 50
     addVal: 0
     multVal: 1
   projPenetration:
-    baseVal: 1
+    baseVal: 2
     addVal: 0
     multVal: 1
   projUseDistance: 0
@@ -48,6 +65,14 @@ MonoBehaviour:
     addVal: 0
     multVal: 1
   projMaxLifetime:
+    baseVal: 5
+    addVal: 0
+    multVal: 1
+  projCritChance:
+    baseVal: 50
+    addVal: 0
+    multVal: 1
+  projCritMultiplier:
     baseVal: 5
     addVal: 0
     multVal: 1

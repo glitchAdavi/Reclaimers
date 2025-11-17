@@ -17,6 +17,8 @@ public class Projectile : MonoBehaviour, IUpdate, IPause
 
     protected float damage;
     protected float speed;
+    protected float critChance;
+    protected float critMult;
     protected int penetration;
     protected float maxDistance;
     protected float maxLifetime;
@@ -33,10 +35,12 @@ public class Projectile : MonoBehaviour, IUpdate, IPause
         GameManager.current.updateService.RegisterPause(this);
 
         _sprt = GetComponentInChildren<SpriteRenderer>();
+        _damageCollider.onCollisionEnter += ManageOnCollisionEnter;
         _damageCollider.onTriggerEnter += ManageOnTriggerEnter;
 
         currentDistance = 0f;
         currentLifetime = 0f;
+
         active = true;
     }
 
@@ -50,10 +54,10 @@ public class Projectile : MonoBehaviour, IUpdate, IPause
 
             if (useDistance)
             {
-                if (currentDistance >= maxDistance) ResetAndReturn();
+                if (currentDistance >= maxDistance) ResetAndReturn("ExceededDistance");
             } else
             {
-                if (currentLifetime >= maxLifetime) ResetAndReturn();
+                if (currentLifetime >= maxLifetime) ResetAndReturn("ExceededLifetime");
             }
         }
     }
@@ -65,6 +69,9 @@ public class Projectile : MonoBehaviour, IUpdate, IPause
     protected void OnDisable()
     {
         hitEnemies.Clear();
+
+        _damageCollider.onCollisionEnter -= ManageOnCollisionEnter;
+        _damageCollider.onTriggerEnter -= ManageOnTriggerEnter;
 
         GameManager.current.updateService.UnregisterUpdate(this);
         GameManager.current.updateService.UnregisterPause(this);
@@ -79,18 +86,27 @@ public class Projectile : MonoBehaviour, IUpdate, IPause
         else currentLifetime += Time.deltaTime;
     }
 
+    protected bool CheckIfCrit()
+    {
+        if (critChance >= Random.Range(0f, 100f)) return true;
+        return false;
+    }
+
     protected void LookAtCamera()
     {
         _sprt.transform.rotation = Quaternion.LookRotation(GameManager.current.playerCamera.transform.forward, -transform.right);
     }
 
+    public void ManageOnCollisionEnter(Collision collider)
+    {
+        if (collider.gameObject.layer == 22) //LevelCollision
+        {
+            ResetAndReturn("LevelCollision");
+        }
+    }
+
     public void ManageOnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == 22) //LevelCollision
-        {
-            ResetAndReturn();
-        }
-
         if (other.gameObject.layer == 11 && other.gameObject.name == "DamageCollider") //Enemy
         {
             Pawn enemyHit = GetPawnFromCollision(other);
@@ -100,12 +116,13 @@ public class Projectile : MonoBehaviour, IUpdate, IPause
                 if (!hitEnemies.Contains(enemyHit.gameObject))
                 {
                     hitEnemies.Add(enemyHit.gameObject);
-                    enemyHit.GetHit(damage, false, knockback, transform.forward); // IS CRIT?
+                    if (CheckIfCrit()) enemyHit.GetHit(damage * critMult, true, knockback * critMult, transform.forward);
+                    else enemyHit.GetHit(damage, false, knockback, transform.forward);
                     penetration--;
                 }
             } else
             {
-                ResetAndReturn();
+                ResetAndReturn("HitEnemy");
             }
         }
     }
@@ -115,10 +132,15 @@ public class Projectile : MonoBehaviour, IUpdate, IPause
         return collider.gameObject.transform.parent.GetComponentInChildren<Pawn>();
     }
 
-    protected void ResetAndReturn()
+    protected void ResetAndReturn(string reason = "")
     {
+        Debug.Log($"Reset: {reason}");
+
         active = false;
         hitEnemies.Clear();
+
+        currentDistance = 0f;
+        currentLifetime = 0f;
 
         GameManager.current.projectileBuilder.ReturnProjectile(this);
     }
@@ -135,6 +157,8 @@ public class Projectile : MonoBehaviour, IUpdate, IPause
 
     public void ProjectileSetup(float damageVar,
                                         float speedVar,
+                                        float critChanceVar,
+                                        float critMultiplierVar,
                                         int penetrationVar,
                                         bool useDistanceVar,
                                         float maxDistanceVar,
@@ -145,6 +169,8 @@ public class Projectile : MonoBehaviour, IUpdate, IPause
     {
         damage = damageVar;
         speed = speedVar;
+        critChance = critChanceVar;
+        critMult = critMultiplierVar;
         penetration = penetrationVar;
         useDistance = useDistanceVar;
         maxDistance = maxDistanceVar;

@@ -23,7 +23,16 @@ public class PlayerController : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdat
 
         ControllerMove();
 
-        if (Input.GetKeyDown(KeyCode.Mouse0)) ControllerFire();
+
+        if (playerPawn.equippedWeapon.automatic)
+        {
+            if (Input.GetKey(KeyCode.Mouse0)) ControllerFire();
+        }
+        else
+        {
+            if (Input.GetKeyDown(KeyCode.Mouse0)) ControllerFire();
+        }
+
         if (Input.GetKeyDown(KeyCode.R)) ControllerReload();
 
     }
