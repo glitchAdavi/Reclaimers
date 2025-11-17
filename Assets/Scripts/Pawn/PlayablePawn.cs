@@ -78,7 +78,7 @@ public class PlayablePawn : Pawn
         yInput *= 1.4f;
 
         Vector3 movement = new Vector3(xInput, 0f, yInput);
-        Vector3 moveDest = transform.position + movement;
+        Vector3 moveDest = transform.position + (movement / 2);
 
         _nav.destination = moveDest;
 
