@@ -8,9 +8,12 @@ public class LevelService : MonoBehaviour
 
     [SerializeField] List<InteractableObject> allinteractableObjects = new List<InteractableObject>();
 
+    [SerializeField] LevelLogic currentLevelLogic;
+
     private void OnEnable()
     {
         GameManager.current.eventService.onSpawnXp += SpawnPoXp;
+        currentLevelLogic = gameObject.GetComponent<LevelLogic>();
     }
 
 
@@ -18,6 +21,24 @@ public class LevelService : MonoBehaviour
     {
         
     }
+
+    #region LevelLogic
+    public void StartLevel()
+    {
+        if (currentLevelLogic == null)
+        {
+            Debug.Log("Missing Level Logic");
+            return;
+        }
+
+        if (currentLevelLogic.isActive) return;
+
+        currentLevelLogic.Activate();
+    }
+
+
+
+    #endregion
 
     #region XP
     public void SpawnPoXp(Vector3 pos, float value)

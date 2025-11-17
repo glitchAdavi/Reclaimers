@@ -81,6 +81,9 @@ public class EventService : MonoBehaviour
 
 
     #region Enemy
+    public event Action<bool> onPawnServiceActive;
+    public void SetPawnServiceActive(bool active) => onPawnServiceActive?.Invoke(active);
+
     public event Action<EnemyPawn> onEnemyDeath;
     public void EnemyDeath(EnemyPawn ep) => onEnemyDeath?.Invoke(ep);
 

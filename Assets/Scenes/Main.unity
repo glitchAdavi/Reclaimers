@@ -39586,6 +39586,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1769436545}
   - component: {fileID: 1769436546}
+  - component: {fileID: 1769436547}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -39634,6 +39635,19 @@ MonoBehaviour:
   playerCamera: {fileID: 0}
   projectileBuilder: {fileID: 0}
   playerStatBlock: {fileID: 0}
+--- !u!114 &1769436547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1769436543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d637ad38fb4b21448947ad6f964cae12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isPaused: 0
 --- !u!1 &1784537286
 GameObject:
   m_ObjectHideFlags: 0

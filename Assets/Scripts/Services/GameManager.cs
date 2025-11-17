@@ -57,6 +57,10 @@ public class GameManager : MonoBehaviour
         dataPersistenceService = CreateService<DataPersistenceService>();
         dataPersistenceService.SetFileName("data");
         //dataPersistenceService.LoadGame();
+
+
+        // Start level after everything else is assigned
+        levelService.StartLevel();
     }
 
     private void OnSceneUnloaded(Scene current)

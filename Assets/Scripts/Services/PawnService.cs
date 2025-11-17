@@ -18,9 +18,9 @@ public class PawnService : MonoBehaviour, IUpdate, IPause
     public int maxSpawnedEnemies = 10;
     public int spawnedEnemies = 0;
 
-
-
+    public bool pawnServiceActive = false;
     public bool canEnemiesSpawn = false;
+    public bool isPaused = false;
 
 
     public void OnEnable()
@@ -30,6 +30,7 @@ public class PawnService : MonoBehaviour, IUpdate, IPause
         _enemyPrefab = GameManager.current.gameInfo.enemyPawnPrefab;
 
         GameManager.current.eventService.onEnemyDeath += OnEnemyDeath;
+        GameManager.current.eventService.onPawnServiceActive += SetPawnServiceActive;
 
         GameManager.current.updateService.RegisterUpdate(this);
         GameManager.current.updateService.RegisterPause(this);
@@ -38,6 +39,7 @@ public class PawnService : MonoBehaviour, IUpdate, IPause
 
     public void ExecuteUpdate()
     {
+        if (!pawnServiceActive) return;
 
         if (canEnemiesSpawn && spawnedEnemies < maxSpawnedEnemies)
         {
@@ -59,6 +61,7 @@ public class PawnService : MonoBehaviour, IUpdate, IPause
 
     public void Pause(bool paused)
     {
+        isPaused = paused;
         canEnemiesSpawn = !paused;
     }
 
@@ -70,6 +73,11 @@ public class PawnService : MonoBehaviour, IUpdate, IPause
 
 
     #region Spawn
+    public void SetPawnServiceActive(bool active)
+    {
+        if (isPaused) return;
+        pawnServiceActive = active;
+    }
 
 
     //TEMP SPAWN
