@@ -58,9 +58,7 @@ public class Stat
 
     public void SetValues(Stat stat)
     {
-        baseVal = stat.baseVal;
-        addVal = stat.addVal;
-        multVal = stat.multVal;
+        SetValues(stat.baseVal, stat.addVal, stat.multVal);
     }
 
     public void SetValues(float baseVal, float addVal, float multVal)
@@ -68,6 +66,11 @@ public class Stat
         this.baseVal = baseVal;
         this.addVal = addVal;
         this.multVal = multVal;
+    }
+
+    public void ModifyValues(Stat stat)
+    {
+        ModifyValues(stat.baseVal, stat.addVal, stat.multVal);
     }
 
     public void ModifyValues(float baseVal, float addVal, float multVal)
@@ -89,6 +92,11 @@ public class Stat
         float val = Value();
 
         return Mathf.RoundToInt(val);
+    }
+
+    public static Stat operator -(Stat s)
+    {
+        return new Stat(-s.baseVal, -s.addVal, -s.multVal);
     }
 
 
