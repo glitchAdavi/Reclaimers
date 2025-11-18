@@ -35,6 +35,9 @@ public class PlayerController : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdat
 
         if (Input.GetKeyDown(KeyCode.R)) ControllerReload();
 
+        if (Input.GetKey(KeyCode.F)) ControllerInteract();
+        else ControllerInteractReset();
+
     }
 
     public void ExecuteFixedUpdate()
@@ -79,6 +82,12 @@ public class PlayerController : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdat
     {
         if (playerPawn == null || playerPawn.equippedWeapon == null) return;
 
+        GameManager.current.eventService.RequestUISpawnFloatingText(playerPawn.transform.position,
+                                                                    "Reloading!",
+                                                                    Color.green,
+                                                                    0f,
+                                                                    1f);
+
         playerPawn.equippedWeapon.Reload();
     }
 
@@ -86,6 +95,20 @@ public class PlayerController : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdat
     {
         GameManager.current.updateService.TogglePause();
         GameManager.current.eventService.RequestUITogglePauseMenu(!GameManager.current.updateService.isGamePausedInspector);
+    }
+
+    public void ControllerInteract()
+    {
+        if (playerPawn == null) return;
+
+        playerPawn.Interact();
+    }
+
+    public void ControllerInteractReset()
+    {
+        if (playerPawn == null) return;
+
+        playerPawn.InteractReset();
     }
 
     #endregion

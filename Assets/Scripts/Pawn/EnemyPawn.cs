@@ -93,7 +93,10 @@ public class EnemyPawn : Pawn
     public override void GetHit(float damage, bool isCrit, float knockback = 0, Vector3? knockbackPush = null)
     {
         base.GetHit(damage, isCrit, knockback, knockbackPush);
-        GameManager.current.eventService.EnemyHurt(transform.position, damage, isCrit);
+
+        string damageText = $"Crit!\n{damage}";
+        if (isCrit) GameManager.current.eventService.RequestUISpawnFloatingText(transform.position, damageText, Color.red, 2f, 0.5f);
+        else GameManager.current.eventService.RequestUISpawnFloatingText(transform.position, $"{damage}", Color.white, 2f, 0.5f);
     }
 
     protected override void Die()

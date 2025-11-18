@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.InputSystem.LowLevel;
 
 public class UIService : MonoBehaviour
 {
-    public DamageNumberBuilder damageNumberBuilder;
+    public FloatingTextBuilder floatingTextBuilder;
 
     public GameObject pauseMenu;
 
+    public GameObject uiInteract;
     public TMP_Text uiInteractText;
     public Slider uiInteractFill;
 
@@ -24,11 +26,11 @@ public class UIService : MonoBehaviour
 
     private void OnEnable()
     {
-        damageNumberBuilder = GameManager.current.CreateService<DamageNumberBuilder>();
+        floatingTextBuilder = GameManager.current.CreateService<FloatingTextBuilder>();
 
 
 
-        GameManager.current.eventService.onEnemyHurt += SpawnDamageNumber;
+        GameManager.current.eventService.onRequestUISpawnFloatingText += SpawnFloatingText;
         GameManager.current.eventService.onRequestUITogglePauseMenu += TogglePauseMenu;
         GameManager.current.eventService.onRequestUIUpdateHealth += UpdateUIHealth;
         GameManager.current.eventService.onRequestUIUpdateXpBar += UpdateUIXpBar;
@@ -38,6 +40,9 @@ public class UIService : MonoBehaviour
         GameManager.current.eventService.onRequestUIUpdateWeaponReloadReset += UpdateUIWeaponReloadReset;
         GameManager.current.eventService.onRequestUIUpdateWeaponReloadTimer += UpdateUIWeaponReloadTimer;
         GameManager.current.eventService.onRequestUIUpdateWeaponReloadEnd += UpdateUIWeaponReloadEnd;
+        GameManager.current.eventService.onRequestUIUpdateInteractText += UpdateUIInteractText;
+        GameManager.current.eventService.onRequestUIUpdateInteractFill += UpdateUIInteractFill;
+
     }
 
     public void TogglePauseMenu(bool paused)
@@ -89,11 +94,24 @@ public class UIService : MonoBehaviour
         uiWeaponReloadTimer.value = uiWeaponReloadTimer.maxValue;
     }
 
-
-    public void SpawnDamageNumber(Vector3 pos, float damage, bool isCrit)
+    public void UpdateUIInteractText(string t, bool enable)
     {
-        UIDamageNumber newDamageNumber = damageNumberBuilder.GetObject();
-        newDamageNumber.transform.position = new Vector3(pos.x, 0.7f, pos.z);
-        newDamageNumber.SetText(damage, isCrit);
+        uiInteract.SetActive(enable);
+        uiInteractText.text = $"[F] {t}";
+    }
+
+    public void UpdateUIInteractFill(float current, float max, bool enable)
+    {
+        uiInteractFill.maxValue = max;
+        uiInteractFill.value = current;
+    }
+
+
+    public void SpawnFloatingText(Vector3 pos, string text, Color c, float driftRange, float duration)
+    {
+        UIFloatingText newFloatingText = floatingTextBuilder.GetObject();
+        newFloatingText.transform.position = new Vector3(pos.x, 1f, pos.z);
+        newFloatingText.Init(text, c, driftRange, duration);
+
     }
 }

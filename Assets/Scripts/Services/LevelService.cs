@@ -14,6 +14,7 @@ public class LevelService : MonoBehaviour
     {
         GameManager.current.eventService.onSpawnXp += SpawnPoXp;
         currentLevelLogic = gameObject.GetComponent<LevelLogic>();
+        GetAllInteractablesInScene();
     }
 
 
@@ -56,6 +57,16 @@ public class LevelService : MonoBehaviour
     #endregion
 
     #region Interactables
+    public void GetAllInteractablesInScene()
+    {
+        InteractableObject[] all = FindObjectsByType<InteractableObject>(FindObjectsSortMode.None);
+        foreach (InteractableObject io in all)
+        {
+            AddInteractable(io);
+        }
+    }
+
+
     public InteractableObject GetClosestInteractable(Vector3 pos, float range)
     {
         if (allinteractableObjects.Count < 1) return null;
@@ -64,6 +75,7 @@ public class LevelService : MonoBehaviour
 
         for (int i = 0; i < allinteractableObjects.Count; i++)
         {
+            if (allinteractableObjects[i].used) continue;
             if (Vector3.Distance(allinteractableObjects[i].transform.position, pos) <= range) result = allinteractableObjects[i];
         }
 
@@ -72,4 +84,11 @@ public class LevelService : MonoBehaviour
 
     #endregion
 
+
+
+    public void AddInteractable(InteractableObject i)
+    {
+        if (allinteractableObjects.Contains(i)) return;
+        allinteractableObjects.Add(i);
+    }
 }

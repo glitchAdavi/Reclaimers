@@ -40,12 +40,12 @@ public class EventService : MonoBehaviour
     public void RequestUIUpdateLevelCounter(int level) => onRequestUIUpdateLevelCounter?.Invoke(level);
 
 
-    public event Action<string> onRequestUIUpdateInteractText;
-    public void RequestUIUpdateInteractText(string t) => onRequestUIUpdateInteractText?.Invoke(t);
+    public event Action<string, bool> onRequestUIUpdateInteractText;
+    public void RequestUIUpdateInteractText(string t, bool enable) => onRequestUIUpdateInteractText?.Invoke(t, enable);
 
 
-    public event Action onRequestUIUpdateInteractFill;
-    public void RequestUIUpdateInteractFill() => onRequestUIUpdateInteractFill?.Invoke();
+    public event Action<float, float, bool> onRequestUIUpdateInteractFill;
+    public void RequestUIUpdateInteractFill(float current, float max, bool enable) => onRequestUIUpdateInteractFill?.Invoke(current, max, enable);
 
 
     public event Action<int, int> onRequestUIUpdateWeaponAmmo;
@@ -62,6 +62,9 @@ public class EventService : MonoBehaviour
 
     public event Action onRequestUIUpdateWeaponReloadEnd;
     public void RequestUIUpdateWeaponReloadEnd() => onRequestUIUpdateWeaponReloadEnd?.Invoke();
+
+    public event Action<Vector3, string, Color, float, float> onRequestUISpawnFloatingText;
+    public void RequestUISpawnFloatingText(Vector3 pos, string text, Color c, float driftRange, float duration) => onRequestUISpawnFloatingText?.Invoke(pos, text, c, driftRange, duration);
 
 
     #endregion
@@ -86,10 +89,6 @@ public class EventService : MonoBehaviour
 
     public event Action<EnemyPawn> onEnemyDeath;
     public void EnemyDeath(EnemyPawn ep) => onEnemyDeath?.Invoke(ep);
-
-    public event Action<Vector3, float, bool> onEnemyHurt;
-    public void EnemyHurt(Vector3 pos, float damage, bool isCrit) => onEnemyHurt?.Invoke(pos, damage, isCrit);
-
 
     #endregion
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class UIDamageNumber : MonoBehaviour, IUpdate, IPause
+public class UIFloatingText : MonoBehaviour, IUpdate, IPause
 {
     [SerializeField] TMP_Text damageText;
 
@@ -22,8 +22,6 @@ public class UIDamageNumber : MonoBehaviour, IUpdate, IPause
 
         GameManager.current.updateService.RegisterUpdate(this);
         GameManager.current.updateService.RegisterPause(this);
-
-        drift = Random.Range(-2f, 2f);
 
         damageText.color = Color.white;
     }
@@ -47,28 +45,24 @@ public class UIDamageNumber : MonoBehaviour, IUpdate, IPause
         GameManager.current.updateService.UnregisterPause(this);
     }
 
-    public void SetText(float damage, bool isCrit)
+    public void Init(string text, Color c, float driftRange, float duration)
     {
-        damageText.text = "";
-        if (isCrit)
-        {
-            damageText.color = Color.red;
-            damageText.text += "Crit!\n";
-        }
-        damageText.text += $"{damage}";
+        drift = Random.Range(-driftRange, driftRange);
+        damageText.color = c;
+        damageText.text = text;
     }
 
     public void Die()
     {
-        GameManager.current.uiService.damageNumberBuilder.ReturnObject(this);
+        GameManager.current.uiService.floatingTextBuilder.ReturnObject(this);
     }
 
-    public static void TurnOn(UIDamageNumber dn)
+    public static void TurnOn(UIFloatingText dn)
     {
         dn.gameObject.SetActive(true);
     }
 
-    public static void TurnOff(UIDamageNumber dn)
+    public static void TurnOff(UIFloatingText dn)
     {
         dn.gameObject.SetActive(false);
     }

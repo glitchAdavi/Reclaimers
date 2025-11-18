@@ -13,6 +13,10 @@ public class PlayablePawn : Pawn
 
     //TEMP
 
+    public InteractableObject closestInteractable;
+    public PlayablePawn closestPlayablePawn;
+    Timer timerClosestInteractable;
+
 
     protected override void OnEnable()
     {
@@ -28,6 +32,7 @@ public class PlayablePawn : Pawn
         GameManager.current.eventService.onGivePlayerXp += GainXp;
         GameManager.current.eventService.onGivePlayerLevel += GainLevel;
 
+        timerClosestInteractable = GameManager.current.timerService.StartTimer(3600f, null, 0.2f, FindClosestInteractable);
 
         //GameManager.current.timerService.StartTimer(5f, () => Debug.Log("FINAL"), 1f, () => Debug.Log("PARTIAL"));
     }
@@ -40,6 +45,8 @@ public class PlayablePawn : Pawn
     protected override void PawnPause()
     {
         base.PawnPause();
+
+        timerClosestInteractable.Pause(isPaused);
 
         // necessary or else pawn drifts for a moment if moving while pausing
         _nav.velocity = Vector3.zero;
@@ -66,6 +73,7 @@ public class PlayablePawn : Pawn
         ApplyXpGain();
         ApplyLevel();
         ApplyPickUpRange();
+        ApplyInteractionRange();
 
         GameManager.current.eventService.RequestUIUpdateHealth(lifepoints, maxLifepoints);
         GameManager.current.eventService.RequestUIUpdateXpBar(xp, levelThreshold);
@@ -85,6 +93,16 @@ public class PlayablePawn : Pawn
         GameManager.current.gameInfo.playerPositionVar.SetValue(transform.position);
     }
 
+    public void Interact()
+    {
+        closestInteractable?.Use();
+    }
+
+    public void InteractReset()
+    {
+        closestInteractable?.UseReset();
+    }
+
     public override void GetHit(float damage, bool isCrit, float knockback = 0, Vector3? knockbackPush = null)
     {
         base.GetHit(damage, isCrit, knockback, knockbackPush);
@@ -96,6 +114,11 @@ public class PlayablePawn : Pawn
     {
         base.Heal(value);
 
+        GameManager.current.eventService.RequestUISpawnFloatingText(transform.position,
+                                                                    $"<size=4>+{value}",
+                                                                    Color.green,
+                                                                    0f,
+                                                                    0.5f);
         GameManager.current.eventService.RequestUIUpdateHealth(lifepoints, maxLifepoints);
     }
 
@@ -120,6 +143,7 @@ public class PlayablePawn : Pawn
     }
     #endregion
 
+    #region Weapon
     public WeaponStatBlock ChangeWeapon(WeaponStatBlock newWeapon)
     {
         WeaponStatBlock currentWeapon = statBlock.equippedWeapon;
@@ -141,5 +165,17 @@ public class PlayablePawn : Pawn
 
             if (equippedWeapon != null) Destroy(currentWeapon);
         }
+    }
+    #endregion
+
+    public void FindClosestInteractable()
+    {
+        string intText = "";
+        closestInteractable = GameManager.current.levelService.GetClosestInteractable(transform.position, interactionRange);
+        if (closestInteractable != null)
+        {
+            intText = closestInteractable.IOVerb + closestInteractable.IOName;
+            GameManager.current.eventService.RequestUIUpdateInteractText(intText, true);
+        } else GameManager.current.eventService.RequestUIUpdateInteractText("", false);
     }
 }

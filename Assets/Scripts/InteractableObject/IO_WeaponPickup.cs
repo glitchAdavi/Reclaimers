@@ -6,8 +6,11 @@ public class IO_WeaponPickup : InteractableObject
 {
     [SerializeField] protected WeaponStatBlock stats;
 
-    private void OnEnable()
+
+
+    public override void OnEnable()
     {
+        IOVerb = "Switch to ";
         useThreshold = 0.3f;
     }
 

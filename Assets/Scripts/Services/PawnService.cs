@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 public class PawnService : MonoBehaviour, IUpdate, IPause
 {
@@ -8,6 +9,7 @@ public class PawnService : MonoBehaviour, IUpdate, IPause
 
     [SerializeField] private GameObject _enemyPrefab;
     [SerializeField] private List<Pawn> pawnsInScene = new List<Pawn>();
+    [SerializeField] private List<PlayablePawn> playablePawnsInScene = new List<PlayablePawn>();
 
     //temp
     public Vector3 fixedSpawnPoint = new Vector3(10f, 0f, 10f);
@@ -104,5 +106,19 @@ public class PawnService : MonoBehaviour, IUpdate, IPause
     {
         pawnsInScene.Remove(e);
         spawnedEnemies--;
+    }
+
+    public PlayablePawn GetClosestPlayablePawn(Vector3 pos, float range)
+    {
+        if (playablePawnsInScene.Count <= 0) return null;
+
+        PlayablePawn result = null;
+
+        for (int i = 0; i < playablePawnsInScene.Count; i++)
+        {
+            if (Vector3.Distance(playablePawnsInScene[i].transform.position, pos) <= range) result = playablePawnsInScene[i];
+        }
+
+        return result;
     }
 }

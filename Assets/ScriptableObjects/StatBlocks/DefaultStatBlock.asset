@@ -54,6 +54,10 @@ MonoBehaviour:
     baseVal: 1
     addVal: 0
     multVal: 1
+  damageMultiplier:
+    baseVal: 1
+    addVal: 0
+    multVal: 1
   healingMultiplier:
     baseVal: 1
     addVal: 0
@@ -71,7 +75,7 @@ MonoBehaviour:
     addVal: 0
     multVal: 1
   interactionRange:
-    baseVal: 3
+    baseVal: 5
     addVal: 0
     multVal: 1
   iFrameDuration:

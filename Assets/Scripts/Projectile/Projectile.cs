@@ -54,10 +54,10 @@ public class Projectile : MonoBehaviour, IUpdate, IPause
 
             if (useDistance)
             {
-                if (currentDistance >= maxDistance) ResetAndReturn("ExceededDistance");
+                if (currentDistance >= maxDistance) ResetAndReturn();
             } else
             {
-                if (currentLifetime >= maxLifetime) ResetAndReturn("ExceededLifetime");
+                if (currentLifetime >= maxLifetime) ResetAndReturn();
             }
         }
     }
@@ -101,7 +101,7 @@ public class Projectile : MonoBehaviour, IUpdate, IPause
     {
         if (collider.gameObject.layer == 22) //LevelCollision
         {
-            ResetAndReturn("LevelCollision");
+            ResetAndReturn();
         }
     }
 
@@ -122,7 +122,7 @@ public class Projectile : MonoBehaviour, IUpdate, IPause
                 }
             } else
             {
-                ResetAndReturn("HitEnemy");
+                ResetAndReturn();
             }
         }
     }
@@ -132,10 +132,8 @@ public class Projectile : MonoBehaviour, IUpdate, IPause
         return collider.gameObject.transform.parent.GetComponentInChildren<Pawn>();
     }
 
-    protected void ResetAndReturn(string reason = "")
+    protected void ResetAndReturn()
     {
-        Debug.Log($"Reset: {reason}");
-
         active = false;
         hitEnemies.Clear();
 
