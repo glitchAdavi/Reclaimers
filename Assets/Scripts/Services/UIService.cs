@@ -9,7 +9,9 @@ public class UIService : MonoBehaviour
 {
     public FloatingTextBuilder floatingTextBuilder;
 
+    public GameObject mainMenu;
     public GameObject pauseMenu;
+    public bool useMainMenu = true;
 
     public GameObject uiInteract;
     public TMP_Text uiInteractText;
@@ -31,6 +33,7 @@ public class UIService : MonoBehaviour
 
 
         GameManager.current.eventService.onRequestUISpawnFloatingText += SpawnFloatingText;
+        GameManager.current.eventService.onRequestUIUseMainMenu += (x) => useMainMenu = x;
         GameManager.current.eventService.onRequestUITogglePauseMenu += TogglePauseMenu;
         GameManager.current.eventService.onRequestUIUpdateHealth += UpdateUIHealth;
         GameManager.current.eventService.onRequestUIUpdateXpBar += UpdateUIXpBar;
@@ -42,12 +45,12 @@ public class UIService : MonoBehaviour
         GameManager.current.eventService.onRequestUIUpdateWeaponReloadEnd += UpdateUIWeaponReloadEnd;
         GameManager.current.eventService.onRequestUIUpdateInteractText += UpdateUIInteractText;
         GameManager.current.eventService.onRequestUIUpdateInteractFill += UpdateUIInteractFill;
-
     }
 
     public void TogglePauseMenu(bool paused)
     {
-        pauseMenu.SetActive(paused);
+        if (useMainMenu) mainMenu.SetActive(paused);
+        else pauseMenu.SetActive(paused);
     }
 
     public void UpdateUIHealth(float current, float max)
@@ -94,10 +97,11 @@ public class UIService : MonoBehaviour
         uiWeaponReloadTimer.value = uiWeaponReloadTimer.maxValue;
     }
 
-    public void UpdateUIInteractText(string t, bool enable)
+    public void UpdateUIInteractText(string t, bool enable, bool hasKey = true)
     {
         uiInteract.SetActive(enable);
-        uiInteractText.text = $"[F] {t}";
+        if (hasKey) uiInteractText.text = $"[F] {t}";
+        else uiInteractText.text = $"{t}";
     }
 
     public void UpdateUIInteractFill(float current, float max, bool enable)

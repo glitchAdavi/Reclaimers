@@ -19,6 +19,11 @@ public class UpdateService : MonoBehaviour
     [SerializeField] int elLateUpdatesCount = 0;
     [SerializeField] int elPausesCount = 0;
 
+    private void OnDisable()
+    {
+        isGamePaused = false;
+    }
+
     // Update is called once per frame
     void Update()
     {

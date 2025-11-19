@@ -21,6 +21,9 @@ public class EventService : MonoBehaviour
 
 
     #region UI
+    public event Action<bool> onRequestUIUseMainMenu;
+    public void RequestUIUseMainMenu(bool useMainMenu) => onRequestUIUseMainMenu?.Invoke(useMainMenu);
+
     public event Action<bool> onRequestUITogglePauseMenu;
     public void RequestUITogglePauseMenu(bool paused) => onRequestUITogglePauseMenu?.Invoke(paused);
 
@@ -40,8 +43,8 @@ public class EventService : MonoBehaviour
     public void RequestUIUpdateLevelCounter(int level) => onRequestUIUpdateLevelCounter?.Invoke(level);
 
 
-    public event Action<string, bool> onRequestUIUpdateInteractText;
-    public void RequestUIUpdateInteractText(string t, bool enable) => onRequestUIUpdateInteractText?.Invoke(t, enable);
+    public event Action<string, bool, bool> onRequestUIUpdateInteractText;
+    public void RequestUIUpdateInteractText(string t, bool enable, bool hasKey = true) => onRequestUIUpdateInteractText?.Invoke(t, enable, hasKey);
 
 
     public event Action<float, float, bool> onRequestUIUpdateInteractFill;

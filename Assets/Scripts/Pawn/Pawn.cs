@@ -89,8 +89,6 @@ public abstract class Pawn : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdate, 
     {
         isPaused = paused;
 
-        Debug.Log(gameObject.name);
-
         PawnPause();
     }
     #endregion

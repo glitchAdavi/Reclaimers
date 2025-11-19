@@ -14,6 +14,7 @@ public class PlayablePawn : Pawn
     //TEMP
 
     public InteractableObject closestInteractable;
+    public InteractableArea currentArea;
     public PlayablePawn closestPlayablePawn;
     Timer timerClosestInteractable;
 
@@ -96,11 +97,13 @@ public class PlayablePawn : Pawn
     public void Interact()
     {
         closestInteractable?.Use();
+        currentArea?.Use();
     }
 
     public void InteractReset()
     {
         closestInteractable?.UseReset();
+        currentArea?.UseReset();
     }
 
     public override void GetHit(float damage, bool isCrit, float knockback = 0, Vector3? knockbackPush = null)
@@ -170,6 +173,8 @@ public class PlayablePawn : Pawn
 
     public void FindClosestInteractable()
     {
+        if (GameManager.current.levelService.IsPlayerInsideAnInteractableArea()) return;
+
         string intText = "";
         closestInteractable = GameManager.current.levelService.GetClosestInteractable(transform.position, interactionRange);
         if (closestInteractable != null)

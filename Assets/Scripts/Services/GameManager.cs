@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager current { get; private set; }
 
+    public List<Object> allServices = new List<Object>();
+
     public GameInfo gameInfo;
 
     public DataPersistenceService dataPersistenceService;
@@ -30,11 +32,16 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        if (current == null) current = this;
-        else Destroy(this);
+        if (current == null)
+        {
+            current = this;
+            
+            DontDestroyOnLoad(this);
 
-        SceneManager.sceneLoaded += OnSceneLoaded;
-        SceneManager.sceneUnloaded += OnSceneUnloaded;
+            SceneManager.sceneLoaded += OnSceneLoaded;
+            SceneManager.sceneUnloaded += OnSceneUnloaded;
+        }
+        else Destroy(gameObject);
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
@@ -54,8 +61,8 @@ public class GameManager : MonoBehaviour
         projectileBuilder = CreateService<ProjectileBuilder>();
 
 
-        dataPersistenceService = CreateService<DataPersistenceService>();
-        dataPersistenceService.SetFileName("data");
+        //dataPersistenceService = CreateService<DataPersistenceService>();
+        //dataPersistenceService.SetFileName("data");
         //dataPersistenceService.LoadGame();
 
 
@@ -65,31 +72,18 @@ public class GameManager : MonoBehaviour
 
     private void OnSceneUnloaded(Scene current)
     {
-        tileService = null;
-        Destroy(eventService);
-        eventService = null;
-        Destroy(updateService);
-        updateService = null;
-        Destroy(timerService);
-        timerService = null;
-        Destroy(levelService);
-        levelService = null;
-        Destroy(pawnService);
-        pawnService = null;
+        for (int i = allServices.Count - 1; i >= 0; i--)
+        {
+            Destroy(allServices[i]);
+        }
 
-        playerController = null;
-        playerPawn = null;
-        playerCamera = null;
-
-        Destroy(projectileBuilder);
-        projectileBuilder = null;
+        allServices.Clear();
     }
-
-
 
     public T CreateService<T>() where T : Component
     {
         T service = gameObject.AddComponent<T>();
+        allServices.Add(service);
         return service;
     }
 
@@ -113,5 +107,19 @@ public class GameManager : MonoBehaviour
         UIService newUI = Instantiate(gameInfo.playerUIPrefab, GameObject.Find("Canvas").transform)
                               .GetComponent<UIService>();
         return newUI;
+    }
+
+
+
+
+    public void GoToLevel(int scenIndex)
+    {
+        SceneManager.LoadScene(scenIndex);
+    }
+
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 }
