@@ -28,9 +28,10 @@ public class EnemyPawn : Pawn
     protected override void PawnUpdate()
     {
         base.PawnUpdate();
-       
+
         if (target != null) Move();
-        else target = GameManager.current.pawnService.GetTarget(); // replace when pawn service is active
+        //else target = GameManager.current.pawnService.GetTarget(); // replace when pawn service is active
+        else Idle();
 
         if (Vector3.Distance(transform.position, target.transform.position) <= _nav.radius + target.GetNavRadius() + 0.5f)
         {
@@ -67,6 +68,11 @@ public class EnemyPawn : Pawn
             GetPath();
             pathUpdateTimer = 0;
         }
+
+    }
+
+    protected void Idle()
+    {
 
     }
 
