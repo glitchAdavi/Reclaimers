@@ -30,4 +30,14 @@ public abstract class LevelLogic : MonoBehaviour, IUpdate, IPause
     {
 
     }
+
+    protected virtual void Win()
+    {
+        GameManager.current.GoToLevel(0);
+    }
+
+    protected virtual void Lose()
+    {
+        GameManager.current.GoToLevel(0);
+    }
 }
