@@ -158,6 +158,7 @@ public abstract class Pawn : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdate, 
 
         knockbackTimer = GameManager.current.timerService.StartTimer(0.1f, () =>
         {
+            _rb.isKinematic = false;
             _nav.enabled = true;
             _rb.linearVelocity = Vector3.zero;
             _rb.isKinematic = true;

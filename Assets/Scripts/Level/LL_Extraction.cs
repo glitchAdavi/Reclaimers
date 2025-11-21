@@ -14,7 +14,8 @@ public class LL_Extraction : LevelLogic
     public float levelSurviveProgressionMax = 10f;
     Timer timerLevelSurviveProgression;
 
-
+    public bool setupStage1 = false;
+    public bool setupStage2 = false;
 
     public override void Activate()
     {
@@ -22,8 +23,6 @@ public class LL_Extraction : LevelLogic
         GameManager.current.eventService.RequestUIUseMainMenu(false);
 
         base.Activate();
-
-        GameManager.current.eventService.SetPawnServiceActive(true);
 
         levelStage = 1;
     }
@@ -34,15 +33,25 @@ public class LL_Extraction : LevelLogic
         switch (levelStage)
         {
             case 1:
+                if (!setupStage1) SetupStage1();
                 Stage1();
                 break;
             case 2:
+                if (!setupStage2) SetupStage2();
                 Stage2();
                 break;
             default:
                 break;
         }
             
+    }
+
+    public void SetupStage1()
+    {
+        setupStage1 = true;
+
+        GameManager.current.eventService.SetPawnServiceIdle(true);
+        GameManager.current.eventService.SetPawnServiceActive(true);
     }
 
     public void Stage1()
@@ -60,6 +69,13 @@ public class LL_Extraction : LevelLogic
             timerLevelMainProgression = null;
             levelStage = 2;
         }
+    }
+
+    public void SetupStage2()
+    {
+        setupStage2 = true;
+
+        GameManager.current.eventService.SetPawnServiceIdle(false);
     }
 
     public void Stage2()

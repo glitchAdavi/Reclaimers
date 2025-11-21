@@ -22,6 +22,7 @@ public class PawnService : MonoBehaviour, IUpdate, IPause
 
     public bool pawnServiceActive = false;
     public bool canEnemiesSpawn = false;
+    public bool spawnEnemiesIdle = false;
     public bool isPaused = false;
 
 
@@ -33,6 +34,7 @@ public class PawnService : MonoBehaviour, IUpdate, IPause
 
         GameManager.current.eventService.onEnemyDeath += OnEnemyDeath;
         GameManager.current.eventService.onPawnServiceActive += SetPawnServiceActive;
+        GameManager.current.eventService.onPawnServiceIdle += (x) => spawnEnemiesIdle = x;
 
         GameManager.current.updateService.RegisterUpdate(this);
         GameManager.current.updateService.RegisterPause(this);
@@ -87,6 +89,7 @@ public class PawnService : MonoBehaviour, IUpdate, IPause
     public void SpawnEnemy()
     {
         EnemyPawn newEnemy = enemyBuilder.GetObject();
+        newEnemy.SetIsIdle(spawnEnemiesIdle);
         newEnemy.Teleport(fixedSpawnPoint);
         pawnsInScene.Add(newEnemy);
         spawnedEnemies++;
@@ -100,6 +103,11 @@ public class PawnService : MonoBehaviour, IUpdate, IPause
     public Pawn GetTarget()
     {
         return GameManager.current.playerPawn;
+    }
+
+    public bool IsPlayerClose(Vector3 pos, int range)
+    {
+        return Vector3.Distance(pos, GameManager.current.playerPawn.transform.position) <= range;
     }
 
     public void OnEnemyDeath(EnemyPawn e)

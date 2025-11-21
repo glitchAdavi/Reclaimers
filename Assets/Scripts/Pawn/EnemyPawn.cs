@@ -15,6 +15,9 @@ public class EnemyPawn : Pawn
     protected bool canMeleeAttack = true;
     Timer attackCooldown;
 
+    [SerializeField] protected bool isIdle = false;
+    [SerializeField] protected int playerDetectionRange = 10;    
+
     protected override void OnEnable()
     {
         base.OnEnable();
@@ -29,13 +32,22 @@ public class EnemyPawn : Pawn
     {
         base.PawnUpdate();
 
-        if (target != null) Move();
-        //else target = GameManager.current.pawnService.GetTarget(); // replace when pawn service is active
-        else Idle();
-
-        if (Vector3.Distance(transform.position, target.transform.position) <= _nav.radius + target.GetNavRadius() + 0.5f)
+        if (isIdle)
         {
-            if (canMeleeAttack) MeleeHit();
+            if (CheckIfPlayerIsClose())
+            {
+                isIdle = false;
+            }
+
+        } else
+        {
+            if (target != null) Move();
+            else target = GameManager.current.pawnService.GetTarget();
+
+            if (Vector3.Distance(transform.position, target.transform.position) <= _nav.radius + target.GetNavRadius() + 0.5f)
+            {
+                if (canMeleeAttack) MeleeHit();
+            }
         }
     }
 
@@ -71,11 +83,6 @@ public class EnemyPawn : Pawn
 
     }
 
-    protected void Idle()
-    {
-
-    }
-
     protected void GetPath()
     {
         if (_nav.enabled == false) return;
@@ -100,6 +107,8 @@ public class EnemyPawn : Pawn
     {
         base.GetHit(damage, isCrit, knockback, knockbackPush);
 
+        isIdle = false;
+
         string damageText = $"Crit!\n{damage}";
         if (isCrit) GameManager.current.eventService.RequestUISpawnFloatingText(transform.position, damageText, Color.red, 2f, 0.5f);
         else GameManager.current.eventService.RequestUISpawnFloatingText(transform.position, $"{damage}", Color.white, 2f, 0.5f);
@@ -108,6 +117,16 @@ public class EnemyPawn : Pawn
     protected override void Die()
     {
         ResetAndReturn();
+    }
+
+    public void SetIsIdle(bool idle)
+    {
+        isIdle = idle;
+    }
+
+    protected bool CheckIfPlayerIsClose()
+    {
+        return GameManager.current.pawnService.IsPlayerClose(transform.position, playerDetectionRange);
     }
 
 
