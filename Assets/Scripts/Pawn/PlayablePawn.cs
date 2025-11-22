@@ -91,7 +91,7 @@ public class PlayablePawn : Pawn
 
         _nav.destination = moveDest;
 
-        GameManager.current.gameInfo.playerPositionVar.SetValue(transform.position);
+        //GameManager.current.gameInfo.playerPositionVar.SetValue(new Vector3(transform.position.x, transform.position.z * 0.7f, 0));
     }
 
     public void Interact()

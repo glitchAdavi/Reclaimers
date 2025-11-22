@@ -354,7 +354,61 @@ public class TileService : MonoBehaviour
     }
 
 
+    #region PawnInfo
+    public Vector3Int GetPawnTilePos(Pawn p)
+    {
+        return grid.WorldToCell(p.transform.position);
+    }
 
+    public List<Vector3Int> GetAllTilesInRangeFromPos(Pawn p, int width, int height, int thickness = 1)
+    {
+        return GetAllTilesInRangeFromPos(GetPawnTilePos(p), width, height, thickness);
+    }
+    public List<Vector3Int> GetAllTilesInRangeFromPos(Vector3 pos, int width, int height, int thickness = 1)
+    {
+        return GetAllTilesInRangeFromPos(Vector3Int.FloorToInt(pos), width, height, thickness);
+    }
+    public List<Vector3Int> GetAllTilesInRangeFromPos(Vector3Int pos, int width, int height, int thickness = 1)
+    {
+        if (thickness <= 0) return new List<Vector3Int>();
+
+        Vector3Int center = pos;
+        List<Vector3Int> result = new List<Vector3Int>();
+
+        for (int i = 0; i < thickness; i++)
+        {
+            width++;
+            height++;
+            foreach (Vector3Int v in fTiles)
+            {
+                if (v.x == center.x + width && v.y <= center.y + height && v.y >= center.y - height)
+                {
+                    result.Add(v);
+                }
+
+                if (v.x == center.x - width && v.y <= center.y + height && v.y >= center.y - height)
+                {
+                    result.Add(v);
+                }
+
+                if (v.y == center.y + height && v.x <= center.x + width && v.x >= center.x - width)
+                {
+                    result.Add(v);
+                }
+
+                if (v.y == center.y - height && v.x <= center.x + width && v.x >= center.x - width)
+                {
+                    result.Add(v);
+                }
+            }
+        }
+
+        return result;
+    }
+
+
+
+    #endregion
 
 
     #region Utilities
@@ -378,6 +432,21 @@ public class TileService : MonoBehaviour
         if (collection.Count < 1) return Vector3.zero;
         Vector3 result = (grid.CellToWorld(collection[collection.Count - 1]) - grid.CellToWorld(collection[0])) / 2;
         return (grid.CellToWorld(collection[0]) + result);
+    }
+
+    private Vector3 AbsVector3(Vector3 v)
+    {
+        return new Vector3(Mathf.Abs(v.x), Mathf.Abs(v.y), Mathf.Abs(v.z));
+    }
+
+    public Vector3Int PosToTile(Vector3 pos)
+    {
+        return grid.WorldToCell(pos);
+    }
+
+    public Vector3 TileToPos(Vector3Int tile)
+    {
+        return grid.CellToWorld(tile) + (new Vector3(grid.cellSize.x, 0, grid.cellSize.y) / 2);
     }
 
     private List<Vector3Int> GetAllTiles(Tilemap tilemap)
