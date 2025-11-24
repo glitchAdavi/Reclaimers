@@ -7,6 +7,8 @@ public class PlayablePawn : Pawn
 {
     public Weapon equippedWeapon;
 
+    public Dictionary<string, int> appliedUpgrades = new Dictionary<string, int>();
+
 
     //TEMP
     public int levelThreshold = 5;
@@ -169,6 +171,54 @@ public class PlayablePawn : Pawn
             if (equippedWeapon != null) Destroy(currentWeapon);
         }
     }
+
+    #endregion
+
+    #region Upgrades
+    public void AddUpgrade(Upgrade u)
+    {
+        if (appliedUpgrades.ContainsKey(u.name))
+        {
+            appliedUpgrades[u.name]++;
+        } else
+        {
+            appliedUpgrades[u.name] = 1;
+        }
+
+        u.Apply(this);
+    }
+
+    public void RemoveUpgrade(Upgrade u)
+    {
+        if (appliedUpgrades.ContainsKey(u.name) && appliedUpgrades[u.name] > 0)
+        {
+            appliedUpgrades[u.name]--;
+            if (appliedUpgrades[u.name] < 1)
+            {
+                appliedUpgrades.Remove(u.name);
+            }
+
+            u.Remove(this);
+        }
+    }
+
+    public Upgrade GetUpgradeByName(string uName)
+    {
+        Upgrade result = null;
+
+        foreach (PawnUpgrade pu in GameManager.current.allPawnUpgrades)
+        {
+            if (pu.name.Equals(uName)) result = pu;
+        }
+
+        foreach (WeaponUpgrade wu in GameManager.current.allWeaponUpgrades)
+        {
+            if (wu.name.Equals(uName)) result = wu;
+        }
+
+        return result;
+    }
+
     #endregion
 
     public void FindClosestInteractable()

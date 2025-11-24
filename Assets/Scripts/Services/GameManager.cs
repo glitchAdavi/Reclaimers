@@ -25,8 +25,13 @@ public class GameManager : MonoBehaviour
     public PlayerCamera playerCamera;
 
     public ProjectileBuilder projectileBuilder;
-    
 
+
+
+    public PawnUpgrade[] allPawnUpgrades;
+    public WeaponUpgrade[] allWeaponUpgrades;
+    public WeaponStatBlock[] allWeapons;
+    
     //TEMP
     public PawnStatBlock playerStatBlock;
 
@@ -37,6 +42,10 @@ public class GameManager : MonoBehaviour
             current = this;
             
             DontDestroyOnLoad(this);
+
+            allPawnUpgrades = Resources.LoadAll<PawnUpgrade>("ScriptableObjects/Upgrades");
+            allWeaponUpgrades = Resources.LoadAll<WeaponUpgrade>("ScriptableObjects/Upgrades");
+            allWeapons = Resources.LoadAll<WeaponStatBlock>("ScriptableObjects/StatBlocks/Weapons");
 
             SceneManager.sceneLoaded += OnSceneLoaded;
             SceneManager.sceneUnloaded += OnSceneUnloaded;

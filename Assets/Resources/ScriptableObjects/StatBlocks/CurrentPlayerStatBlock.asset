@@ -18,6 +18,22 @@ MonoBehaviour:
     baseVal: 1
     addVal: 0
     multVal: 1
+  totalXp:
+    baseVal: 0
+    addVal: 0
+    multVal: 1
+  xp:
+    baseVal: 0
+    addVal: 0
+    multVal: 1
+  xpGain:
+    baseVal: 1
+    addVal: 0
+    multVal: 1
+  level:
+    baseVal: 0
+    addVal: 0
+    multVal: 1
   speed:
     baseVal: 0
     addVal: 0
@@ -26,6 +42,26 @@ MonoBehaviour:
     baseVal: 0
     addVal: 0
     multVal: 0
+  lpRegen:
+    baseVal: 0
+    addVal: 0
+    multVal: 1
+  lpRegenDelay:
+    baseVal: 1
+    addVal: 0
+    multVal: 1
+  lpRegenTickTime:
+    baseVal: 1
+    addVal: 0
+    multVal: 1
+  damageMultiplier:
+    baseVal: 1
+    addVal: 0
+    multVal: 1
+  healingMultiplier:
+    baseVal: 1
+    addVal: 0
+    multVal: 1
   meleeDamage:
     baseVal: 1
     addVal: 0
@@ -34,7 +70,19 @@ MonoBehaviour:
     baseVal: 0.5
     addVal: 0
     multVal: 1
+  pickUpRange:
+    baseVal: 5
+    addVal: 0
+    multVal: 1
+  interactionRange:
+    baseVal: 3
+    addVal: 0
+    multVal: 1
   iFrameDuration:
     baseVal: 0.1
     addVal: 0
     multVal: 0
+  xpKillValue:
+    baseVal: 1
+    addVal: 0
+    multVal: 1

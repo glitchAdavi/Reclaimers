@@ -7,14 +7,6 @@ public abstract class Upgrade : ScriptableObject
     [SerializeField] protected string upgradeName = "Upgrade";
     [SerializeField] protected string upgradeDesc = "Description.";
 
-    [SerializeField] protected Stat stat1;
-    [SerializeField] protected Stat stat2;
-    [SerializeField] protected Stat stat3;
-
-    [SerializeField] protected Stat stat1neg;
-    [SerializeField] protected Stat stat2neg;
-    [SerializeField] protected Stat stat3neg;
-
     public string GetUpgradeName()
     {
         return upgradeName;
