@@ -9,7 +9,7 @@ public class WeaponStatBlock : ScriptableObject
 
     public bool automatic = false;
 
-    public Stat clipSize = new Stat(1f, 0, 1f);
+    public Stat clipSize = new Stat(1f, 0f, 1f);
     public Stat bulletPerShot = new Stat(1f, 0f, 1f);
     public Stat bulletPerShotCost = new Stat(1f, 0f, 1f);
     public Stat bulletPerShotSpread = new Stat(30f, 0f, 1f);

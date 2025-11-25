@@ -4,6 +4,8 @@ using UnityEngine;
 
 public abstract class InteractableObject : MonoBehaviour
 {
+    [SerializeField] SpriteRenderer _sr;
+
     protected float useThreshold = 1f;
     protected float useTimer = 0f;
 
@@ -15,7 +17,7 @@ public abstract class InteractableObject : MonoBehaviour
 
     public virtual void OnEnable()
     {
-        
+        GameManager.current.levelService.AddInteractableObject(this);
     }
 
     public virtual void Use()
@@ -44,7 +46,11 @@ public abstract class InteractableObject : MonoBehaviour
         used = true;
         useTimer = 0;
         OnFinishEffect();
+        GameManager.current.levelService.RemoveInteractableObject(this);
     }
 
-    protected abstract void OnFinishEffect();
+    protected virtual void OnFinishEffect()
+    {
+        if (destroyOnUse) Destroy(gameObject);
+    }
 }

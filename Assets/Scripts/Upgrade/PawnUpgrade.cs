@@ -38,13 +38,13 @@ public class PawnUpgrade : Upgrade
 
     public override void Apply(PlayablePawn p)
     {
-        if (scale.Value() != 0)
+        if (scale.IsNotEmpty())
         {
             p.statBlock.scale.ModifyValues(scale);
             p.ApplyScale();
         }
 
-        if (speed.Value() != 0)
+        if (speed.IsNotEmpty())
         {
             p.statBlock.speed.ModifyValues(speed);
             p.ApplySpeed();
@@ -57,13 +57,13 @@ public class PawnUpgrade : Upgrade
 
     public override void Remove(PlayablePawn p)
     {
-        if (scale.Value() != 0)
+        if (scale.IsNotEmpty())
         {
             p.statBlock.scale.ModifyValues(-scale);
             p.ApplyScale();
         }
 
-        if (speed.Value() != 0)
+        if (speed.IsNotEmpty())
         {
             p.statBlock.speed.ModifyValues(-speed);
             p.ApplySpeed();

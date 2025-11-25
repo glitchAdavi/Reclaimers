@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class Weapon : MonoBehaviour, IPause
 {
+    public WeaponStatBlock baseStatBlock;
     public WeaponStatBlock statBlock;
 
     public int maxClipSize = 7;
@@ -112,6 +113,9 @@ public abstract class Weapon : MonoBehaviour, IPause
     #region ApplyValues
     public virtual void FirstStatApplication()
     {
+        statBlock = ScriptableObject.CreateInstance<WeaponStatBlock>();
+        statBlock.CopyValues(baseStatBlock);
+
         ApplyClipSize();
         ApplyBulletsPerShot();
         ApplyBulletsPerShotCost();
@@ -130,6 +134,7 @@ public abstract class Weapon : MonoBehaviour, IPause
     public void ApplyClipSize()
     {
         maxClipSize = statBlock.clipSize.ValueInt();
+        GameManager.current.eventService.RequestUIUpdateWeaponAmmo(currentClipSize, maxClipSize);
     }
 
     public void ApplyBulletsPerShot()

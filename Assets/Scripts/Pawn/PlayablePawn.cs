@@ -165,7 +165,7 @@ public class PlayablePawn : Pawn
 
             Type wType = Type.GetType(statBlock.equippedWeapon.weaponType);
             equippedWeapon = gameObject.AddComponent(wType) as Weapon;
-            equippedWeapon.statBlock = statBlock.equippedWeapon;
+            equippedWeapon.baseStatBlock = statBlock.equippedWeapon;
             equippedWeapon.FirstStatApplication();
 
             if (equippedWeapon != null) Destroy(currentWeapon);

@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6581263b1eb231f41a7591befddad961, type: 3}
   m_Name: WU_clipSize1
   m_EditorClassIdentifier: 
-  upgradeName: Upgrade
-  upgradeDesc: Description.
+  upgradeName: Clip Size
+  upgradeDesc: +10 Bullets.
   clipSize:
     baseVal: 0
     addVal: 10

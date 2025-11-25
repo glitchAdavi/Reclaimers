@@ -2,21 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IO_PawnUpgradePickup : InteractableObject
+public class IO_WeaponUpgradePickup : InteractableObject
 {
-    [SerializeField] protected PawnUpgrade upgrade;
+    [SerializeField] protected WeaponUpgrade upgrade;
 
 
     public override void OnEnable()
     {
         useThreshold = 1f;
-        if (upgrade != null) IOVerb = upgrade.GetUpgradeName();
+        if (upgrade != null) IOName = upgrade.GetUpgradeName();
     }
 
-    public void SetUpgrade(PawnUpgrade pu)
+    public void SetUpgrade(WeaponUpgrade wu)
     {
-        upgrade = pu;
-        IOVerb = upgrade.GetUpgradeName();
+        upgrade = wu;
+        IOName = upgrade.GetUpgradeName();
     }
 
     protected override void OnFinishEffect()

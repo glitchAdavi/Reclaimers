@@ -16,6 +16,8 @@ public class GameInfo : ScriptableObject
     public GameObject playerUIPrefab;
     public GameObject uiDamageNumberPrefab;
     public GameObject poXpPrefab;
+    public GameObject pawnUpgradePrefab;
+    public GameObject weaponUpgradePrefab;
 
 
     //---STATBLOCKS---

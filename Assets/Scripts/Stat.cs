@@ -94,6 +94,12 @@ public class Stat
         return Mathf.RoundToInt(val);
     }
 
+    public bool IsNotEmpty()
+    {
+        if (baseVal != 0 || addVal != 0 || multVal != 0) return true;
+        return false;
+    }
+
     public static Stat operator -(Stat s)
     {
         return new Stat(-s.baseVal, -s.addVal, -s.multVal);
