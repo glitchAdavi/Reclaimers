@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.AI.Navigation;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Tilemaps;
 using static UnityEngine.EventSystems.EventTrigger;
 
@@ -473,6 +474,11 @@ public class TileService : MonoBehaviour
                 DestroyImmediate(allChildren[i].gameObject);
             }
         }
+    }
+
+    public bool SamplePosition(Vector3 pos)
+    {
+        return NavMesh.SamplePosition(pos, out NavMeshHit hit, 0.5f, NavMesh.AllAreas);
     }
     #endregion
 

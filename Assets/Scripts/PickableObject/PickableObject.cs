@@ -10,7 +10,7 @@ public class PickableObject : MonoBehaviour, IUpdate, IFixedUpdate, IPause
     protected Pawn target;
     protected bool canBeActive = false;
     protected bool active = false;
-    protected float graceTime = 0.15f;
+    [SerializeField] protected float graceTime = 0.15f;
     protected float speed = 0f;
 
     protected bool isPaused = false;

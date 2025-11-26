@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dmgColl: {fileID: 999610133681876620}
+  graceTime: 0.25
   matValue: 1
 --- !u!1 &2489970339468146606
 GameObject:

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class IO_Container : InteractableObject
 {
@@ -22,17 +23,24 @@ public class IO_Container : InteractableObject
 
     private Vector3 GetRandomPosInRadius()
     {
-        Vector3 randomPos = new Vector3(Random.Range(-lootSpreadRange / 2, lootSpreadRange / 2),
+        Vector3 randomPos = new Vector3(0f, -100f, 0f);
+
+        while (!GameManager.current.tileService.SamplePosition(randomPos))
+        {
+            randomPos = new Vector3(Random.Range(-lootSpreadRange / 2, lootSpreadRange / 2),
                                         0f,
                                         Random.Range(-lootSpreadRange / 2, lootSpreadRange / 2));
 
-        if (randomPos.x < 0) randomPos.x -= transform.localScale.x / 2;
-        else randomPos.x += transform.localScale.x / 2;
+            if (randomPos.x < 0) randomPos.x -= transform.localScale.x / 2;
+            else randomPos.x += transform.localScale.x / 2;
 
-        if (randomPos.z < 0) randomPos.z -= transform.localScale.z / 2;
-        else randomPos.z += transform.localScale.z / 2;
+            if (randomPos.z < 0) randomPos.z -= transform.localScale.z / 2;
+            else randomPos.z += transform.localScale.z / 2;
 
-        return randomPos + transform.position;
+            randomPos += transform.position;
+        }
+
+        return randomPos;
     }
 
 

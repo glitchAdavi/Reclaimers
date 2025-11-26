@@ -106,11 +106,22 @@ public class LevelService : MonoBehaviour
         if (allInteractableObjects.Count < 1) return null;
 
         InteractableObject result = null;
+        float currentResultDistance = range * 2;
 
         for (int i = 0; i < allInteractableObjects.Count; i++)
         {
             if (allInteractableObjects.items[i].used) continue;
-            if (Vector3.Distance(allInteractableObjects.items[i].transform.position, pos) <= range) result = allInteractableObjects.items[i];
+            float currentIODistance = Vector3.Distance(allInteractableObjects.items[i].transform.position, pos);
+            if (currentIODistance <= range)
+            {
+                if (result != null)
+                {
+                    if (currentIODistance < currentResultDistance) result = allInteractableObjects.items[i];
+                } else
+                {
+                    result = allInteractableObjects.items[i];
+                }
+            }
         }
 
         return result;
@@ -132,9 +143,7 @@ public class LevelService : MonoBehaviour
     public void SpawnPawnUpgrade(Vector3 pos)
     {
         int r = Random.Range(0, GameManager.current.allPawnUpgrades.Count());
-        Debug.Log(r);
         PawnUpgrade chosen = GameManager.current.allPawnUpgrades[r];
-        Debug.Log(chosen.name);
         IO_PawnUpgradePickup pUpgrade = Instantiate(GameManager.current.gameInfo.pawnUpgradePrefab, pos, Quaternion.identity).GetComponent<IO_PawnUpgradePickup>();
         pUpgrade.SetUpgrade(chosen);
     }
@@ -142,9 +151,7 @@ public class LevelService : MonoBehaviour
     public void SpawnWeaponUpgrade(Vector3 pos)
     {
         int r = Random.Range(0, GameManager.current.allWeaponUpgrades.Count());
-        Debug.Log(r);
         WeaponUpgrade chosen = GameManager.current.allWeaponUpgrades[r];
-        Debug.Log(chosen.name);
         IO_WeaponUpgradePickup wUpgrade = Instantiate(GameManager.current.gameInfo.weaponUpgradePrefab, pos, Quaternion.identity).GetComponent<IO_WeaponUpgradePickup>();
         wUpgrade.SetUpgrade(chosen);
     }

@@ -39,9 +39,12 @@ public class PawnService : MonoBehaviour, IUpdate, IPause
     public int maxSimultaneousEnemies = 30;
     public int spawnedEnemies = 0;
 
+
+
+
     public bool enemySpawnActive = false;
-    public bool canEnemiesSpawn = false;
-    public bool spawnEnemiesIdle = false;
+    public bool spawnAlert = false;
+    public bool spawnIdle = false;
     public bool isPaused = false;
 
 
@@ -54,7 +57,8 @@ public class PawnService : MonoBehaviour, IUpdate, IPause
 
         GameManager.current.eventService.onEnemyDeath += OnEnemyDeath;
         GameManager.current.eventService.onPawnServiceActive += SetPawnServiceActive;
-        GameManager.current.eventService.onPawnServiceIdle += (x) => spawnEnemiesIdle = x;
+        GameManager.current.eventService.onPawnServiceSpawnIdle += (x) => spawnIdle = x;
+        GameManager.current.eventService.onPawnServiceSpawnAlert += (x) => spawnAlert = x;
 
         GameManager.current.updateService.RegisterUpdate(this);
         GameManager.current.updateService.RegisterPause(this);
@@ -71,7 +75,7 @@ public class PawnService : MonoBehaviour, IUpdate, IPause
     public void Pause(bool paused)
     {
         isPaused = paused;
-        canEnemiesSpawn = !paused;
+        spawnAlert = !paused;
     }
 
     public void OnDisable()
@@ -103,35 +107,38 @@ public class PawnService : MonoBehaviour, IUpdate, IPause
     {
         if (!enemySpawnActive) return;
 
-        if (spawnEnemiesIdle)
+        if (spawnIdle)
         {
+            //SpawnEnemyIdle();
 
-        } else
-        {
-            if (canEnemiesSpawn && spawnedEnemies < maxSimultaneousEnemies)
+            for (int i = 0; i < fixedSpawnPoints.Count; i++)
             {
-                SpawnEnemyActive();
-                canEnemiesSpawn = false;
-                spawnTimer = 0;
+                SpawnEnemyIdle();
             }
 
-            if (spawnTimerLimit > spawnTimer)
+        } 
+
+        if (spawnAlert)
+        {
+            spawnTimer += Time.deltaTime;
+
+            if (spawnTimer >= spawnTimerLimit)
             {
-                spawnTimer += Time.deltaTime;
-            }
-            else
-            {
-                spawnTimer = 0;
-                canEnemiesSpawn = true;
+                spawnTimer = 0f;
+                for (int i = 0; i < spawnBatch; i++)
+                {
+                    SpawnEnemyActive();
+                    if (spawnedEnemies >= maxSimultaneousEnemies) break;
+                }
             }
         }
-
-        
     }
 
     public void SpawnEnemyIdle()
     {
         Debug.Log("Spawn Idle");
+
+
 
         /*EnemyPawn newEnemy = enemyBuilder.GetObject();
         newEnemy.SetIsIdle(spawnEnemiesIdle);
@@ -143,7 +150,7 @@ public class PawnService : MonoBehaviour, IUpdate, IPause
     public void SpawnEnemyActive()
     {
         EnemyPawn newEnemy = enemyBuilder.GetObject();
-        newEnemy.SetIsIdle(spawnEnemiesIdle);
+        newEnemy.SetIsIdle(spawnIdle);
         newEnemy.Teleport(GameManager.current.tileService.TileToPos(GetRandomSpawnableTile()));
         pawnsInScene.Add(newEnemy);
         spawnedEnemies++;
