@@ -34,6 +34,7 @@ public class PlayablePawn : Pawn
 
         GameManager.current.eventService.onGivePlayerXp += GainXp;
         GameManager.current.eventService.onGivePlayerLevel += GainLevel;
+        GameManager.current.eventService.onGivePlayerMaterial += GainMaterials;
 
         timerClosestInteractable = GameManager.current.timerService.StartTimer(3600f, null, 0.2f, FindClosestInteractable);
 
@@ -77,6 +78,8 @@ public class PlayablePawn : Pawn
         ApplyLevel();
         ApplyPickUpRange();
         ApplyInteractionRange();
+        ApplyMaterials();
+        ApplyMaterialGain();
 
         GameManager.current.eventService.RequestUIUpdateHealth(lifepoints, maxLifepoints);
         GameManager.current.eventService.RequestUIUpdateXpBar(xp, levelThreshold);
@@ -138,6 +141,10 @@ public class PlayablePawn : Pawn
             GainLevel(1);
         }
 
+        statBlock.totalXp.SetValues(totalXp, 0f, 1f);
+        statBlock.xp.SetValues(xp, 0f, 1f);
+        statBlock.level.SetValues(level, 0f, 1f);
+
         GameManager.current.eventService.RequestUIUpdateXpBar(xp, levelThreshold);
     }
 
@@ -146,6 +153,17 @@ public class PlayablePawn : Pawn
         level++;
         GameManager.current.eventService.RequestUIUpdateLevelCounter(level);
     }
+    #endregion
+
+    #region Materials
+    public void GainMaterials(float mats)
+    {
+        materials += mats * materialGain;
+
+        statBlock.materials.SetValues(materials, 0f, 1f);
+    }
+
+
     #endregion
 
     #region Weapon

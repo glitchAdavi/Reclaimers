@@ -2,16 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 public class LevelService : MonoBehaviour
 {
-    [SerializeField] List<PO_xp> allXpInScene = new List<PO_xp>();
+    [SerializeField] ExecutableList<PO_xp> allXpInScene = new ExecutableList<PO_xp>();
+    [SerializeField] ExecutableList<PO_material> allMaterialsInScene = new ExecutableList<PO_material>();
 
-    [SerializeField] List<InteractableObject> allInteractableObjects = new List<InteractableObject>();
-    [SerializeField] List<InteractableObject> allIOAdd = new List<InteractableObject>();
-    [SerializeField] List<InteractableObject> allIORemove = new List<InteractableObject>();
-    
-    [SerializeField] List<InteractableArea> allInteractableAreas = new List<InteractableArea>();
+    [SerializeField] ExecutableList<InteractableObject> allInteractableObjects = new ExecutableList<InteractableObject>();
+    [SerializeField] ExecutableList<InteractableArea> allInteractableAreas = new ExecutableList<InteractableArea>();
 
     [SerializeField] private bool isPlayerInsideArea = false;
     InteractableArea currentArea;
@@ -21,6 +20,11 @@ public class LevelService : MonoBehaviour
     private void OnEnable()
     {
         GameManager.current.eventService.onSpawnXp += SpawnPoXp;
+        GameManager.current.eventService.onSpawnMaterial += SpawnPoMaterial;
+        GameManager.current.eventService.onSpawnRandomUpgrade += SpawnRandomUpgrade;
+        GameManager.current.eventService.onSpawnPawnUpgrade += SpawnPawnUpgrade;
+        GameManager.current.eventService.onSpawnWeaponUpgrade += SpawnWeaponUpgrade;
+
         currentLevelLogic = GameObject.Find("Grid").GetComponent<LevelLogic>();
         GetAllInteractablesInScene();
     }
@@ -63,6 +67,23 @@ public class LevelService : MonoBehaviour
     }
     #endregion
 
+    #region Materials
+    public void SpawnPoMaterial(Vector3 pos, float value)
+    {
+        Vector3 newPos = new Vector3(pos.x, 0.25f, pos.z);
+        PO_material newMaterial = Instantiate(GameManager.current.gameInfo.poMaterialPrefab, newPos, Quaternion.identity).GetComponent<PO_material>();
+        newMaterial.Init(value);
+        allMaterialsInScene.Add(newMaterial);
+    }
+
+    public void RemoveMaterialFromList(PO_material toRemove)
+    {
+        allMaterialsInScene.Remove(toRemove);
+    }
+
+
+    #endregion
+
     #region Interactables
     public void GetAllInteractablesInScene()
     {
@@ -82,29 +103,14 @@ public class LevelService : MonoBehaviour
 
     public InteractableObject GetClosestInteractable(Vector3 pos, float range)
     {
-        foreach (InteractableObject io in allIOAdd)
-        {
-            allInteractableObjects.Add(io);
-        }
-
-        allIOAdd.Clear();
-
-        foreach (InteractableObject io in allIORemove)
-        {
-            allInteractableObjects.Remove(io);
-        }
-
-        allIORemove.Clear();
-
-
         if (allInteractableObjects.Count < 1) return null;
 
         InteractableObject result = null;
 
         for (int i = 0; i < allInteractableObjects.Count; i++)
         {
-            if (allInteractableObjects[i].used) continue;
-            if (Vector3.Distance(allInteractableObjects[i].transform.position, pos) <= range) result = allInteractableObjects[i];
+            if (allInteractableObjects.items[i].used) continue;
+            if (Vector3.Distance(allInteractableObjects.items[i].transform.position, pos) <= range) result = allInteractableObjects.items[i];
         }
 
         return result;
@@ -121,24 +127,36 @@ public class LevelService : MonoBehaviour
         isPlayerInsideArea = isPlayerInside;
     }
 
+
+
+    public void SpawnPawnUpgrade(Vector3 pos)
+    {
+        int r = Random.Range(0, GameManager.current.allPawnUpgrades.Count());
+        Debug.Log(r);
+        PawnUpgrade chosen = GameManager.current.allPawnUpgrades[r];
+        Debug.Log(chosen.name);
+        IO_PawnUpgradePickup pUpgrade = Instantiate(GameManager.current.gameInfo.pawnUpgradePrefab, pos, Quaternion.identity).GetComponent<IO_PawnUpgradePickup>();
+        pUpgrade.SetUpgrade(chosen);
+    }
+
+    public void SpawnWeaponUpgrade(Vector3 pos)
+    {
+        int r = Random.Range(0, GameManager.current.allWeaponUpgrades.Count());
+        Debug.Log(r);
+        WeaponUpgrade chosen = GameManager.current.allWeaponUpgrades[r];
+        Debug.Log(chosen.name);
+        IO_WeaponUpgradePickup wUpgrade = Instantiate(GameManager.current.gameInfo.weaponUpgradePrefab, pos, Quaternion.identity).GetComponent<IO_WeaponUpgradePickup>();
+        wUpgrade.SetUpgrade(chosen);
+    }
+
     public void SpawnRandomUpgrade(Vector3 pos)
     {
-        Upgrade chosen = null;
-
-        int totalLength = GameManager.current.allPawnUpgrades.Length + GameManager.current.allWeaponUpgrades.Length;
-        int r = Random.Range(0, totalLength);
-
-        if (r < GameManager.current.allPawnUpgrades.Length)
+        if (Random.Range(0, 100) < 50)
         {
-            chosen = GameManager.current.allPawnUpgrades[r];
-            IO_PawnUpgradePickup pUpgrade = Instantiate(GameManager.current.gameInfo.pawnUpgradePrefab, pos, Quaternion.identity).GetComponent<IO_PawnUpgradePickup>();
-            pUpgrade.SetUpgrade(chosen as PawnUpgrade);
-
+            SpawnPawnUpgrade(pos);
         } else
         {
-            chosen = GameManager.current.allWeaponUpgrades[r - GameManager.current.allPawnUpgrades.Length];
-            IO_WeaponUpgradePickup wUpgrade = Instantiate(GameManager.current.gameInfo.weaponUpgradePrefab, pos, Quaternion.identity).GetComponent<IO_WeaponUpgradePickup>();
-            wUpgrade.SetUpgrade(chosen as WeaponUpgrade);
+            SpawnWeaponUpgrade(pos);
         }
     }
 
@@ -149,30 +167,22 @@ public class LevelService : MonoBehaviour
 
     public void AddInteractableObject(InteractableObject io)
     {
-        if (allInteractableObjects.Contains(io)) return;
-        allIOAdd.Add(io);
+        allInteractableObjects.Add(io);
     }
 
     public void RemoveInteractableObject(InteractableObject io)
     {
-        if (allInteractableObjects.Contains(io))
-        {
-            allIORemove.Remove(io);
-        }
+        allInteractableObjects.Remove(io);
     }
 
     public void AddInteractableArea(InteractableArea ia)
     {
-        if (allInteractableAreas.Contains(ia)) return;
         allInteractableAreas.Add(ia);
     }
 
     public void RemoveInteractableArea(InteractableArea ia)
     {
-        if (allInteractableAreas.Contains(ia))
-        {
-            allInteractableAreas.Remove(ia);
-        }
+        allInteractableAreas.Remove(ia);
     }
 
 }

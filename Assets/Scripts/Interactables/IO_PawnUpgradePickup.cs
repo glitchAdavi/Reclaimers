@@ -7,8 +7,10 @@ public class IO_PawnUpgradePickup : InteractableObject
     [SerializeField] protected PawnUpgrade upgrade;
 
 
-    public override void OnEnable()
+    public override void Start()
     {
+        base.Start();
+
         useThreshold = 1f;
         if (upgrade != null) IOVerb = upgrade.GetUpgradeName();
     }

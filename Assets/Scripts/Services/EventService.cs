@@ -81,6 +81,27 @@ public class EventService : MonoBehaviour
 
     public event Action<int> onGivePlayerLevel;
     public void GivePlayerLevel(int levels) => onGivePlayerLevel?.Invoke(levels);
+    #endregion
+
+    #region Material
+    public event Action<Vector3, float> onSpawnMaterial;
+    public void SpawnMaterial(Vector3 pos, float v) => onSpawnMaterial?.Invoke(pos, v);
+
+    public event Action<float> onGivePlayerMaterial;
+    public void GivePlayerMaterial(float v) => onGivePlayerMaterial?.Invoke(v);
+    #endregion
+
+
+    #region Upgrades
+    public event Action<Vector3> onSpawnPawnUpgrade;
+    public void SpawnPawnUpgrade(Vector3 pos) => onSpawnPawnUpgrade?.Invoke(pos);
+
+    public event Action<Vector3> onSpawnWeaponUpgrade;
+    public void SpawnWeaponUpgrade(Vector3 pos) => onSpawnWeaponUpgrade?.Invoke(pos);
+
+    public event Action<Vector3> onSpawnRandomUpgrade;
+    public void SpawnRandomUpgrade(Vector3 pos) => onSpawnRandomUpgrade?.Invoke(pos);
+
 
 
     #endregion

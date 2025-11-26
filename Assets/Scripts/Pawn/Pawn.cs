@@ -46,6 +46,9 @@ public abstract class Pawn : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdate, 
     [SerializeField] protected int level = 0;
     [SerializeField] protected float xpKillValue = 0f;
 
+    [SerializeField] protected float materials = 0f;
+    [SerializeField] protected float materialGain = 0f;
+
     Timer knockbackTimer;
     Timer hitEffectTimer;
 
@@ -291,6 +294,16 @@ public abstract class Pawn : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdate, 
     public void ApplyInteractionRange()
     {
         interactionRange = statBlock.interactionRange.Value();
+    }
+
+    public void ApplyMaterials()
+    {
+        materials = statBlock.materials.Value();
+    }
+
+    public void ApplyMaterialGain()
+    {
+        materialGain = statBlock.materialGain.Value();
     }
     #endregion
 

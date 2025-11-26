@@ -15,7 +15,7 @@ public abstract class InteractableObject : MonoBehaviour
     public string IOName = "Temp";
     public string IOVerb = "Use";
 
-    public virtual void OnEnable()
+    public virtual void Start()
     {
         GameManager.current.levelService.AddInteractableObject(this);
     }

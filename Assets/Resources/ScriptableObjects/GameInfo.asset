@@ -21,7 +21,9 @@ MonoBehaviour:
   playerUIPrefab: {fileID: 1197550489632115910, guid: d721256fb0c64eb4cb8fdc59fccce3fe, type: 3}
   uiDamageNumberPrefab: {fileID: 164296208265120233, guid: 593155f1bf72e60428bff9ab3265d45f, type: 3}
   poXpPrefab: {fileID: 6498839685055560241, guid: 9c3a381d857c492448252b858234341d, type: 3}
+  poMaterialPrefab: {fileID: 1195523533724711741, guid: e278271bf82586341b49e98d041c6b77, type: 3}
   pawnUpgradePrefab: {fileID: 2900003114547402382, guid: f1f8db2f7fb074a4a8427ac5253fd311, type: 3}
   weaponUpgradePrefab: {fileID: 5525606844700627182, guid: 74989d3e2fdd5c64f8c1639daa5ee556, type: 3}
   defaultStatBlock: {fileID: 11400000, guid: 0280918b95d279a4ab02c3268abc60f5, type: 2}
   currentPlayerStatBlock: {fileID: 11400000, guid: 862a0ea39af23cf49adf90f75653856b, type: 2}
+  enemy1StatBlock: {fileID: 0}

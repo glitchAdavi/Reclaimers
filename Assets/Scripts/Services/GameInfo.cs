@@ -16,6 +16,7 @@ public class GameInfo : ScriptableObject
     public GameObject playerUIPrefab;
     public GameObject uiDamageNumberPrefab;
     public GameObject poXpPrefab;
+    public GameObject poMaterialPrefab;
     public GameObject pawnUpgradePrefab;
     public GameObject weaponUpgradePrefab;
 
@@ -23,6 +24,8 @@ public class GameInfo : ScriptableObject
     //---STATBLOCKS---
     public PawnStatBlock defaultStatBlock;
     public PawnStatBlock currentPlayerStatBlock;
+
+    public PawnStatBlock enemy1StatBlock;
 
 
 

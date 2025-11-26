@@ -1,16 +1,35 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ExecutableList<T>
 {
-    int Count { get { return items.Count; } }
+    public int Count 
+    { 
+        get 
+        {
+            TriggerAdd();
+            TriggerRemove();
+            return itemHash.Count; 
+        } 
+    }
 
     List<T> itemsToAdd = new List<T>();
     List<T> itemsToRemove = new List<T>();
 
-    HashSet<T> items = new HashSet<T>();
+    HashSet<T> itemHash = new HashSet<T>();
+
+    public List<T> items
+    {
+        get
+        {
+            TriggerAdd();
+            TriggerRemove();
+            return itemHash.ToList();
+        }
+    }
 
     public delegate void Execute(T item);
     Execute MethodToExecute;
@@ -27,7 +46,7 @@ public class ExecutableList<T>
         {
             foreach (T item in itemsToAdd)
             {
-                items.Add(item);
+                itemHash.Add(item);
             }
             itemsToAdd.Clear();
         }
@@ -39,7 +58,7 @@ public class ExecutableList<T>
         {
             foreach (T item in itemsToRemove)
             {
-                items.Remove(item);
+                itemHash.Remove(item);
             }
             itemsToRemove.Clear();
         }
@@ -48,10 +67,9 @@ public class ExecutableList<T>
     public void ExecuteAll()
     {
         TriggerAdd();
-
         TriggerRemove();
 
-        foreach(T item in items)
+        foreach(T item in itemHash)
         {
             if (MethodToExecute != null) MethodToExecute(item);    
         }

@@ -8,6 +8,9 @@ public class PawnStatBlock : ScriptableObject
 
     public Stat scale = new Stat(1f, 0f, 1f);
 
+    public Stat materials = new Stat(0f, 0f, 1f);
+    public Stat materialGain = new Stat(1f, 0f, 1f);
+
     public Stat totalXp = new Stat(0f, 0f, 1f);
     public Stat xp = new Stat(0f, 0f, 1f);
     public Stat xpGain = new Stat(1f, 0f, 1f);
@@ -46,6 +49,9 @@ public class PawnStatBlock : ScriptableObject
         equippedWeapon = psb.equippedWeapon;
 
         scale.SetValues(psb.scale);
+
+        materials.SetValues(psb.materials);
+        materialGain.SetValues(psb.materialGain);
 
         totalXp.SetValues(psb.totalXp);
         xp.SetValues(psb.xp);

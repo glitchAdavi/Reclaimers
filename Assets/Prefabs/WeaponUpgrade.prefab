@@ -50,7 +50,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _sr: {fileID: 368086725983457687}
   used: 0
-  destroyOnUse: 0
+  destroyOnUse: 1
   IOName: Temp
   IOVerb: Use
   upgrade: {fileID: 0}

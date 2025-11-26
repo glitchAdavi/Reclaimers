@@ -7,8 +7,10 @@ public class IO_WeaponUpgradePickup : InteractableObject
     [SerializeField] protected WeaponUpgrade upgrade;
 
 
-    public override void OnEnable()
+    public override void Start()
     {
+        base.Start();
+
         useThreshold = 1f;
         if (upgrade != null) IOName = upgrade.GetUpgradeName();
     }

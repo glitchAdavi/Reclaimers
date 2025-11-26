@@ -8,8 +8,10 @@ public class IO_WeaponPickup : InteractableObject
 
 
 
-    public override void OnEnable()
+    public override void Start()
     {
+        base.Start();
+
         IOVerb = "Switch to ";
         useThreshold = 0.3f;
     }
