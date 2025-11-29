@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "PawnStatBlock", menuName = "Stat Block/PawnStatBlock")]
@@ -5,6 +7,9 @@ public class PawnStatBlock : ScriptableObject
 {
     public string pawnName = "John Doe";
     public WeaponStatBlock equippedWeapon;
+
+    public List<string> keyUpgrade;
+    public List<int> valueUpgrade;
 
     public Sprite pawnSprite;
     public Color pawnSpriteColor;
@@ -50,6 +55,9 @@ public class PawnStatBlock : ScriptableObject
     {
         pawnName = psb.pawnName;
         equippedWeapon = psb.equippedWeapon;
+
+        keyUpgrade = new List<string>(psb.keyUpgrade);
+        valueUpgrade = new List<int>(psb.valueUpgrade);
 
         pawnSprite = psb.pawnSprite;
         pawnSpriteColor = psb.pawnSpriteColor;

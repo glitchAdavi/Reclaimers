@@ -116,6 +116,8 @@ public abstract class Weapon : MonoBehaviour, IPause
         statBlock = ScriptableObject.CreateInstance<WeaponStatBlock>();
         statBlock.CopyValues(baseStatBlock);
 
+        ApplyWeaponUpgrades();
+
         ApplyClipSize();
         ApplyBulletsPerShot();
         ApplyBulletsPerShotCost();
@@ -126,6 +128,7 @@ public abstract class Weapon : MonoBehaviour, IPause
         ApplyFireRate();
         ApplyAutomatic();
 
+        GameManager.current.SetNewProjectile(statBlock.projectilePrefab);
 
         currentClipSize = maxClipSize;
         GameManager.current.eventService.RequestUIUpdateWeaponAmmo(currentClipSize, maxClipSize);
@@ -176,6 +179,22 @@ public abstract class Weapon : MonoBehaviour, IPause
     public void ApplyAutomatic()
     {
         automatic = statBlock.automatic;
+    }
+
+    public void ApplyWeaponUpgrades()
+    {
+        PlayablePawn owner = GetComponent<PlayablePawn>();
+
+        foreach (KeyValuePair<string, int> kvp in owner.appliedUpgrades)
+        {
+            if (owner.GetUpgradeByName(kvp.Key) is WeaponUpgrade)
+            {
+                for (int i = 0; i < kvp.Value; i++)
+                {
+                    owner.GetUpgradeByName(kvp.Key).Apply(owner);
+                }
+            }
+        }
     }
 
     #endregion

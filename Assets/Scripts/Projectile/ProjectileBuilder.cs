@@ -16,8 +16,23 @@ public class ProjectileBuilder : MonoBehaviour
         BuildPool(_projectilePrefab, maxInPool, _parent.transform);
     }
 
+    public void NewPool(Projectile p, int bStock)
+    {
+        BuildPool(p, maxInPool, _parent.transform);
+    }
+
     public void BuildPool(Projectile p, int bStock, Transform parent)
     {
+        if (_pool != null)
+        {
+            for (int i = _parent.transform.childCount - 1; i >= 0; i--)
+            {
+                GameObject child = _parent.transform.GetChild(i).gameObject;
+                Destroy(child);
+            }
+            _pool = null;
+        }
+
         if (bStock > maxInPool) bStock = maxInPool;
         _projectilePrefab = p;
         _pool = new ObjectPool<Projectile>(ProjectileFactory, Projectile.TurnOn, Projectile.TurnOff, bStock, true, parent);

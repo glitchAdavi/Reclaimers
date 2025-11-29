@@ -14,6 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponName: Glock
   weaponType: WepProjectile
+  weaponSprite: {fileID: 0}
+  weaponSpriteColor: {r: 1, g: 1, b: 1, a: 1}
+  projectileSprite: {fileID: 0}
+  projectileSpriteColor: {r: 1, g: 1, b: 1, a: 1}
+  hitSprite: {fileID: 0}
+  hitSpriteColor: {r: 1, g: 1, b: 1, a: 1}
+  projectilePrefab: {fileID: 7636891095021424926, guid: d9d59cb07784c72469b18becdb6adb65, type: 3}
   automatic: 1
   clipSize:
     baseVal: 500
@@ -28,7 +35,7 @@ MonoBehaviour:
     addVal: 0
     multVal: 1
   bulletPerShotSpread:
-    baseVal: 1
+    baseVal: 0
     addVal: 0
     multVal: 1
   bulletSpread:
@@ -51,6 +58,10 @@ MonoBehaviour:
     baseVal: 1
     addVal: 0
     multVal: 1
+  projDamageRadius:
+    baseVal: 0
+    addVal: 0
+    multVal: 1
   projSpeed:
     baseVal: 50
     addVal: 0
@@ -64,10 +75,19 @@ MonoBehaviour:
     baseVal: 10
     addVal: 0
     multVal: 1
+  projArmingDistance:
+    baseVal: 0
+    addVal: 0
+    multVal: 1
   projMaxLifetime:
     baseVal: 5
     addVal: 0
     multVal: 1
+  projArmingLifetime:
+    baseVal: 0
+    addVal: 0
+    multVal: 1
+  explodeImmediately: 0
   projCritChance:
     baseVal: 50
     addVal: 0

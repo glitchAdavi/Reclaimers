@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using static UnityEngine.UIElements.UxmlAttributeDescription;
 
 public class PlayablePawn : Pawn
@@ -132,10 +133,35 @@ public class PlayablePawn : Pawn
         ApplyInteractionRange();
         ApplyMaterials();
         ApplyMaterialGain();
+        ApplyUpgradeDictionary();
 
         GameManager.current.eventService.RequestUIUpdateHealth(lifepoints, maxLifepoints);
         GameManager.current.eventService.RequestUIUpdateXpBar(xp, levelThreshold);
         GameManager.current.eventService.RequestUIUpdateLevelCounter(level);
+    }
+
+    public void ApplyUpgradeDictionary()
+    {
+        if (statBlock.keyUpgrade == null || statBlock.keyUpgrade.Count < 1) return;
+
+        for (int i = 0; i < statBlock.keyUpgrade.Count; i++)
+        {
+            appliedUpgrades.Add(statBlock.keyUpgrade[i], statBlock.valueUpgrade[i]);
+        }
+    }
+
+    public void SaveUpgradeDictionary()
+    {
+        statBlock.keyUpgrade.Clear();
+        statBlock.valueUpgrade.Clear();
+
+        if (appliedUpgrades == null || appliedUpgrades.Count < 1) return;
+
+        foreach (KeyValuePair<string, int> kvp in appliedUpgrades)
+        {
+            statBlock.keyUpgrade.Add(kvp.Key);
+            statBlock.valueUpgrade.Add(kvp.Value);
+        }
     }
 
 
@@ -280,8 +306,8 @@ public class PlayablePawn : Pawn
     #region Interaction
     public void Interact()
     {
-        timerClosestInteractable.Pause(true);
-        timerClosestPlayablePawn.Pause(true);
+        timerClosestInteractable?.Pause(true);
+        timerClosestPlayablePawn?.Pause(true);
 
         closestInteractable?.Use();
         closestPlayablePawn?.Use();
@@ -290,8 +316,8 @@ public class PlayablePawn : Pawn
 
     public void InteractReset()
     {
-        timerClosestInteractable.Pause(false);
-        timerClosestPlayablePawn.Pause(false);
+        timerClosestInteractable?.Pause(false);
+        timerClosestPlayablePawn?.Pause(false);
 
         closestInteractable?.UseReset();
         closestPlayablePawn?.UseReset();

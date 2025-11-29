@@ -217,9 +217,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4782393705931258038}
-  - component: {fileID: 1932757306602362852}
+  - component: {fileID: 4319670364043574172}
   m_Layer: 0
-  m_Name: Projectile
+  m_Name: BounceProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -243,7 +243,7 @@ Transform:
   - {fileID: 431923251856421596}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1932757306602362852
+--- !u!114 &4319670364043574172
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -252,14 +252,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 7636891095021424926}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f560472169606524cafef21d5b4cf41a, type: 3}
+  m_Script: {fileID: 11500000, guid: a0d03bea738bb374a9d875f24aa081e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   currentDistance: 0
   currentLifetime: 0
   hitEnemies: []
-  _sprt: {fileID: 6651296439196362210}
-  _damageCollider: {fileID: 7152421532471196815}
+  _sprt: {fileID: 0}
+  _damageCollider: {fileID: 0}
   currentPenetration: 0
 --- !u!1 &8550193083950009573
 GameObject:

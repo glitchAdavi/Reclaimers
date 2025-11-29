@@ -28,6 +28,7 @@ public class WepProjectile : Weapon
                 newBullet.transform.Rotate(Vector3.up, Random.Range(-bulletSpread / 2, bulletSpread / 2));
             }
             newBullet.transform.GetComponent<Projectile>().ProjectileSetup(statBlock.projDamage.Value(),
+                                                                           statBlock.projDamageRadius.Value(),
                                                                            statBlock.projSpeed.Value(),
                                                                            statBlock.projCritChance.Value(),
                                                                            statBlock.projCritMultiplier.Value(),
@@ -36,7 +37,13 @@ public class WepProjectile : Weapon
                                                                            statBlock.projMaxDistance.Value(),
                                                                            statBlock.projMaxLifetime.Value(),
                                                                            statBlock.knockback.Value(),
-                                                                           Color.white);
+                                                                           statBlock.projArmingDistance.Value(),
+                                                                           statBlock.projArmingLifetime.Value(),
+                                                                           statBlock.explodeImmediately,
+                                                                           statBlock.projectileSprite,
+                                                                           statBlock.projectileSpriteColor,
+                                                                           statBlock.hitSpriteColor,
+                                                                           statBlock.hitSprite);
 
             bulletsLeft--;
         }
@@ -49,6 +56,7 @@ public class WepProjectile : Weapon
             newBullet.transform.forward = tempForward;
             newBullet.transform.Rotate(Vector3.up, Random.Range(-bulletPerShotSpread / 2, bulletPerShotSpread / 2));
             newBullet.transform.GetComponent<Projectile>().ProjectileSetup(statBlock.projDamage.Value(),
+                                                                           statBlock.projDamageRadius.Value(),
                                                                            statBlock.projSpeed.Value(),
                                                                            statBlock.projCritChance.Value(),
                                                                            statBlock.projCritMultiplier.Value(),
@@ -57,7 +65,13 @@ public class WepProjectile : Weapon
                                                                            statBlock.projMaxDistance.Value(),
                                                                            statBlock.projMaxLifetime.Value(),
                                                                            statBlock.knockback.Value(),
-                                                                           Color.white);
+                                                                           statBlock.projArmingDistance.Value(),
+                                                                           statBlock.projArmingLifetime.Value(),
+                                                                           statBlock.explodeImmediately,
+                                                                           statBlock.projectileSprite,
+                                                                           statBlock.projectileSpriteColor,
+                                                                           statBlock.hitSpriteColor,
+                                                                           statBlock.hitSprite);
 
             bulletsLeft--;
         }

@@ -66,11 +66,11 @@ public class GameManager : MonoBehaviour
         pawnService = CreateService<PawnService>();
         uiService = InstantiateUI();
 
+        projectileBuilder = CreateService<ProjectileBuilder>();
+
         playerController = CreateService<PlayerController>();
         playerPawn = InstantiatePlayer();
         playerCamera = InstantiateCamera();
-
-        projectileBuilder = CreateService<ProjectileBuilder>();
 
 
         //dataPersistenceService = CreateService<DataPersistenceService>();
@@ -137,6 +137,24 @@ public class GameManager : MonoBehaviour
         playerController?.AssignPlayerPawn(newPlayer);
         playerPawn = newPlayer;
         playerToInactivate.SetInactivePlayer();
+    }
+
+    public void SetNewProjectile(GameObject newProj)
+    {
+        projectileBuilder.NewPool(newProj.GetComponent<Projectile>(), 100);
+    }
+
+    public void SavePlayer()
+    {
+        playerPawn.SaveUpgradeDictionary();
+        gameInfo.currentPlayerStatBlock.CopyValues(playerPawn.statBlock);
+        gameInfo.useCurrentPlayerStatBlock = true;
+    }
+
+    public void ResetPlayer()
+    {
+        gameInfo.currentPlayerStatBlock.CopyValues(gameInfo.defaultStatBlock);
+        gameInfo.useCurrentPlayerStatBlock = false;
     }
 
 

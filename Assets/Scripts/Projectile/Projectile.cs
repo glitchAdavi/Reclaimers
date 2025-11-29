@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Projectile : MonoBehaviour, IUpdate, IPause
+public abstract class Projectile : MonoBehaviour, IUpdate, IPause
 {
     protected bool active = false;
 
@@ -16,6 +16,7 @@ public class Projectile : MonoBehaviour, IUpdate, IPause
     [SerializeField] protected DamageCollider _damageCollider;
 
     protected float damage;
+    protected float damageRadius;
     protected float speed;
     protected float critChance;
     protected float critMult;
@@ -23,6 +24,9 @@ public class Projectile : MonoBehaviour, IUpdate, IPause
     protected float maxDistance;
     protected float maxLifetime;
     protected float knockback;
+    protected float armingDistance;
+    protected float armingLifetime;
+    protected bool explodeImmediately;
 
     protected Color hitColor;
     protected Sprite hitSprite;
@@ -35,6 +39,7 @@ public class Projectile : MonoBehaviour, IUpdate, IPause
         GameManager.current.updateService.RegisterPause(this);
 
         _sprt = GetComponentInChildren<SpriteRenderer>();
+        _damageCollider = GetComponentInChildren<DamageCollider>();
         _damageCollider.onCollisionEnter += ManageOnCollisionEnter;
         _damageCollider.onTriggerEnter += ManageOnTriggerEnter;
 
@@ -44,7 +49,7 @@ public class Projectile : MonoBehaviour, IUpdate, IPause
         active = true;
     }
 
-    public void ExecuteUpdate()
+    public virtual void ExecuteUpdate()
     {
         if (active)
         {
@@ -97,35 +102,9 @@ public class Projectile : MonoBehaviour, IUpdate, IPause
         _sprt.transform.rotation = Quaternion.LookRotation(GameManager.current.playerCamera.transform.forward, -transform.right);
     }
 
-    public void ManageOnCollisionEnter(Collision collider)
-    {
-        if (collider.gameObject.layer == 22) //LevelCollision
-        {
-            ResetAndReturn();
-        }
-    }
+    public virtual void ManageOnCollisionEnter(Collision collider) { }
 
-    public void ManageOnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.layer == 11 && other.gameObject.name == "DamageCollider") //Enemy
-        {
-            Pawn enemyHit = GetPawnFromCollision(other);
-
-            if (penetration >= 0)
-            {
-                if (!hitEnemies.Contains(enemyHit.gameObject))
-                {
-                    hitEnemies.Add(enemyHit.gameObject);
-                    if (CheckIfCrit()) enemyHit.GetHit(damage * critMult, true, knockback * critMult, transform.forward);
-                    else enemyHit.GetHit(damage, false, knockback, transform.forward);
-                    penetration--;
-                }
-            } else
-            {
-                ResetAndReturn();
-            }
-        }
-    }
+    public virtual void ManageOnTriggerEnter(Collider other) { }
 
     public Pawn GetPawnFromCollision(Collider collider)
     {
@@ -154,6 +133,7 @@ public class Projectile : MonoBehaviour, IUpdate, IPause
     }
 
     public void ProjectileSetup(float damageVar,
+                                        float damageRadiusVar,
                                         float speedVar,
                                         float critChanceVar,
                                         float critMultiplierVar,
@@ -162,10 +142,16 @@ public class Projectile : MonoBehaviour, IUpdate, IPause
                                         float maxDistanceVar,
                                         float maxLifetimeVar,
                                         float knockbackVar,
+                                        float armingDistanceVar,
+                                        float armingLifetimeVar,
+                                        bool explodeImmediately,
+                                        Sprite projSprite,
+                                        Color projColor,
                                         Color hitColor,
                                         Sprite hitSprite = null)
     {
         damage = damageVar;
+        damageRadius = damageRadiusVar;
         speed = speedVar;
         critChance = critChanceVar;
         critMult = critMultiplierVar;
@@ -174,6 +160,12 @@ public class Projectile : MonoBehaviour, IUpdate, IPause
         maxDistance = maxDistanceVar;
         maxLifetime = maxLifetimeVar;
         knockback = knockbackVar;
+        armingDistance = armingDistanceVar;
+        armingLifetime = armingLifetimeVar;
+        this.explodeImmediately = explodeImmediately;
+
+        if (projSprite != null) _sprt.sprite = projSprite;
+        _sprt.color = projColor;
 
         this.hitColor = hitColor;
         this.hitSprite = hitSprite;

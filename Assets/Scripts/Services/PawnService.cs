@@ -130,8 +130,8 @@ public class PawnService : MonoBehaviour, IUpdate, IPause
                 spawnTimer = 0f;
                 for (int i = 0; i < spawnBatch; i++)
                 {
-                    SpawnEnemyActive();
                     if (spawnedEnemies >= maxSimultaneousEnemies) break;
+                    SpawnEnemyActive();
                 }
             }
         }

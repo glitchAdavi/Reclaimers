@@ -33,15 +33,13 @@ public abstract class LevelLogic : MonoBehaviour, IUpdate, IPause
 
     protected virtual void Win()
     {
-        GameManager.current.gameInfo.currentPlayerStatBlock.CopyValues(GameManager.current.playerPawn.statBlock);
-        GameManager.current.gameInfo.useCurrentPlayerStatBlock = true;
+        GameManager.current.SavePlayer();
         GameManager.current.uiService.FadeOut(GameManager.current.ReturnToMenu);
     }
 
     protected virtual void Lose()
     {
-        GameManager.current.gameInfo.currentPlayerStatBlock.CopyValues(GameManager.current.gameInfo.defaultStatBlock);
-        GameManager.current.gameInfo.useCurrentPlayerStatBlock = false;
+        GameManager.current.ResetPlayer();
         GameManager.current.uiService.FadeOut(GameManager.current.ReturnToMenu);
     }
 }

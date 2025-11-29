@@ -15,8 +15,7 @@ public class IA_LevelChange : InteractableArea
 
     protected override void OnFinishEffect()
     {
-        GameManager.current.gameInfo.currentPlayerStatBlock.CopyValues(GameManager.current.playerPawn.statBlock);
-        GameManager.current.gameInfo.useCurrentPlayerStatBlock = true;
+        GameManager.current.SavePlayer();
         GameManager.current.uiService.FadeOut(ChangeLevel);
     }
 }
