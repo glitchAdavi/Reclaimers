@@ -43,6 +43,8 @@ public class GameManager : MonoBehaviour
             
             DontDestroyOnLoad(this);
 
+            gameInfo.useCurrentPlayerStatBlock = false;
+
             allPlayablePawnStatBlocks = Resources.LoadAll<PawnStatBlock>("ScriptableObjects/StatBlocks/Playable");
             allPawnUpgrades = Resources.LoadAll<PawnUpgrade>("ScriptableObjects/Upgrades");
             allWeaponUpgrades = Resources.LoadAll<WeaponUpgrade>("ScriptableObjects/Upgrades");

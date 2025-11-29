@@ -118,6 +118,7 @@ public class PlayablePawn : Pawn
 
     protected override void FirstStatApplication()
     {
+        BaseStatApplication();
         base.FirstStatApplication();
         ApplyLpRegen();
         ApplyLpRegenDelay();
