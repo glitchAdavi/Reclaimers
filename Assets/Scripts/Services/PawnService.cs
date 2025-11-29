@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering;
 using static UnityEditor.PlayerSettings;
@@ -23,8 +24,8 @@ public class PawnService : MonoBehaviour, IUpdate, IPause
     [SerializeField] private Vector3 spawnPosCenter;
 
     [SerializeField] private GameObject _enemyPrefab;
-    [SerializeField] private List<Pawn> pawnsInScene = new List<Pawn>();
-    [SerializeField] private List<PlayablePawn> playablePawnsInScene = new List<PlayablePawn>();
+    [SerializeField] private ExecutableList<Pawn> pawnsInScene = new ExecutableList<Pawn>();
+    [SerializeField] private ExecutableList<PlayablePawn> playablePawnsInScene = new ExecutableList<PlayablePawn>();
 
     public List<Vector3> fixedSpawnPoints = new List<Vector3>();
     public float fixedSpawnPointRange = 10f;
@@ -53,7 +54,9 @@ public class PawnService : MonoBehaviour, IUpdate, IPause
 
         enemyBuilder = GameManager.current.CreateService<EnemyBuilder>();
         _enemyPrefab = GameManager.current.gameInfo.enemyPawnPrefab;
-        
+
+        GetAllPlayablePawnsInScene();
+        InitializeInactivePlayablePawns();
 
         GameManager.current.eventService.onEnemyDeath += OnEnemyDeath;
         GameManager.current.eventService.onPawnServiceActive += SetPawnServiceActive;
@@ -150,6 +153,7 @@ public class PawnService : MonoBehaviour, IUpdate, IPause
     public void SpawnEnemyActive()
     {
         EnemyPawn newEnemy = enemyBuilder.GetObject();
+        newEnemy.InitializeEnemyPawn(null);
         newEnemy.SetIsIdle(spawnIdle);
         newEnemy.Teleport(GameManager.current.tileService.TileToPos(GetRandomSpawnableTile()));
         pawnsInScene.Add(newEnemy);
@@ -173,18 +177,67 @@ public class PawnService : MonoBehaviour, IUpdate, IPause
         spawnedEnemies--;
     }
 
+    public void AddPlayablePawn(PlayablePawn pp)
+    {
+        playablePawnsInScene.Add(pp);
+    }
+
+    public void GetAllPlayablePawnsInScene()
+    {
+        PlayablePawn[] allPp = FindObjectsByType<PlayablePawn>(FindObjectsSortMode.None);
+        foreach (PlayablePawn pp in allPp)
+        {
+            AddPlayablePawn(pp);
+        }
+    }
+
+    public void InitializeInactivePlayablePawns()
+    {
+        if (GameManager.current.allPlayablePawnStatBlocks.Count() <= 0) return;
+
+        foreach (PlayablePawn pp in playablePawnsInScene.items)
+        {
+            if (pp.IsActivePlayer()) continue;
+            pp.SetInactivePlayer(GameManager.current.allPlayablePawnStatBlocks[Random.Range(0, GameManager.current.allPlayablePawnStatBlocks.Count())]);
+        }
+    }
+
     public PlayablePawn GetClosestPlayablePawn(Vector3 pos, float range)
     {
-        if (playablePawnsInScene.Count <= 0) return null;
+        if (playablePawnsInScene.Count < 2) return null;
 
         PlayablePawn result = null;
+        float currentResultDistance = range * 2;
 
         for (int i = 0; i < playablePawnsInScene.Count; i++)
         {
-            if (Vector3.Distance(playablePawnsInScene[i].transform.position, pos) <= range) result = playablePawnsInScene[i];
+            if (playablePawnsInScene.items[i].IsActivePlayer()) continue;
+            float currentPPDistance = Vector3.Distance(playablePawnsInScene.items[i].GetPosition(), pos);
+            if (currentPPDistance <= range)
+            {
+                if (result != null)
+                {
+                    if (currentPPDistance < currentResultDistance)
+                    {
+                        currentResultDistance = currentPPDistance;
+                        result = playablePawnsInScene.items[i];
+                    }
+                } else
+                {
+                    currentResultDistance = currentPPDistance;
+                    result = playablePawnsInScene.items[i];
+                }
+            }
         }
 
         return result;
+    }
+
+    public void SetSpawnVars(float interval, int batch, int max)
+    {
+        spawnTimerLimit = interval;
+        spawnBatch = batch;
+        maxSimultaneousEnemies = max;
     }
 
     private void OnDrawGizmos()

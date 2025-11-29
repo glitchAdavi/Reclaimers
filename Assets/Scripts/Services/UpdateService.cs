@@ -27,6 +27,11 @@ public class UpdateService : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        elUpdatesCount = elUpdates.Count;
+        elFixedUpdatesCount = elFixedUpdates.Count;
+        elLateUpdatesCount = elLateUpdates.Count;
+        elPausesCount = elPauses.Count;
+
         isGamePausedInspector = isGamePaused;
 
         if (triggerPauseChange == true)
@@ -59,28 +64,24 @@ public class UpdateService : MonoBehaviour
     public void RegisterUpdate(IUpdate u, Action callback = null)
     {
         elUpdates.Add(u);
-        elUpdatesCount++;
         if (callback != null) callback();
     }
 
     public void RegisterFixedUpdate(IFixedUpdate fu, Action callback = null)
     {
         elFixedUpdates.Add(fu);
-        elFixedUpdatesCount++;
         if (callback != null) callback();
     }
 
     public void RegisterLateUpdate(ILateUpdate lu, Action callback = null)
     {
         elLateUpdates.Add(lu);
-        elLateUpdatesCount++;
         if (callback != null) callback();
     }
 
     public void RegisterPause(IPause p, Action callback = null)
     {
         elPauses.Add(p);
-        elPausesCount++;
         if (callback != null) callback();
     }
 
@@ -88,28 +89,24 @@ public class UpdateService : MonoBehaviour
     public void UnregisterUpdate(IUpdate u, Action callback = null)
     {
         elUpdates.Remove(u);
-        elUpdatesCount--;
         if (callback != null) callback();
     }
 
     public void UnregisterFixedUpdate(IFixedUpdate fu, Action callback = null)
     {
         elFixedUpdates.Remove(fu);
-        elFixedUpdatesCount--;
         if (callback != null) callback();
     }
 
     public void UnregisterLateUpdate(ILateUpdate lu, Action callback = null)
     {
         elLateUpdates.Remove(lu);
-        elLateUpdatesCount--;
         if (callback != null) callback();
     }
 
     public void UnregisterPause(IPause p, Action callback = null)
     {
         elPauses.Remove(p);
-        elPausesCount--;
         if (callback != null) callback();
     }
     #endregion

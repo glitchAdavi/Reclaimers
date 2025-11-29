@@ -6,6 +6,9 @@ public class PawnStatBlock : ScriptableObject
     public string pawnName = "John Doe";
     public WeaponStatBlock equippedWeapon;
 
+    public Sprite pawnSprite;
+    public Color pawnSpriteColor;
+
     public Stat scale = new Stat(1f, 0f, 1f);
 
     public Stat materials = new Stat(0f, 0f, 1f);
@@ -47,6 +50,9 @@ public class PawnStatBlock : ScriptableObject
     {
         pawnName = psb.pawnName;
         equippedWeapon = psb.equippedWeapon;
+
+        pawnSprite = psb.pawnSprite;
+        pawnSpriteColor = psb.pawnSpriteColor;
 
         scale.SetValues(psb.scale);
 

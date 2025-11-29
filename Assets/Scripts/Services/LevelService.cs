@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,8 +36,13 @@ public class LevelService : MonoBehaviour
     }
 
     #region LevelLogic
+
+
     public void StartLevel()
     {
+        GameManager.current.eventService.RequestEnableControlAll(true);
+        GameManager.current.eventService.RequestEnableControlPlayer(true);
+
         if (currentLevelLogic == null)
         {
             Debug.Log("Missing Level Logic");
@@ -116,9 +122,14 @@ public class LevelService : MonoBehaviour
             {
                 if (result != null)
                 {
-                    if (currentIODistance < currentResultDistance) result = allInteractableObjects.items[i];
+                    if (currentIODistance < currentResultDistance)
+                    {
+                        currentResultDistance = currentIODistance;
+                        result = allInteractableObjects.items[i];
+                    }
                 } else
                 {
+                    currentResultDistance = currentIODistance;
                     result = allInteractableObjects.items[i];
                 }
             }
@@ -142,7 +153,7 @@ public class LevelService : MonoBehaviour
 
     public void SpawnPawnUpgrade(Vector3 pos)
     {
-        int r = Random.Range(0, GameManager.current.allPawnUpgrades.Count());
+        int r = UnityEngine.Random.Range(0, GameManager.current.allPawnUpgrades.Count());
         PawnUpgrade chosen = GameManager.current.allPawnUpgrades[r];
         IO_PawnUpgradePickup pUpgrade = Instantiate(GameManager.current.gameInfo.pawnUpgradePrefab, pos, Quaternion.identity).GetComponent<IO_PawnUpgradePickup>();
         pUpgrade.SetUpgrade(chosen);
@@ -150,7 +161,7 @@ public class LevelService : MonoBehaviour
 
     public void SpawnWeaponUpgrade(Vector3 pos)
     {
-        int r = Random.Range(0, GameManager.current.allWeaponUpgrades.Count());
+        int r = UnityEngine.Random.Range(0, GameManager.current.allWeaponUpgrades.Count());
         WeaponUpgrade chosen = GameManager.current.allWeaponUpgrades[r];
         IO_WeaponUpgradePickup wUpgrade = Instantiate(GameManager.current.gameInfo.weaponUpgradePrefab, pos, Quaternion.identity).GetComponent<IO_WeaponUpgradePickup>();
         wUpgrade.SetUpgrade(chosen);
@@ -158,7 +169,7 @@ public class LevelService : MonoBehaviour
 
     public void SpawnRandomUpgrade(Vector3 pos)
     {
-        if (Random.Range(0, 100) < 50)
+        if (UnityEngine.Random.Range(0, 100) < 50)
         {
             SpawnPawnUpgrade(pos);
         } else

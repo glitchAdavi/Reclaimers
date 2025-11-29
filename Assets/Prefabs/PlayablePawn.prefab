@@ -428,7 +428,7 @@ MonoBehaviour:
   destroyBlockOnDisable: 1
   _nav: {fileID: 2363863945120162865}
   _rb: {fileID: 9000899372189269127}
-  _sprite: {fileID: 7644415007905380275}
+  _sr: {fileID: 1908634240989415593}
   _damageCollider: {fileID: 1669316926837647765}
   maxLifepoints: 1
   lifepoints: 1
@@ -449,8 +449,14 @@ MonoBehaviour:
   xpGain: 0
   level: 0
   xpKillValue: 0
+  materials: 0
+  materialGain: 0
+  isActivePlayer: 0
   equippedWeapon: {fileID: 0}
   levelThreshold: 5
+  closestInteractable: {fileID: 0}
+  currentArea: {fileID: 0}
+  closestPlayablePawn: {fileID: 0}
 --- !u!33 &7317201212554349575
 MeshFilter:
   m_ObjectHideFlags: 0

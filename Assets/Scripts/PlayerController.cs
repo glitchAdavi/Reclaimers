@@ -6,20 +6,26 @@ public class PlayerController : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdat
 {
     [SerializeField] PlayablePawn playerPawn;
 
-    [SerializeField] bool canControl = true;
+    [SerializeField] bool controlEnabledAll = true;
+    [SerializeField] bool controlEnabledPlayer = true;
     [SerializeField] bool isPaused = false;
 
     private void Awake()
     {
         GameManager.current.updateService.RegisterUpdate(this);
         GameManager.current.updateService.RegisterPause(this);
+
+        GameManager.current.eventService.onRequestEnableControlAll += (x) => controlEnabledAll = x;
+        GameManager.current.eventService.onRequestEnableControlPlayer += (x) => controlEnabledPlayer = x;
     }
 
     public void ExecuteUpdate()
     {
+        if (!controlEnabledAll) return;
+
         if (Input.GetKeyDown(KeyCode.Escape)) ControllerEscape();
 
-        if (!canControl || isPaused) return;
+        if (!controlEnabledPlayer || isPaused) return;
 
         ControllerMove();
 
@@ -42,13 +48,13 @@ public class PlayerController : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdat
 
     public void ExecuteFixedUpdate()
     {
-        if (!canControl || isPaused) return;
+        if (!controlEnabledPlayer || isPaused) return;
 
     }
 
     public void ExecuteLateUpdate()
     {
-        if (!canControl || isPaused) return;
+        if (!controlEnabledPlayer || isPaused) return;
 
     }
 

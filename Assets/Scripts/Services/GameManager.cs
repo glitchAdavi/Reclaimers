@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
     public ProjectileBuilder projectileBuilder;
 
 
-
+    public PawnStatBlock[] allPlayablePawnStatBlocks;
     public PawnUpgrade[] allPawnUpgrades;
     public WeaponUpgrade[] allWeaponUpgrades;
     public WeaponStatBlock[] allWeapons;
@@ -43,6 +43,7 @@ public class GameManager : MonoBehaviour
             
             DontDestroyOnLoad(this);
 
+            allPlayablePawnStatBlocks = Resources.LoadAll<PawnStatBlock>("ScriptableObjects/StatBlocks/Playable");
             allPawnUpgrades = Resources.LoadAll<PawnUpgrade>("ScriptableObjects/Upgrades");
             allWeaponUpgrades = Resources.LoadAll<WeaponUpgrade>("ScriptableObjects/Upgrades");
             allWeapons = Resources.LoadAll<WeaponStatBlock>("ScriptableObjects/StatBlocks/Weapons");
@@ -76,7 +77,7 @@ public class GameManager : MonoBehaviour
 
 
         // Start level after everything else is assigned
-        levelService.StartLevel();
+        uiService.FadeIn(levelService.StartLevel);
     }
 
     private void OnSceneUnloaded(Scene current)
@@ -98,8 +99,14 @@ public class GameManager : MonoBehaviour
 
     private PlayablePawn InstantiatePlayer()
     {
-        PlayablePawn newPawn = Instantiate(gameInfo.playablePawnPrefab, new Vector3(0, 0, 0), Quaternion.identity)
+        PlayablePawn newPawn = Instantiate(gameInfo.playablePawnPrefab, new Vector3(0, 0.5633f, 0), Quaternion.identity)
                               .GetComponent<PlayablePawn>();
+
+        if (gameInfo.useCurrentPlayerStatBlock) newPawn.SetActivePlayer(gameInfo.currentPlayerStatBlock);
+        else newPawn.SetActivePlayer(null);
+        gameInfo.playerPositionVar.SetValue(newPawn.GetPosition());
+        pawnService.AddPlayablePawn(newPawn);
+
         playerController?.AssignPlayerPawn(newPawn);
         return newPawn;
     }
@@ -120,12 +127,26 @@ public class GameManager : MonoBehaviour
 
 
 
+    public void SetNewActivePlayer(PlayablePawn newPlayer)
+    {
+        Debug.Log($"{newPlayer}");
+        PlayablePawn playerToInactivate = playerPawn;
+        newPlayer.SetActivePlayer();
+        playerController?.AssignPlayerPawn(newPlayer);
+        playerPawn = newPlayer;
+        playerToInactivate.SetInactivePlayer();
+    }
+
 
     public void GoToLevel(int scenIndex)
     {
         SceneManager.LoadScene(scenIndex);
     }
 
+    public void ReturnToMenu()
+    {
+        GoToLevel(0);
+    }
 
     public void QuitGame()
     {

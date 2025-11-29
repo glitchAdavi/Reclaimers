@@ -5,13 +5,13 @@ using UnityEngine.AI;
 
 public abstract class Pawn : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdate, IPause
 {
-    public PawnStatBlock defaultStatBlock;
+    public PawnStatBlock baseStatBlock;
     public PawnStatBlock statBlock;
     [SerializeField] bool destroyBlockOnDisable = true;
 
     [SerializeField] protected NavMeshAgent _nav;
     [SerializeField] protected Rigidbody _rb;
-    [SerializeField] protected GameObject _sprite;
+    [SerializeField] protected SpriteRenderer _sr;
     [SerializeField] protected DamageCollider _damageCollider;
 
     [SerializeField] protected float maxLifepoints = 1f;
@@ -56,14 +56,7 @@ public abstract class Pawn : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdate, 
     protected virtual void OnEnable()
     {
         _nav.updateRotation = false;
-        _rb.isKinematic = true;
-
-        // eventually replace with player saved statblock
-        if (defaultStatBlock == null) defaultStatBlock = GameManager.current.gameInfo.defaultStatBlock;
-        statBlock = ScriptableObject.CreateInstance<PawnStatBlock>();
-        statBlock.CopyValues(defaultStatBlock);
-
-        
+        _rb.isKinematic = true;        
     }
 
     #region InterfaceUpdates

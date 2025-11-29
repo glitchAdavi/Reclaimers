@@ -2,9 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.UIElements.UxmlAttributeDescription;
 
 public class PlayablePawn : Pawn
 {
+    [SerializeField] protected bool isActivePlayer;
+
     public Weapon equippedWeapon;
 
     public Dictionary<string, int> appliedUpgrades = new Dictionary<string, int>();
@@ -18,17 +21,57 @@ public class PlayablePawn : Pawn
     public InteractableObject closestInteractable;
     public InteractableArea currentArea;
     public PlayablePawn closestPlayablePawn;
+    public PlayablePawn changeToPawn;
     Timer timerClosestInteractable;
+    Timer timerClosestPlayablePawn;
+
+
+    float useThreshold = 1f;
+    float useTimer = 0f;
 
 
     protected override void OnEnable()
     {
         base.OnEnable();
+    }
+
+    protected void InitializeInactivePlayer(PawnStatBlock pawnStatBlock = null)
+    {
+        timerClosestInteractable?.Cancel();
+        timerClosestPlayablePawn?.Cancel();
+
+        if (pawnStatBlock != null) baseStatBlock = pawnStatBlock;
+        else if (baseStatBlock == null) baseStatBlock = GameManager.current.gameInfo.defaultStatBlock;
+
+        statBlock = ScriptableObject.CreateInstance<PawnStatBlock>();
+        statBlock.CopyValues(baseStatBlock);
+
+        BaseStatApplication();
+
+        Destroy(equippedWeapon);
+
+        GameManager.current.eventService.onGivePlayerXp -= GainXp;
+        GameManager.current.eventService.onGivePlayerLevel -= GainLevel;
+        GameManager.current.eventService.onGivePlayerMaterial -= GainMaterials;
+
+        GameManager.current.updateService.RegisterUpdate(this);
+        GameManager.current.updateService.RegisterPause(this);
+
+        changeToPawn = null;
+    }
+
+    protected void InitializeActivePlayer(PawnStatBlock currentPlayerStatBlock = null)
+    {
+        if (currentPlayerStatBlock != null) baseStatBlock = GameManager.current.gameInfo.currentPlayerStatBlock;
+        else if (baseStatBlock == null) baseStatBlock = GameManager.current.gameInfo.defaultStatBlock;
+
+        statBlock = ScriptableObject.CreateInstance<PawnStatBlock>();
+        statBlock.CopyValues(baseStatBlock);
 
         FirstStatApplication();
 
         ApplyWeapon();
-
+        
         GameManager.current.updateService.RegisterUpdate(this);
         GameManager.current.updateService.RegisterPause(this);
 
@@ -37,8 +80,9 @@ public class PlayablePawn : Pawn
         GameManager.current.eventService.onGivePlayerMaterial += GainMaterials;
 
         timerClosestInteractable = GameManager.current.timerService.StartTimer(3600f, null, 0.2f, FindClosestInteractable);
+        if (level < 1) timerClosestPlayablePawn = GameManager.current.timerService.StartTimer(3600f, null, 0.2f, FindClosestPlayablePawn);
 
-        //GameManager.current.timerService.StartTimer(5f, () => Debug.Log("FINAL"), 1f, () => Debug.Log("PARTIAL"));
+        changeToPawn = null;
     }
 
     protected override void PawnUpdate()
@@ -50,7 +94,8 @@ public class PlayablePawn : Pawn
     {
         base.PawnPause();
 
-        timerClosestInteractable.Pause(isPaused);
+        timerClosestInteractable?.Pause(isPaused);
+        timerClosestPlayablePawn?.Pause(isPaused);
 
         // necessary or else pawn drifts for a moment if moving while pausing
         _nav.velocity = Vector3.zero;
@@ -63,6 +108,12 @@ public class PlayablePawn : Pawn
     {
         GameManager.current.updateService.UnregisterUpdate(this);
         GameManager.current.updateService.UnregisterPause(this);
+    }
+
+    protected void BaseStatApplication()
+    {
+        if (statBlock.pawnSprite != null) _sr.sprite = statBlock.pawnSprite;
+        _sr.color = statBlock.pawnSpriteColor;
     }
 
     protected override void FirstStatApplication()
@@ -95,20 +146,6 @@ public class PlayablePawn : Pawn
         Vector3 moveDest = transform.position + (movement / 2);
 
         _nav.destination = moveDest;
-
-        //GameManager.current.gameInfo.playerPositionVar.SetValue(new Vector3(transform.position.x, transform.position.z * 0.7f, 0));
-    }
-
-    public void Interact()
-    {
-        closestInteractable?.Use();
-        currentArea?.Use();
-    }
-
-    public void InteractReset()
-    {
-        closestInteractable?.UseReset();
-        currentArea?.UseReset();
     }
 
     public override void GetHit(float damage, bool isCrit, float knockback = 0, Vector3? knockbackPush = null)
@@ -239,6 +276,27 @@ public class PlayablePawn : Pawn
 
     #endregion
 
+    #region Interaction
+    public void Interact()
+    {
+        timerClosestInteractable.Pause(true);
+        timerClosestPlayablePawn.Pause(true);
+
+        closestInteractable?.Use();
+        closestPlayablePawn?.Use();
+        currentArea?.Use();
+    }
+
+    public void InteractReset()
+    {
+        timerClosestInteractable.Pause(false);
+        timerClosestPlayablePawn.Pause(false);
+
+        closestInteractable?.UseReset();
+        closestPlayablePawn?.UseReset();
+        currentArea?.UseReset();
+    }
+
     public void FindClosestInteractable()
     {
         if (GameManager.current.levelService.IsPlayerInsideAnInteractableArea()) return;
@@ -250,5 +308,60 @@ public class PlayablePawn : Pawn
             intText = closestInteractable.IOVerb + closestInteractable.IOName;
             GameManager.current.eventService.RequestUIUpdateInteractText(intText, true);
         } else GameManager.current.eventService.RequestUIUpdateInteractText("", false);
+    }
+
+    public void FindClosestPlayablePawn()
+    {
+        string intText = "";
+        closestPlayablePawn = GameManager.current.pawnService.GetClosestPlayablePawn(transform.position, interactionRange);
+        if (closestPlayablePawn != null)
+        {
+            intText = $"Change to {closestPlayablePawn.statBlock.pawnName}";
+            GameManager.current.eventService.RequestUIUpdateInteractText(intText, true);
+        } else GameManager.current.eventService.RequestUIUpdateInteractText("", false);
+    }
+
+    public virtual void Use()
+    {
+        useTimer += Time.deltaTime;
+        GameManager.current.eventService.RequestUIUpdateInteractFill(useTimer, useThreshold, true);
+        if (useTimer >= useThreshold) OnFinish();
+    }
+
+    public virtual void UseReset()
+    {
+        useTimer = 0;
+        GameManager.current.eventService.RequestUIUpdateInteractFill(0f, 0f, false);
+    }
+
+    protected virtual void OnFinish()
+    {
+        GameManager.current.eventService.RequestUIUpdateInteractFill(0f, 0f, false);
+        GameManager.current.eventService.RequestUIUpdateInteractText("", false);
+        useTimer = 0;
+        OnFinishEffect();
+    }
+
+    protected virtual void OnFinishEffect()
+    {
+        GameManager.current.SetNewActivePlayer(this);
+    }
+    #endregion
+
+    public void SetInactivePlayer(PawnStatBlock pawnStatBlock = null)
+    {
+        isActivePlayer = false;
+        InitializeInactivePlayer(pawnStatBlock);
+    }
+
+    public void SetActivePlayer(PawnStatBlock currentPlayerStatBlock = null)
+    {
+        isActivePlayer = true;
+        InitializeActivePlayer(currentPlayerStatBlock);
+    }
+
+    public bool IsActivePlayer()
+    {
+        return isActivePlayer;
     }
 }

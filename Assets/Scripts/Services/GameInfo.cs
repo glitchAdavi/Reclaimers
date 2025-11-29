@@ -4,6 +4,7 @@ using UnityEngine;
 public class GameInfo : ScriptableObject
 {
     //---VARIABLES---
+    public bool useCurrentPlayerStatBlock;
     public Vector3Variable playerPositionVar;
     public Vector3Variable alternativePositionVar;
 

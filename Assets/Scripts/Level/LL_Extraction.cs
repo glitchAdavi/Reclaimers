@@ -50,8 +50,8 @@ public class LL_Extraction : LevelLogic
     {
         setupStage1 = true;
 
-        GameManager.current.eventService.SetPawnServiceIdle(true);
         GameManager.current.eventService.SetPawnServiceActive(true);
+        GameManager.current.eventService.SetPawnServiceIdle(true);
     }
 
     public void Stage1()
@@ -76,6 +76,7 @@ public class LL_Extraction : LevelLogic
         setupStage2 = true;
 
         GameManager.current.eventService.SetPawnServiceIdle(false);
+        GameManager.current.eventService.SetPawnServiceAlert(true);
     }
 
     public void Stage2()
@@ -99,7 +100,7 @@ public class LL_Extraction : LevelLogic
 
     protected override void Win()
     {
-        GameManager.current.gameInfo.currentPlayerStatBlock.CopyValues(GameManager.current.playerPawn.statBlock);
+        
 
 
 
@@ -108,7 +109,7 @@ public class LL_Extraction : LevelLogic
 
     protected override void Lose()
     {
-        GameManager.current.gameInfo.currentPlayerStatBlock.CopyValues(GameManager.current.gameInfo.defaultStatBlock);
+        
 
 
 

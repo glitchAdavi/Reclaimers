@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8049b2b7ff881c14fb97e71d0a471463, type: 3}
-  m_Name: DefaultStatBlock
+  m_Name: Test1
   m_EditorClassIdentifier: 
-  pawnName: John Doe
+  pawnName: Test1
   equippedWeapon: {fileID: 11400000, guid: d375fb4bf91084a419c66e0b6417ed0f, type: 2}
   pawnSprite: {fileID: 0}
-  pawnSpriteColor: {r: 1, g: 1, b: 1, a: 1}
+  pawnSpriteColor: {r: 0, g: 0.41860485, b: 1, a: 1}
   scale:
     baseVal: 1
     addVal: 0

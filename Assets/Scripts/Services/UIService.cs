@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,8 @@ using UnityEngine.InputSystem.LowLevel;
 public class UIService : MonoBehaviour
 {
     public FloatingTextBuilder floatingTextBuilder;
+
+    public Image fade;
 
     public GameObject mainMenu;
     public GameObject pauseMenu;
@@ -24,6 +27,11 @@ public class UIService : MonoBehaviour
 
     public TMP_Text uiWeaponAmmo;
     public Slider uiWeaponReloadTimer;
+
+
+
+    Timer timerFadeIn;
+    Timer timerFadeOut;
 
 
     private void OnEnable()
@@ -117,5 +125,37 @@ public class UIService : MonoBehaviour
         newFloatingText.transform.position = new Vector3(pos.x, 1f, pos.z);
         newFloatingText.Init(text, c, driftRange, duration);
 
+    }
+
+
+
+
+
+
+    public void FadeIn(Action callback)
+    {
+        GameManager.current.eventService.RequestEnableControlAll(false);
+        GameManager.current.eventService.RequestEnableControlPlayer(false);
+
+        timerFadeIn = GameManager.current.timerService.StartTimer(1f, callback, 0.01f, () => {
+            Color temp = fade.color;
+            temp.a -= 0.01f;
+            fade.color = temp;
+            if (temp.a <= 0.01f) fade.enabled = false;
+        });
+    }
+
+    public void FadeOut(Action callback)
+    {
+        GameManager.current.eventService.RequestEnableControlAll(false);
+        GameManager.current.eventService.RequestEnableControlPlayer(false);
+
+        fade.enabled = true;
+
+        timerFadeOut = GameManager.current.timerService.StartTimer(1f, callback, 0.01f, () => {
+            Color temp = fade.color;
+            temp.a += 0.01f;
+            fade.color = temp;
+        });
     }
 }

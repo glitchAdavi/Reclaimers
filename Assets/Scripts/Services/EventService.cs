@@ -72,6 +72,18 @@ public class EventService : MonoBehaviour
 
     #endregion
 
+    #region Control
+    public event Action<bool> onRequestEnableControlAll;
+    public void RequestEnableControlAll(bool enable) => onRequestEnableControlAll?.Invoke(enable);
+
+    public event Action<bool> onRequestEnableControlPlayer;
+    public void RequestEnableControlPlayer(bool enable) => onRequestEnableControlPlayer?.Invoke(enable);
+
+
+
+    #endregion
+
+
     #region XP
     public event Action<Vector3, float> onSpawnXp;
     public void SpawnXp(Vector3 pos, float v) => onSpawnXp?.Invoke(pos, v);
@@ -115,7 +127,7 @@ public class EventService : MonoBehaviour
     public void SetPawnServiceIdle(bool spawnIdle) => onPawnServiceSpawnIdle?.Invoke(spawnIdle);
 
     public event Action<bool> onPawnServiceSpawnAlert;
-    public void SetSpawnServiceAlert(bool spawnAlert) => onPawnServiceSpawnAlert?.Invoke(spawnAlert); 
+    public void SetPawnServiceAlert(bool spawnAlert) => onPawnServiceSpawnAlert?.Invoke(spawnAlert); 
 
     public event Action<EnemyPawn> onEnemyDeath;
     public void EnemyDeath(EnemyPawn ep) => onEnemyDeath?.Invoke(ep);

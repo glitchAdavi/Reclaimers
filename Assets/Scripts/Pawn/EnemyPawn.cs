@@ -22,6 +22,15 @@ public class EnemyPawn : Pawn
     {
         base.OnEnable();
 
+    }
+
+    public void InitializeEnemyPawn(PawnStatBlock pawnStatBlock)
+    {
+        if (pawnStatBlock != null) baseStatBlock = pawnStatBlock;
+        else baseStatBlock = GameManager.current.gameInfo.enemy1StatBlock;
+        statBlock = ScriptableObject.CreateInstance<PawnStatBlock>();
+        statBlock.CopyValues(baseStatBlock);
+
         FirstStatApplication();
 
         GameManager.current.updateService.RegisterUpdate(this);
