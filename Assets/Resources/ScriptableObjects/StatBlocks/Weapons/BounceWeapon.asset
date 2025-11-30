@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c22bd9ed10cd9454989a0b57bea33825, type: 3}
-  m_Name: StartingPistol
+  m_Name: BounceWeapon
   m_EditorClassIdentifier: 
-  weaponName: Glock
+  weaponName: BounceWeapon
   weaponType: WepProjectile
   weaponSprite: {fileID: 0}
   weaponSpriteColor: {r: 1, g: 1, b: 1, a: 1}

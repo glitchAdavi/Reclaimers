@@ -1,4 +1,3 @@
-using UnityEditor.Rendering;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "WeaponStatBlock", menuName = "Stat Block/WeaponStatBlock")]

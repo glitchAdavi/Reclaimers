@@ -7,13 +7,13 @@ public class IO_WeaponPickup : InteractableObject
     [SerializeField] protected WeaponStatBlock stats;
 
 
-
     public override void Start()
     {
         base.Start();
 
         IOVerb = "Switch to ";
-        useThreshold = 0.3f;
+        IOName = stats.weaponName;
+        useThreshold = 1f;
     }
 
     protected override void OnFinishEffect()

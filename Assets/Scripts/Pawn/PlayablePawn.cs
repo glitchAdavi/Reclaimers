@@ -334,7 +334,8 @@ public class PlayablePawn : Pawn
         {
             intText = closestInteractable.IOVerb + closestInteractable.IOName;
             GameManager.current.eventService.RequestUIUpdateInteractText(intText, true);
-        } else GameManager.current.eventService.RequestUIUpdateInteractText("", false);
+        }
+        else if (closestPlayablePawn == null) GameManager.current.eventService.RequestUIUpdateInteractText("", false);
     }
 
     public void FindClosestPlayablePawn()
@@ -345,7 +346,8 @@ public class PlayablePawn : Pawn
         {
             intText = $"Change to {closestPlayablePawn.statBlock.pawnName}";
             GameManager.current.eventService.RequestUIUpdateInteractText(intText, true);
-        } else GameManager.current.eventService.RequestUIUpdateInteractText("", false);
+        }
+        else if (currentArea == null && closestInteractable == null) GameManager.current.eventService.RequestUIUpdateInteractText("", false);
     }
 
     public virtual void Use()
