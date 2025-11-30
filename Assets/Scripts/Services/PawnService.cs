@@ -151,7 +151,6 @@ public class PawnService : MonoBehaviour, IUpdate, IPause
         newEnemy.SetIsIdle(true);
         newEnemy.Teleport(GetRandomPosInRadius(spawnPoint, fixedSpawnPointRange));
         pawnsInScene.Add(newEnemy);
-        spawnedEnemies++;
     }
 
     public void SpawnEnemyActive()
