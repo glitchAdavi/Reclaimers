@@ -19,10 +19,10 @@ public class WepProjectile : Weapon
 
             tempForward = info.point - GameManager.current.gameInfo.playerPositionVar.Value;
 
-            GameObject newBullet = GameManager.current.projectileBuilder.GetObject().gameObject;
+            Projectile newBullet = GameManager.current.projectileBuilder.GetObject();
             newBullet.transform.position = GameManager.current.gameInfo.playerPositionVar.Value;
-
             newBullet.transform.forward = tempForward;
+
             if (bulletSpreadMax > 0 && bulletSpread > 0)
             {
                 newBullet.transform.Rotate(Vector3.up, Random.Range(-bulletSpread / 2, bulletSpread / 2));
@@ -57,7 +57,7 @@ public class WepProjectile : Weapon
             newBullet.transform.Rotate(Vector3.up, Random.Range(-bulletPerShotSpread / 2, bulletPerShotSpread / 2));
             newBullet.transform.GetComponent<Projectile>().ProjectileSetup(statBlock.projDamage.Value(),
                                                                            statBlock.projDamageRadius.Value(),
-                                                                           statBlock.projSpeed.Value(),
+                                                                           RandomSpeedMod(statBlock.projSpeed.Value()),
                                                                            statBlock.projCritChance.Value(),
                                                                            statBlock.projCritMultiplier.Value(),
                                                                            statBlock.projPenetration.ValueInt(),
@@ -75,5 +75,10 @@ public class WepProjectile : Weapon
 
             bulletsLeft--;
         }
+    }
+
+    public float RandomSpeedMod(float speed)
+    {
+        return speed * Random.Range(0.95f, 1.05f);
     }
 }

@@ -28,7 +28,7 @@ public class PawnService : MonoBehaviour, IUpdate, IPause
     [SerializeField] private ExecutableList<PlayablePawn> playablePawnsInScene = new ExecutableList<PlayablePawn>();
 
     public List<Vector3> fixedSpawnPoints = new List<Vector3>();
-    public float fixedSpawnPointRange = 10f;
+    public float fixedSpawnPointRange = 20f;
     public Vector3 fixedSpawnPoint = new Vector3(10f, 0f, 10f);
 
     private List<Vector3Int> spawnableTiles = new List<Vector3Int>();
@@ -57,6 +57,12 @@ public class PawnService : MonoBehaviour, IUpdate, IPause
 
         GetAllPlayablePawnsInScene();
         InitializeInactivePlayablePawns();
+
+        Transform[] allFixedSpawnPoints = GameObject.Find("FixedPointSpawns").GetComponentsInChildren<Transform>();
+        foreach (Transform t in allFixedSpawnPoints)
+        {
+            fixedSpawnPoints.Add(t.position);
+        }
 
         GameManager.current.eventService.onEnemyDeath += OnEnemyDeath;
         GameManager.current.eventService.onPawnServiceActive += SetPawnServiceActive;
@@ -112,13 +118,14 @@ public class PawnService : MonoBehaviour, IUpdate, IPause
 
         if (spawnIdle)
         {
-            //SpawnEnemyIdle();
-
             for (int i = 0; i < fixedSpawnPoints.Count; i++)
             {
-                SpawnEnemyIdle();
+                for (int j = 0; j < 10; j++)
+                {
+                    SpawnEnemyIdle(fixedSpawnPoints[i]);
+                }
             }
-
+            spawnIdle = false;
         } 
 
         if (spawnAlert)
@@ -137,24 +144,21 @@ public class PawnService : MonoBehaviour, IUpdate, IPause
         }
     }
 
-    public void SpawnEnemyIdle()
+    public void SpawnEnemyIdle(Vector3 spawnPoint)
     {
-        Debug.Log("Spawn Idle");
-
-
-
-        /*EnemyPawn newEnemy = enemyBuilder.GetObject();
-        newEnemy.SetIsIdle(spawnEnemiesIdle);
-        newEnemy.Teleport(fixedSpawnPoint);
+        EnemyPawn newEnemy = enemyBuilder.GetObject();
+        newEnemy.InitializeEnemyPawn(null);
+        newEnemy.SetIsIdle(true);
+        newEnemy.Teleport(GetRandomPosInRadius(spawnPoint, fixedSpawnPointRange));
         pawnsInScene.Add(newEnemy);
-        spawnedEnemies++;*/
+        spawnedEnemies++;
     }
 
     public void SpawnEnemyActive()
     {
         EnemyPawn newEnemy = enemyBuilder.GetObject();
         newEnemy.InitializeEnemyPawn(null);
-        newEnemy.SetIsIdle(spawnIdle);
+        newEnemy.SetIsIdle(false);
         newEnemy.Teleport(GameManager.current.tileService.TileToPos(GetRandomSpawnableTile()));
         pawnsInScene.Add(newEnemy);
         spawnedEnemies++;
@@ -231,6 +235,21 @@ public class PawnService : MonoBehaviour, IUpdate, IPause
         }
 
         return result;
+    }
+
+    private Vector3 GetRandomPosInRadius(Vector3 pos, float radius)
+    {
+        Vector3 randomPos = new Vector3(0f, -100f, 0f);
+
+        while (!GameManager.current.tileService.SamplePosition(randomPos))
+        {
+            randomPos = new Vector3(Random.Range(-radius / 2, radius / 2),
+                                        0f,
+                                        Random.Range(-radius / 2, radius / 2));
+            randomPos += pos;
+        }
+
+        return randomPos;
     }
 
     public void SetSpawnVars(float interval, int batch, int max)

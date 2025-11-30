@@ -87,6 +87,8 @@ public abstract class Projectile : MonoBehaviour, IUpdate, IPause
         transform.position += transform.forward * speed * Time.deltaTime;
         transform.position = new Vector3(transform.position.x, 0.25f, transform.position.z);
 
+        if (!GameManager.current.tileService.IsPositionInsidePlayableArea(transform.position)) ResetAndReturn();
+
         if (useDistance) currentDistance += speed * Time.deltaTime;
         else currentLifetime += Time.deltaTime;
     }
@@ -111,7 +113,7 @@ public abstract class Projectile : MonoBehaviour, IUpdate, IPause
         return collider.gameObject.transform.parent.GetComponentInChildren<Pawn>();
     }
 
-    protected void ResetAndReturn()
+    protected virtual void ResetAndReturn()
     {
         active = false;
         hitEnemies.Clear();

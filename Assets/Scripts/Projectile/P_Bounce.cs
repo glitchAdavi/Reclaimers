@@ -6,6 +6,12 @@ public class P_Bounce : Projectile
 {
     public GameObject lastHit = null;
 
+    protected override void ResetAndReturn()
+    {
+        lastHit = null;
+        base.ResetAndReturn();
+    }
+
     public override void ManageOnCollisionEnter(Collision collider)
     {
         if (collider.gameObject.layer == 22) //LevelCollision
@@ -14,14 +20,14 @@ public class P_Bounce : Projectile
 
             if (currentPenetration > 0)
             {
-                if (!lastHit.Equals(hit))
+                if (lastHit == null || !lastHit.Equals(hit))
                 {
                     lastHit = hit;
-
+                    
                     currentDistance = 0f;
                     currentLifetime = 0f;
 
-                    if (Physics.Raycast(transform.position - transform.forward.normalized, transform.forward.normalized, out RaycastHit info, 10f, 1 << 22))
+                    if (Physics.Raycast(transform.position - (transform.forward.normalized * 3), transform.forward.normalized, out RaycastHit info, 10f, 1 << 22))
                     {
                         Vector3 newForward = Vector3.Reflect(transform.forward.normalized, info.normal);
                         transform.forward = new Vector3(newForward.x, transform.forward.y, newForward.z);
@@ -45,7 +51,7 @@ public class P_Bounce : Projectile
 
             if (currentPenetration > 0)
             {
-                if (!lastHit.Equals(enemyHit.gameObject))
+                if (lastHit == null || !lastHit.Equals(enemyHit.gameObject))
                 {
                     lastHit = enemyHit.gameObject;
 

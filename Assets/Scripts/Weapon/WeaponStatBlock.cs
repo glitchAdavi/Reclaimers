@@ -18,6 +18,8 @@ public class WeaponStatBlock : ScriptableObject
 
     public GameObject projectilePrefab;
 
+    public Stat projScale = new Stat(1f, 0f, 1f);
+
     public bool automatic = false;
 
     public Stat clipSize = new Stat(1f, 0f, 1f);
@@ -63,6 +65,8 @@ public class WeaponStatBlock : ScriptableObject
         hitSpriteColor = wsb.hitSpriteColor;
 
         projectilePrefab = wsb.projectilePrefab;
+
+        projScale.SetValues(wsb.projScale);
 
         automatic = wsb.automatic;
 

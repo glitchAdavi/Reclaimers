@@ -20,7 +20,11 @@ MonoBehaviour:
   projectileSpriteColor: {r: 1, g: 1, b: 1, a: 1}
   hitSprite: {fileID: 0}
   hitSpriteColor: {r: 1, g: 1, b: 1, a: 1}
-  projectilePrefab: {fileID: 7636891095021424926, guid: d9d59cb07784c72469b18becdb6adb65, type: 3}
+  projectilePrefab: {fileID: 7636891095021424926, guid: 74fc1500fe6d46f4982574af2a0b27f5, type: 3}
+  projScale:
+    baseVal: 0.2
+    addVal: 0
+    multVal: 1
   automatic: 1
   clipSize:
     baseVal: 500
@@ -39,15 +43,15 @@ MonoBehaviour:
     addVal: 0
     multVal: 1
   bulletSpread:
-    baseVal: 10
+    baseVal: 20
     addVal: 0
     multVal: 1
   bulletSpreadGain:
-    baseVal: 1
+    baseVal: 0.5
     addVal: 0
     multVal: 1
   fireRate:
-    baseVal: 0.05
+    baseVal: 0.02
     addVal: 0
     multVal: 1
   reloadTime:
@@ -89,11 +93,11 @@ MonoBehaviour:
     multVal: 1
   explodeImmediately: 0
   projCritChance:
-    baseVal: 50
+    baseVal: 25
     addVal: 0
     multVal: 1
   projCritMultiplier:
-    baseVal: 5
+    baseVal: 2
     addVal: 0
     multVal: 1
   knockback:

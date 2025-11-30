@@ -45,6 +45,7 @@ public class EnemyPawn : Pawn
         {
             if (CheckIfPlayerIsClose())
             {
+                GameManager.current.eventService.RequestUISpawnFloatingText(transform.position, "<size=12>!", Color.yellow, 0f, 0.5f);
                 isIdle = false;
             }
 

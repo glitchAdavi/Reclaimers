@@ -413,6 +413,14 @@ public class TileService : MonoBehaviour
 
 
     #region Utilities
+    public bool IsPositionInsidePlayableArea(Vector3 pos)
+    {
+        Vector3Int tilePos = grid.WorldToCell(pos);
+        if (fTilemap.HasTile(tilePos) || cTilemap.HasTile(tilePos)) return true;
+        else return false;
+    }
+
+
     private int Vector3IntSort(Vector3Int v1, Vector3Int v2)
     {
         if (v1.x == v2.x && v1.y == v2.y) return 0;
