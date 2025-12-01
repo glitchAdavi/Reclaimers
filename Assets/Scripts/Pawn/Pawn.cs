@@ -13,6 +13,7 @@ public abstract class Pawn : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdate, 
     [SerializeField] protected Rigidbody _rb;
     [SerializeField] protected SpriteRenderer _sr;
     [SerializeField] protected DamageCollider _damageCollider;
+    [SerializeField] protected Animator _anm;
 
     [SerializeField] protected float maxLifepoints = 1f;
     [SerializeField] protected float lifepoints = 1f;
@@ -204,7 +205,7 @@ public abstract class Pawn : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdate, 
         gameObject.transform.localScale = new Vector3(1f, 1f, 1f) * statBlock.scale.Value();
     }
 
-    public void ApplySpeed()
+    public virtual void ApplySpeed()
     {
         _nav.speed = statBlock.speed.Value();
     }

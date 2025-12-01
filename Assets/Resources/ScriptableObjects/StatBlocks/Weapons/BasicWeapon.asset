@@ -16,13 +16,13 @@ MonoBehaviour:
   weaponType: WepProjectile
   weaponSprite: {fileID: 0}
   weaponSpriteColor: {r: 1, g: 1, b: 1, a: 1}
-  projectileSprite: {fileID: 0}
+  projectileSprite: {fileID: -2121786671, guid: e19d92438ce7134418cd981c4d1975b9, type: 3}
   projectileSpriteColor: {r: 1, g: 1, b: 1, a: 1}
   hitSprite: {fileID: 0}
   hitSpriteColor: {r: 1, g: 1, b: 1, a: 1}
   projectilePrefab: {fileID: 7636891095021424926, guid: 1e01c1f30261a1744a9b892dc86189bb, type: 3}
   projScale:
-    baseVal: 0.2
+    baseVal: 1
     addVal: 0
     multVal: 1
   automatic: 1

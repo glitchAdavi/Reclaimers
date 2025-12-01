@@ -8,6 +8,7 @@ public class LL_Menu : LevelLogic
     {
         Debug.Log($"Starting Main Menu Logic");
         GameManager.current.eventService.RequestUIUseMainMenu(true);
+        GameManager.current.eventService.RequestUIMapProgressionEnable(false);
 
         base.Activate();
 

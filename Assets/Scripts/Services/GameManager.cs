@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     public UpdateService updateService;
     public EventService eventService;
     public TimerService timerService;
+    public AudioService audioService;
     public LevelService levelService;
     public PawnService pawnService;
     public UIService uiService;
@@ -62,6 +63,7 @@ public class GameManager : MonoBehaviour
         eventService = CreateService<EventService>();
         updateService = CreateService<UpdateService>();
         timerService = CreateService<TimerService>();
+        audioService = CreateService<AudioService>();
         levelService = CreateService<LevelService>();
         pawnService = CreateService<PawnService>();
         uiService = InstantiateUI();

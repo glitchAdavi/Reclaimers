@@ -27,6 +27,15 @@ public class EventService : MonoBehaviour
     public event Action<bool> onRequestUITogglePauseMenu;
     public void RequestUITogglePauseMenu(bool paused) => onRequestUITogglePauseMenu?.Invoke(paused);
 
+    public event Action<bool> onRequestUIMapProgressionEnable;
+    public void RequestUIMapProgressionEnable(bool enabled) => onRequestUIMapProgressionEnable?.Invoke(enabled);
+
+    public event Action<float> onRequestUIMapProgression;
+    public void RequestUIMapProgression(float current) => onRequestUIMapProgression?.Invoke(current);
+
+    public event Action<float> onRequestUIMapProgressionSetup;
+    public void RequestUIMapProgressionSetup(float max) => onRequestUIMapProgressionSetup?.Invoke(max);
+
     public event Action<float, float> onRequestUIUpdateHealth;
     public void RequestUIUpdateHealth(float hp, float max) => onRequestUIUpdateHealth?.Invoke(hp, max);
 

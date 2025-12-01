@@ -21,6 +21,9 @@ public class LL_Extraction : LevelLogic
     {
         Debug.Log($"Starting Extraction Mode Logic");
         GameManager.current.eventService.RequestUIUseMainMenu(false);
+        GameManager.current.eventService.RequestUIMapProgressionEnable(true);
+        GameManager.current.eventService.RequestUIMapProgressionSetup(levelMainProgressionMax);
+        GameManager.current.eventService.RequestUIMapProgression(0f);
 
         base.Activate();
 
@@ -63,8 +66,11 @@ public class LL_Extraction : LevelLogic
                                                                                     () => levelMainProgression++);
         }
 
+        GameManager.current.eventService.RequestUIMapProgression(levelMainProgression);
+
         if (levelMainProgression >= levelMainProgressionMax)
         {
+            GameManager.current.eventService.RequestUIMapProgression(levelMainProgressionMax);
             timerLevelMainProgression?.Cancel();
             timerLevelMainProgression = null;
             levelStage = 2;
@@ -77,6 +83,9 @@ public class LL_Extraction : LevelLogic
 
         GameManager.current.eventService.SetPawnServiceIdle(false);
         GameManager.current.eventService.SetPawnServiceAlert(true);
+
+        GameManager.current.eventService.RequestUIMapProgressionSetup(levelSurviveProgressionMax);
+        GameManager.current.eventService.RequestUIMapProgression(levelSurviveProgressionMax);
     }
 
     public void Stage2()
@@ -87,6 +96,8 @@ public class LL_Extraction : LevelLogic
                 1f,
                 () => levelSurviveProgressionMax--);
         }
+
+        GameManager.current.eventService.RequestUIMapProgression(levelSurviveProgressionMax);
 
         if (levelSurviveProgressionMax <= 0)
         {

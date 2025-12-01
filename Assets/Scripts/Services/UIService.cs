@@ -16,6 +16,9 @@ public class UIService : MonoBehaviour
     public GameObject pauseMenu;
     public bool useMainMenu = true;
 
+    public GameObject uiMapProgression;
+    public Slider uiMapProgressionFill;
+
     public GameObject uiInteract;
     public TMP_Text uiInteractText;
     public Slider uiInteractFill;
@@ -43,6 +46,9 @@ public class UIService : MonoBehaviour
         GameManager.current.eventService.onRequestUISpawnFloatingText += SpawnFloatingText;
         GameManager.current.eventService.onRequestUIUseMainMenu += (x) => useMainMenu = x;
         GameManager.current.eventService.onRequestUITogglePauseMenu += TogglePauseMenu;
+        GameManager.current.eventService.onRequestUIMapProgressionEnable += UpdateUIMapProgressionEnabled;
+        GameManager.current.eventService.onRequestUIMapProgression += UpdateUIMapProgression;
+        GameManager.current.eventService.onRequestUIMapProgressionSetup += UpdateUIMapProgressionSetup;
         GameManager.current.eventService.onRequestUIUpdateHealth += UpdateUIHealth;
         GameManager.current.eventService.onRequestUIUpdateXpBar += UpdateUIXpBar;
         GameManager.current.eventService.onRequestUIUpdateLevelCounter += UpdateUILevelCounter;
@@ -59,6 +65,21 @@ public class UIService : MonoBehaviour
     {
         if (useMainMenu) mainMenu.SetActive(paused);
         else pauseMenu.SetActive(paused);
+    }
+
+    public void UpdateUIMapProgressionEnabled(bool enabled)
+    {
+        uiMapProgression.SetActive(enabled);
+    }
+
+    public void UpdateUIMapProgression(float current)
+    {
+        uiMapProgressionFill.value = current;
+    }
+
+    public void UpdateUIMapProgressionSetup(float max)
+    {
+        uiMapProgressionFill.maxValue = max;
     }
 
     public void UpdateUIHealth(float current, float max)

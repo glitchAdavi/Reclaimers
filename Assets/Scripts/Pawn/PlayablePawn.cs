@@ -26,6 +26,8 @@ public class PlayablePawn : Pawn
     Timer timerClosestInteractable;
     Timer timerClosestPlayablePawn;
 
+    bool isMoving = false;
+
 
     float useThreshold = 1f;
     float useTimer = 0f;
@@ -89,6 +91,8 @@ public class PlayablePawn : Pawn
     protected override void PawnUpdate()
     {
         base.PawnUpdate();
+
+        UpdateSprite();
     }
 
     protected override void PawnPause()
@@ -140,6 +144,12 @@ public class PlayablePawn : Pawn
         GameManager.current.eventService.RequestUIUpdateLevelCounter(level);
     }
 
+    public override void ApplySpeed()
+    {
+        base.ApplySpeed();
+        _anm.speed = 0.1f * statBlock.speed.Value();
+    }
+
     public void ApplyUpgradeDictionary()
     {
         if (statBlock.keyUpgrade == null || statBlock.keyUpgrade.Count < 1) return;
@@ -167,6 +177,9 @@ public class PlayablePawn : Pawn
 
     public void Move(float xInput, float yInput)
     {
+        if (xInput != 0 || yInput != 0) isMoving = true;
+        else isMoving = false;
+
         yInput *= 1.4f;
 
         Vector3 movement = new Vector3(xInput, 0f, yInput);
@@ -376,6 +389,33 @@ public class PlayablePawn : Pawn
         GameManager.current.SetNewActivePlayer(this);
     }
     #endregion
+
+    #region Sprite
+    private void UpdateSprite()
+    {
+        float posX = Input.mousePosition.x - (Screen.width / 2);
+
+        _anm.enabled = isMoving;
+
+        if (posX > 0)
+        {
+            _sr.flipX = true;
+            //weaponSprite.flipY = true;
+            //weaponStretcher.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
+
+        } else
+        {
+            _sr.flipX = false;
+            //weaponSprite.flipY = false;
+            //weaponStretcher.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
+        }
+    }
+
+
+
+
+    #endregion
+
 
     public void SetInactivePlayer(PawnStatBlock pawnStatBlock = null)
     {

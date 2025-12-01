@@ -13,7 +13,9 @@ public abstract class Projectile : MonoBehaviour, IUpdate, IPause
     [SerializeField] protected List<GameObject> hitEnemies = new List<GameObject>();
 
     [SerializeField] protected SpriteRenderer _sprt;
+    [SerializeField] protected Vector3 _sprtBaseScale = Vector3.zero;
     [SerializeField] protected DamageCollider _damageCollider;
+    [SerializeField] protected Vector3 _damageColliderBaseScale = Vector3.zero;
 
     protected float damage;
     protected float damageRadius;
@@ -42,6 +44,12 @@ public abstract class Projectile : MonoBehaviour, IUpdate, IPause
         _damageCollider = GetComponentInChildren<DamageCollider>();
         _damageCollider.onCollisionEnter += ManageOnCollisionEnter;
         _damageCollider.onTriggerEnter += ManageOnTriggerEnter;
+
+        if (_sprtBaseScale == Vector3.zero) _sprtBaseScale = _sprt.transform.localScale;
+        if (_damageColliderBaseScale == Vector3.zero) _damageColliderBaseScale = _damageCollider.transform.localScale;
+
+        _sprt.transform.localScale = _sprtBaseScale;
+        _damageCollider.transform.localScale = _damageColliderBaseScale;
 
         currentDistance = 0f;
         currentLifetime = 0f;
@@ -134,24 +142,28 @@ public abstract class Projectile : MonoBehaviour, IUpdate, IPause
         p.gameObject.SetActive(false);
     }
 
-    public void ProjectileSetup(float damageVar,
-                                        float damageRadiusVar,
-                                        float speedVar,
-                                        float critChanceVar,
-                                        float critMultiplierVar,
-                                        int penetrationVar,
-                                        bool useDistanceVar,
-                                        float maxDistanceVar,
-                                        float maxLifetimeVar,
-                                        float knockbackVar,
-                                        float armingDistanceVar,
-                                        float armingLifetimeVar,
-                                        bool explodeImmediately,
-                                        Sprite projSprite,
-                                        Color projColor,
-                                        Color hitColor,
-                                        Sprite hitSprite = null)
+    public void ProjectileSetup(float projScaleVar,
+                                float damageVar,
+                                float damageRadiusVar,
+                                float speedVar,
+                                float critChanceVar,
+                                float critMultiplierVar,
+                                int penetrationVar,
+                                bool useDistanceVar,
+                                float maxDistanceVar,
+                                float maxLifetimeVar,
+                                float knockbackVar,
+                                float armingDistanceVar,
+                                float armingLifetimeVar,
+                                bool explodeImmediately,
+                                Sprite projSprite,
+                                Color projColor,
+                                Color hitColor,
+                                Sprite hitSprite = null)
     {
+        _sprt.transform.localScale = _sprt.transform.localScale * projScaleVar;
+        _damageCollider.transform.localScale = _damageCollider.transform.localScale * projScaleVar;
+
         damage = damageVar;
         damageRadius = damageRadiusVar;
         speed = speedVar;
