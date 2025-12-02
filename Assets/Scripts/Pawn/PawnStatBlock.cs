@@ -5,14 +5,18 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "PawnStatBlock", menuName = "Stat Block/PawnStatBlock")]
 public class PawnStatBlock : ScriptableObject
 {
+    public Rarity rarity = Rarity.Common;
+
     public string pawnName = "John Doe";
+    public string pawnDescription = "A pawn.";
     public WeaponStatBlock equippedWeapon;
+    public AbilityStatBlock equippedAbility;
 
     public List<string> keyUpgrade;
     public List<int> valueUpgrade;
 
     public Sprite pawnSprite;
-    public Color pawnSpriteColor;
+    public Color pawnSpriteColor = new Color(255, 255, 255, 255);
 
     public Stat scale = new Stat(1f, 0f, 1f);
 
@@ -53,8 +57,12 @@ public class PawnStatBlock : ScriptableObject
 
     public void CopyValues(PawnStatBlock psb)
     {
+        rarity = psb.rarity;
+
         pawnName = psb.pawnName;
+        pawnDescription = psb.pawnDescription;
         equippedWeapon = psb.equippedWeapon;
+        equippedAbility = psb.equippedAbility;
 
         keyUpgrade = new List<string>(psb.keyUpgrade);
         valueUpgrade = new List<int>(psb.valueUpgrade);

@@ -12,13 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c22bd9ed10cd9454989a0b57bea33825, type: 3}
   m_Name: BounceWeapon
   m_EditorClassIdentifier: 
-  weaponName: BounceWeapon
+  rarity: 60
+  weaponName: Minigun (Bounce)
+  weaponDescription: A minigun with bouncing projectiles.
   weaponType: WepProjectile
   weaponSprite: {fileID: 0}
   weaponSpriteColor: {r: 1, g: 1, b: 1, a: 1}
-  projectileSprite: {fileID: -2121786671, guid: e19d92438ce7134418cd981c4d1975b9, type: 3}
+  projectileSprite: {fileID: -1643779134, guid: 3ec4a63b10e35d148ac5655a22663811, type: 3}
   projectileSpriteColor: {r: 1, g: 1, b: 1, a: 1}
-  hitSprite: {fileID: 0}
+  hitSprite: {fileID: 976902520, guid: 3ec4a63b10e35d148ac5655a22663811, type: 3}
   hitSpriteColor: {r: 1, g: 1, b: 1, a: 1}
   projectilePrefab: {fileID: 7636891095021424926, guid: 74fc1500fe6d46f4982574af2a0b27f5, type: 3}
   projScale:
@@ -75,14 +77,6 @@ MonoBehaviour:
     addVal: 0
     multVal: 1
   projUseDistance: 0
-  projMaxDistance:
-    baseVal: 10
-    addVal: 0
-    multVal: 1
-  projArmingDistance:
-    baseVal: 0
-    addVal: 0
-    multVal: 1
   projMaxLifetime:
     baseVal: 5
     addVal: 0

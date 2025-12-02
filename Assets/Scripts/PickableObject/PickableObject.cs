@@ -6,6 +6,7 @@ using UnityEngine.UIElements;
 public class PickableObject : MonoBehaviour, IUpdate, IFixedUpdate, IPause
 {
     [SerializeField] protected DamageCollider _dmgColl;
+    [SerializeField] protected SpriteRenderer _sr;
 
     protected Pawn target;
     protected bool canBeActive = false;

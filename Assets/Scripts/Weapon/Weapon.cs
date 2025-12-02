@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Weapon : MonoBehaviour, IPause
+public abstract class Weapon : MonoBehaviour, IUpdate, IPause
 {
+    public PlayablePawn owner;
+
     public WeaponStatBlock baseStatBlock;
     public WeaponStatBlock statBlock;
 
@@ -33,7 +35,15 @@ public abstract class Weapon : MonoBehaviour, IPause
 
     protected virtual void OnEnable()
     {
+        GameManager.current.updateService.RegisterUpdate(this);
         GameManager.current.updateService.RegisterPause(this);
+    }
+
+    public void ExecuteUpdate()
+    {
+        if (isPaused) return;
+
+        
     }
 
     public void Pause(bool paused)
@@ -44,6 +54,7 @@ public abstract class Weapon : MonoBehaviour, IPause
 
     protected virtual void OnDisable()
     {
+        GameManager.current.updateService.UnregisterUpdate(this);
         GameManager.current.updateService.UnregisterPause(this);
     }
 
@@ -64,6 +75,7 @@ public abstract class Weapon : MonoBehaviour, IPause
 
         currentClipSize -= bulletsPerShotCost;
         GameManager.current.eventService.RequestUIUpdateWeaponAmmo(currentClipSize, maxClipSize);
+        GameManager.current.eventService.RequestUIUpdateWeaponSlider(currentClipSize, maxClipSize);
 
         canShoot = false;
         timerFireRate = GameManager.current.timerService.StartTimer(fireRate, ShootEndTimer);
@@ -88,16 +100,23 @@ public abstract class Weapon : MonoBehaviour, IPause
 
     public virtual void Reload()
     {
-        if (isReloading)
-        {
-            timerReload.Cancel();
-            GameManager.current.eventService.RequestUIUpdateWeaponReloadReset();
-        }
+        if (isReloading) return;
 
         isReloading = true;
-        GameManager.current.eventService.RequestUIUpdateWeaponReloadReset();
-        GameManager.current.eventService.RequestUIUpdateWeaponReloadTimer();
-        timerReload = GameManager.current.timerService.StartTimer(reloadTime, ReloadEffect, Time.fixedDeltaTime, GameManager.current.eventService.RequestUIUpdateWeaponReloadTimer);
+
+        GameManager.current.eventService.RequestUIUpdateWeaponSlider(0f, maxClipSize);
+        timerReload = GameManager.current.timerService.StartTimer(reloadTime, ReloadEffect, Time.fixedDeltaTime, ReloadPartial);
+
+        GameManager.current.eventService.RequestUISpawnFloatingText(transform.position,
+                                                                    "Reloading!",
+                                                                    Color.green,
+                                                                    0f,
+                                                                    1f);
+    }
+
+    protected virtual void ReloadPartial()
+    {
+        GameManager.current.eventService.RequestUIUpdateWeaponSlider((timerReload.lifeTime / reloadTime) * maxClipSize, maxClipSize);
     }
 
     protected virtual void ReloadEffect()
@@ -106,7 +125,7 @@ public abstract class Weapon : MonoBehaviour, IPause
         currentClipSize = maxClipSize;
 
         GameManager.current.eventService.RequestUIUpdateWeaponAmmo(currentClipSize, maxClipSize);
-        GameManager.current.eventService.RequestUIUpdateWeaponReloadEnd();
+        GameManager.current.eventService.RequestUIUpdateWeaponSlider(currentClipSize, maxClipSize);
     }
 
 
@@ -131,7 +150,11 @@ public abstract class Weapon : MonoBehaviour, IPause
         GameManager.current.SetNewProjectile(statBlock.projectilePrefab);
 
         currentClipSize = maxClipSize;
+
+        GameManager.current.eventService.RequestUIWeaponShow(true);
+        GameManager.current.eventService.RequestUIUpdateWeaponName(statBlock.weaponName);
         GameManager.current.eventService.RequestUIUpdateWeaponAmmo(currentClipSize, maxClipSize);
+        GameManager.current.eventService.RequestUIUpdateWeaponSlider(currentClipSize, maxClipSize);
     }
 
     public void ApplyClipSize()
@@ -168,7 +191,7 @@ public abstract class Weapon : MonoBehaviour, IPause
     public void ApplyReloadTime()
     {
         reloadTime = statBlock.reloadTime.Value();
-        GameManager.current.eventService.RequestUIUpdateWeaponReloadSetMax(reloadTime);
+        GameManager.current.eventService.RequestUIUpdateWeaponSlider(currentClipSize, maxClipSize);
     }
 
     public void ApplyFireRate()

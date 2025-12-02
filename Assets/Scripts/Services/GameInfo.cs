@@ -20,6 +20,8 @@ public class GameInfo : ScriptableObject
     public GameObject poMaterialPrefab;
     public GameObject pawnUpgradePrefab;
     public GameObject weaponUpgradePrefab;
+    public GameObject abilityUpgradePrefab;
+    public GameObject weaponHitPrefab;
 
 
     //---STATBLOCKS---

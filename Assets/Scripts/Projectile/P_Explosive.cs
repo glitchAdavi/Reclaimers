@@ -17,13 +17,10 @@ public class P_Explosive : Projectile
 
             LookAtCamera();
 
-            if (!stuck)
+            if (!stuck && currentLifetime > armingLifetime)
             {
-                if (currentDistance > armingDistance || currentLifetime > armingLifetime)
-                {
-                    armed = true;
-                    if (explodeImmediately) Explode();
-                }
+                armed = true;
+                if (explodeImmediately) Explode();
             }
         }
     }

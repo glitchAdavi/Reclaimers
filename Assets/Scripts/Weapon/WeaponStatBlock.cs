@@ -3,17 +3,20 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "WeaponStatBlock", menuName = "Stat Block/WeaponStatBlock")]
 public class WeaponStatBlock : ScriptableObject
 {
-    public string weaponName = "";
+    public Rarity rarity = Rarity.Common;
+
+    public string weaponName = "Weapon";
+    public string weaponDescription = "A weapon.";
     public string weaponType = "WepProjectile";
 
     public Sprite weaponSprite;
-    public Color weaponSpriteColor;
+    public Color weaponSpriteColor = new Color(255, 255, 255, 255);
 
     public Sprite projectileSprite;
-    public Color projectileSpriteColor;
+    public Color projectileSpriteColor = new Color(255, 255, 255, 255);
 
     public Sprite hitSprite;
-    public Color hitSpriteColor;
+    public Color hitSpriteColor = new Color(255, 255, 255, 255);
 
     public GameObject projectilePrefab;
 
@@ -38,8 +41,6 @@ public class WeaponStatBlock : ScriptableObject
 
 
     public bool projUseDistance = false;
-    public Stat projMaxDistance = new Stat(1f, 0f, 1f);
-    public Stat projArmingDistance = new Stat(0f, 0f, 1f);
     public Stat projMaxLifetime = new Stat(1f, 0f, 1f);
     public Stat projArmingLifetime = new Stat(0f, 0f, 1f);
     public bool explodeImmediately = false;
@@ -51,7 +52,10 @@ public class WeaponStatBlock : ScriptableObject
 
     public void CopyValues(WeaponStatBlock wsb)
     {
+        rarity = wsb.rarity;
+
         weaponName = wsb.weaponName;
+        weaponDescription = wsb.weaponDescription;
         weaponType = wsb.weaponType;
 
         weaponSprite = wsb.weaponSprite;
@@ -86,8 +90,6 @@ public class WeaponStatBlock : ScriptableObject
 
 
         projUseDistance = wsb.projUseDistance;
-        projMaxDistance.SetValues(wsb.projMaxDistance);
-        projArmingDistance.SetValues(wsb.projArmingDistance);
         projMaxLifetime.SetValues(wsb.projMaxLifetime);
         projArmingLifetime.SetValues(wsb.projArmingLifetime);
         explodeImmediately = wsb.explodeImmediately;

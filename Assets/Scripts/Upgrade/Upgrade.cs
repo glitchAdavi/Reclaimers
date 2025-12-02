@@ -4,6 +4,8 @@ using UnityEngine;
 
 public abstract class Upgrade : ScriptableObject
 {
+    public Rarity rarity = Rarity.Common;
+
     [SerializeField] protected string upgradeName = "Upgrade";
     [SerializeField] protected string upgradeDesc = "Description.";
 

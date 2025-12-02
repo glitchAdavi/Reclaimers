@@ -44,6 +44,8 @@ public class PlayerController : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdat
         if (Input.GetKey(KeyCode.F)) ControllerInteract();
         else ControllerInteractReset();
 
+        if (Input.GetKeyDown(KeyCode.E)) ControllerUseAbility();
+
     }
 
     public void ExecuteFixedUpdate()
@@ -88,13 +90,14 @@ public class PlayerController : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdat
     {
         if (playerPawn == null || playerPawn.equippedWeapon == null) return;
 
-        GameManager.current.eventService.RequestUISpawnFloatingText(playerPawn.transform.position,
-                                                                    "Reloading!",
-                                                                    Color.green,
-                                                                    0f,
-                                                                    1f);
-
         playerPawn.equippedWeapon.Reload();
+    }
+
+    public void ControllerUseAbility()
+    {
+        if (playerPawn == null || playerPawn.equippedAbility == null) return;
+
+        playerPawn.equippedAbility.UseAbility();
     }
 
     public void ControllerEscape()

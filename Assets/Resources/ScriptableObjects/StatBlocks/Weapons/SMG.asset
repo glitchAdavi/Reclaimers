@@ -12,13 +12,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c22bd9ed10cd9454989a0b57bea33825, type: 3}
   m_Name: SMG
   m_EditorClassIdentifier: 
+  rarity: 60
   weaponName: SMG
+  weaponDescription: A weapon.
   weaponType: WepProjectile
+  weaponSprite: {fileID: 0}
+  weaponSpriteColor: {r: 1, g: 1, b: 1, a: 1}
+  projectileSprite: {fileID: 1808884840, guid: 3ec4a63b10e35d148ac5655a22663811, type: 3}
+  projectileSpriteColor: {r: 1, g: 1, b: 1, a: 1}
+  hitSprite: {fileID: 976902520, guid: 3ec4a63b10e35d148ac5655a22663811, type: 3}
+  hitSpriteColor: {r: 1, g: 1, b: 1, a: 1}
+  projectilePrefab: {fileID: 7636891095021424926, guid: 1e01c1f30261a1744a9b892dc86189bb, type: 3}
+  projScale:
+    baseVal: 1
+    addVal: 0
+    multVal: 1
+  automatic: 0
   clipSize:
     baseVal: 30
     addVal: 0
     multVal: 1
   bulletPerShot:
+    baseVal: 1
+    addVal: 0
+    multVal: 1
+  bulletPerShotCost:
+    baseVal: 1
+    addVal: 0
+    multVal: 1
+  bulletPerShotSpread:
+    baseVal: 30
+    addVal: 0
+    multVal: 1
+  bulletSpread:
+    baseVal: 5
+    addVal: 0
+    multVal: 1
+  bulletSpreadGain:
     baseVal: 1
     addVal: 0
     multVal: 1
@@ -34,6 +64,10 @@ MonoBehaviour:
     baseVal: 1
     addVal: 0
     multVal: 1
+  projDamageRadius:
+    baseVal: 0
+    addVal: 0
+    multVal: 1
   projSpeed:
     baseVal: 25
     addVal: 0
@@ -43,12 +77,21 @@ MonoBehaviour:
     addVal: 0
     multVal: 1
   projUseDistance: 0
-  projMaxDistance:
-    baseVal: 10
-    addVal: 0
-    multVal: 1
   projMaxLifetime:
     baseVal: 1
+    addVal: 0
+    multVal: 1
+  projArmingLifetime:
+    baseVal: 0
+    addVal: 0
+    multVal: 1
+  explodeImmediately: 0
+  projCritChance:
+    baseVal: 1
+    addVal: 0
+    multVal: 1
+  projCritMultiplier:
+    baseVal: 2
     addVal: 0
     multVal: 1
   knockback:

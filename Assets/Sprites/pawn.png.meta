@@ -71,8 +71,8 @@ TextureImporter:
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: 4
-    textureCompression: 1
+    textureFormat: -1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -136,28 +136,6 @@ TextureImporter:
       bones: []
       spriteID: 19642baca6e1f96428a7eb9d8ef20dbd
       internalID: -1392163
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: pawn_2
-      rect:
-        serializedVersion: 2
-        x: 1
-        y: 855
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 16c405ffbaa43734e8604a9fc884fec6
-      internalID: -2121786671
       vertices: []
       indices: 
       edges: []

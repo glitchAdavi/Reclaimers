@@ -9,6 +9,8 @@ public abstract class Pawn : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdate, 
     public PawnStatBlock statBlock;
     [SerializeField] bool destroyBlockOnDisable = true;
 
+    [SerializeField] protected List<Modifier> currentModifiers = new List<Modifier>();
+
     [SerializeField] protected NavMeshAgent _nav;
     [SerializeField] protected Rigidbody _rb;
     [SerializeField] protected SpriteRenderer _sr;
@@ -189,6 +191,39 @@ public abstract class Pawn : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdate, 
     {
         return collision.gameObject.transform.parent.GetComponentInChildren<Pawn>();
     }
+
+    #region Modifiers
+    public Modifier GetModifier(string id)
+    {
+        foreach (Modifier mod in currentModifiers)
+        {
+            if (mod.id.Equals(id)) return mod;
+        }
+        return null;
+    }
+
+    public void AddModifier(Modifier newModifier)
+    {
+        Modifier existing = GetModifier(newModifier.id);
+        if (existing)
+        {
+            existing.Reset();
+            return;
+        }
+
+        currentModifiers.Add(newModifier);
+        newModifier.ApplyModifier(this);
+    }
+
+    public void RemoveModifier(string id)
+    {
+        currentModifiers.Remove(GetModifier(id));
+    }
+
+    #endregion
+
+
+
 
     #region ApplyValues
     protected virtual void FirstStatApplication()

@@ -14,7 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pawnName: Test2
   equippedWeapon: {fileID: 11400000, guid: d375fb4bf91084a419c66e0b6417ed0f, type: 2}
-  pawnSprite: {fileID: 0}
+  equippedAbility: {fileID: 0}
+  keyUpgrade: []
+  valueUpgrade: 
+  pawnSprite: {fileID: 1634195067, guid: e19d92438ce7134418cd981c4d1975b9, type: 3}
   pawnSpriteColor: {r: 1, g: 0, b: 0, a: 1}
   scale:
     baseVal: 1

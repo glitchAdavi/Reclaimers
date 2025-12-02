@@ -18,6 +18,8 @@ public class LevelService : MonoBehaviour
 
     [SerializeField] LevelLogic currentLevelLogic;
 
+    [SerializeField] int maxXpInScene = 100;
+
     private void OnEnable()
     {
         GameManager.current.eventService.onSpawnXp += SpawnPoXp;
@@ -61,6 +63,12 @@ public class LevelService : MonoBehaviour
     #region XP
     public void SpawnPoXp(Vector3 pos, float value)
     {
+        if (allXpInScene.Count >= maxXpInScene)
+        {
+            allXpInScene.items[allXpInScene.Count - 1].ApplyValue(allXpInScene.items[allXpInScene.Count - 1].GetXpValue() + value);
+            return;
+        } 
+        
         Vector3 newPos = new Vector3(pos.x, 0.25f, pos.z);
         PO_xp newXp = Instantiate(GameManager.current.gameInfo.poXpPrefab, newPos, Quaternion.identity).GetComponent<PO_xp>();
         newXp.Init(value);
@@ -153,28 +161,39 @@ public class LevelService : MonoBehaviour
 
     public void SpawnPawnUpgrade(Vector3 pos)
     {
-        int r = UnityEngine.Random.Range(0, GameManager.current.allPawnUpgrades.Count());
-        PawnUpgrade chosen = GameManager.current.allPawnUpgrades[r];
+        PawnUpgrade chosen = GameManager.current.GetRandomPawnUpgrade();
         IO_PawnUpgradePickup pUpgrade = Instantiate(GameManager.current.gameInfo.pawnUpgradePrefab, pos, Quaternion.identity).GetComponent<IO_PawnUpgradePickup>();
         pUpgrade.SetUpgrade(chosen);
     }
 
     public void SpawnWeaponUpgrade(Vector3 pos)
     {
-        int r = UnityEngine.Random.Range(0, GameManager.current.allWeaponUpgrades.Count());
-        WeaponUpgrade chosen = GameManager.current.allWeaponUpgrades[r];
+        WeaponUpgrade chosen = GameManager.current.GetRandomWeaponUpgrade();
         IO_WeaponUpgradePickup wUpgrade = Instantiate(GameManager.current.gameInfo.weaponUpgradePrefab, pos, Quaternion.identity).GetComponent<IO_WeaponUpgradePickup>();
         wUpgrade.SetUpgrade(chosen);
     }
 
+    public void SpawnAbilityUpgrade(Vector3 pos)
+    {
+        AbilityUpgrade chosen = GameManager.current.GetRandomAbilityUpgrade();
+        IO_AbilityUpgradePickup aUpgrade = Instantiate(GameManager.current.gameInfo.abilityUpgradePrefab, pos, Quaternion.identity).GetComponent<IO_AbilityUpgradePickup>();
+        aUpgrade.SetUpgrade(chosen);
+    }
+
     public void SpawnRandomUpgrade(Vector3 pos)
     {
-        if (UnityEngine.Random.Range(0, 100) < 50)
+        int r = UnityEngine.Random.Range(0, 3);
+        switch (r)
         {
-            SpawnPawnUpgrade(pos);
-        } else
-        {
-            SpawnWeaponUpgrade(pos);
+            case 0:
+                SpawnPawnUpgrade(pos);
+                break;
+            case 1:
+                SpawnWeaponUpgrade(pos);
+                break;
+            case 2:
+                SpawnAbilityUpgrade(pos);
+                break;
         }
     }
 

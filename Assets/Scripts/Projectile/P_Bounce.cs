@@ -23,8 +23,9 @@ public class P_Bounce : Projectile
                 if (lastHit == null || !lastHit.Equals(hit))
                 {
                     lastHit = hit;
-                    
-                    currentDistance = 0f;
+
+                    if (hitSprite != null) Instantiate(GameManager.current.gameInfo.weaponHitPrefab, transform.position, Quaternion.identity).GetComponent<WeaponHit>().Activate(hitSprite, hitColor);
+
                     currentLifetime = 0f;
 
                     if (Physics.Raycast(transform.position - (transform.forward.normalized * 3), transform.forward.normalized, out RaycastHit info, 10f, 1 << 22))
@@ -55,7 +56,8 @@ public class P_Bounce : Projectile
                 {
                     lastHit = enemyHit.gameObject;
 
-                    currentDistance = 0f;
+                    if (hitSprite != null) Instantiate(GameManager.current.gameInfo.weaponHitPrefab, transform.position, Quaternion.identity).GetComponent<WeaponHit>().Activate(hitSprite, hitColor);
+
                     currentLifetime = 0f;
 
                     if (CheckIfCrit()) enemyHit.GetHit(damage * critMult, true, knockback * critMult, transform.forward);

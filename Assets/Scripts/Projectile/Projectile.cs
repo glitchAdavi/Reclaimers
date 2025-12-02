@@ -7,7 +7,6 @@ public abstract class Projectile : MonoBehaviour, IUpdate, IPause
     protected bool active = false;
 
     protected bool useDistance = true;
-    [SerializeField] protected float currentDistance;
     [SerializeField] protected float currentLifetime;
 
     [SerializeField] protected List<GameObject> hitEnemies = new List<GameObject>();
@@ -16,6 +15,8 @@ public abstract class Projectile : MonoBehaviour, IUpdate, IPause
     [SerializeField] protected Vector3 _sprtBaseScale = Vector3.zero;
     [SerializeField] protected DamageCollider _damageCollider;
     [SerializeField] protected Vector3 _damageColliderBaseScale = Vector3.zero;
+    [SerializeField] protected TrailRenderer _tr;
+    [SerializeField] protected float _trBaseScale = 0f;
 
     protected float damage;
     protected float damageRadius;
@@ -23,10 +24,8 @@ public abstract class Projectile : MonoBehaviour, IUpdate, IPause
     protected float critChance;
     protected float critMult;
     protected int penetration;
-    protected float maxDistance;
     protected float maxLifetime;
     protected float knockback;
-    protected float armingDistance;
     protected float armingLifetime;
     protected bool explodeImmediately;
 
@@ -41,17 +40,19 @@ public abstract class Projectile : MonoBehaviour, IUpdate, IPause
         GameManager.current.updateService.RegisterPause(this);
 
         _sprt = GetComponentInChildren<SpriteRenderer>();
+        _tr = GetComponentInChildren<TrailRenderer>();
         _damageCollider = GetComponentInChildren<DamageCollider>();
         _damageCollider.onCollisionEnter += ManageOnCollisionEnter;
         _damageCollider.onTriggerEnter += ManageOnTriggerEnter;
 
         if (_sprtBaseScale == Vector3.zero) _sprtBaseScale = _sprt.transform.localScale;
         if (_damageColliderBaseScale == Vector3.zero) _damageColliderBaseScale = _damageCollider.transform.localScale;
+        if (_trBaseScale == 0) _trBaseScale = _tr.startWidth;
 
         _sprt.transform.localScale = _sprtBaseScale;
         _damageCollider.transform.localScale = _damageColliderBaseScale;
+        _tr.startWidth = _trBaseScale;
 
-        currentDistance = 0f;
         currentLifetime = 0f;
 
         active = true;
@@ -65,13 +66,9 @@ public abstract class Projectile : MonoBehaviour, IUpdate, IPause
 
             LookAtCamera();
 
-            if (useDistance)
-            {
-                if (currentDistance >= maxDistance) ResetAndReturn();
-            } else
-            {
-                if (currentLifetime >= maxLifetime) ResetAndReturn();
-            }
+            if (!_tr.emitting) _tr.emitting = true;
+
+            if (currentLifetime >= maxLifetime) ResetAndReturn();
         }
     }
     public void Pause(bool paused)
@@ -82,6 +79,8 @@ public abstract class Projectile : MonoBehaviour, IUpdate, IPause
     protected void OnDisable()
     {
         hitEnemies.Clear();
+
+        _tr.emitting = false;
 
         _damageCollider.onCollisionEnter -= ManageOnCollisionEnter;
         _damageCollider.onTriggerEnter -= ManageOnTriggerEnter;
@@ -97,7 +96,11 @@ public abstract class Projectile : MonoBehaviour, IUpdate, IPause
 
         if (!GameManager.current.tileService.IsPositionInsidePlayableArea(transform.position)) ResetAndReturn();
 
-        if (useDistance) currentDistance += speed * Time.deltaTime;
+        if (useDistance)
+        {
+            float dot = Mathf.Abs(Vector3.Dot(transform.forward, Vector3.forward));
+            currentLifetime += speed * Time.deltaTime * Mathf.Lerp(1f, 0.7f, dot);
+        }
         else currentLifetime += Time.deltaTime;
     }
 
@@ -126,7 +129,6 @@ public abstract class Projectile : MonoBehaviour, IUpdate, IPause
         active = false;
         hitEnemies.Clear();
 
-        currentDistance = 0f;
         currentLifetime = 0f;
 
         GameManager.current.projectileBuilder.ReturnProjectile(this);
@@ -150,10 +152,8 @@ public abstract class Projectile : MonoBehaviour, IUpdate, IPause
                                 float critMultiplierVar,
                                 int penetrationVar,
                                 bool useDistanceVar,
-                                float maxDistanceVar,
                                 float maxLifetimeVar,
                                 float knockbackVar,
-                                float armingDistanceVar,
                                 float armingLifetimeVar,
                                 bool explodeImmediately,
                                 Sprite projSprite,
@@ -163,6 +163,7 @@ public abstract class Projectile : MonoBehaviour, IUpdate, IPause
     {
         _sprt.transform.localScale = _sprt.transform.localScale * projScaleVar;
         _damageCollider.transform.localScale = _damageCollider.transform.localScale * projScaleVar;
+        _tr.startWidth = _tr.startWidth * projScaleVar;
 
         damage = damageVar;
         damageRadius = damageRadiusVar;
@@ -171,10 +172,8 @@ public abstract class Projectile : MonoBehaviour, IUpdate, IPause
         critMult = critMultiplierVar;
         penetration = penetrationVar;
         useDistance = useDistanceVar;
-        maxDistance = maxDistanceVar;
         maxLifetime = maxLifetimeVar;
         knockback = knockbackVar;
-        armingDistance = armingDistanceVar;
         armingLifetime = armingLifetimeVar;
         this.explodeImmediately = explodeImmediately;
 

@@ -28,8 +28,15 @@ public class UIService : MonoBehaviour
     public Slider xpBarSlider;
     public TMP_Text levelCounter;
 
+    public GameObject uiWeapon;
+    public TMP_Text uiWeaponName;
     public TMP_Text uiWeaponAmmo;
-    public Slider uiWeaponReloadTimer;
+    public Slider uiWeaponReloadSlider;
+
+    public GameObject uiAbility;
+    public TMP_Text uiAbilityName;
+    public TMP_Text uiAbilityCharges;
+    public Slider uiAbilityCooldownSlider;
 
 
 
@@ -52,13 +59,19 @@ public class UIService : MonoBehaviour
         GameManager.current.eventService.onRequestUIUpdateHealth += UpdateUIHealth;
         GameManager.current.eventService.onRequestUIUpdateXpBar += UpdateUIXpBar;
         GameManager.current.eventService.onRequestUIUpdateLevelCounter += UpdateUILevelCounter;
+
+        GameManager.current.eventService.onRequestUIWeaponShow += (x) => uiWeapon.SetActive(x);
+        GameManager.current.eventService.onRequestUIUpdateWeaponName += (x) => uiWeaponName.text = x;
         GameManager.current.eventService.onRequestUIUpdateWeaponAmmo += UpdateUIWeaponAmmo;
-        GameManager.current.eventService.onRequestUIUpdateWeaponReloadSetMax += UpdateUIWeaponReloadSetMax;
-        GameManager.current.eventService.onRequestUIUpdateWeaponReloadReset += UpdateUIWeaponReloadReset;
-        GameManager.current.eventService.onRequestUIUpdateWeaponReloadTimer += UpdateUIWeaponReloadTimer;
-        GameManager.current.eventService.onRequestUIUpdateWeaponReloadEnd += UpdateUIWeaponReloadEnd;
+        GameManager.current.eventService.onRequestUIUpdateWeaponSlider += UpdateUIWeaponSlider;
+
         GameManager.current.eventService.onRequestUIUpdateInteractText += UpdateUIInteractText;
         GameManager.current.eventService.onRequestUIUpdateInteractFill += UpdateUIInteractFill;
+
+        GameManager.current.eventService.onRequestUIAbilityShow += (x) => uiAbility.SetActive(x);
+        GameManager.current.eventService.onRequestUIUpdateAbilityName += (x) => uiAbilityName.text = x;
+        GameManager.current.eventService.onRequestUIUpdateAbilityCharges += (x) => uiAbilityCharges.text = x.ToString();
+        GameManager.current.eventService.onRequestUIUpdateAbilitySlider += UpdateUIAbilitySlider;
     }
 
     public void TogglePauseMenu(bool paused)
@@ -104,26 +117,10 @@ public class UIService : MonoBehaviour
         uiWeaponAmmo.text = $"{current}/{max}";
     }
 
-    public void UpdateUIWeaponReloadSetMax(float max)
+    public void UpdateUIWeaponSlider(float current, float max)
     {
-        uiWeaponReloadTimer.maxValue = max;
-        uiWeaponReloadTimer.value = max;
-    }
-
-    public void UpdateUIWeaponReloadReset()
-    {
-        uiWeaponReloadTimer.value = 0;
-    }
-
-    public void UpdateUIWeaponReloadTimer()
-    {
-        if (uiWeaponReloadTimer.value > uiWeaponReloadTimer.maxValue) uiWeaponReloadTimer.value = uiWeaponReloadTimer.maxValue;
-        else uiWeaponReloadTimer.value += Time.fixedDeltaTime;
-    }
-
-    public void UpdateUIWeaponReloadEnd()
-    {
-        uiWeaponReloadTimer.value = uiWeaponReloadTimer.maxValue;
+        uiWeaponReloadSlider.maxValue = max;
+        uiWeaponReloadSlider.value = current;
     }
 
     public void UpdateUIInteractText(string t, bool enable, bool hasKey = true)
@@ -138,6 +135,14 @@ public class UIService : MonoBehaviour
         uiInteractFill.maxValue = max;
         uiInteractFill.value = current;
     }
+
+    public void UpdateUIAbilitySlider(float current, float max)
+    {
+        uiAbilityCooldownSlider.maxValue = max;
+        uiAbilityCooldownSlider.value = current;
+    }
+
+
 
 
     public void SpawnFloatingText(Vector3 pos, string text, Color c, float driftRange, float duration)

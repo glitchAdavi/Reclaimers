@@ -24,17 +24,22 @@ public class EventService : MonoBehaviour
     public event Action<bool> onRequestUIUseMainMenu;
     public void RequestUIUseMainMenu(bool useMainMenu) => onRequestUIUseMainMenu?.Invoke(useMainMenu);
 
+
     public event Action<bool> onRequestUITogglePauseMenu;
     public void RequestUITogglePauseMenu(bool paused) => onRequestUITogglePauseMenu?.Invoke(paused);
+
 
     public event Action<bool> onRequestUIMapProgressionEnable;
     public void RequestUIMapProgressionEnable(bool enabled) => onRequestUIMapProgressionEnable?.Invoke(enabled);
 
+
     public event Action<float> onRequestUIMapProgression;
     public void RequestUIMapProgression(float current) => onRequestUIMapProgression?.Invoke(current);
 
+
     public event Action<float> onRequestUIMapProgressionSetup;
     public void RequestUIMapProgressionSetup(float max) => onRequestUIMapProgressionSetup?.Invoke(max);
+
 
     public event Action<float, float> onRequestUIUpdateHealth;
     public void RequestUIUpdateHealth(float hp, float max) => onRequestUIUpdateHealth?.Invoke(hp, max);
@@ -60,20 +65,37 @@ public class EventService : MonoBehaviour
     public void RequestUIUpdateInteractFill(float current, float max, bool enable) => onRequestUIUpdateInteractFill?.Invoke(current, max, enable);
 
 
+    public event Action<bool> onRequestUIWeaponShow;
+    public void RequestUIWeaponShow(bool show) => onRequestUIWeaponShow?.Invoke(show);
+
+
+    public event Action<string> onRequestUIUpdateWeaponName;
+    public void RequestUIUpdateWeaponName(string newName) => onRequestUIUpdateWeaponName?.Invoke(newName);
+
+
     public event Action<int, int> onRequestUIUpdateWeaponAmmo;
     public void RequestUIUpdateWeaponAmmo(int current, int max) => onRequestUIUpdateWeaponAmmo?.Invoke(current, max);
 
-    public event Action<float> onRequestUIUpdateWeaponReloadSetMax;
-    public void RequestUIUpdateWeaponReloadSetMax(float max) => onRequestUIUpdateWeaponReloadSetMax?.Invoke(max);
 
-    public event Action onRequestUIUpdateWeaponReloadReset;
-    public void RequestUIUpdateWeaponReloadReset() => onRequestUIUpdateWeaponReloadReset?.Invoke();
+    public event Action<float, float> onRequestUIUpdateWeaponSlider;
+    public void RequestUIUpdateWeaponSlider(float current, float max) => onRequestUIUpdateWeaponSlider?.Invoke(current, max);
 
-    public event Action onRequestUIUpdateWeaponReloadTimer;
-    public void RequestUIUpdateWeaponReloadTimer() => onRequestUIUpdateWeaponReloadTimer?.Invoke();
 
-    public event Action onRequestUIUpdateWeaponReloadEnd;
-    public void RequestUIUpdateWeaponReloadEnd() => onRequestUIUpdateWeaponReloadEnd?.Invoke();
+    public event Action<bool> onRequestUIAbilityShow;
+    public void RequestUIAbilityShow(bool show) => onRequestUIAbilityShow?.Invoke(show);
+
+
+    public event Action<string> onRequestUIUpdateAbilityName;
+    public void RequestUIUpdateAbilityName(string newName) => onRequestUIUpdateAbilityName?.Invoke(newName);
+
+
+    public event Action<int> onRequestUIUpdateAbilityCharges;
+    public void RequestUIUpdateAbilityCharges(int charges) => onRequestUIUpdateAbilityCharges?.Invoke(charges);
+
+
+    public event Action<float, float> onRequestUIUpdateAbilitySlider;
+    public void RequestUIUpdateAbilitySlider(float current, float max) => onRequestUIUpdateAbilitySlider?.Invoke(current, max);
+
 
     public event Action<Vector3, string, Color, float, float> onRequestUISpawnFloatingText;
     public void RequestUISpawnFloatingText(Vector3 pos, string text, Color c, float driftRange, float duration) => onRequestUISpawnFloatingText?.Invoke(pos, text, c, driftRange, duration);

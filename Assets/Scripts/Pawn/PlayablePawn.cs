@@ -10,6 +10,7 @@ public class PlayablePawn : Pawn
     [SerializeField] protected bool isActivePlayer;
 
     public Weapon equippedWeapon;
+    public Ability equippedAbility;
 
     public Dictionary<string, int> appliedUpgrades = new Dictionary<string, int>();
 
@@ -52,6 +53,7 @@ public class PlayablePawn : Pawn
         BaseStatApplication();
 
         Destroy(equippedWeapon);
+        Destroy(equippedAbility);
 
         GameManager.current.eventService.onGivePlayerXp -= GainXp;
         GameManager.current.eventService.onGivePlayerLevel -= GainLevel;
@@ -59,6 +61,8 @@ public class PlayablePawn : Pawn
 
         GameManager.current.updateService.RegisterUpdate(this);
         GameManager.current.updateService.RegisterPause(this);
+
+        _anm.enabled = false;
 
         changeToPawn = null;
     }
@@ -74,6 +78,7 @@ public class PlayablePawn : Pawn
         FirstStatApplication();
 
         ApplyWeapon();
+        ApplyAbility();
         
         GameManager.current.updateService.RegisterUpdate(this);
         GameManager.current.updateService.RegisterPause(this);
@@ -92,7 +97,7 @@ public class PlayablePawn : Pawn
     {
         base.PawnUpdate();
 
-        UpdateSprite();
+        if (isActivePlayer) UpdateSprite();
     }
 
     protected override void PawnPause()
@@ -102,7 +107,7 @@ public class PlayablePawn : Pawn
         timerClosestInteractable?.Pause(isPaused);
         timerClosestPlayablePawn?.Pause(isPaused);
 
-        // necessary or else pawn drifts for a moment if moving while pausing
+        // necessary or else pawn drifts for a moment if pausing while moving
         _nav.velocity = Vector3.zero;
 
         if (isPaused) _nav.isStopped = true;
@@ -260,13 +265,47 @@ public class PlayablePawn : Pawn
 
             Type wType = Type.GetType(statBlock.equippedWeapon.weaponType);
             equippedWeapon = gameObject.AddComponent(wType) as Weapon;
+            equippedWeapon.owner = this;
             equippedWeapon.baseStatBlock = statBlock.equippedWeapon;
             equippedWeapon.FirstStatApplication();
 
             if (equippedWeapon != null) Destroy(currentWeapon);
+        } else
+        {
+            GameManager.current.eventService.RequestUIWeaponShow(false);
         }
     }
 
+    #endregion
+
+    #region Ability
+    public AbilityStatBlock ChangeAbility(AbilityStatBlock newAbility)
+    {
+        AbilityStatBlock currentAbility = statBlock.equippedAbility;
+        statBlock.equippedAbility = newAbility;
+        ApplyAbility();
+        return currentAbility;
+    }
+
+    private void ApplyAbility()
+    {
+        if (statBlock.equippedAbility != null)
+        {
+            Ability currentAbility = equippedAbility;
+
+            Type aType = Type.GetType(statBlock.equippedAbility.abilityType);
+            equippedAbility = gameObject.AddComponent(aType) as Ability;
+            equippedAbility.owner = this;
+            equippedAbility.baseStatBlock = statBlock.equippedAbility;
+            equippedAbility.FirstStatApplication();
+
+            if (equippedAbility != null) Destroy(currentAbility);
+        }
+        else
+        {
+            GameManager.current.eventService.RequestUIAbilityShow(false);
+        }
+    }
     #endregion
 
     #region Upgrades

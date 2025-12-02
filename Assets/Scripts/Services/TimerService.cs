@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Timer
 {
+    public string identifier;
+    public float timeMax;
     public float timeLeft;
     public float lifeTime;
     public Action callback;
@@ -15,8 +17,10 @@ public class Timer
     public bool cancelled;
     public bool isPaused;
 
-    public Timer(float t, Action c, float p, Action pc, bool pe)
+    public Timer(float t, Action c, float p, Action pc, bool pe, string id)
     {
+        identifier = id;
+        timeMax = t;
         timeLeft = t;
         lifeTime = 0;
         callback = c;
@@ -27,6 +31,11 @@ public class Timer
 
         cancelled = false;
         isPaused = false;
+    }
+
+    public void Reset()
+    {
+        timeLeft = timeMax;
     }
 
     public float GetLifeTime()
@@ -79,7 +88,7 @@ public class TimerService : MonoBehaviour, IUpdate, IPause
 
             if (t.isPaused) continue;
 
-            if (t.partialCallback != null)
+            if (t.partialCallback != null && t.partialTimeMax > 0)
             {
                 t.partialTime -= Time.deltaTime;
 
@@ -125,18 +134,18 @@ public class TimerService : MonoBehaviour, IUpdate, IPause
         }
     }
 
-    public Timer StartTimer(float time, Action callback)
+    public Timer StartTimer(float time, Action callback, string identifier = "")
     {
-        return StartTimer(time, callback, 0, null, false);
+        return StartTimer(time, callback, 0, null, identifier, false);
     }
-    public Timer StartTimer(float time, float partialTime, Action partialCallback, bool executePartialOnEnd = false)
+    public Timer StartTimer(float time, float partialTime, Action partialCallback, string identifier = "" ,bool executePartialOnEnd = false)
     {
-        return StartTimer(time, null, partialTime, partialCallback, executePartialOnEnd);
+        return StartTimer(time, null, partialTime, partialCallback, identifier, executePartialOnEnd);
     }
-    public Timer StartTimer(float time, Action callback, float partialTime, Action partialCallback, bool executePartialOnEnd = false)
+    public Timer StartTimer(float time, Action callback, float partialTime, Action partialCallback, string identifier = "", bool executePartialOnEnd = false)
     {
-        Timer newTimer = new Timer(time, callback, partialTime, partialCallback, executePartialOnEnd);
-        newTimers.Add(newTimer);
-        return newTimer;
+        Timer  timer = new Timer(time, callback, partialTime, partialCallback, executePartialOnEnd, identifier);
+        newTimers.Add(timer);
+        return timer;
     }
 }

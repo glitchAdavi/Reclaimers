@@ -8,6 +8,7 @@ public class P_Basic : Projectile
     {
         if (collider.gameObject.layer == 22) //LevelCollision
         {
+            if (hitSprite != null) Instantiate(GameManager.current.gameInfo.weaponHitPrefab, transform.position, Quaternion.identity).GetComponent<WeaponHit>().Activate(hitSprite, hitColor);
             ResetAndReturn();
         }
     }
@@ -30,6 +31,7 @@ public class P_Basic : Projectile
             }
             else
             {
+                if (hitSprite != null) Instantiate(GameManager.current.gameInfo.weaponHitPrefab, transform.position, Quaternion.identity).GetComponent<WeaponHit>().Activate(hitSprite, hitColor);
                 ResetAndReturn();
             }
         }

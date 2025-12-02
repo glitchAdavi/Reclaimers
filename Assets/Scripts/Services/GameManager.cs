@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -28,10 +29,13 @@ public class GameManager : MonoBehaviour
     public ProjectileBuilder projectileBuilder;
 
 
-    public PawnStatBlock[] allPlayablePawnStatBlocks;
-    public PawnUpgrade[] allPawnUpgrades;
-    public WeaponUpgrade[] allWeaponUpgrades;
-    public WeaponStatBlock[] allWeapons;
+    public List<PawnStatBlock> allPlayablePawns = new List<PawnStatBlock>();
+    public List<WeaponStatBlock> allWeapons = new List<WeaponStatBlock>();
+    public List<AbilityStatBlock> allAbilities = new List<AbilityStatBlock>();
+    public List<PawnUpgrade> allPawnUpgrades = new List<PawnUpgrade>();
+    public List<WeaponUpgrade> allWeaponUpgrades = new List<WeaponUpgrade>();
+    public List<AbilityUpgrade> allAbilityUpgrades = new List<AbilityUpgrade>();
+    public List<Modifier> allModifiers = new List<Modifier>();
     
     //TEMP
     public PawnStatBlock playerStatBlock;
@@ -46,10 +50,13 @@ public class GameManager : MonoBehaviour
 
             gameInfo.useCurrentPlayerStatBlock = false;
 
-            allPlayablePawnStatBlocks = Resources.LoadAll<PawnStatBlock>("ScriptableObjects/StatBlocks/Playable");
-            allPawnUpgrades = Resources.LoadAll<PawnUpgrade>("ScriptableObjects/Upgrades");
-            allWeaponUpgrades = Resources.LoadAll<WeaponUpgrade>("ScriptableObjects/Upgrades");
-            allWeapons = Resources.LoadAll<WeaponStatBlock>("ScriptableObjects/StatBlocks/Weapons");
+            allPlayablePawns = Resources.LoadAll<PawnStatBlock>("ScriptableObjects/StatBlocks/Playable").ToList();
+            allWeapons = Resources.LoadAll<WeaponStatBlock>("ScriptableObjects/StatBlocks/Weapons").ToList();
+            allAbilities = Resources.LoadAll<AbilityStatBlock>("ScriptableObjects/StatBlocks/Abilities").ToList();
+            allPawnUpgrades = Resources.LoadAll<PawnUpgrade>("ScriptableObjects/Upgrades").ToList();
+            allWeaponUpgrades = Resources.LoadAll<WeaponUpgrade>("ScriptableObjects/Upgrades").ToList();
+            allAbilityUpgrades = Resources.LoadAll<AbilityUpgrade>("ScriptableObjects/Upgrades").ToList();
+            allModifiers = Resources.LoadAll<Modifier>("ScriptableObjects/Modifiers").ToList();
 
             SceneManager.sceneLoaded += OnSceneLoaded;
             SceneManager.sceneUnloaded += OnSceneUnloaded;
@@ -67,6 +74,7 @@ public class GameManager : MonoBehaviour
         levelService = CreateService<LevelService>();
         pawnService = CreateService<PawnService>();
         uiService = InstantiateUI();
+
 
         projectileBuilder = CreateService<ProjectileBuilder>();
 
@@ -130,7 +138,7 @@ public class GameManager : MonoBehaviour
     }
 
 
-
+    #region Player
     public void SetNewActivePlayer(PlayablePawn newPlayer)
     {
         Debug.Log($"{newPlayer}");
@@ -158,7 +166,80 @@ public class GameManager : MonoBehaviour
         gameInfo.currentPlayerStatBlock.CopyValues(gameInfo.defaultStatBlock);
         gameInfo.useCurrentPlayerStatBlock = false;
     }
+    #endregion
 
+    #region GetRandom
+    public PawnStatBlock GetRandomPlayableStatBlock()
+    {
+        List<PawnStatBlock> filteredList = allPlayablePawns.Where(x => x.rarity.Equals(GetRarity())).ToList();
+        return filteredList[Random.Range(0, filteredList.Count())];
+    }
+
+    public WeaponStatBlock GetRandomWeaponStatBlock()
+    {
+        List<WeaponStatBlock> filteredList = allWeapons.Where(x => x.rarity.Equals(GetRarity())).ToList();
+        return filteredList[Random.Range(0, filteredList.Count())];
+    }
+
+    public AbilityStatBlock GetRandomAbilityStatBlock()
+    {
+        List<AbilityStatBlock> filteredList = allAbilities.Where(x => x.rarity.Equals(GetRarity())).ToList();
+        return filteredList[Random.Range(0, filteredList.Count())];
+    }
+
+    public Upgrade GetRandomUpgrade()
+    {
+        int r = Random.Range(0, 3);
+        switch (r) {
+            case 0:
+                return GetRandomPawnUpgrade();
+            case 1:
+                return GetRandomWeaponUpgrade();
+            case 2:
+                return GetRandomAbilityUpgrade();
+            default:
+                return null;
+        }
+    }
+
+    public PawnUpgrade GetRandomPawnUpgrade()
+    {
+        List<PawnUpgrade> filteredList = allPawnUpgrades.Where(x => x.rarity.Equals(GetRarity())).ToList();
+        return filteredList[Random.Range(0, filteredList.Count())];
+    }
+
+    public WeaponUpgrade GetRandomWeaponUpgrade()
+    {
+        List<WeaponUpgrade> filteredList = allWeaponUpgrades.Where(x => x.rarity.Equals(GetRarity())).ToList();
+        return filteredList[Random.Range(0, filteredList.Count())];
+    }
+
+    public AbilityUpgrade GetRandomAbilityUpgrade()
+    {
+        List<AbilityUpgrade> filteredList = allAbilityUpgrades.Where(x => x.rarity.Equals(GetRarity())).ToList();
+        return filteredList[Random.Range(0, filteredList.Count())];
+    }
+
+    public Rarity GetRarity()
+    {
+        int r = Random.Range(1, 101);
+
+        if (r >= (int)Rarity.Common) return Rarity.Common;
+        if (r >= (int)Rarity.Uncommon) return Rarity.Uncommon;
+        if (r >= (int)Rarity.Rare) return Rarity.Rare;
+        if (r >= (int)Rarity.Epic) return Rarity.Epic;
+        return Rarity.Legendary;
+    }
+    #endregion
+
+    public Modifier GetModifier(string id)
+    {
+        foreach (Modifier mod in allModifiers)
+        {
+            if (mod.id.Equals(id)) return mod;
+        }
+        return null;
+    }
 
     public void GoToLevel(int scenIndex)
     {
@@ -174,4 +255,5 @@ public class GameManager : MonoBehaviour
     {
         Application.Quit();
     }
+
 }
