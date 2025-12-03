@@ -102,7 +102,7 @@ public class PlayerController : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdat
 
     public void ControllerEscape()
     {
-        GameManager.current.updateService.TogglePause();
+        GameManager.current.eventService.RequestTogglePause();
         GameManager.current.eventService.RequestUITogglePauseMenu(!GameManager.current.updateService.isGamePausedInspector);
     }
 

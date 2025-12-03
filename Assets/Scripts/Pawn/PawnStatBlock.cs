@@ -55,6 +55,16 @@ public class PawnStatBlock : ScriptableObject
 
     public Stat xpKillValue = new Stat(1f, 0f, 1f);
 
+
+    public bool onDamageSpawnEnemy;
+    public PawnStatBlock onDamageEnemyToSpawn;
+    public Stat onDamageInterval = new Stat(0f, 0f, 1f);
+    public Stat onDamageNumToSpawn = new Stat(0f, 0f, 1f);
+
+    public bool onDeathSpawnEnemy;
+    public PawnStatBlock onDeathEnemyToSpawn;
+    public Stat onDeathNumToSpawn = new Stat(0f, 0f, 1f);
+
     public void CopyValues(PawnStatBlock psb)
     {
         rarity = psb.rarity;
@@ -102,5 +112,14 @@ public class PawnStatBlock : ScriptableObject
         iFrameDuration.SetValues(psb.iFrameDuration);
 
         xpKillValue.SetValues(psb.xpKillValue);
+
+        onDamageSpawnEnemy = psb.onDamageSpawnEnemy;
+        onDamageEnemyToSpawn = psb.onDamageEnemyToSpawn;
+        onDamageInterval.SetValues(psb.onDamageInterval);
+        onDamageNumToSpawn.SetValues(psb.onDamageNumToSpawn);
+
+        onDeathSpawnEnemy = psb.onDeathSpawnEnemy;
+        onDeathEnemyToSpawn = psb.onDeathEnemyToSpawn;
+        onDeathNumToSpawn.SetValues(psb.onDeathNumToSpawn);
     }
 }

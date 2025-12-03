@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
     public ProjectileBuilder projectileBuilder;
 
 
+    public List<PawnStatBlock> allBosses = new List<PawnStatBlock>();
     public List<PawnStatBlock> allPlayablePawns = new List<PawnStatBlock>();
     public List<WeaponStatBlock> allWeapons = new List<WeaponStatBlock>();
     public List<AbilityStatBlock> allAbilities = new List<AbilityStatBlock>();
@@ -36,9 +37,11 @@ public class GameManager : MonoBehaviour
     public List<WeaponUpgrade> allWeaponUpgrades = new List<WeaponUpgrade>();
     public List<AbilityUpgrade> allAbilityUpgrades = new List<AbilityUpgrade>();
     public List<Modifier> allModifiers = new List<Modifier>();
+    public List<LevelScript> allLevelScripts = new List<LevelScript>();
     
-    //TEMP
+    //TEMP for the case in which the player quits and we have to reset fully
     public PawnStatBlock playerStatBlock;
+
 
     private void Awake()
     {
@@ -50,6 +53,7 @@ public class GameManager : MonoBehaviour
 
             gameInfo.useCurrentPlayerStatBlock = false;
 
+            allBosses = Resources.LoadAll<PawnStatBlock>("ScriptableObjects/StatBlocks/Boss").ToList();
             allPlayablePawns = Resources.LoadAll<PawnStatBlock>("ScriptableObjects/StatBlocks/Playable").ToList();
             allWeapons = Resources.LoadAll<WeaponStatBlock>("ScriptableObjects/StatBlocks/Weapons").ToList();
             allAbilities = Resources.LoadAll<AbilityStatBlock>("ScriptableObjects/StatBlocks/Abilities").ToList();
@@ -57,6 +61,7 @@ public class GameManager : MonoBehaviour
             allWeaponUpgrades = Resources.LoadAll<WeaponUpgrade>("ScriptableObjects/Upgrades").ToList();
             allAbilityUpgrades = Resources.LoadAll<AbilityUpgrade>("ScriptableObjects/Upgrades").ToList();
             allModifiers = Resources.LoadAll<Modifier>("ScriptableObjects/Modifiers").ToList();
+            allLevelScripts = Resources.LoadAll<LevelScript>("ScriptableObjects/LevelScripts").ToList();
 
             SceneManager.sceneLoaded += OnSceneLoaded;
             SceneManager.sceneUnloaded += OnSceneUnloaded;
@@ -156,6 +161,7 @@ public class GameManager : MonoBehaviour
 
     public void SavePlayer()
     {
+
         playerPawn.SaveUpgradeDictionary();
         gameInfo.currentPlayerStatBlock.CopyValues(playerPawn.statBlock);
         gameInfo.useCurrentPlayerStatBlock = true;
@@ -169,6 +175,11 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region GetRandom
+    public PawnStatBlock GetRandomBoss()
+    {
+        return allBosses[Random.Range(0, allBosses.Count())];
+    }
+
     public PawnStatBlock GetRandomPlayableStatBlock()
     {
         List<PawnStatBlock> filteredList = allPlayablePawns.Where(x => x.rarity.Equals(GetRarity())).ToList();
@@ -218,6 +229,11 @@ public class GameManager : MonoBehaviour
     {
         List<AbilityUpgrade> filteredList = allAbilityUpgrades.Where(x => x.rarity.Equals(GetRarity())).ToList();
         return filteredList[Random.Range(0, filteredList.Count())];
+    }
+
+    public LevelScript GetRandomLevelScript()
+    {
+        return allLevelScripts[Random.Range(0, allLevelScripts.Count())];
     }
 
     public Rarity GetRarity()

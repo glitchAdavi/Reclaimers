@@ -4,21 +4,26 @@ using UnityEngine;
 
 public class LL_Extraction : LevelLogic
 {
+    public LevelScript currentLevelScript;
     public int levelStage = 0;
 
-    public float levelMainProgressionMax = 60f;
+    public float levelMainProgressionMax = 180f;
     public float levelMainProgression = 0f;
     Timer timerLevelMainProgression;
 
 
-    public float levelSurviveProgressionMax = 10f;
+    public float levelSurviveProgressionMax = 300f;
     Timer timerLevelSurviveProgression;
 
     public bool setupStage1 = false;
     public bool setupStage2 = false;
+    public bool setupStage3 = false;
+    public EnemyPawn boss;
 
     public override void Activate()
     {
+        currentLevelScript = GameManager.current.GetRandomLevelScript();
+
         Debug.Log($"Starting Extraction Mode Logic");
         GameManager.current.eventService.RequestUIUseMainMenu(false);
         GameManager.current.eventService.RequestUIMapProgressionEnable(true);
@@ -43,10 +48,22 @@ public class LL_Extraction : LevelLogic
                 if (!setupStage2) SetupStage2();
                 Stage2();
                 break;
+            case 3:
+                if (!setupStage3) SetupStage3();
+                Stage3();
+                break;
             default:
                 break;
         }
             
+    }
+
+    public override void Pause(bool paused)
+    {
+        isPaused = paused;
+
+        timerLevelMainProgression?.Pause(paused);
+        timerLevelSurviveProgression?.Pause(paused);
     }
 
     public void SetupStage1()
@@ -95,6 +112,8 @@ public class LL_Extraction : LevelLogic
             timerLevelSurviveProgression = GameManager.current.timerService.StartTimer(3600f,
                 1f,
                 () => levelSurviveProgressionMax--);
+
+            currentLevelScript.StartScript();
         }
 
         GameManager.current.eventService.RequestUIMapProgression(levelSurviveProgressionMax);
@@ -103,6 +122,28 @@ public class LL_Extraction : LevelLogic
         {
             timerLevelSurviveProgression?.Cancel();
             timerLevelSurviveProgression = null;
+            levelStage = 3;
+        }
+    }
+
+    public void SetupStage3()
+    {
+        setupStage3 = true;
+
+        GameManager.current.eventService.SetPawnServiceActive(false);
+        GameManager.current.eventService.RequestBossSpawn();
+        GameManager.current.eventService.RequestUIMapProgressionSetup(boss.statBlock.lifepoints.Value(), Color.red);
+        GameManager.current.eventService.RequestUIMapProgression(boss.GetCurrentLifepoints());
+    }
+
+    public void Stage3()
+    {
+        if (boss != null && !boss.IsPawnDead())
+        {
+            GameManager.current.eventService.RequestUIMapProgression(boss.GetCurrentLifepoints());
+
+        } else
+        {
             levelStage = -1;
             Win();
         }
@@ -111,8 +152,8 @@ public class LL_Extraction : LevelLogic
 
     protected override void Win()
     {
-        
-
+        GameManager.current.eventService.SetPawnServiceActive(false);
+        GameManager.current.eventService.RequestKillAllEnemies();
 
 
         base.Win();

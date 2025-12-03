@@ -14,7 +14,14 @@ public class EventService : MonoBehaviour
 
 
 
+    #region System
+    public event Action onRequestTogglePause;
+    public void RequestTogglePause() => onRequestTogglePause?.Invoke();
 
+
+
+
+    #endregion
 
 
 
@@ -37,8 +44,8 @@ public class EventService : MonoBehaviour
     public void RequestUIMapProgression(float current) => onRequestUIMapProgression?.Invoke(current);
 
 
-    public event Action<float> onRequestUIMapProgressionSetup;
-    public void RequestUIMapProgressionSetup(float max) => onRequestUIMapProgressionSetup?.Invoke(max);
+    public event Action<float, Color?> onRequestUIMapProgressionSetup;
+    public void RequestUIMapProgressionSetup(float max, Color? newColor = null) => onRequestUIMapProgressionSetup?.Invoke(max, newColor);
 
 
     public event Action<float, float> onRequestUIUpdateHealth;
@@ -101,6 +108,8 @@ public class EventService : MonoBehaviour
     public void RequestUISpawnFloatingText(Vector3 pos, string text, Color c, float driftRange, float duration) => onRequestUISpawnFloatingText?.Invoke(pos, text, c, driftRange, duration);
 
 
+    public event Action onLevelUpFinish;
+    public void LevelUpFinish() => onLevelUpFinish?.Invoke();
     #endregion
 
     #region Control
@@ -124,6 +133,9 @@ public class EventService : MonoBehaviour
 
     public event Action<int> onGivePlayerLevel;
     public void GivePlayerLevel(int levels) => onGivePlayerLevel?.Invoke(levels);
+
+    public event Action onQueueLevelUp;
+    public void QueueLevelUp() => onQueueLevelUp?.Invoke();
     #endregion
 
     #region Material
@@ -151,6 +163,12 @@ public class EventService : MonoBehaviour
 
 
     #region Enemy
+    public event Action<PawnStatBlock, Vector3, float> onRequestEnemySpawn;
+    public void RequestEnemySpawn(PawnStatBlock enemy, Vector3 pos, float radius) => onRequestEnemySpawn?.Invoke(enemy, pos, radius);
+
+    public event Action onRequestBossSpawn;
+    public void RequestBossSpawn() => onRequestBossSpawn?.Invoke();
+
     public event Action<bool> onPawnServiceActive;
     public void SetPawnServiceActive(bool active) => onPawnServiceActive?.Invoke(active);
 
@@ -162,6 +180,9 @@ public class EventService : MonoBehaviour
 
     public event Action<EnemyPawn> onEnemyDeath;
     public void EnemyDeath(EnemyPawn ep) => onEnemyDeath?.Invoke(ep);
+
+    public event Action onRequestKillAllEnemies;
+    public void RequestKillAllEnemies() => onRequestKillAllEnemies?.Invoke();
 
     #endregion
 }

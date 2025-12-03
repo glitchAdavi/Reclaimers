@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using UnityEngine.InputSystem.LowLevel;
 
 public class UIService : MonoBehaviour
 {
@@ -38,6 +37,7 @@ public class UIService : MonoBehaviour
     public TMP_Text uiAbilityCharges;
     public Slider uiAbilityCooldownSlider;
 
+    public GameObject levelUpMenu;
 
 
     Timer timerFadeIn;
@@ -72,6 +72,9 @@ public class UIService : MonoBehaviour
         GameManager.current.eventService.onRequestUIUpdateAbilityName += (x) => uiAbilityName.text = x;
         GameManager.current.eventService.onRequestUIUpdateAbilityCharges += (x) => uiAbilityCharges.text = x.ToString();
         GameManager.current.eventService.onRequestUIUpdateAbilitySlider += UpdateUIAbilitySlider;
+
+        GameManager.current.eventService.onQueueLevelUp += LevelUpMenuOpen;
+        GameManager.current.eventService.onLevelUpFinish += LevelUpMenuClose;
     }
 
     public void TogglePauseMenu(bool paused)
@@ -90,9 +93,10 @@ public class UIService : MonoBehaviour
         uiMapProgressionFill.value = current;
     }
 
-    public void UpdateUIMapProgressionSetup(float max)
+    public void UpdateUIMapProgressionSetup(float max, Color? newColor = null)
     {
         uiMapProgressionFill.maxValue = max;
+        if (newColor != null) uiMapProgressionFill.image.color = (Color)newColor;
     }
 
     public void UpdateUIHealth(float current, float max)
@@ -153,7 +157,19 @@ public class UIService : MonoBehaviour
 
     }
 
+    public void LevelUpMenuOpen()
+    {
+        GameManager.current.eventService.RequestTogglePause();
+        GameManager.current.eventService.RequestEnableControlAll(false);
+        levelUpMenu.SetActive(true);
+    }
 
+    public void LevelUpMenuClose()
+    {
+        levelUpMenu.SetActive(false);
+        GameManager.current.eventService.RequestEnableControlAll(true);
+        GameManager.current.eventService.RequestTogglePause();
+    }
 
 
 

@@ -28,7 +28,11 @@ public class GameInfo : ScriptableObject
     public PawnStatBlock defaultStatBlock;
     public PawnStatBlock currentPlayerStatBlock;
 
-    public PawnStatBlock enemy1StatBlock;
+    public PawnStatBlock defaultEnemyStatBlock;
+
+    public PawnStatBlock slimeEnemyStatBlock;
+    public PawnStatBlock zombieEnemyStatBlock;
+    public PawnStatBlock bugEnemyStatBlock;
 
 
 

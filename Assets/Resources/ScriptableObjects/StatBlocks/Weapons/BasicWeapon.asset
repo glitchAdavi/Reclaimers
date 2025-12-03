@@ -61,7 +61,7 @@ MonoBehaviour:
     addVal: 0
     multVal: 1
   projDamage:
-    baseVal: 5
+    baseVal: 1
     addVal: 0
     multVal: 1
   projDamageRadius:
@@ -87,7 +87,7 @@ MonoBehaviour:
     multVal: 1
   explodeImmediately: 0
   projCritChance:
-    baseVal: 25
+    baseVal: 0
     addVal: 0
     multVal: 1
   projCritMultiplier:

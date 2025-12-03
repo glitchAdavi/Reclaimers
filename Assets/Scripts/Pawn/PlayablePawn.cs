@@ -11,6 +11,8 @@ public class PlayablePawn : Pawn
 
     public Weapon equippedWeapon;
     public Ability equippedAbility;
+    public Light muzzleFlash;
+    Timer timerMuzzleFlash;
 
     public Dictionary<string, int> appliedUpgrades = new Dictionary<string, int>();
 
@@ -19,6 +21,9 @@ public class PlayablePawn : Pawn
     public int levelThreshold = 5;
 
     //TEMP
+
+
+    public int pendingLevelUps = 0;
 
     public InteractableObject closestInteractable;
     public InteractableArea currentArea;
@@ -98,6 +103,12 @@ public class PlayablePawn : Pawn
         base.PawnUpdate();
 
         if (isActivePlayer) UpdateSprite();
+
+        if (pendingLevelUps > 0)
+        {
+            pendingLevelUps--;
+            GameManager.current.eventService.QueueLevelUp();
+        }
     }
 
     protected override void PawnPause()
@@ -147,12 +158,6 @@ public class PlayablePawn : Pawn
         GameManager.current.eventService.RequestUIUpdateHealth(lifepoints, maxLifepoints);
         GameManager.current.eventService.RequestUIUpdateXpBar(xp, levelThreshold);
         GameManager.current.eventService.RequestUIUpdateLevelCounter(level);
-    }
-
-    public override void ApplySpeed()
-    {
-        base.ApplySpeed();
-        _anm.speed = 0.1f * statBlock.speed.Value();
     }
 
     public void ApplyUpgradeDictionary()
@@ -233,7 +238,13 @@ public class PlayablePawn : Pawn
     public void GainLevel(int l)
     {
         level++;
+        LevelUpEffect();
         GameManager.current.eventService.RequestUIUpdateLevelCounter(level);
+    }
+
+    protected void LevelUpEffect()
+    {
+        pendingLevelUps++;
     }
     #endregion
 
@@ -274,6 +285,12 @@ public class PlayablePawn : Pawn
         {
             GameManager.current.eventService.RequestUIWeaponShow(false);
         }
+    }
+
+    public void MuzzleFlash()
+    {
+        muzzleFlash.enabled = true;
+        timerMuzzleFlash = GameManager.current.timerService.StartTimer(0.05f, () => muzzleFlash.enabled = false);
     }
 
     #endregion

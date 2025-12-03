@@ -29,4 +29,4 @@ MonoBehaviour:
   weaponHitPrefab: {fileID: 9022209119693470882, guid: 9649bec77987b754d89c7dc0cdc34484, type: 3}
   defaultStatBlock: {fileID: 11400000, guid: 0280918b95d279a4ab02c3268abc60f5, type: 2}
   currentPlayerStatBlock: {fileID: 11400000, guid: 862a0ea39af23cf49adf90f75653856b, type: 2}
-  enemy1StatBlock: {fileID: 11400000, guid: 4ccf96d21a259474f82429fbfc784e30, type: 2}
+  enemy1StatBlock: {fileID: 11400000, guid: 8531b654aa011a44da4de45be00a85b5, type: 2}

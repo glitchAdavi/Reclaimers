@@ -47,9 +47,16 @@ public class PawnService : MonoBehaviour, IUpdate, IPause
     public bool spawnIdle = false;
     public bool isPaused = false;
 
+    //TEMP
+
+    PawnStatBlock enemyTemp;
+
+    //TEMP
+
 
     public void OnEnable()
     {
+        enemyTemp = GameManager.current.gameInfo.defaultEnemyStatBlock;
 
         enemyBuilder = GameManager.current.CreateService<EnemyBuilder>();
         _enemyPrefab = GameManager.current.gameInfo.enemyPawnPrefab;
@@ -67,6 +74,9 @@ public class PawnService : MonoBehaviour, IUpdate, IPause
         GameManager.current.eventService.onPawnServiceActive += SetPawnServiceActive;
         GameManager.current.eventService.onPawnServiceSpawnIdle += (x) => spawnIdle = x;
         GameManager.current.eventService.onPawnServiceSpawnAlert += (x) => spawnAlert = x;
+        GameManager.current.eventService.onRequestKillAllEnemies += KillAllEnemiesSilently;
+        GameManager.current.eventService.onRequestEnemySpawn += SpawnEnemy;
+        GameManager.current.eventService.onRequestBossSpawn += SpawnRandomBoss;
 
         GameManager.current.updateService.RegisterUpdate(this);
         GameManager.current.updateService.RegisterPause(this);
@@ -121,7 +131,7 @@ public class PawnService : MonoBehaviour, IUpdate, IPause
             {
                 for (int j = 0; j < 10; j++)
                 {
-                    SpawnEnemyIdle(fixedSpawnPoints[i]);
+                    SpawnEnemyIdle(enemyTemp, fixedSpawnPoints[i]);
                 }
             }
             spawnIdle = false;
@@ -137,29 +147,50 @@ public class PawnService : MonoBehaviour, IUpdate, IPause
                 for (int i = 0; i < spawnBatch; i++)
                 {
                     if (spawnedEnemies >= maxSimultaneousEnemies) break;
-                    SpawnEnemyActive();
+                    SpawnEnemyActive(enemyTemp);
                 }
             }
         }
     }
 
-    public void SpawnEnemyIdle(Vector3 spawnPoint)
+    public void SpawnEnemyIdle(PawnStatBlock enemy, Vector3 spawnPoint)
     {
         EnemyPawn newEnemy = enemyBuilder.GetObject();
-        newEnemy.InitializeEnemyPawn(null);
+        newEnemy.InitializeEnemyPawn(enemy);
         newEnemy.SetIsIdle(true);
         newEnemy.Teleport(GetRandomPosInRadius(spawnPoint, fixedSpawnPointRange));
         pawnsInScene.Add(newEnemy);
     }
 
-    public void SpawnEnemyActive()
+    public void SpawnEnemyActive(PawnStatBlock enemy)
     {
         EnemyPawn newEnemy = enemyBuilder.GetObject();
-        newEnemy.InitializeEnemyPawn(null);
+        newEnemy.InitializeEnemyPawn(enemy);
         newEnemy.SetIsIdle(false);
         newEnemy.Teleport(GameManager.current.tileService.TileToPos(GetRandomSpawnableTile()));
         pawnsInScene.Add(newEnemy);
         spawnedEnemies++;
+    }
+
+    public void SpawnEnemy(PawnStatBlock enemy, Vector3 pos, float radius)
+    {
+        EnemyPawn newEnemy = enemyBuilder.GetObject();
+        newEnemy.InitializeEnemyPawn(enemy);
+        newEnemy.SetIsIdle(false);
+        newEnemy.Teleport(GetRandomPosInRadius(pos, radius));
+        newEnemy.irregularSpawn = true;
+        pawnsInScene.Add(newEnemy);
+    }
+
+    public void SpawnRandomBoss()
+    {
+        EnemyPawn newEnemy = enemyBuilder.GetObject();
+        newEnemy.InitializeEnemyPawn(GameManager.current.GetRandomBoss());
+        newEnemy.SetIsIdle(false);
+        newEnemy.Teleport(GameManager.current.tileService.TileToPos(GetRandomSpawnableTile()));
+        newEnemy.irregularSpawn = true;
+        pawnsInScene.Add(newEnemy);
+        GameManager.current.levelService.SetLevelBoss(newEnemy);
     }
     #endregion
 
@@ -255,6 +286,16 @@ public class PawnService : MonoBehaviour, IUpdate, IPause
         spawnTimerLimit = interval;
         spawnBatch = batch;
         maxSimultaneousEnemies = max;
+    }
+
+    public void KillAllEnemiesSilently()
+    {
+        foreach (EnemyPawn ep in pawnsInScene.items)
+        {
+            ep.DieSilently();
+            pawnsInScene.Remove(ep);
+            spawnedEnemies--;
+        }
     }
 
     private void OnDrawGizmos()

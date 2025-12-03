@@ -197,6 +197,11 @@ public class LevelService : MonoBehaviour
         }
     }
 
+    public void SetLevelBoss(EnemyPawn boss)
+    {
+        (currentLevelLogic as LL_Extraction).boss = boss;
+    }
+
 
     #endregion
 
@@ -215,11 +220,13 @@ public class LevelService : MonoBehaviour
     public void AddInteractableArea(InteractableArea ia)
     {
         allInteractableAreas.Add(ia);
+        GameManager.current.updateService.RegisterPause(ia);
     }
 
     public void RemoveInteractableArea(InteractableArea ia)
     {
         allInteractableAreas.Remove(ia);
+        GameManager.current.updateService.UnregisterPause(ia);
     }
 
 }

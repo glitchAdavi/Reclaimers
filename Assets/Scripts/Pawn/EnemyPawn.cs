@@ -6,6 +6,8 @@ using UnityEngine.AI;
 public class EnemyPawn : Pawn
 {
     [SerializeField] protected Pawn target;
+    [SerializeField] protected bool active;
+    public bool irregularSpawn = false;
 
     protected bool dropXp = true;
 
@@ -16,10 +18,14 @@ public class EnemyPawn : Pawn
     Timer attackCooldown;
 
     [SerializeField] protected bool isIdle = false;
-    [SerializeField] protected int playerDetectionRange = 10;    
+    [SerializeField] protected int playerDetectionRange = 10;
+
+    [SerializeField] protected float onDamageSpawnPartialLeftover = 0f;
 
     protected override void OnEnable()
     {
+        active = true;
+        isDead = false;
         base.OnEnable();
 
     }
@@ -27,7 +33,7 @@ public class EnemyPawn : Pawn
     public void InitializeEnemyPawn(PawnStatBlock pawnStatBlock)
     {
         if (pawnStatBlock != null) baseStatBlock = pawnStatBlock;
-        else baseStatBlock = GameManager.current.gameInfo.enemy1StatBlock;
+        else baseStatBlock = GameManager.current.gameInfo.defaultEnemyStatBlock;
         statBlock = ScriptableObject.CreateInstance<PawnStatBlock>();
         statBlock.CopyValues(baseStatBlock);
 
@@ -54,7 +60,7 @@ public class EnemyPawn : Pawn
             if (target != null) Move();
             else target = GameManager.current.pawnService.GetTarget();
 
-            if (Vector3.Distance(transform.position, target.transform.position) <= _nav.radius + target.GetNavRadius() + 0.5f)
+            if (Vector3.Distance(transform.position, target.transform.position) <= _nav.radius + target.GetNavRadius() + interactionRange)
             {
                 if (canMeleeAttack) MeleeHit();
             }
@@ -65,16 +71,27 @@ public class EnemyPawn : Pawn
     {
         base.PawnPause();
 
-        attackCooldown?.Pause(isPaused);
+        if (active)
+        {
+            attackCooldown?.Pause(isPaused);
 
-        _nav.velocity = Vector3.zero;
+            if (!_rb.isKinematic) _rb.isKinematic = true;
 
-        if (isPaused) _nav.isStopped = true;
-        else _nav.isStopped = false;
+            _nav.velocity = Vector3.zero;
+
+            _anm.enabled = !isPaused;
+
+            if (_nav.isOnNavMesh)
+            {
+                if (isPaused) _nav.isStopped = true;
+                else _nav.isStopped = false;
+            }
+        }
     }
 
     protected override void OnDisable()
     {
+        active = false;
         GameManager.current.updateService.UnregisterUpdate(this);
         GameManager.current.updateService.UnregisterPause(this);
     }
@@ -82,6 +99,8 @@ public class EnemyPawn : Pawn
     #region Movement
     protected void Move()
     {
+        if (!active) return;
+
         if (!_nav.hasPath) GetPath();
 
         pathUpdateTimer++;
@@ -95,6 +114,7 @@ public class EnemyPawn : Pawn
 
     protected void GetPath()
     {
+        if (!active) return;
         if (_nav.enabled == false) return;
         NavMeshPath path = new NavMeshPath();
         _nav.CalculatePath(target.GetPosition(), path);
@@ -122,11 +142,45 @@ public class EnemyPawn : Pawn
         string damageText = $"Crit!\n{damage}";
         if (isCrit) GameManager.current.eventService.RequestUISpawnFloatingText(transform.position, damageText, Color.red, 2f, 0.5f);
         else GameManager.current.eventService.RequestUISpawnFloatingText(transform.position, $"{damage}", Color.white, 2f, 0.5f);
+
+        if (statBlock.onDamageSpawnEnemy && statBlock.onDamageEnemyToSpawn != null)
+        {
+            float temp = damage + onDamageSpawnPartialLeftover;
+            while (temp >= statBlock.onDamageInterval.Value())
+            {
+                if (statBlock.scale.Mult > 1) statBlock.scale.SetMult(statBlock.scale.Mult - 0.2f);
+                else statBlock.scale.SetMult(1f);
+                ApplyScale();
+                GameManager.current.eventService.RequestEnemySpawn(statBlock.onDamageEnemyToSpawn, new Vector3(transform.position.x, 0.5f, transform.position.z), 2f);
+                temp -= statBlock.onDamageInterval.Value();
+            }
+            onDamageSpawnPartialLeftover = temp;
+        }
     }
 
     protected override void Die()
     {
+        if (!isDead)
+        {
+            if (statBlock.onDeathSpawnEnemy && statBlock.onDeathEnemyToSpawn != null)
+            {
+                int eToSpawn = statBlock.onDeathNumToSpawn.ValueInt();
+                while (eToSpawn > 0)
+                {
+                    GameManager.current.eventService.RequestEnemySpawn(statBlock.onDeathEnemyToSpawn, new Vector3(transform.position.x, 0.5f, transform.position.z), 2f);
+                    eToSpawn--;
+                }
+            }
+        }
+
+        isDead = true;
         ResetAndReturn();
+    }
+
+    public void DieSilently()
+    {
+        isDead = true;
+        GameManager.current.pawnService.enemyBuilder.ReturnEnemyPawn(this);
     }
 
     public void SetIsIdle(bool idle)
@@ -144,7 +198,7 @@ public class EnemyPawn : Pawn
     protected void ResetAndReturn()
     {
         GameManager.current.eventService.SpawnXp(transform.position, xpKillValue);
-        GameManager.current.eventService.EnemyDeath(this);
+        if (!irregularSpawn) GameManager.current.eventService.EnemyDeath(this);
         GameManager.current.pawnService.enemyBuilder.ReturnEnemyPawn(this);
     }
 
@@ -166,5 +220,6 @@ public class EnemyPawn : Pawn
         ApplyMeleeDamage();
         ApplyMeleeCooldown();
         ApplyXpKillValue();
+        ApplyInteractionRange();
     }
 }

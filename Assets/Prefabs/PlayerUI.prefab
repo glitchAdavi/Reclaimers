@@ -600,6 +600,7 @@ MonoBehaviour:
   uiAbilityName: {fileID: 411310837481532247}
   uiAbilityCharges: {fileID: 49858322605479871}
   uiAbilityCooldownSlider: {fileID: 1197176310938837700}
+  levelUpMenu: {fileID: 7601624143972426096}
 --- !u!1 &1349951365670184194
 GameObject:
   m_ObjectHideFlags: 0
@@ -3041,6 +3042,7 @@ GameObject:
   - component: {fileID: 2914129865996224058}
   - component: {fileID: 8429145466196929602}
   - component: {fileID: 8655824507274759592}
+  - component: {fileID: 1390897473719179541}
   m_Layer: 5
   m_Name: LevelUpSkip
   m_TagString: Untagged
@@ -3149,7 +3151,31 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8429145466196929602}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1390897473719179541}
+        m_TargetAssemblyTypeName: UI_Btn_LevelUpSkip, Assembly-CSharp
+        m_MethodName: Skip
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1390897473719179541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7191506002468221160}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f989d5fec9fbb0b4381e36af9c131a0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7325912197174071916
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class InteractableArea : MonoBehaviour
+public abstract class InteractableArea : MonoBehaviour, IPause
 {
     public float useThreshold = 3f;
 
@@ -13,6 +13,13 @@ public abstract class InteractableArea : MonoBehaviour
 
     Timer timerUse;
     Timer timerUseAutomatic;
+
+
+    public void Pause(bool paused)
+    {
+        timerUse?.Pause(paused);
+        timerUseAutomatic?.Pause(paused);
+    }
 
     public virtual void Use()
     {

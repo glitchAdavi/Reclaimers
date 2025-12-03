@@ -78,6 +78,7 @@ public abstract class Weapon : MonoBehaviour, IUpdate, IPause
         GameManager.current.eventService.RequestUIUpdateWeaponSlider(currentClipSize, maxClipSize);
 
         canShoot = false;
+        owner.MuzzleFlash();
         timerFireRate = GameManager.current.timerService.StartTimer(fireRate, ShootEndTimer);
 
         if (bulletSpreadMax > 0)

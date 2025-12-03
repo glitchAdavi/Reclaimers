@@ -228,11 +228,17 @@ public abstract class Pawn : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdate, 
     #region ApplyValues
     protected virtual void FirstStatApplication()
     {
+        ApplySprite();
         ApplyScale();
         ApplySpeed();
         ApplyLifepoints();
         ApplyDamageMultiplier();
         lifepoints = maxLifepoints;
+    }
+
+    public void ApplySprite()
+    {
+        if (statBlock.pawnSprite != null) _sr.sprite = statBlock.pawnSprite;
     }
 
     public void ApplyScale()
@@ -243,6 +249,7 @@ public abstract class Pawn : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdate, 
     public virtual void ApplySpeed()
     {
         _nav.speed = statBlock.speed.Value();
+        _anm.speed = 0.1f * statBlock.speed.Value();
     }
 
     public void ApplyLifepoints()
@@ -337,9 +344,19 @@ public abstract class Pawn : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdate, 
     #endregion
 
     #region GetValues
+    public bool IsPawnDead()
+    {
+        return isDead;
+    }
+
     public float GetSpeed()
     {
         return _nav.speed;
+    }
+
+    public float GetCurrentLifepoints()
+    {
+        return lifepoints;
     }
 
     public float GetPickUpRange()

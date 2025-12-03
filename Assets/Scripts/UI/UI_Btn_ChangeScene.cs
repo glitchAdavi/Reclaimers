@@ -8,6 +8,8 @@ public class UI_Btn_ChangeScene : MonoBehaviour
 
     public void ChangeScene()
     {
-        GameManager.current.GoToLevel(sceneIndex);
+        GameManager.current.eventService.RequestUITogglePauseMenu(false);
+        GameManager.current.ResetPlayer();
+        GameManager.current.uiService.FadeOut(GameManager.current.ReturnToMenu);
     }
 }

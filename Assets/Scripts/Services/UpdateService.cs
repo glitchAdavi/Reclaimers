@@ -19,6 +19,11 @@ public class UpdateService : MonoBehaviour
     [SerializeField] int elLateUpdatesCount = 0;
     [SerializeField] int elPausesCount = 0;
 
+    private void Start()
+    {
+        GameManager.current.eventService.onRequestTogglePause += TogglePause;
+    }
+
     private void OnDisable()
     {
         isGamePaused = false;

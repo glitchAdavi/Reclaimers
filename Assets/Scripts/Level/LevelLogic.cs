@@ -21,7 +21,7 @@ public abstract class LevelLogic : MonoBehaviour, IUpdate, IPause
         LogicUpdate();
     }
 
-    public void Pause(bool paused)
+    public virtual void Pause(bool paused)
     {
         isPaused = paused;
     }

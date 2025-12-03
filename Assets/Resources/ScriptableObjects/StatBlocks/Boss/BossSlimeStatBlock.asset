@@ -10,11 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8049b2b7ff881c14fb97e71d0a471463, type: 3}
-  m_Name: EnemyStatBlock
+  m_Name: BossSlimeStatBlock
   m_EditorClassIdentifier: 
-  pawnName: Enemy
+  rarity: 60
+  pawnName: Mutated Slime
+  pawnDescription: Attacking it causes pieces to fall off.
   equippedWeapon: {fileID: 0}
+  equippedAbility: {fileID: 0}
+  keyUpgrade: []
+  valueUpgrade: 
+  pawnSprite: {fileID: 0}
+  pawnSpriteColor: {r: 255, g: 255, b: 255, a: 255}
   scale:
+    baseVal: 1
+    addVal: 0
+    multVal: 7
+  materials:
+    baseVal: 0
+    addVal: 0
+    multVal: 1
+  materialGain:
     baseVal: 1
     addVal: 0
     multVal: 1
@@ -35,11 +50,11 @@ MonoBehaviour:
     addVal: 0
     multVal: 1
   speed:
-    baseVal: 2
+    baseVal: 1
     addVal: 0
     multVal: 1
   lifepoints:
-    baseVal: 10
+    baseVal: 100
     addVal: 0
     multVal: 1
   lpRegen:
@@ -63,7 +78,7 @@ MonoBehaviour:
     addVal: 0
     multVal: 1
   meleeDamage:
-    baseVal: 1
+    baseVal: 10
     addVal: 0
     multVal: 1
   meleeCooldown:
@@ -71,18 +86,34 @@ MonoBehaviour:
     addVal: 0
     multVal: 1
   pickUpRange:
-    baseVal: 5
+    baseVal: 0
     addVal: 0
     multVal: 1
   interactionRange:
-    baseVal: 3
+    baseVal: 1
     addVal: 0
     multVal: 1
   iFrameDuration:
     baseVal: 0
     addVal: 0
-    multVal: 0
+    multVal: 1
   xpKillValue:
+    baseVal: 20
+    addVal: 0
+    multVal: 1
+  onDamageSpawnEnemy: 1
+  onDamageEnemyToSpawn: {fileID: 11400000, guid: 4ccf96d21a259474f82429fbfc784e30, type: 2}
+  onDamageInterval:
+    baseVal: 5
+    addVal: 0
+    multVal: 1
+  onDamageNumToSpawn:
     baseVal: 1
+    addVal: 0
+    multVal: 1
+  onDeathSpawnEnemy: 0
+  onDeathEnemyToSpawn: {fileID: 11400000, guid: 4ccf96d21a259474f82429fbfc784e30, type: 2}
+  onDeathNumToSpawn:
+    baseVal: 2
     addVal: 0
     multVal: 1
