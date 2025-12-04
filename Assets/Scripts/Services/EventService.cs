@@ -163,11 +163,20 @@ public class EventService : MonoBehaviour
 
 
     #region Enemy
-    public event Action<PawnStatBlock, Vector3, float> onRequestEnemySpawn;
-    public void RequestEnemySpawn(PawnStatBlock enemy, Vector3 pos, float radius) => onRequestEnemySpawn?.Invoke(enemy, pos, radius);
+    public event Action<PawnStatBlock, Vector3?, float, bool> onRequestEnemySpawn;
+    public void RequestEnemySpawn(PawnStatBlock enemy, Vector3? pos = null, float radius = -1, bool idle = false) => onRequestEnemySpawn?.Invoke(enemy, pos, radius, idle);
 
     public event Action onRequestBossSpawn;
     public void RequestBossSpawn() => onRequestBossSpawn?.Invoke();
+
+    public event Action<float, int, int> onSetPawnServiceSpawnVars;
+    public void SetPawnSpawnVars(float interval, int batch, int max) => onSetPawnServiceSpawnVars?.Invoke(interval, batch, max);
+
+    public event Action<PawnStatBlock, int> onPawnServiceAddSpawn;
+    public void PawnServiceAddSpawn(PawnStatBlock enemy, int weight) => onPawnServiceAddSpawn?.Invoke(enemy, weight);
+
+    public event Action onPawnServiceClearSpawns;
+    public void PawnServiceClearSpawns() => onPawnServiceClearSpawns?.Invoke();
 
     public event Action<bool> onPawnServiceActive;
     public void SetPawnServiceActive(bool active) => onPawnServiceActive?.Invoke(active);

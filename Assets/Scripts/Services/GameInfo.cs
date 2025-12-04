@@ -8,11 +8,6 @@ public class GameInfo : ScriptableObject
     public Vector3Variable playerPositionVar;
     public Vector3Variable alternativePositionVar;
 
-    //---LEVEL-SCRIPTS---
-    public LevelScript levelScript1;
-    public LevelScript levelScript2;
-    public LevelScript levelScript3;
-
 
     //---PREFABS---
     public GameObject playablePawnPrefab;

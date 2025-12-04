@@ -451,6 +451,7 @@ public class PlayablePawn : Pawn
     {
         float posX = Input.mousePosition.x - (Screen.width / 2);
 
+        if (!isMoving) _sr.sprite = statBlock.pawnSprite;
         _anm.enabled = isMoving;
 
         if (posX > 0)

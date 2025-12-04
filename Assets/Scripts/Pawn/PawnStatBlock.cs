@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "PawnStatBlock", menuName = "Stat Block/PawnStatBlock")]
@@ -11,6 +10,8 @@ public class PawnStatBlock : ScriptableObject
     public string pawnDescription = "A pawn.";
     public WeaponStatBlock equippedWeapon;
     public AbilityStatBlock equippedAbility;
+
+    public RuntimeAnimatorController controller;
 
     public List<string> keyUpgrade;
     public List<int> valueUpgrade;
@@ -50,8 +51,9 @@ public class PawnStatBlock : ScriptableObject
     public Stat pickUpRange = new Stat(5f, 0f, 1f);
     public Stat interactionRange = new Stat(3f, 0f, 1f);
 
-
     public Stat iFrameDuration = new Stat(0.1f, 0f, 0f);
+
+    public Stat knockBackResist = new Stat(0f, 0f, 1f);
 
     public Stat xpKillValue = new Stat(1f, 0f, 1f);
 
@@ -73,6 +75,8 @@ public class PawnStatBlock : ScriptableObject
         pawnDescription = psb.pawnDescription;
         equippedWeapon = psb.equippedWeapon;
         equippedAbility = psb.equippedAbility;
+
+        controller = psb.controller;
 
         keyUpgrade = new List<string>(psb.keyUpgrade);
         valueUpgrade = new List<int>(psb.valueUpgrade);
@@ -110,6 +114,8 @@ public class PawnStatBlock : ScriptableObject
         interactionRange.SetValues(psb.interactionRange);
 
         iFrameDuration.SetValues(psb.iFrameDuration);
+
+        knockBackResist.SetValues(psb.knockBackResist);
 
         xpKillValue.SetValues(psb.xpKillValue);
 

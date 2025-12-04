@@ -15,6 +15,9 @@ MonoBehaviour:
   useCurrentPlayerStatBlock: 0
   playerPositionVar: {fileID: 11400000, guid: 6be5b5df7bc10914db09704354f79a3d, type: 2}
   alternativePositionVar: {fileID: 11400000, guid: 091644676a6eeea4796470f13943eff0, type: 2}
+  levelScript1: {fileID: 0}
+  levelScript2: {fileID: 0}
+  levelScript3: {fileID: 0}
   playablePawnPrefab: {fileID: 8418645380850837868, guid: 0b7e26dbaf2b2ca46adcc6ea8e7bbdd2, type: 3}
   playerCameraPrefab: {fileID: 4425283191490408489, guid: 36f144c874aa7ed4b872cbaae5d6364d, type: 3}
   enemyPawnPrefab: {fileID: 289805666693742518, guid: c179bf0f67cc1b646bb528aba493bce8, type: 3}
@@ -29,4 +32,7 @@ MonoBehaviour:
   weaponHitPrefab: {fileID: 9022209119693470882, guid: 9649bec77987b754d89c7dc0cdc34484, type: 3}
   defaultStatBlock: {fileID: 11400000, guid: 0280918b95d279a4ab02c3268abc60f5, type: 2}
   currentPlayerStatBlock: {fileID: 11400000, guid: 862a0ea39af23cf49adf90f75653856b, type: 2}
-  enemy1StatBlock: {fileID: 11400000, guid: 8531b654aa011a44da4de45be00a85b5, type: 2}
+  defaultEnemyStatBlock: {fileID: 0}
+  slimeEnemyStatBlock: {fileID: 11400000, guid: 4ccf96d21a259474f82429fbfc784e30, type: 2}
+  zombieEnemyStatBlock: {fileID: 11400000, guid: 75b5ef5a9eebbf44c8eb7312752a7613, type: 2}
+  bugEnemyStatBlock: {fileID: 11400000, guid: c4643fd506bdeea4a96dd2d69ae58cf6, type: 2}

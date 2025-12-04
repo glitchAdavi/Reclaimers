@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -22,7 +23,6 @@ public class PawnService : MonoBehaviour, IUpdate, IPause
 
     [SerializeField] private Vector3 spawnPosCenter;
 
-    [SerializeField] private GameObject _enemyPrefab;
     [SerializeField] private ExecutableList<Pawn> pawnsInScene = new ExecutableList<Pawn>();
     [SerializeField] private ExecutableList<PlayablePawn> playablePawnsInScene = new ExecutableList<PlayablePawn>();
 
@@ -39,7 +39,8 @@ public class PawnService : MonoBehaviour, IUpdate, IPause
     public int maxSimultaneousEnemies = 30;
     public int spawnedEnemies = 0;
 
-
+    public List<SpawnBlock> enemiesToSpawn = new List<SpawnBlock>();
+    public int totalWeight = 0;
 
 
     public bool enemySpawnActive = false;
@@ -47,19 +48,10 @@ public class PawnService : MonoBehaviour, IUpdate, IPause
     public bool spawnIdle = false;
     public bool isPaused = false;
 
-    //TEMP
-
-    PawnStatBlock enemyTemp;
-
-    //TEMP
-
 
     public void OnEnable()
     {
-        enemyTemp = GameManager.current.gameInfo.defaultEnemyStatBlock;
-
         enemyBuilder = GameManager.current.CreateService<EnemyBuilder>();
-        _enemyPrefab = GameManager.current.gameInfo.enemyPawnPrefab;
 
         GetAllPlayablePawnsInScene();
         InitializeInactivePlayablePawns();
@@ -77,6 +69,9 @@ public class PawnService : MonoBehaviour, IUpdate, IPause
         GameManager.current.eventService.onRequestKillAllEnemies += KillAllEnemiesSilently;
         GameManager.current.eventService.onRequestEnemySpawn += SpawnEnemy;
         GameManager.current.eventService.onRequestBossSpawn += SpawnRandomBoss;
+        GameManager.current.eventService.onSetPawnServiceSpawnVars += SetSpawnVars;
+        GameManager.current.eventService.onPawnServiceAddSpawn += AddSpawns;
+        GameManager.current.eventService.onPawnServiceClearSpawns += ClearSpawns;
 
         GameManager.current.updateService.RegisterUpdate(this);
         GameManager.current.updateService.RegisterPause(this);
@@ -93,7 +88,6 @@ public class PawnService : MonoBehaviour, IUpdate, IPause
     public void Pause(bool paused)
     {
         isPaused = paused;
-        spawnAlert = !paused;
     }
 
     public void OnDisable()
@@ -123,7 +117,7 @@ public class PawnService : MonoBehaviour, IUpdate, IPause
 
     public void TrySpawn()
     {
-        if (!enemySpawnActive) return;
+        if (!enemySpawnActive || isPaused) return;
 
         if (spawnIdle)
         {
@@ -131,7 +125,7 @@ public class PawnService : MonoBehaviour, IUpdate, IPause
             {
                 for (int j = 0; j < 10; j++)
                 {
-                    SpawnEnemyIdle(enemyTemp, fixedSpawnPoints[i]);
+                    SpawnEnemy(SelectEnemy(), fixedSpawnPoints[i], -1, true);
                 }
             }
             spawnIdle = false;
@@ -147,38 +141,52 @@ public class PawnService : MonoBehaviour, IUpdate, IPause
                 for (int i = 0; i < spawnBatch; i++)
                 {
                     if (spawnedEnemies >= maxSimultaneousEnemies) break;
-                    SpawnEnemyActive(enemyTemp);
+                    SpawnEnemy(SelectEnemy());
                 }
             }
         }
     }
 
-    public void SpawnEnemyIdle(PawnStatBlock enemy, Vector3 spawnPoint)
+    public PawnStatBlock SelectEnemy()
     {
-        EnemyPawn newEnemy = enemyBuilder.GetObject();
-        newEnemy.InitializeEnemyPawn(enemy);
-        newEnemy.SetIsIdle(true);
-        newEnemy.Teleport(GetRandomPosInRadius(spawnPoint, fixedSpawnPointRange));
-        pawnsInScene.Add(newEnemy);
+        int setWeight = Random.Range(0, totalWeight + 1);
+        int partialWeight = 0;
+        foreach (SpawnBlock s in enemiesToSpawn)
+        {
+            partialWeight += s.weight;
+            if (setWeight <= partialWeight)
+            {
+                return s.pawn;
+            }
+        }
+        return null;
     }
 
-    public void SpawnEnemyActive(PawnStatBlock enemy)
+    public void SpawnEnemy(PawnStatBlock enemy, Vector3? pos = null, float radius = -1, bool idle = false)
     {
-        EnemyPawn newEnemy = enemyBuilder.GetObject();
-        newEnemy.InitializeEnemyPawn(enemy);
-        newEnemy.SetIsIdle(false);
-        newEnemy.Teleport(GameManager.current.tileService.TileToPos(GetRandomSpawnableTile()));
-        pawnsInScene.Add(newEnemy);
-        spawnedEnemies++;
-    }
+        if (enemy == null)
+        {
+            Debug.Log("PawnStatBlock null");
+            return;
+        }
 
-    public void SpawnEnemy(PawnStatBlock enemy, Vector3 pos, float radius)
-    {
         EnemyPawn newEnemy = enemyBuilder.GetObject();
         newEnemy.InitializeEnemyPawn(enemy);
-        newEnemy.SetIsIdle(false);
-        newEnemy.Teleport(GetRandomPosInRadius(pos, radius));
-        newEnemy.irregularSpawn = true;
+        newEnemy.SetIsIdle(idle);
+        if (pos.HasValue)
+        {
+            Vector3 position = (Vector3)pos;
+            // if no radius, assume fixed spawn point
+            if (radius < 0) newEnemy.Teleport(GetRandomPosInRadius(position, fixedSpawnPointRange));
+            else newEnemy.Teleport(GetRandomPosInRadius(position, radius));
+
+        } else
+        {
+            //no position, get random spawnable tile
+            //used for active enemies, add to counter
+            newEnemy.Teleport(GameManager.current.tileService.TileToPos(GetRandomSpawnableTile()));
+            spawnedEnemies++;
+        }
         pawnsInScene.Add(newEnemy);
     }
 
@@ -296,6 +304,28 @@ public class PawnService : MonoBehaviour, IUpdate, IPause
             pawnsInScene.Remove(ep);
             spawnedEnemies--;
         }
+    }
+
+    public void SetSpawnList(List<SpawnBlock> enemies)
+    {
+        ClearSpawns();
+        foreach (SpawnBlock s in enemies)
+        {
+            totalWeight += s.weight;
+        }
+        enemiesToSpawn = enemies;
+    }
+
+    public void AddSpawns(PawnStatBlock enemy, int weight)
+    {
+        totalWeight += weight;
+        enemiesToSpawn.Add(new SpawnBlock(enemy, weight));
+    }
+
+    public void ClearSpawns()
+    {
+        enemiesToSpawn.Clear();
+        totalWeight = 0;
     }
 
     private void OnDrawGizmos()

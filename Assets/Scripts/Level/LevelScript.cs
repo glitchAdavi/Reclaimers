@@ -4,18 +4,22 @@ using UnityEngine;
 
 public abstract class LevelScript : MonoBehaviour
 {
+    public float stage1Time = 180f;
+    public float stage2Time = 300f;
+    public bool hasStage3 = true;
+
     Timer timerLevelScript;
 
     public virtual void StartStage1Script()
     {
-        //GameManager.current.eventService.SetPawnServiceActive(true);
-        //GameManager.current.eventService.SetPawnServiceIdle(true);
+        GameManager.current.eventService.SetPawnServiceActive(true);
+        GameManager.current.eventService.SetPawnServiceIdle(true);
     }
 
     public virtual void StartStage2Script()
     {
-        //GameManager.current.eventService.SetPawnServiceIdle(false);
-        //GameManager.current.eventService.SetPawnServiceAlert(true);
+        GameManager.current.eventService.SetPawnServiceIdle(false);
+        GameManager.current.eventService.SetPawnServiceAlert(true);
 
 
         timerLevelScript = GameManager.current.timerService.StartTimer(1f, Minute1);

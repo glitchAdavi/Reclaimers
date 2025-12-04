@@ -50,7 +50,7 @@ MonoBehaviour:
     addVal: 0
     multVal: 1
   speed:
-    baseVal: 1
+    baseVal: 3
     addVal: 0
     multVal: 1
   lifepoints:

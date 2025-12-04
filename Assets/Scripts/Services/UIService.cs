@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
 
-public class UIService : MonoBehaviour
+public class UIService : MonoBehaviour, IPause
 {
     public FloatingTextBuilder floatingTextBuilder;
 
@@ -46,6 +47,7 @@ public class UIService : MonoBehaviour
 
     private void OnEnable()
     {
+        GameManager.current.updateService.RegisterPause(this);
         floatingTextBuilder = GameManager.current.CreateService<FloatingTextBuilder>();
 
 
@@ -75,6 +77,12 @@ public class UIService : MonoBehaviour
 
         GameManager.current.eventService.onQueueLevelUp += LevelUpMenuOpen;
         GameManager.current.eventService.onLevelUpFinish += LevelUpMenuClose;
+    }
+
+    public void Pause(bool paused)
+    {
+        timerFadeIn?.Pause(paused);
+        timerFadeOut?.Pause(paused);
     }
 
     public void TogglePauseMenu(bool paused)

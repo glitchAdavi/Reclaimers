@@ -17,6 +17,7 @@ MonoBehaviour:
   pawnDescription: Attacking it causes pieces to fall off.
   equippedWeapon: {fileID: 0}
   equippedAbility: {fileID: 0}
+  controller: {fileID: 0}
   keyUpgrade: []
   valueUpgrade: 
   pawnSprite: {fileID: 0}
@@ -95,6 +96,10 @@ MonoBehaviour:
     multVal: 1
   iFrameDuration:
     baseVal: 0
+    addVal: 0
+    multVal: 1
+  knockBackResist:
+    baseVal: 1
     addVal: 0
     multVal: 1
   xpKillValue:

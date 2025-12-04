@@ -9,18 +9,20 @@ public class LL_Extraction : LevelLogic
     public LevelScript currentLevelScript;
     public int levelStage = 0;
 
-    public float levelMainProgressionMax = 180f;
-    public float levelMainProgression = 0f;
-    Timer timerLevelMainProgression;
+    public float stage1ProgressionMax = 180f;
+    public float stage1Progression = 0f;
+    Timer timerStage1Progression;
 
 
-    public float levelSurviveProgressionMax = 300f;
-    Timer timerLevelSurviveProgression;
+    public float stage2ProgressionMax = 300f;
+    Timer timerStage2Progression;
+
+    public bool hasStage3 = true;
+    public EnemyPawn boss;
 
     public bool setupStage1 = false;
     public bool setupStage2 = false;
     public bool setupStage3 = false;
-    public EnemyPawn boss;
 
     public override void Activate()
     {
@@ -30,20 +32,26 @@ public class LL_Extraction : LevelLogic
         {
             case 0:
                 currentLevelScript = gameObject.AddComponent<LS_1>();
+                Debug.Log("LS1");
                 break;
             case 1:
                 currentLevelScript = gameObject.AddComponent<LS_1>();
+                Debug.Log("LS2");
                 break;
             case 2:
                 currentLevelScript = gameObject.AddComponent<LS_1>();
+                Debug.Log("LS3");
                 break;
         }
-        
+
+        stage1ProgressionMax = currentLevelScript.stage1Time;
+        stage2ProgressionMax = currentLevelScript.stage2Time;
+        hasStage3 = currentLevelScript.hasStage3;
 
         Debug.Log($"Starting Extraction Mode Logic");
         GameManager.current.eventService.RequestUIUseMainMenu(false);
         GameManager.current.eventService.RequestUIMapProgressionEnable(true);
-        GameManager.current.eventService.RequestUIMapProgressionSetup(levelMainProgressionMax);
+        GameManager.current.eventService.RequestUIMapProgressionSetup(stage1ProgressionMax);
         GameManager.current.eventService.RequestUIMapProgression(0f);
 
         base.Activate();
@@ -78,33 +86,30 @@ public class LL_Extraction : LevelLogic
     {
         isPaused = paused;
 
-        timerLevelMainProgression?.Pause(paused);
-        timerLevelSurviveProgression?.Pause(paused);
+        timerStage1Progression?.Pause(paused);
+        timerStage2Progression?.Pause(paused);
     }
 
     public void SetupStage1()
     {
         setupStage1 = true;
 
+        timerStage1Progression = GameManager.current.timerService.StartTimer(3600f,
+                                                                             1f,
+                                                                             () => stage1Progression++);
+
         currentLevelScript.StartStage1Script();
     }
 
     public void Stage1()
     {
-        if (timerLevelMainProgression == null)
-        {
-            timerLevelMainProgression = GameManager.current.timerService.StartTimer(3600f,
-                                                                                    1f,
-                                                                                    () => levelMainProgression++);
-        }
+        GameManager.current.eventService.RequestUIMapProgression(stage1Progression);
 
-        GameManager.current.eventService.RequestUIMapProgression(levelMainProgression);
-
-        if (levelMainProgression >= levelMainProgressionMax)
+        if (stage1Progression >= stage1ProgressionMax)
         {
-            GameManager.current.eventService.RequestUIMapProgression(levelMainProgressionMax);
-            timerLevelMainProgression?.Cancel();
-            timerLevelMainProgression = null;
+            GameManager.current.eventService.RequestUIMapProgression(stage1ProgressionMax);
+            timerStage1Progression?.Cancel();
+            timerStage1Progression = null;
             levelStage = 2;
         }
     }
@@ -113,29 +118,32 @@ public class LL_Extraction : LevelLogic
     {
         setupStage2 = true;
 
-        GameManager.current.eventService.RequestUIMapProgressionSetup(levelSurviveProgressionMax);
-        GameManager.current.eventService.RequestUIMapProgression(levelSurviveProgressionMax);
+        timerStage2Progression = GameManager.current.timerService.StartTimer(3600f,
+                                                                             1f,
+                                                                             () => stage2ProgressionMax--);
+
+        GameManager.current.eventService.RequestUIMapProgressionSetup(stage2ProgressionMax);
+        GameManager.current.eventService.RequestUIMapProgression(stage2ProgressionMax);
 
         currentLevelScript.StartStage2Script();
     }
 
     public void Stage2()
     {
-        if (timerLevelSurviveProgression == null)
+        GameManager.current.eventService.RequestUIMapProgression(stage2ProgressionMax);
+
+        if (stage2ProgressionMax <= 0)
         {
-            timerLevelSurviveProgression = GameManager.current.timerService.StartTimer(3600f,
-                1f,
-                () => levelSurviveProgressionMax--);
-
-        }
-
-        GameManager.current.eventService.RequestUIMapProgression(levelSurviveProgressionMax);
-
-        if (levelSurviveProgressionMax <= 0)
-        {
-            timerLevelSurviveProgression?.Cancel();
-            timerLevelSurviveProgression = null;
-            levelStage = 3;
+            timerStage2Progression?.Cancel();
+            timerStage2Progression = null;
+            if (hasStage3)
+            {
+                levelStage = 3;
+            } else
+            {
+                levelStage = -1;
+                Win();
+            }
         }
     }
 

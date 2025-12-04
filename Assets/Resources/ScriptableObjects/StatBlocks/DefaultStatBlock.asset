@@ -17,6 +17,7 @@ MonoBehaviour:
   pawnDescription: A pawn.
   equippedWeapon: {fileID: 11400000, guid: 07b195ca6f90ecb47a79b78c2f3dd378, type: 2}
   equippedAbility: {fileID: 11400000, guid: 2245023f4773a094fadf770b475e800a, type: 2}
+  controller: {fileID: 9100000, guid: e6aa1a0b645c4834a99e0bd71cb3913c, type: 2}
   keyUpgrade: []
   valueUpgrade: 
   pawnSprite: {fileID: 1634195067, guid: e19d92438ce7134418cd981c4d1975b9, type: 3}
@@ -99,5 +100,21 @@ MonoBehaviour:
     multVal: 1
   xpKillValue:
     baseVal: 1
+    addVal: 0
+    multVal: 1
+  onDamageSpawnEnemy: 0
+  onDamageEnemyToSpawn: {fileID: 0}
+  onDamageInterval:
+    baseVal: 0
+    addVal: 0
+    multVal: 1
+  onDamageNumToSpawn:
+    baseVal: 0
+    addVal: 0
+    multVal: 1
+  onDeathSpawnEnemy: 0
+  onDeathEnemyToSpawn: {fileID: 0}
+  onDeathNumToSpawn:
+    baseVal: 0
     addVal: 0
     multVal: 1

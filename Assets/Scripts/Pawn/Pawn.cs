@@ -39,6 +39,7 @@ public abstract class Pawn : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdate, 
     Timer iFrameTimer;
     protected bool hasIFrames = false;
 
+    [SerializeField] protected float knockBackResist = 0f;
 
     [SerializeField] protected bool isPaused = false;
     [SerializeField] protected bool isDead = false;
@@ -132,12 +133,14 @@ public abstract class Pawn : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdate, 
         if (lpRegenTickTimer != null) lpRegenTickTimer.Cancel();
 
         lifepoints -= damage * damageMultiplier;
-        HitEffect();
-        Knockback(knockback, knockbackPush);
         if (lifepoints <= 0)
         {
             lifepoints = 0;
             Die();
+        } else
+        {
+            HitEffect();
+            Knockback(knockback, knockbackPush);
         }
         if (lifepoints > maxLifepoints) lifepoints = maxLifepoints;
 
@@ -153,7 +156,7 @@ public abstract class Pawn : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdate, 
 
         _nav.enabled = false;
         _rb.isKinematic = false;
-        _rb.AddForce(((Vector3)knockbackPush).normalized * knockback, ForceMode.Impulse);
+        _rb.AddForce(((Vector3)knockbackPush).normalized * knockback * (1 - knockBackResist), ForceMode.Impulse);
 
         knockbackTimer = GameManager.current.timerService.StartTimer(0.1f, () =>
         {
@@ -229,6 +232,7 @@ public abstract class Pawn : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdate, 
     protected virtual void FirstStatApplication()
     {
         ApplySprite();
+        ApplyController();
         ApplyScale();
         ApplySpeed();
         ApplyLifepoints();
@@ -239,6 +243,11 @@ public abstract class Pawn : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdate, 
     public void ApplySprite()
     {
         if (statBlock.pawnSprite != null) _sr.sprite = statBlock.pawnSprite;
+    }
+
+    public void ApplyController()
+    {
+        if (statBlock.controller != null) _anm.runtimeAnimatorController = statBlock.controller;
     }
 
     public void ApplyScale()
@@ -295,6 +304,11 @@ public abstract class Pawn : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdate, 
     public void ApplyIFrameDuration()
     {
         iFrameDuration = statBlock.iFrameDuration.Value();
+    }
+
+    public void ApplyKnockbackResist()
+    {
+        knockBackResist = statBlock.knockBackResist.Value();
     }
 
     public void ApplyXpKillValue()

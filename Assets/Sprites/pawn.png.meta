@@ -149,7 +149,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -171,7 +171,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -180,6 +180,50 @@ TextureImporter:
       bones: []
       spriteID: 2f5df5932a6a0d04c8bad99a50de793c
       internalID: -13014311
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pawn_4
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 821
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d6b1cbab278469043b5f0e8c8566a89a
+      internalID: 963889092
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pawn_5
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 821
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f4e0ab22980802041b7e4a25ea29ef97
+      internalID: -405858887
       vertices: []
       indices: 
       edges: []
@@ -202,6 +246,8 @@ TextureImporter:
       pawn_1: -1392163
       pawn_2: -2121786671
       pawn_3: -13014311
+      pawn_4: 963889092
+      pawn_5: -405858887
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

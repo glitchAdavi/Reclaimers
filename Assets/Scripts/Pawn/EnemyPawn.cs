@@ -221,5 +221,6 @@ public class EnemyPawn : Pawn
         ApplyMeleeCooldown();
         ApplyXpKillValue();
         ApplyInteractionRange();
+        ApplyKnockbackResist();
     }
 }
