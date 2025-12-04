@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27880ad5568697e4190dea599ca1412c, type: 3}
   m_Name: SprintStatBlock
   m_EditorClassIdentifier: 
-  abilityName: Ability
+  rarity: 60
+  abilityName: Sprint
+  abilityDescription: 3 seconds of double speed.
   abilityType: A_sprint
   abilityCooldown:
     baseVal: 6

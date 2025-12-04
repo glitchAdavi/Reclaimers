@@ -37,7 +37,6 @@ public class GameManager : MonoBehaviour
     public List<WeaponUpgrade> allWeaponUpgrades = new List<WeaponUpgrade>();
     public List<AbilityUpgrade> allAbilityUpgrades = new List<AbilityUpgrade>();
     public List<Modifier> allModifiers = new List<Modifier>();
-    public List<LevelScript> allLevelScripts = new List<LevelScript>();
     
     //TEMP for the case in which the player quits and we have to reset fully
     public PawnStatBlock playerStatBlock;
@@ -61,7 +60,6 @@ public class GameManager : MonoBehaviour
             allWeaponUpgrades = Resources.LoadAll<WeaponUpgrade>("ScriptableObjects/Upgrades").ToList();
             allAbilityUpgrades = Resources.LoadAll<AbilityUpgrade>("ScriptableObjects/Upgrades").ToList();
             allModifiers = Resources.LoadAll<Modifier>("ScriptableObjects/Modifiers").ToList();
-            allLevelScripts = Resources.LoadAll<LevelScript>("ScriptableObjects/LevelScripts").ToList();
 
             SceneManager.sceneLoaded += OnSceneLoaded;
             SceneManager.sceneUnloaded += OnSceneUnloaded;
@@ -231,11 +229,6 @@ public class GameManager : MonoBehaviour
         return filteredList[Random.Range(0, filteredList.Count())];
     }
 
-    public LevelScript GetRandomLevelScript()
-    {
-        return allLevelScripts[Random.Range(0, allLevelScripts.Count())];
-    }
-
     public Rarity GetRarity()
     {
         int r = Random.Range(1, 101);
@@ -257,9 +250,9 @@ public class GameManager : MonoBehaviour
         return null;
     }
 
-    public void GoToLevel(int scenIndex)
+    public void GoToLevel(int sceneIndex)
     {
-        SceneManager.LoadScene(scenIndex);
+        SceneManager.LoadScene(sceneIndex);
     }
 
     public void ReturnToMenu()

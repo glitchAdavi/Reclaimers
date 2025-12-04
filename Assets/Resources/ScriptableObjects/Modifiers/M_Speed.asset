@@ -15,7 +15,7 @@ MonoBehaviour:
   target: {fileID: 0}
   modifierName: Sprint
   id: sprint
-  durationTotal: 12
+  durationTotal: 3
   durationTick: 0
   executePartialOnEnd: 0
   value: 2

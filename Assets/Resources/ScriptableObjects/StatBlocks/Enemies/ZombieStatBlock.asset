@@ -101,3 +101,19 @@ MonoBehaviour:
     baseVal: 5
     addVal: 0
     multVal: 1
+  onDamageSpawnEnemy: 0
+  onDamageEnemyToSpawn: {fileID: 0}
+  onDamageInterval:
+    baseVal: 0
+    addVal: 0
+    multVal: 1
+  onDamageNumToSpawn:
+    baseVal: 0
+    addVal: 0
+    multVal: 1
+  onDeathSpawnEnemy: 1
+  onDeathEnemyToSpawn: {fileID: 11400000, guid: c4643fd506bdeea4a96dd2d69ae58cf6, type: 2}
+  onDeathNumToSpawn:
+    baseVal: 3
+    addVal: 0
+    multVal: 1

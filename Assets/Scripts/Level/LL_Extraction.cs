@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 public class LL_Extraction : LevelLogic
@@ -22,7 +24,21 @@ public class LL_Extraction : LevelLogic
 
     public override void Activate()
     {
-        currentLevelScript = GameManager.current.GetRandomLevelScript();
+        
+        int r = Random.Range(0, 3);
+        switch (r)
+        {
+            case 0:
+                currentLevelScript = gameObject.AddComponent<LS_1>();
+                break;
+            case 1:
+                currentLevelScript = gameObject.AddComponent<LS_1>();
+                break;
+            case 2:
+                currentLevelScript = gameObject.AddComponent<LS_1>();
+                break;
+        }
+        
 
         Debug.Log($"Starting Extraction Mode Logic");
         GameManager.current.eventService.RequestUIUseMainMenu(false);
@@ -70,8 +86,7 @@ public class LL_Extraction : LevelLogic
     {
         setupStage1 = true;
 
-        GameManager.current.eventService.SetPawnServiceActive(true);
-        GameManager.current.eventService.SetPawnServiceIdle(true);
+        currentLevelScript.StartStage1Script();
     }
 
     public void Stage1()
@@ -98,11 +113,10 @@ public class LL_Extraction : LevelLogic
     {
         setupStage2 = true;
 
-        GameManager.current.eventService.SetPawnServiceIdle(false);
-        GameManager.current.eventService.SetPawnServiceAlert(true);
-
         GameManager.current.eventService.RequestUIMapProgressionSetup(levelSurviveProgressionMax);
         GameManager.current.eventService.RequestUIMapProgression(levelSurviveProgressionMax);
+
+        currentLevelScript.StartStage2Script();
     }
 
     public void Stage2()
@@ -113,7 +127,6 @@ public class LL_Extraction : LevelLogic
                 1f,
                 () => levelSurviveProgressionMax--);
 
-            currentLevelScript.StartScript();
         }
 
         GameManager.current.eventService.RequestUIMapProgression(levelSurviveProgressionMax);
