@@ -257,6 +257,11 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(sceneIndex);
     }
 
+    public float Scaling()
+    {
+        return 1f + (0.05f * playerPawn.GetLevel());
+    }
+
     public void ReturnToMenu()
     {
         GoToLevel(0);

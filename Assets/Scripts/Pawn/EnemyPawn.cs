@@ -37,7 +37,7 @@ public class EnemyPawn : Pawn
         statBlock = ScriptableObject.CreateInstance<PawnStatBlock>();
         statBlock.CopyValues(baseStatBlock);
 
-        FirstStatApplication();
+        FirstStatApplication(true);
 
         GameManager.current.updateService.RegisterUpdate(this);
         GameManager.current.updateService.RegisterPause(this);
@@ -214,12 +214,12 @@ public class EnemyPawn : Pawn
     }
     #endregion
 
-    protected override void FirstStatApplication()
+    protected override void FirstStatApplication(bool useScaling = false)
     {
-        base.FirstStatApplication();
-        ApplyMeleeDamage();
+        base.FirstStatApplication(useScaling);
+        ApplyMeleeDamage(useScaling);
         ApplyMeleeCooldown();
-        ApplyXpKillValue();
+        ApplyXpKillValue(useScaling);
         ApplyInteractionRange();
         ApplyKnockbackResist();
     }

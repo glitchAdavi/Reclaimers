@@ -201,8 +201,6 @@ public class LevelService : MonoBehaviour
     {
         (currentLevelLogic as LL_Extraction).boss = boss;
     }
-
-
     #endregion
 
 

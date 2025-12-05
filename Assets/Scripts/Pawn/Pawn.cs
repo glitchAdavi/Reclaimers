@@ -229,13 +229,13 @@ public abstract class Pawn : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdate, 
 
 
     #region ApplyValues
-    protected virtual void FirstStatApplication()
+    protected virtual void FirstStatApplication(bool useScaling = false)
     {
         ApplySprite();
         ApplyController();
         ApplyScale();
         ApplySpeed();
-        ApplyLifepoints();
+        ApplyLifepoints(useScaling);
         ApplyDamageMultiplier();
         lifepoints = maxLifepoints;
     }
@@ -255,15 +255,21 @@ public abstract class Pawn : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdate, 
         gameObject.transform.localScale = new Vector3(1f, 1f, 1f) * statBlock.scale.Value();
     }
 
-    public virtual void ApplySpeed()
+    public virtual void ApplySpeed(bool useScaling = false)
     {
         _nav.speed = statBlock.speed.Value();
         _anm.speed = 0.1f * statBlock.speed.Value();
+        if (useScaling)
+        {
+            _nav.speed *= GameManager.current.Scaling();
+            _anm.speed *= GameManager.current.Scaling();
+        }
     }
 
-    public void ApplyLifepoints()
+    public void ApplyLifepoints(bool useScaling = false)
     {
         maxLifepoints = statBlock.lifepoints.Value();
+        if (useScaling) maxLifepoints *= GameManager.current.Scaling();
     }
 
     public void ApplyLpRegen()
@@ -291,9 +297,10 @@ public abstract class Pawn : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdate, 
         healingMultiplier = statBlock.healingMultiplier.Value();
     }
 
-    public void ApplyMeleeDamage()
+    public void ApplyMeleeDamage(bool useScaling = false)
     {
         meleeDamage = statBlock.meleeDamage.Value();
+        if (useScaling) meleeDamage *= GameManager.current.Scaling();
     }
 
     public void ApplyMeleeCooldown()
@@ -311,9 +318,10 @@ public abstract class Pawn : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdate, 
         knockBackResist = statBlock.knockBackResist.Value();
     }
 
-    public void ApplyXpKillValue()
+    public void ApplyXpKillValue(bool useScaling = false)
     {
         xpKillValue = statBlock.xpKillValue.Value();
+        if (useScaling) xpKillValue *= GameManager.current.Scaling();
     }
 
     public void ApplyTotalXp()
@@ -361,6 +369,11 @@ public abstract class Pawn : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdate, 
     public bool IsPawnDead()
     {
         return isDead;
+    }
+
+    public int GetLevel()
+    {
+        return level;
     }
 
     public float GetSpeed()

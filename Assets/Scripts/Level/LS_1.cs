@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class LS_1 : LevelScript
 {
+    float i = 1f; //interval
+    int b = 10; //batch
+    int m = 100; //max
+
     public override void StartStage1Script()
     {
         GameManager.current.eventService.PawnServiceClearSpawns();
@@ -21,7 +25,11 @@ public class LS_1 : LevelScript
 
     public override void Minute1()
     {
-        GameManager.current.eventService.SetPawnSpawnVars(1f, 10, 100);
+        i = 1f;
+        b = 10;
+        m = 100;
+        scaling = GameManager.current.Scaling();
+        GameManager.current.eventService.SetPawnSpawnVars(i, (int)(b * scaling), (int)(m * scaling));
         GameManager.current.eventService.PawnServiceClearSpawns();
         GameManager.current.eventService.PawnServiceAddSpawn(GameManager.current.gameInfo.slimeEnemyStatBlock, 100);
 
@@ -30,7 +38,11 @@ public class LS_1 : LevelScript
 
     public override void Minute2()
     {
-        GameManager.current.eventService.SetPawnSpawnVars(1f, 10, 100);
+        i = 1f;
+        b = 10;
+        m = 100;
+        scaling = GameManager.current.Scaling();
+        GameManager.current.eventService.SetPawnSpawnVars(i, (int)(b * scaling), (int)(m * scaling));
         GameManager.current.eventService.PawnServiceClearSpawns();
         GameManager.current.eventService.PawnServiceAddSpawn(GameManager.current.gameInfo.slimeEnemyStatBlock, 100);
 
@@ -39,7 +51,11 @@ public class LS_1 : LevelScript
 
     public override void Minute3()
     {
-        GameManager.current.eventService.SetPawnSpawnVars(1f, 10, 100);
+        i = 1f;
+        b = 10;
+        m = 100;
+        scaling = GameManager.current.Scaling();
+        GameManager.current.eventService.SetPawnSpawnVars(i, (int)(b * scaling), (int)(m * scaling));
         GameManager.current.eventService.PawnServiceClearSpawns();
         GameManager.current.eventService.PawnServiceAddSpawn(GameManager.current.gameInfo.slimeEnemyStatBlock, 100);
 
@@ -48,7 +64,11 @@ public class LS_1 : LevelScript
 
     public override void Minute4()
     {
-        GameManager.current.eventService.SetPawnSpawnVars(1f, 10, 100);
+        i = 1f;
+        b = 10;
+        m = 100;
+        scaling = GameManager.current.Scaling();
+        GameManager.current.eventService.SetPawnSpawnVars(i, (int)(b * scaling), (int)(m * scaling));
         GameManager.current.eventService.PawnServiceClearSpawns();
         GameManager.current.eventService.PawnServiceAddSpawn(GameManager.current.gameInfo.slimeEnemyStatBlock, 100);
 
@@ -57,7 +77,11 @@ public class LS_1 : LevelScript
 
     public override void Minute5()
     {
-        GameManager.current.eventService.SetPawnSpawnVars(1f, 10, 100);
+        i = 1f;
+        b = 10;
+        m = 100;
+        scaling = GameManager.current.Scaling();
+        GameManager.current.eventService.SetPawnSpawnVars(i, (int)(b * scaling), (int)(m * scaling));
         GameManager.current.eventService.PawnServiceClearSpawns();
         GameManager.current.eventService.PawnServiceAddSpawn(GameManager.current.gameInfo.slimeEnemyStatBlock, 100);
 

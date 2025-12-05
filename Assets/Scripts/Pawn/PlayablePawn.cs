@@ -137,7 +137,7 @@ public class PlayablePawn : Pawn
         _sr.color = statBlock.pawnSpriteColor;
     }
 
-    protected override void FirstStatApplication()
+    protected override void FirstStatApplication(bool useScaling = false)
     {
         BaseStatApplication();
         base.FirstStatApplication();

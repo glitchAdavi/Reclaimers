@@ -7,6 +7,7 @@ public abstract class LevelScript : MonoBehaviour
     public float stage1Time = 180f;
     public float stage2Time = 300f;
     public bool hasStage3 = true;
+    public float scaling = 1f;
 
     Timer timerLevelScript;
 
