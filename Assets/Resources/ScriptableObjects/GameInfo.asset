@@ -15,9 +15,7 @@ MonoBehaviour:
   useCurrentPlayerStatBlock: 0
   playerPositionVar: {fileID: 11400000, guid: 6be5b5df7bc10914db09704354f79a3d, type: 2}
   alternativePositionVar: {fileID: 11400000, guid: 091644676a6eeea4796470f13943eff0, type: 2}
-  levelScript1: {fileID: 0}
-  levelScript2: {fileID: 0}
-  levelScript3: {fileID: 0}
+  devConsolePrefab: {fileID: 8410180372988992237, guid: af76ad57e39928e46917b91628a91fd1, type: 3}
   playablePawnPrefab: {fileID: 8418645380850837868, guid: 0b7e26dbaf2b2ca46adcc6ea8e7bbdd2, type: 3}
   playerCameraPrefab: {fileID: 4425283191490408489, guid: 36f144c874aa7ed4b872cbaae5d6364d, type: 3}
   enemyPawnPrefab: {fileID: 289805666693742518, guid: c179bf0f67cc1b646bb528aba493bce8, type: 3}

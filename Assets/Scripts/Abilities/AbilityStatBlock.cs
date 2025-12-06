@@ -5,6 +5,8 @@ public class AbilityStatBlock : ScriptableObject
 {
     public Rarity rarity = Rarity.Common;
 
+    public string internalName = "ability";
+
     public string abilityName = "Ability";
     public string abilityDescription = "An ability.";
     public string abilityType = "A_grenade";
@@ -19,6 +21,8 @@ public class AbilityStatBlock : ScriptableObject
     public void CopyValues(AbilityStatBlock asb)
     {
         rarity = asb.rarity;
+
+        internalName = asb.internalName;
 
         abilityName = asb.abilityName;
         abilityDescription = asb.abilityDescription;

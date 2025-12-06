@@ -235,16 +235,16 @@ public class PlayablePawn : Pawn
         GameManager.current.eventService.RequestUIUpdateXpBar(xp, levelThreshold);
     }
 
-    public void GainLevel(int l)
+    public void GainLevel(int l, bool noLevelUp = false)
     {
-        level++;
-        LevelUpEffect();
+        level += l;
+        if (!noLevelUp) LevelUpEffect(l);
         GameManager.current.eventService.RequestUIUpdateLevelCounter(level);
     }
 
-    protected void LevelUpEffect()
+    protected void LevelUpEffect(int l)
     {
-        pendingLevelUps++;
+        pendingLevelUps += l;
     }
     #endregion
 

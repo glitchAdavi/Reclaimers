@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: BasicWeapon
   m_EditorClassIdentifier: 
   rarity: 60
+  internalName: minigun
   weaponName: Minigun
   weaponDescription: A minigun.
   weaponType: WepProjectile

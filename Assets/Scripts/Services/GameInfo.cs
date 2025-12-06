@@ -10,6 +10,7 @@ public class GameInfo : ScriptableObject
 
 
     //---PREFABS---
+    public GameObject devConsolePrefab;
     public GameObject playablePawnPrefab;
     public GameObject playerCameraPrefab;
     public GameObject enemyPawnPrefab;

@@ -12,13 +12,13 @@ public class IO_PawnUpgradePickup : InteractableObject
         base.Start();
 
         useThreshold = 1f;
-        if (upgrade != null) IOVerb = upgrade.GetUpgradeName();
+        if (upgrade != null) IOVerb = upgrade.upgradeName;
     }
 
     public void SetUpgrade(PawnUpgrade pu)
     {
         upgrade = pu;
-        IOVerb = upgrade.GetUpgradeName();
+        IOVerb = upgrade.upgradeName;
     }
 
     protected override void OnFinishEffect()
@@ -26,7 +26,7 @@ public class IO_PawnUpgradePickup : InteractableObject
         GameManager.current.playerPawn.AddUpgrade(upgrade);
 
         GameManager.current.eventService.RequestUISpawnFloatingText(GameManager.current.gameInfo.playerPositionVar.Value,
-                                                                    $"+1 {upgrade.GetUpgradeName()}",
+                                                                    $"+1 {upgrade.upgradeName}",
                                                                     Color.green,
                                                                     0f,
                                                                     1f);

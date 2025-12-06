@@ -131,8 +131,8 @@ public class EventService : MonoBehaviour
     public event Action<float> onGivePlayerXp;
     public void GivePlayerXp(float v) => onGivePlayerXp?.Invoke(v);
 
-    public event Action<int> onGivePlayerLevel;
-    public void GivePlayerLevel(int levels) => onGivePlayerLevel?.Invoke(levels);
+    public event Action<int, bool> onGivePlayerLevel;
+    public void GivePlayerLevel(int levels, bool noLevelUp = false) => onGivePlayerLevel?.Invoke(levels, noLevelUp);
 
     public event Action onQueueLevelUp;
     public void QueueLevelUp() => onQueueLevelUp?.Invoke();

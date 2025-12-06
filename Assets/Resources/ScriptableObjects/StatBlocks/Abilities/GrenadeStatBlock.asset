@@ -12,7 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27880ad5568697e4190dea599ca1412c, type: 3}
   m_Name: GrenadeStatBlock
   m_EditorClassIdentifier: 
+  rarity: 60
+  internalName: abilityGrenade
   abilityName: Grenade
+  abilityDescription: An ability.
   abilityType: A_grenade
   abilityCooldown:
     baseVal: 3

@@ -6,18 +6,10 @@ public abstract class Upgrade : ScriptableObject
 {
     public Rarity rarity = Rarity.Common;
 
-    [SerializeField] protected string upgradeName = "Upgrade";
-    [SerializeField] protected string upgradeDesc = "Description.";
+    public string internalName = "upgrade";
 
-    public string GetUpgradeName()
-    {
-        return upgradeName;
-    }
-
-    public string GetUpgradeDesc()
-    {
-        return upgradeDesc;
-    }
+    public string upgradeName = "Upgrade";
+    public string upgradeDesc = "Description.";
 
     public virtual void Apply(PlayablePawn p)
     {

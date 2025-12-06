@@ -5,6 +5,8 @@ public class WeaponStatBlock : ScriptableObject
 {
     public Rarity rarity = Rarity.Common;
 
+    public string internalName = "weapon";
+
     public string weaponName = "Weapon";
     public string weaponDescription = "A weapon.";
     public string weaponType = "WepProjectile";
@@ -53,6 +55,8 @@ public class WeaponStatBlock : ScriptableObject
     public void CopyValues(WeaponStatBlock wsb)
     {
         rarity = wsb.rarity;
+
+        internalName = wsb.internalName;
 
         weaponName = wsb.weaponName;
         weaponDescription = wsb.weaponDescription;

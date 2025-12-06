@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: SMG
   m_EditorClassIdentifier: 
   rarity: 60
+  internalName: smg
   weaponName: SMG
   weaponDescription: A weapon.
   weaponType: WepProjectile

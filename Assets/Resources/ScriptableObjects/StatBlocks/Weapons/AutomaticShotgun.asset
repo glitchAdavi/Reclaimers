@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: AutomaticShotgun
   m_EditorClassIdentifier: 
   rarity: 60
+  internalName: shotgun_auto
   weaponName: Automatic Shotgun
   weaponDescription: An automatic shotgun.
   weaponType: WepProjectile

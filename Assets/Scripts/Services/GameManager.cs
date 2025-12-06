@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
 
     public GameInfo gameInfo;
 
+    public DeveloperConsole console;
     public DataPersistenceService dataPersistenceService;
     public TileService tileService;
     public UpdateService updateService;
@@ -70,6 +71,7 @@ public class GameManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
     {
+        console = CreateService<DeveloperConsole>();
         tileService = GameObject.Find("Grid").GetComponent<TileService>();
         eventService = CreateService<EventService>();
         updateService = CreateService<UpdateService>();
@@ -139,6 +141,7 @@ public class GameManager : MonoBehaviour
     {
         UIService newUI = Instantiate(gameInfo.playerUIPrefab, GameObject.Find("Canvas").transform)
                               .GetComponent<UIService>();
+        newUI.gameObject.transform.SetAsFirstSibling();
         return newUI;
     }
 

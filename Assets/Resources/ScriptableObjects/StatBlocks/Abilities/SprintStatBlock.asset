@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: SprintStatBlock
   m_EditorClassIdentifier: 
   rarity: 60
+  internalName: abilitySprint
   abilityName: Sprint
   abilityDescription: 3 seconds of double speed.
   abilityType: A_sprint

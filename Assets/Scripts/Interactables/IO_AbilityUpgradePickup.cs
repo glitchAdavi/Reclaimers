@@ -12,13 +12,13 @@ public class IO_AbilityUpgradePickup : InteractableObject
         base.Start();
 
         useThreshold = 1f;
-        if (upgrade != null) IOName = upgrade.GetUpgradeName();
+        if (upgrade != null) IOName = upgrade.upgradeName;
     }
 
     public void SetUpgrade(AbilityUpgrade au)
     {
         upgrade = au;
-        IOName = upgrade.GetUpgradeName();
+        IOName = upgrade.upgradeName;
     }
 
     protected override void OnFinishEffect()
@@ -26,7 +26,7 @@ public class IO_AbilityUpgradePickup : InteractableObject
         GameManager.current.playerPawn.AddUpgrade(upgrade);
 
         GameManager.current.eventService.RequestUISpawnFloatingText(GameManager.current.gameInfo.playerPositionVar.Value,
-                                                                    $"+1 {upgrade.GetUpgradeName()}",
+                                                                    $"+1 {upgrade.upgradeName}",
                                                                     Color.green,
                                                                     0f,
                                                                     1f);
