@@ -12,9 +12,12 @@ public class UIService : MonoBehaviour, IPause
 
     public Image fade;
 
+    public bool useMainMenu = true;
     public GameObject mainMenu;
     public GameObject pauseMenu;
-    public bool useMainMenu = true;
+
+    public GameObject statsMenu;
+    public TMP_Text statsMenuText;
 
     public GameObject uiMapProgression;
     public Slider uiMapProgressionFill;
@@ -87,6 +90,8 @@ public class UIService : MonoBehaviour, IPause
 
     public void TogglePauseMenu(bool paused)
     {
+        UpdateStats();
+        statsMenu.SetActive(paused);
         if (useMainMenu) mainMenu.SetActive(paused);
         else pauseMenu.SetActive(paused);
     }
@@ -207,5 +212,16 @@ public class UIService : MonoBehaviour, IPause
             temp.a += 0.01f;
             fade.color = temp;
         });
+    }
+
+
+
+
+
+    public void UpdateStats()
+    {
+        statsMenuText.text = $"Player:/n" +
+            $"Speed - {GameManager.current.playerPawn.statBlock.speed.ValuesAsString()}\n" +
+            $"Lifepoints - {GameManager.current.playerPawn.statBlock.lifepoints.ValuesAsString()}";
     }
 }

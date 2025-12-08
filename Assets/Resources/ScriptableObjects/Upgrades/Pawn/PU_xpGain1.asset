@@ -10,11 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 05bc8370a418559438fa64e191d285a4, type: 3}
-  m_Name: UP_speed1
+  m_Name: PU_xpGain1
   m_EditorClassIdentifier: 
-  internalName: pu_speed1
-  upgradeName: Speed
-  upgradeDesc: More speed.
+  rarity: 60
+  internalName: pawn_gainXp_common
+  upgradeName: More XP
+  upgradeDesc: Gain more XP.
   scale:
     baseVal: 0
     addVal: 0
@@ -30,11 +31,11 @@ MonoBehaviour:
   xpGain:
     baseVal: 0
     addVal: 0
-    multVal: 0
+    multVal: 0.1
   speed:
     baseVal: 0
     addVal: 0
-    multVal: 0.25
+    multVal: 0
   lifepoints:
     baseVal: 0
     addVal: 0

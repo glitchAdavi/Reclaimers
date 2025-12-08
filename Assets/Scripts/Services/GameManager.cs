@@ -58,9 +58,9 @@ public class GameManager : MonoBehaviour
             allPlayablePawns = Resources.LoadAll<PawnStatBlock>("ScriptableObjects/StatBlocks/Playable").ToList();
             allWeapons = Resources.LoadAll<WeaponStatBlock>("ScriptableObjects/StatBlocks/Weapons").ToList();
             allAbilities = Resources.LoadAll<AbilityStatBlock>("ScriptableObjects/StatBlocks/Abilities").ToList();
-            allPawnUpgrades = Resources.LoadAll<PawnUpgrade>("ScriptableObjects/Upgrades").ToList();
-            allWeaponUpgrades = Resources.LoadAll<WeaponUpgrade>("ScriptableObjects/Upgrades").ToList();
-            allAbilityUpgrades = Resources.LoadAll<AbilityUpgrade>("ScriptableObjects/Upgrades").ToList();
+            allPawnUpgrades = Resources.LoadAll<PawnUpgrade>("ScriptableObjects/Upgrades/Pawn").ToList();
+            allWeaponUpgrades = Resources.LoadAll<WeaponUpgrade>("ScriptableObjects/Upgrades/Weapon").ToList();
+            allAbilityUpgrades = Resources.LoadAll<AbilityUpgrade>("ScriptableObjects/Upgrades/Ability").ToList();
             allModifiers = Resources.LoadAll<Modifier>("ScriptableObjects/Modifiers").ToList();
 
             SceneManager.sceneLoaded += OnSceneLoaded;
@@ -195,43 +195,98 @@ public class GameManager : MonoBehaviour
         return filteredList[Random.Range(0, filteredList.Count())];
     }
 
+    public WeaponStatBlock GetWeaponStatBlockByName(string name)
+    {
+        WeaponStatBlock result = null;
+        foreach(WeaponStatBlock wsb in allWeapons)
+        {
+            if (wsb.internalName.Equals(name)) result = wsb;
+        }
+        return result;
+    }
+
     public AbilityStatBlock GetRandomAbilityStatBlock()
     {
         List<AbilityStatBlock> filteredList = allAbilities.Where(x => x.rarity.Equals(GetRarity())).ToList();
         return filteredList[Random.Range(0, filteredList.Count())];
     }
 
+    public AbilityStatBlock GetAbilityStatBlockByName(string name)
+    {
+        AbilityStatBlock result = null;
+        foreach (AbilityStatBlock asb in allAbilities)
+        {
+            if (asb.internalName.Equals(name)) result = asb;
+        }
+        return result;
+    }
+
     public Upgrade GetRandomUpgrade()
     {
-        int r = Random.Range(0, 3);
-        switch (r) {
-            case 0:
-                return GetRandomPawnUpgrade();
-            case 1:
-                return GetRandomWeaponUpgrade();
-            case 2:
-                return GetRandomAbilityUpgrade();
-            default:
-                return null;
+        Upgrade result = null;
+        while (result == null)
+        {
+            int r = Random.Range(0, 3);
+            switch (r)
+            {
+                case 0:
+                    result = GetRandomPawnUpgrade();
+                    break;
+                case 1:
+                    result = GetRandomWeaponUpgrade();
+                    break;
+                case 2:
+                    result = GetRandomAbilityUpgrade();
+                    break;
+                default:
+                    result = null;
+                    break;
+            }
         }
+        return result;
+        
     }
 
     public PawnUpgrade GetRandomPawnUpgrade()
     {
+        if (allPawnUpgrades.Count < 1) return null;
         List<PawnUpgrade> filteredList = allPawnUpgrades.Where(x => x.rarity.Equals(GetRarity())).ToList();
+        if (filteredList.Count < 1) return null;
         return filteredList[Random.Range(0, filteredList.Count())];
     }
 
     public WeaponUpgrade GetRandomWeaponUpgrade()
     {
+        if (allWeaponUpgrades.Count < 1) return null;
         List<WeaponUpgrade> filteredList = allWeaponUpgrades.Where(x => x.rarity.Equals(GetRarity())).ToList();
+        if (filteredList.Count < 1) return null;
         return filteredList[Random.Range(0, filteredList.Count())];
     }
 
     public AbilityUpgrade GetRandomAbilityUpgrade()
     {
+        if (allAbilityUpgrades.Count < 1) return null;
         List<AbilityUpgrade> filteredList = allAbilityUpgrades.Where(x => x.rarity.Equals(GetRarity())).ToList();
+        if (filteredList.Count < 1) return null;
         return filteredList[Random.Range(0, filteredList.Count())];
+    }
+
+    public Upgrade GetUpgradeByName(string name)
+    {
+        Upgrade result = null;
+        foreach (PawnUpgrade pu in allPawnUpgrades)
+        {
+            if (pu.internalName.Equals(name)) result = pu;
+        }
+        foreach (WeaponUpgrade wu in allWeaponUpgrades)
+        {
+            if (wu.internalName.Equals(name)) result = wu;
+        }
+        foreach (AbilityUpgrade au in allAbilityUpgrades)
+        {
+            if (au.internalName.Equals(name)) result = au;
+        }
+        return result;
     }
 
     public Rarity GetRarity()

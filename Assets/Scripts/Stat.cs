@@ -94,6 +94,11 @@ public class Stat
         return Mathf.RoundToInt(val);
     }
 
+    public string ValuesAsString()
+    {
+        return $"{Value()} = ({baseVal} + {addVal}) * {multVal}";
+    }
+
     public bool IsNotEmpty()
     {
         if (baseVal != 0 || addVal != 0 || multVal != 0) return true;

@@ -49,6 +49,7 @@ public class DeveloperConsole : MonoBehaviour
             consoleEnabled = !consoleEnabled;
             console.SetActive(consoleEnabled);
             GameManager.current.eventService.RequestEnableControlAll(!consoleEnabled);
+            consoleInput.ActivateInputField();
         }
 
         if (Input.GetKeyDown(KeyCode.Return))
@@ -198,17 +199,32 @@ public class DeveloperConsole : MonoBehaviour
 
     string GiveWeapon(string[] args)
     {
-        return "ERROR: Not implemented yet";
+        if (args.Length < 1) return "ERROR: Weapon name needed";
+        if (args.Length > 1) return "ERROR: Wrong parameters";
+
+        GameManager.current.playerPawn.ChangeWeapon(GameManager.current.GetWeaponStatBlockByName(args[0]));
+
+        return $"Given weapon {args[0]} to player";
     }
 
     string GiveUpgrade(string[] args)
     {
-        return "ERROR: Not implemented yet";
+        if (args.Length < 1) return "ERROR: Upgrade name needed";
+        if (args.Length > 1) return "ERROR: Wrong parameters";
+
+        GameManager.current.playerPawn.AddUpgrade(GameManager.current.GetUpgradeByName(args[0]));
+
+        return $"Given upgrade {args[0]} to player";
     }
 
     string GiveAbility(string[] args)
     {
-        return "ERROR: Not implemented yet";
+        if (args.Length < 1) return "ERROR: Ability name needed";
+        if (args.Length > 1) return "ERROR: Wrong parameters";
+
+        GameManager.current.playerPawn.ChangeAbility(GameManager.current.GetAbilityStatBlockByName(args[0]));
+
+        return $"Given ability {args[0]} to player";
     }
 
     string List(string[] args)
