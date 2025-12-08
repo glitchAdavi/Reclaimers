@@ -39,8 +39,11 @@ public class WepProjectile : Weapon
                                                                            statBlock.knockback.Value(),
                                                                            statBlock.projArmingLifetime.Value(),
                                                                            statBlock.explodeImmediately,
+                                                                           statBlock.explosionRadius.Value(),
                                                                            statBlock.projectileSprite,
                                                                            statBlock.projectileSpriteColor,
+                                                                           statBlock.projectileSpriteAux,
+                                                                           statBlock.projectileSpriteColorAux,
                                                                            statBlock.hitSpriteColor,
                                                                            statBlock.hitSprite);
 
@@ -66,8 +69,11 @@ public class WepProjectile : Weapon
                                                                            statBlock.knockback.Value(),
                                                                            statBlock.projArmingLifetime.Value(),
                                                                            statBlock.explodeImmediately,
+                                                                           statBlock.explosionRadius.Value(),
                                                                            statBlock.projectileSprite,
                                                                            statBlock.projectileSpriteColor,
+                                                                           statBlock.projectileSpriteAux,
+                                                                           statBlock.projectileSpriteColorAux,
                                                                            statBlock.hitSpriteColor,
                                                                            statBlock.hitSprite);
 

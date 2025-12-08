@@ -17,6 +17,7 @@ public class P_Bounce : Projectile
         if (collider.gameObject.layer == 22) //LevelCollision
         {
             GameObject hit = collider.gameObject;
+            SeparateFromWall(collider.collider, collider.transform.position, collider.transform.rotation);
 
             if (currentPenetration > 0)
             {

@@ -16,6 +16,8 @@ public class WeaponStatBlock : ScriptableObject
 
     public Sprite projectileSprite;
     public Color projectileSpriteColor = new Color(255, 255, 255, 255);
+    public Sprite projectileSpriteAux;
+    public Color projectileSpriteColorAux = new Color(255, 255, 255, 255);
 
     public Sprite hitSprite;
     public Color hitSpriteColor = new Color(255, 255, 255, 255);
@@ -46,6 +48,7 @@ public class WeaponStatBlock : ScriptableObject
     public Stat projMaxLifetime = new Stat(1f, 0f, 1f);
     public Stat projArmingLifetime = new Stat(0f, 0f, 1f);
     public bool explodeImmediately = false;
+    public Stat explosionRadius = new Stat(0f, 0f, 1f);
 
     public Stat projCritChance = new Stat(1f, 0f, 1f);
     public Stat projCritMultiplier = new Stat(2f, 0f, 1f);
@@ -67,6 +70,8 @@ public class WeaponStatBlock : ScriptableObject
 
         projectileSprite = wsb.projectileSprite;
         projectileSpriteColor = wsb.projectileSpriteColor;
+        projectileSpriteAux = wsb.projectileSpriteAux;
+        projectileSpriteColorAux = wsb.projectileSpriteColorAux;
 
         hitSprite = wsb.hitSprite;
         hitSpriteColor = wsb.hitSpriteColor;
@@ -97,6 +102,7 @@ public class WeaponStatBlock : ScriptableObject
         projMaxLifetime.SetValues(wsb.projMaxLifetime);
         projArmingLifetime.SetValues(wsb.projArmingLifetime);
         explodeImmediately = wsb.explodeImmediately;
+        explosionRadius.SetValues(wsb.explosionRadius);
 
         projCritChance.SetValues(wsb.projCritChance);
         projCritMultiplier.SetValues(wsb.projCritMultiplier);

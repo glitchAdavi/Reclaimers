@@ -225,6 +225,7 @@ public class PlayablePawn : Pawn
         while (xp >= levelThreshold)
         {
             xp -= levelThreshold;
+            LevelThreshold();
             GainLevel(1);
         }
 
@@ -245,6 +246,11 @@ public class PlayablePawn : Pawn
     protected void LevelUpEffect(int l)
     {
         pendingLevelUps += l;
+    }
+
+    protected void LevelThreshold()
+    {
+        levelThreshold += 10;
     }
     #endregion
 

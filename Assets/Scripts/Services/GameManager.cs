@@ -246,6 +246,11 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
+    public float DistanceToPlayer(Vector3 pos)
+    {
+        return Vector3.Distance(playerPawn.transform.position, pos);
+    }
+
     public Modifier GetModifier(string id)
     {
         foreach (Modifier mod in allModifiers)

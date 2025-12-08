@@ -14,7 +14,13 @@ public class GameInfo : ScriptableObject
     public GameObject playablePawnPrefab;
     public GameObject playerCameraPrefab;
     public GameObject enemyPawnPrefab;
+
+    public GameObject corpsePrefab;
+    
     public GameObject projectilePrefab;
+    public GameObject bounceProjectilePrefab;
+    public GameObject explosiveProjectilePrefab;
+
     public GameObject playerUIPrefab;
     public GameObject uiDamageNumberPrefab;
     public GameObject poXpPrefab;
@@ -23,6 +29,7 @@ public class GameInfo : ScriptableObject
     public GameObject weaponUpgradePrefab;
     public GameObject abilityUpgradePrefab;
     public GameObject weaponHitPrefab;
+    public GameObject explosionPrefab;
 
 
     //---STATBLOCKS---

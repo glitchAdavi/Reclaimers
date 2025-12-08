@@ -373,11 +373,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentLifetime: 0
+  _lgt: {fileID: 0}
   hitEnemies: []
   _sprt: {fileID: 0}
   _sprtBaseScale: {x: 0, y: 0, z: 0}
   _damageCollider: {fileID: 0}
   _damageColliderBaseScale: {x: 0, y: 0, z: 0}
+  _tr: {fileID: 0}
+  _trBaseScale: 0
   currentPenetration: 0
   lastHit: {fileID: 0}
 --- !u!1 &8550193083950009573

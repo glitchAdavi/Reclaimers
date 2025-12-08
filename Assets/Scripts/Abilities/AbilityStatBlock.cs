@@ -14,6 +14,7 @@ public class AbilityStatBlock : ScriptableObject
     public Stat abilityCooldown = new Stat(1f, 0f, 1f);
 
     public Stat abilityDamage = new Stat(1f, 0f, 1f);
+    public Stat abilityRadius = new Stat(0f, 0f, 1f);
 
     public Stat abilityCharges = new Stat(1f, 0f, 1f);
 
@@ -31,6 +32,7 @@ public class AbilityStatBlock : ScriptableObject
         abilityCooldown.SetValues(asb.abilityCooldown);
 
         abilityDamage.SetValues(asb.abilityDamage);
+        abilityRadius.SetValues(asb.abilityRadius);
 
         abilityCharges.SetValues(asb.abilityCharges);
     }

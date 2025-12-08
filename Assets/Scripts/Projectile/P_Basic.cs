@@ -8,6 +8,7 @@ public class P_Basic : Projectile
     {
         if (collider.gameObject.layer == 22) //LevelCollision
         {
+            SeparateFromWall(collider.collider, collider.transform.position, collider.transform.rotation);
             if (hitSprite != null) Instantiate(GameManager.current.gameInfo.weaponHitPrefab, transform.position, Quaternion.identity).GetComponent<WeaponHit>().Activate(hitSprite, hitColor);
             ResetAndReturn();
         }

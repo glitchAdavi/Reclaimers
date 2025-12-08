@@ -15,7 +15,7 @@ MonoBehaviour:
   rarity: 60
   pawnName: John Doe
   pawnDescription: A pawn.
-  equippedWeapon: {fileID: 11400000, guid: 07b195ca6f90ecb47a79b78c2f3dd378, type: 2}
+  equippedWeapon: {fileID: 11400000, guid: 08cb03afdd640784eacb76d49e9aa626, type: 2}
   equippedAbility: {fileID: 11400000, guid: 2245023f4773a094fadf770b475e800a, type: 2}
   controller: {fileID: 9100000, guid: e6aa1a0b645c4834a99e0bd71cb3913c, type: 2}
   keyUpgrade: []
@@ -96,6 +96,10 @@ MonoBehaviour:
     multVal: 1
   iFrameDuration:
     baseVal: 0.25
+    addVal: 0
+    multVal: 1
+  knockBackResist:
+    baseVal: 0
     addVal: 0
     multVal: 1
   xpKillValue:

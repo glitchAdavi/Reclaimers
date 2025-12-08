@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
+using TreeEditor;
 using UnityEngine;
 
 public abstract class Projectile : MonoBehaviour, IUpdate, IPause
@@ -8,6 +10,8 @@ public abstract class Projectile : MonoBehaviour, IUpdate, IPause
 
     protected bool useDistance = true;
     [SerializeField] protected float currentLifetime;
+
+    [SerializeField] protected Light _lgt;
 
     [SerializeField] protected List<GameObject> hitEnemies = new List<GameObject>();
 
@@ -18,6 +22,7 @@ public abstract class Projectile : MonoBehaviour, IUpdate, IPause
     [SerializeField] protected TrailRenderer _tr;
     [SerializeField] protected float _trBaseScale = 0f;
 
+    protected float scale;
     protected float damage;
     protected float damageRadius;
     protected float speed;
@@ -28,17 +33,22 @@ public abstract class Projectile : MonoBehaviour, IUpdate, IPause
     protected float knockback;
     protected float armingLifetime;
     protected bool explodeImmediately;
+    protected float explosionRadius;
+
+    protected Sprite projSpriteAux;
+    protected Color projSpriteColorAux;
 
     protected Color hitColor;
     protected Sprite hitSprite;
 
     [SerializeField] protected int currentPenetration;
 
-    protected void OnEnable()
+    protected virtual void OnEnable()
     {
         GameManager.current.updateService.RegisterUpdate(this);
         GameManager.current.updateService.RegisterPause(this);
 
+        _lgt = GetComponentInChildren<Light>();
         _sprt = GetComponentInChildren<SpriteRenderer>();
         _tr = GetComponentInChildren<TrailRenderer>();
         _damageCollider = GetComponentInChildren<DamageCollider>();
@@ -71,6 +81,7 @@ public abstract class Projectile : MonoBehaviour, IUpdate, IPause
             if (currentLifetime >= maxLifetime) ResetAndReturn();
         }
     }
+
     public void Pause(bool paused)
     {
         active = !paused;
@@ -81,6 +92,7 @@ public abstract class Projectile : MonoBehaviour, IUpdate, IPause
         hitEnemies.Clear();
 
         _tr.emitting = false;
+        _lgt.enabled = false;
 
         _damageCollider.onCollisionEnter -= ManageOnCollisionEnter;
         _damageCollider.onTriggerEnter -= ManageOnTriggerEnter;
@@ -144,7 +156,7 @@ public abstract class Projectile : MonoBehaviour, IUpdate, IPause
         p.gameObject.SetActive(false);
     }
 
-    public void ProjectileSetup(float projScaleVar,
+    public virtual void ProjectileSetup(float projScaleVar,
                                 float damageVar,
                                 float damageRadiusVar,
                                 float speedVar,
@@ -156,11 +168,15 @@ public abstract class Projectile : MonoBehaviour, IUpdate, IPause
                                 float knockbackVar,
                                 float armingLifetimeVar,
                                 bool explodeImmediately,
+                                float explosionRadiusVar,
                                 Sprite projSprite,
                                 Color projColor,
+                                Sprite projSpriteAux,
+                                Color projColorAux,
                                 Color hitColor,
                                 Sprite hitSprite = null)
     {
+        scale = projScaleVar;
         _sprt.transform.localScale = _sprt.transform.localScale * projScaleVar;
         _damageCollider.transform.localScale = _damageCollider.transform.localScale * projScaleVar;
         _tr.startWidth = _tr.startWidth * projScaleVar;
@@ -176,13 +192,45 @@ public abstract class Projectile : MonoBehaviour, IUpdate, IPause
         knockback = knockbackVar;
         armingLifetime = armingLifetimeVar;
         this.explodeImmediately = explodeImmediately;
+        explosionRadius = explosionRadiusVar;
 
         if (projSprite != null) _sprt.sprite = projSprite;
         _sprt.color = projColor;
+
+        if (projSpriteAux != null) this.projSpriteAux = projSpriteAux;
+        projSpriteColorAux = projColorAux;
 
         this.hitColor = hitColor;
         this.hitSprite = hitSprite;
 
         currentPenetration = penetration;
+    }
+
+
+    public void SeparateFromWall(Collider wallCol, Vector3 wallPos, Quaternion wallRot)
+    {
+        Collider projCollider = _damageCollider.gameObject.GetComponent<Collider>();
+        Vector3 projPos = transform.position + new Vector3(0f, 1f, 0f);
+        if (Physics.ComputePenetration(projCollider, projPos, transform.rotation, wallCol, wallPos, wallRot, out Vector3 dir, out float dist))
+        {
+            Vector3 temp = transform.position + (dir * dist);
+            if (GameManager.current.DistanceToPlayer(temp) > GameManager.current.DistanceToPlayer(transform.position))
+            {
+                Vector3 dirToPlayer = GameManager.current.gameInfo.playerPositionVar.Value - transform.position;
+                dirToPlayer = new Vector3(dirToPlayer.x, 0.5f, dirToPlayer.z);
+
+                Debug.DrawLine(projPos, projPos + (dirToPlayer.normalized * 0.7f));
+
+                projPos = transform.position + (dirToPlayer.normalized * 0.7f) + new Vector3(0f, 1f, 0f);
+                transform.position += dirToPlayer.normalized * 0.7f;
+                if (Physics.ComputePenetration(projCollider, projPos, transform.rotation, wallCol, wallPos, wallRot, out Vector3 dir2, out float dist2))
+                {
+                    transform.position += dir2 * dist2;
+                }
+            } else
+            {
+                transform.position += dir * dist;
+            }
+        }
     }
 }

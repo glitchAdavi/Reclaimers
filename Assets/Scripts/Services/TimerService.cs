@@ -83,37 +83,36 @@ public class TimerService : MonoBehaviour, IUpdate, IPause
             if (t.cancelled)
             {
                 finishedTimers.Add(t);
-                break;
-            }
-
-            if (t.isPaused) continue;
-
-            if (t.partialCallback != null && t.partialTimeMax > 0)
+            } else
             {
-                t.partialTime -= Time.deltaTime;
+                if (t.isPaused) continue;
 
-                if (t.partialTime <= 0)
+                if (t.partialCallback != null && t.partialTimeMax > 0)
                 {
-                    t.timeLeft -= t.partialTimeMax;
-                    t.lifeTime += t.partialTimeMax;
+                    t.partialTime -= Time.deltaTime;
 
-                    t.partialCallback();
-                    t.partialTime = t.partialTimeMax;
+                    if (t.partialTime <= 0)
+                    {
+                        t.timeLeft -= t.partialTimeMax;
+                        t.lifeTime += t.partialTimeMax;
+
+                        t.partialCallback();
+                        t.partialTime = t.partialTimeMax;
+                    }
+                }
+                else
+                {
+                    t.timeLeft -= Time.deltaTime;
+                    t.lifeTime += Time.deltaTime;
+                }
+
+                if (t.timeLeft <= 0)
+                {
+                    if (t.callback != null) t.callback();
+                    if (t.executePartialOnEnd && t.partialCallback != null) t.partialCallback();
+                    finishedTimers.Add(t);
                 }
             }
-            else
-            {
-                t.timeLeft -= Time.deltaTime;
-                t.lifeTime += Time.deltaTime;
-            }
-
-            if (t.timeLeft <= 0)
-            {
-                if (t.callback != null) t.callback();
-                if (t.executePartialOnEnd && t.partialCallback != null) t.partialCallback();
-                finishedTimers.Add(t);
-            }
-
         }
 
         foreach (Timer t in finishedTimers)
