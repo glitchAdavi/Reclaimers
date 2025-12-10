@@ -7,7 +7,7 @@ public class UIFloatingText : MonoBehaviour, IUpdate, IPause
 {
     [SerializeField] TMP_Text damageText;
 
-    Timer deathTimer;
+    Timer timerDeath;
 
     public float speed = 2f;
     public float deathTimerTime = 0.5f;
@@ -18,7 +18,7 @@ public class UIFloatingText : MonoBehaviour, IUpdate, IPause
 
     private void OnEnable()
     {
-        deathTimer = GameManager.current.timerService.StartTimer(deathTimerTime, Die);
+        if (timerDeath == null) timerDeath = GameManager.current.timerService.StartTimer(deathTimerTime, Die);
 
         GameManager.current.updateService.RegisterUpdate(this);
         GameManager.current.updateService.RegisterPause(this);
@@ -54,6 +54,7 @@ public class UIFloatingText : MonoBehaviour, IUpdate, IPause
 
     public void Die()
     {
+        timerDeath = null;
         GameManager.current.uiService.floatingTextBuilder.ReturnObject(this);
     }
 
