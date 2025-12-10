@@ -20,8 +20,10 @@ MonoBehaviour:
   controller: {fileID: 9100000, guid: e6aa1a0b645c4834a99e0bd71cb3913c, type: 2}
   keyUpgrade: []
   valueUpgrade: 
-  pawnSprite: {fileID: 1634195067, guid: e19d92438ce7134418cd981c4d1975b9, type: 3}
-  pawnSpriteColor: {r: 1, g: 1, b: 1, a: 1}
+  pawnMainSprite: {fileID: 1634195067, guid: e19d92438ce7134418cd981c4d1975b9, type: 3}
+  pawnMainSpriteColor: {r: 255, g: 255, b: 255, a: 255}
+  pawnColorSprite: {fileID: 633450507, guid: e19d92438ce7134418cd981c4d1975b9, type: 3}
+  pawnColorSpriteColor: {r: 255, g: 255, b: 255, a: 255}
   scale:
     baseVal: 1
     addVal: 0

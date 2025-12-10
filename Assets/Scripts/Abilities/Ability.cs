@@ -13,6 +13,7 @@ public abstract class Ability : MonoBehaviour, IPause
     public int aMaxCharges;
     public int aCharges;
     public float aDamage;
+    public float aRadius;
 
     Timer timerCooldown;
 
@@ -97,6 +98,11 @@ public abstract class Ability : MonoBehaviour, IPause
     public void ApplyDamage()
     {
         aDamage = statBlock.abilityDamage.Value();
+    }
+
+    public void ApplyRadius()
+    {
+        aRadius = statBlock.abilityRadius.Value();
     }
 
 

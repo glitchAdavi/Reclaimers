@@ -54,8 +54,8 @@ MonoBehaviour:
   IOName: Container
   IOVerb: Open
   lootSpreadRange: 5
-  closed: {fileID: 0}
-  opened: {fileID: 0}
+  closed: {fileID: -633529877, guid: 02cd70ca958753548bca24efd24d8ae2, type: 3}
+  opened: {fileID: 230748662, guid: 02cd70ca958753548bca24efd24d8ae2, type: 3}
   xpMinMax: {x: 1, y: 10}
   materialMinMax: {x: 0, y: 5}
   upgradeMinMax: {x: 1, y: 4}

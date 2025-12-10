@@ -33,13 +33,15 @@ public abstract class LevelLogic : MonoBehaviour, IUpdate, IPause
 
     protected virtual void Win()
     {
+        GameManager.current.levelService.win = true;
         GameManager.current.SavePlayer();
-        GameManager.current.uiService.FadeOut(GameManager.current.ReturnToMenu);
+        GameManager.current.uiService.FadeOut(GameManager.current.uiService.EnableFadeMenu, 2f);
     }
 
     protected virtual void Lose()
     {
+        GameManager.current.levelService.win = false;
         GameManager.current.ResetPlayer();
-        GameManager.current.uiService.FadeOut(GameManager.current.ReturnToMenu);
+        GameManager.current.uiService.FadeOut(GameManager.current.uiService.EnableFadeMenu, 2f);
     }
 }

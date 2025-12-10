@@ -98,6 +98,7 @@ public class LL_Extraction : LevelLogic
                                                                              1f,
                                                                              () => stage1Progression++);
 
+        GameManager.current.eventService.RequestUIMapStage1();
         currentLevelScript.StartStage1Script();
     }
 
@@ -125,6 +126,7 @@ public class LL_Extraction : LevelLogic
         GameManager.current.eventService.RequestUIMapProgressionSetup(stage2ProgressionMax);
         GameManager.current.eventService.RequestUIMapProgression(stage2ProgressionMax);
 
+        GameManager.current.eventService.RequestUIMapStage2();
         currentLevelScript.StartStage2Script();
     }
 
@@ -155,6 +157,8 @@ public class LL_Extraction : LevelLogic
         GameManager.current.eventService.RequestBossSpawn();
         GameManager.current.eventService.RequestUIMapProgressionSetup(boss.statBlock.lifepoints.Value(), Color.red);
         GameManager.current.eventService.RequestUIMapProgression(boss.GetCurrentLifepoints());
+
+        GameManager.current.eventService.RequestUIMapStage3();
     }
 
     public void Stage3()
@@ -165,6 +169,7 @@ public class LL_Extraction : LevelLogic
 
         } else
         {
+            GameManager.current.eventService.RequestUIMapProgression(0);
             levelStage = -1;
             Win();
         }

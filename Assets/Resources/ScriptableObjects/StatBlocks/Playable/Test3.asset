@@ -12,13 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8049b2b7ff881c14fb97e71d0a471463, type: 3}
   m_Name: Test3
   m_EditorClassIdentifier: 
+  rarity: 60
   pawnName: Test 3
+  pawnDescription: A pawn.
   equippedWeapon: {fileID: 11400000, guid: d375fb4bf91084a419c66e0b6417ed0f, type: 2}
   equippedAbility: {fileID: 0}
+  controller: {fileID: 0}
   keyUpgrade: []
   valueUpgrade: 
-  pawnSprite: {fileID: 1634195067, guid: e19d92438ce7134418cd981c4d1975b9, type: 3}
-  pawnSpriteColor: {r: 0.9296404, g: 1, b: 0, a: 1}
+  pawnMainSprite: {fileID: 1634195067, guid: e19d92438ce7134418cd981c4d1975b9, type: 3}
+  pawnMainSpriteColor: {r: 255, g: 255, b: 255, a: 255}
+  pawnColorSprite: {fileID: 633450507, guid: e19d92438ce7134418cd981c4d1975b9, type: 3}
+  pawnColorSpriteColor: {r: 0.0036804676, g: 1, b: 0, a: 255}
   scale:
     baseVal: 1
     addVal: 0
@@ -95,7 +100,27 @@ MonoBehaviour:
     baseVal: 0.25
     addVal: 0
     multVal: 1
+  knockBackResist:
+    baseVal: 0
+    addVal: 0
+    multVal: 1
   xpKillValue:
     baseVal: 1
+    addVal: 0
+    multVal: 1
+  onDamageSpawnEnemy: 0
+  onDamageEnemyToSpawn: {fileID: 0}
+  onDamageInterval:
+    baseVal: 0
+    addVal: 0
+    multVal: 1
+  onDamageNumToSpawn:
+    baseVal: 0
+    addVal: 0
+    multVal: 1
+  onDeathSpawnEnemy: 0
+  onDeathEnemyToSpawn: {fileID: 0}
+  onDeathNumToSpawn:
+    baseVal: 0
     addVal: 0
     multVal: 1

@@ -48,6 +48,18 @@ public class EventService : MonoBehaviour
     public void RequestUIMapProgressionSetup(float max, Color? newColor = null) => onRequestUIMapProgressionSetup?.Invoke(max, newColor);
 
 
+    public event Action onRequestUIMapStage1;
+    public void RequestUIMapStage1() => onRequestUIMapStage1?.Invoke();
+
+
+    public event Action onRequestUIMapStage2;
+    public void RequestUIMapStage2() => onRequestUIMapStage2?.Invoke();
+
+
+    public event Action onRequestUIMapStage3;
+    public void RequestUIMapStage3() => onRequestUIMapStage3?.Invoke();
+
+
     public event Action<float, float> onRequestUIUpdateHealth;
     public void RequestUIUpdateHealth(float hp, float max) => onRequestUIUpdateHealth?.Invoke(hp, max);
 

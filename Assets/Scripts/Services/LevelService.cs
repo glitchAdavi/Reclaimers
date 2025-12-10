@@ -20,6 +20,8 @@ public class LevelService : MonoBehaviour
 
     [SerializeField] int maxXpInScene = 100;
 
+    public bool win = false;
+
     private void OnEnable()
     {
         GameManager.current.eventService.onSpawnXp += SpawnPoXp;
@@ -161,7 +163,7 @@ public class LevelService : MonoBehaviour
 
     public void SpawnPawnUpgrade(Vector3 pos)
     {
-        PawnUpgrade chosen = GameManager.current.GetRandomPawnUpgrade();
+        PawnUpgrade chosen = chosen = GameManager.current.GetRandomPawnUpgrade();
         IO_PawnUpgradePickup pUpgrade = Instantiate(GameManager.current.gameInfo.pawnUpgradePrefab, pos, Quaternion.identity).GetComponent<IO_PawnUpgradePickup>();
         pUpgrade.SetUpgrade(chosen);
     }
@@ -175,7 +177,7 @@ public class LevelService : MonoBehaviour
 
     public void SpawnAbilityUpgrade(Vector3 pos)
     {
-        AbilityUpgrade chosen = GameManager.current.GetRandomAbilityUpgrade();
+        AbilityUpgrade chosen = chosen = GameManager.current.GetRandomAbilityUpgrade();
         IO_AbilityUpgradePickup aUpgrade = Instantiate(GameManager.current.gameInfo.abilityUpgradePrefab, pos, Quaternion.identity).GetComponent<IO_AbilityUpgradePickup>();
         aUpgrade.SetUpgrade(chosen);
     }

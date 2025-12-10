@@ -162,7 +162,7 @@ public class EnemyPawn : Pawn
     {
         if (!isDead)
         {
-            Instantiate(GameManager.current.gameInfo.corpsePrefab, new Vector3(transform.position.x, 0.01f, transform.position.z), Quaternion.identity).GetComponent<Corpse>().Init(statBlock.pawnSprite);
+            Instantiate(GameManager.current.gameInfo.corpsePrefab, new Vector3(transform.position.x, 0.01f, transform.position.z), Quaternion.identity).GetComponent<Corpse>().Init(statBlock.pawnMainSprite);
 
             if (statBlock.onDeathSpawnEnemy && statBlock.onDeathEnemyToSpawn != null)
             {

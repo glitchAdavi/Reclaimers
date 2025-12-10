@@ -22,6 +22,10 @@ public class UIService : MonoBehaviour, IPause
     public GameObject uiMapProgression;
     public Slider uiMapProgressionFill;
 
+    public GameObject stage1On;
+    public GameObject stage2On;
+    public GameObject stage3On;
+
     public GameObject uiInteract;
     public TMP_Text uiInteractText;
     public Slider uiInteractFill;
@@ -47,6 +51,8 @@ public class UIService : MonoBehaviour, IPause
     Timer timerFadeIn;
     Timer timerFadeOut;
 
+    public GameObject fadeMenu;
+
 
     private void OnEnable()
     {
@@ -60,7 +66,12 @@ public class UIService : MonoBehaviour, IPause
         GameManager.current.eventService.onRequestUITogglePauseMenu += TogglePauseMenu;
         GameManager.current.eventService.onRequestUIMapProgressionEnable += UpdateUIMapProgressionEnabled;
         GameManager.current.eventService.onRequestUIMapProgression += UpdateUIMapProgression;
+
         GameManager.current.eventService.onRequestUIMapProgressionSetup += UpdateUIMapProgressionSetup;
+        GameManager.current.eventService.onRequestUIMapStage1 += UpdateUIMapStage1;
+        GameManager.current.eventService.onRequestUIMapStage2 += UpdateUIMapStage2;
+        GameManager.current.eventService.onRequestUIMapStage3 += UpdateUIMapStage3;
+
         GameManager.current.eventService.onRequestUIUpdateHealth += UpdateUIHealth;
         GameManager.current.eventService.onRequestUIUpdateXpBar += UpdateUIXpBar;
         GameManager.current.eventService.onRequestUIUpdateLevelCounter += UpdateUILevelCounter;
@@ -110,6 +121,27 @@ public class UIService : MonoBehaviour, IPause
     {
         uiMapProgressionFill.maxValue = max;
         if (newColor != null) uiMapProgressionFill.image.color = (Color)newColor;
+    }
+
+    public void UpdateUIMapStage1()
+    {
+        stage1On.SetActive(true);
+        stage2On.SetActive(false);
+        stage3On.SetActive(false);
+    }
+
+    public void UpdateUIMapStage2()
+    {
+        stage1On.SetActive(false);
+        stage2On.SetActive(true);
+        stage3On.SetActive(false);
+    }
+
+    public void UpdateUIMapStage3()
+    {
+        stage1On.SetActive(false);
+        stage2On.SetActive(false);
+        stage3On.SetActive(true);
     }
 
     public void UpdateUIHealth(float current, float max)
@@ -187,31 +219,37 @@ public class UIService : MonoBehaviour, IPause
 
 
 
-    public void FadeIn(Action callback)
+    public void FadeIn(Action callback, float time = 1f)
     {
         GameManager.current.eventService.RequestEnableControlAll(false);
         GameManager.current.eventService.RequestEnableControlPlayer(false);
 
-        timerFadeIn = GameManager.current.timerService.StartTimer(1f, callback, 0.01f, () => {
+        timerFadeIn = GameManager.current.timerService.StartTimer(time, callback, 0.01f, () => {
             Color temp = fade.color;
-            temp.a -= 0.01f;
+            time -= 0.01f;
+            temp.a = time;
             fade.color = temp;
             if (temp.a <= 0.01f) fade.enabled = false;
         });
     }
 
-    public void FadeOut(Action callback)
+    public void FadeOut(Action callback, float time = 1f)
     {
         GameManager.current.eventService.RequestEnableControlAll(false);
         GameManager.current.eventService.RequestEnableControlPlayer(false);
 
         fade.enabled = true;
 
-        timerFadeOut = GameManager.current.timerService.StartTimer(1f, callback, 0.01f, () => {
+        timerFadeOut = GameManager.current.timerService.StartTimer(time, callback, 0.01f, () => {
             Color temp = fade.color;
             temp.a += 0.01f;
             fade.color = temp;
         });
+    }
+
+    public void EnableFadeMenu()
+    {
+        fadeMenu.SetActive(true);
     }
 
 

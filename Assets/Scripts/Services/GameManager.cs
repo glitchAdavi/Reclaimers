@@ -96,7 +96,7 @@ public class GameManager : MonoBehaviour
 
 
         // Start level after everything else is assigned
-        uiService.FadeIn(levelService.StartLevel);
+        uiService.FadeIn(levelService.StartLevel, 2f);
     }
 
     private void OnSceneUnloaded(Scene current)
@@ -224,24 +224,18 @@ public class GameManager : MonoBehaviour
     public Upgrade GetRandomUpgrade()
     {
         Upgrade result = null;
-        while (result == null)
+        int r = Random.Range(0, 3);
+        switch (r)
         {
-            int r = Random.Range(0, 3);
-            switch (r)
-            {
-                case 0:
-                    result = GetRandomPawnUpgrade();
-                    break;
-                case 1:
-                    result = GetRandomWeaponUpgrade();
-                    break;
-                case 2:
-                    result = GetRandomAbilityUpgrade();
-                    break;
-                default:
-                    result = null;
-                    break;
-            }
+            case 0:
+                result = GetRandomPawnUpgrade();
+                break;
+            case 1:
+                result = GetRandomWeaponUpgrade();
+                break;
+            case 2:
+                result = GetRandomAbilityUpgrade();
+                break;
         }
         return result;
         
@@ -249,25 +243,22 @@ public class GameManager : MonoBehaviour
 
     public PawnUpgrade GetRandomPawnUpgrade()
     {
-        if (allPawnUpgrades.Count < 1) return null;
-        List<PawnUpgrade> filteredList = allPawnUpgrades.Where(x => x.rarity.Equals(GetRarity())).ToList();
-        if (filteredList.Count < 1) return null;
+        Rarity r = GetRarity();
+        List<PawnUpgrade> filteredList = allPawnUpgrades.Where(x => x.rarity.Equals(r)).ToList();
         return filteredList[Random.Range(0, filteredList.Count())];
     }
 
     public WeaponUpgrade GetRandomWeaponUpgrade()
     {
-        if (allWeaponUpgrades.Count < 1) return null;
-        List<WeaponUpgrade> filteredList = allWeaponUpgrades.Where(x => x.rarity.Equals(GetRarity())).ToList();
-        if (filteredList.Count < 1) return null;
+        Rarity r = GetRarity();
+        List<WeaponUpgrade> filteredList = allWeaponUpgrades.Where(x => x.rarity.Equals(r)).ToList();
         return filteredList[Random.Range(0, filteredList.Count())];
     }
 
     public AbilityUpgrade GetRandomAbilityUpgrade()
     {
-        if (allAbilityUpgrades.Count < 1) return null;
-        List<AbilityUpgrade> filteredList = allAbilityUpgrades.Where(x => x.rarity.Equals(GetRarity())).ToList();
-        if (filteredList.Count < 1) return null;
+        Rarity r = GetRarity();
+        List<AbilityUpgrade> filteredList = allAbilityUpgrades.Where(x => x.rarity.Equals(r)).ToList();
         return filteredList[Random.Range(0, filteredList.Count())];
     }
 
@@ -293,11 +284,28 @@ public class GameManager : MonoBehaviour
     {
         int r = Random.Range(1, 101);
 
-        if (r >= (int)Rarity.Common) return Rarity.Common;
-        if (r >= (int)Rarity.Uncommon) return Rarity.Uncommon;
-        if (r >= (int)Rarity.Rare) return Rarity.Rare;
-        if (r >= (int)Rarity.Epic) return Rarity.Epic;
+        if (r <= (int)Rarity.Common) return Rarity.Common;
+        else r -= (int)Rarity.Common;
+
+        if (r <= (int)Rarity.Uncommon) return Rarity.Uncommon;
+        else r -= (int)Rarity.Uncommon;
+
+        if (r <= (int)Rarity.Rare) return Rarity.Rare;
+        else r -= (int)Rarity.Rare;
+
+        if (r <= (int)Rarity.Epic) return Rarity.Epic;
+        else r -= (int)Rarity.Epic;
+
         return Rarity.Legendary;
+    }
+
+    public Color GetRarityColor(Rarity r)
+    {
+        if (r.Equals(Rarity.Common)) return Color.white;
+        if (r.Equals(Rarity.Uncommon)) return Color.green;
+        if (r.Equals(Rarity.Rare)) return Color.blue;
+        if (r.Equals(Rarity.Epic)) return Color.magenta;
+        return Color.yellow;
     }
     #endregion
 

@@ -14,8 +14,10 @@ public abstract class Pawn : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdate, 
     [SerializeField] protected NavMeshAgent _nav;
     [SerializeField] protected Rigidbody _rb;
     [SerializeField] protected SpriteRenderer _sr;
+    [SerializeField] protected SpriteRenderer _srColor;
     [SerializeField] protected DamageCollider _damageCollider;
     [SerializeField] protected Animator _anm;
+    [SerializeField] protected Animator _anmColor;
 
     [SerializeField] protected float maxLifepoints = 1f;
     [SerializeField] protected float lifepoints = 1f;
@@ -232,6 +234,7 @@ public abstract class Pawn : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdate, 
     protected virtual void FirstStatApplication(bool useScaling = false)
     {
         ApplySprite();
+        ApplyColorSprite();
         ApplyController();
         ApplyScale();
         ApplySpeed();
@@ -242,7 +245,20 @@ public abstract class Pawn : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdate, 
 
     public void ApplySprite()
     {
-        if (statBlock.pawnSprite != null) _sr.sprite = statBlock.pawnSprite;
+        if (statBlock.pawnMainSprite != null)
+        {
+            _sr.sprite = statBlock.pawnMainSprite;
+            _anm.enabled = true;
+        }
+    }
+
+    public void ApplyColorSprite()
+    {
+        if (statBlock.pawnColorSprite != null)
+        {
+            _srColor.sprite = statBlock.pawnColorSprite;
+            _anmColor.enabled = true;
+        }
     }
 
     public void ApplyController()
@@ -259,10 +275,12 @@ public abstract class Pawn : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdate, 
     {
         _nav.speed = statBlock.speed.Value();
         _anm.speed = 0.1f * statBlock.speed.Value();
+        if (_anmColor != null) _anmColor.speed = 0.1f * statBlock.speed.Value();
         if (useScaling)
         {
             _nav.speed *= GameManager.current.Scaling();
             _anm.speed *= GameManager.current.Scaling();
+            if (_anmColor != null) _anmColor.speed *= GameManager.current.Scaling();
         }
     }
 

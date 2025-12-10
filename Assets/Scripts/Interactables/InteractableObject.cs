@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class InteractableObject : MonoBehaviour
 {
-    [SerializeField] SpriteRenderer _sr;
+    [SerializeField] protected SpriteRenderer _sr;
 
     protected float useThreshold = 1f;
     protected float useTimer = 0f;

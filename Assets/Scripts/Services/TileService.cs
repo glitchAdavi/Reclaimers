@@ -4,6 +4,7 @@ using System.Linq;
 using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Experimental.GlobalIllumination;
 using UnityEngine.Tilemaps;
 using static UnityEngine.EventSystems.EventTrigger;
 
@@ -41,14 +42,20 @@ public class TileService : MonoBehaviour
     public bool generateAll = false;
     public bool clearAll = false;
 
+    [SerializeField] private bool searchForLights = true;
+    [SerializeField] private List<Light> allLights = new List<Light>();
+    Timer timerLights;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private void Awake()
+    {
+        if (searchForLights) allLights = FindObjectsByType<Light>(FindObjectsSortMode.None).ToList();
+    }
+
     void Start()
     {
-        
+        if (searchForLights) timerLights = GameManager.current.timerService.StartTimer(3600f, null, 0.25f, ManageLights);
     }
     
-    // Update is called once per frame
     void Update()
     {
         if (generateAll)
@@ -406,6 +413,22 @@ public class TileService : MonoBehaviour
 
         return result;
     }
+    #endregion
+
+
+    #region Lights
+    public void ManageLights()
+    {
+        foreach(Light l in allLights)
+        {
+            if (l.type.Equals(UnityEngine.LightType.Directional)) continue;
+            if (Vector3.Distance(GameManager.current.gameInfo.playerPositionVar.Value, l.transform.position) >= 30) l.enabled = false;
+            else l.enabled = true;
+        }
+    }
+
+
+
 
 
 

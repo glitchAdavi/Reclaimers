@@ -19,6 +19,7 @@ public class IO_Container : InteractableObject
     private void Awake()
     {
         useThreshold = 0.5f;
+        _sr.sprite = closed;
     }
 
     private Vector3 GetRandomPosInRadius()
@@ -46,6 +47,8 @@ public class IO_Container : InteractableObject
 
     protected override void OnFinishEffect()
     {
+        _sr.sprite = opened;
+
         int xpRange = Random.Range(xpMinMax.x, xpMinMax.y + 1);
         for (int i = 0; i < xpRange; i++)
         {

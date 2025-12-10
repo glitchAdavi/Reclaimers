@@ -16,8 +16,10 @@ public class PawnStatBlock : ScriptableObject
     public List<string> keyUpgrade;
     public List<int> valueUpgrade;
 
-    public Sprite pawnSprite;
-    public Color pawnSpriteColor = new Color(255, 255, 255, 255);
+    public Sprite pawnMainSprite;
+    public Color pawnMainSpriteColor = new Color(255, 255, 255, 255);
+    public Sprite pawnColorSprite;
+    public Color pawnColorSpriteColor = new Color(255, 255, 255, 255);
 
     public Stat scale = new Stat(1f, 0f, 1f);
 
@@ -29,10 +31,7 @@ public class PawnStatBlock : ScriptableObject
     public Stat xpGain = new Stat(1f, 0f, 1f);
     public Stat level = new Stat(0f, 0f, 1f);
 
-
-
     public Stat speed = new Stat(1f, 0f, 1f);
-
 
     public Stat lifepoints = new Stat(100f, 0f, 1f);
 
@@ -81,8 +80,10 @@ public class PawnStatBlock : ScriptableObject
         keyUpgrade = new List<string>(psb.keyUpgrade);
         valueUpgrade = new List<int>(psb.valueUpgrade);
 
-        pawnSprite = psb.pawnSprite;
-        pawnSpriteColor = psb.pawnSpriteColor;
+        pawnMainSprite = psb.pawnMainSprite;
+        pawnMainSpriteColor = psb.pawnMainSpriteColor;
+        pawnColorSprite = psb.pawnColorSprite;
+        pawnColorSpriteColor = psb.pawnColorSpriteColor;
 
         scale.SetValues(psb.scale);
 

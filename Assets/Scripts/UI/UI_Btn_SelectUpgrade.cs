@@ -2,19 +2,46 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UI_Btn_SelectUpgrade : MonoBehaviour
 {
     [SerializeField] Upgrade currentUpgrade;
 
+    [SerializeField] Button button;
     [SerializeField] TMP_Text upgradeName;
     [SerializeField] TMP_Text upgradeDesc;
+    [SerializeField] Image upgradeRarity;
+    [SerializeField] Image rarityFade;
+
+    Timer timerRarityFade;
 
     private void OnEnable()
     {
         currentUpgrade = GameManager.current.GetRandomUpgrade();
         upgradeName.text = currentUpgrade.upgradeName;
         upgradeDesc.text = currentUpgrade.upgradeDesc;
+        upgradeRarity.color = GameManager.current.GetRarityColor(currentUpgrade.rarity);
+
+        ColorBlock cb = button.colors;
+        cb.selectedColor = rarityFade.color;
+        button.colors = cb;
+
+        rarityFade.color = upgradeRarity.color;
+        timerRarityFade = GameManager.current.timerService.StartTimer(0.25f, EnableSelect, 0.01f, Fade);
+    }
+
+    public void EnableSelect()
+    {
+        rarityFade.enabled = false;
+        button.interactable = true;
+    }
+
+    public void Fade()
+    {
+        Color temp = rarityFade.color;
+        temp.a -= 0.04f;
+        rarityFade.color = temp;
     }
 
     public void SelectUpgrade()
@@ -31,6 +58,8 @@ public class UI_Btn_SelectUpgrade : MonoBehaviour
 
     private void OnDisable()
     {
+        rarityFade.enabled = true;
+        button.interactable = false;
         currentUpgrade = null;
     }
 }

@@ -21,6 +21,13 @@ public class PlayerController : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdat
 
     public void ExecuteUpdate()
     {
+        //TEST
+        if (Input.GetKeyDown(KeyCode.Y))
+        {
+            
+        }
+        //TEST
+
         if (!controlEnabledAll) return;
 
         if (Input.GetKeyDown(KeyCode.Escape)) ControllerEscape();

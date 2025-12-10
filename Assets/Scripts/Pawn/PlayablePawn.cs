@@ -68,6 +68,7 @@ public class PlayablePawn : Pawn
         GameManager.current.updateService.RegisterPause(this);
 
         _anm.enabled = false;
+        _anmColor.enabled = false;
 
         changeToPawn = null;
     }
@@ -133,8 +134,10 @@ public class PlayablePawn : Pawn
 
     protected void BaseStatApplication()
     {
-        if (statBlock.pawnSprite != null) _sr.sprite = statBlock.pawnSprite;
-        _sr.color = statBlock.pawnSpriteColor;
+        if (statBlock.pawnMainSprite != null) _sr.sprite = statBlock.pawnMainSprite;
+        if (statBlock.pawnColorSprite != null) _srColor.sprite = statBlock.pawnColorSprite;
+        _sr.color = statBlock.pawnMainSpriteColor;
+        _srColor.color = statBlock.pawnColorSpriteColor;
     }
 
     protected override void FirstStatApplication(bool useScaling = false)
@@ -457,18 +460,25 @@ public class PlayablePawn : Pawn
     {
         float posX = Input.mousePosition.x - (Screen.width / 2);
 
-        if (!isMoving) _sr.sprite = statBlock.pawnSprite;
+        if (!isMoving)
+        {
+            _sr.sprite = statBlock.pawnMainSprite;
+            _srColor.sprite = statBlock.pawnColorSprite;
+        }
         _anm.enabled = isMoving;
+        _anmColor.enabled = isMoving;
 
         if (posX > 0)
         {
             _sr.flipX = true;
+            _srColor.flipX = true;
             //weaponSprite.flipY = true;
             //weaponStretcher.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
 
         } else
         {
             _sr.flipX = false;
+            _srColor.flipX = false;
             //weaponSprite.flipY = false;
             //weaponStretcher.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
         }
