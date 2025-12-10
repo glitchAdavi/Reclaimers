@@ -24,6 +24,7 @@ public class IO_PawnUpgradePickup : InteractableObject
     protected override void OnFinishEffect()
     {
         GameManager.current.playerPawn.AddUpgrade(upgrade);
+        GameManager.current.statService.AddPawnUpgradeGained();
 
         GameManager.current.eventService.RequestUISpawnFloatingText(GameManager.current.gameInfo.playerPositionVar.Value,
                                                                     $"+1 {upgrade.upgradeName}",

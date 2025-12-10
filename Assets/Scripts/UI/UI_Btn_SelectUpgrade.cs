@@ -28,7 +28,7 @@ public class UI_Btn_SelectUpgrade : MonoBehaviour
         button.colors = cb;
 
         rarityFade.color = upgradeRarity.color;
-        timerRarityFade = GameManager.current.timerService.StartTimer(0.25f, EnableSelect, 0.01f, Fade);
+        timerRarityFade = GameManager.current.timerService.StartTimer(0.5f, EnableSelect, 0.01f, Fade);
     }
 
     public void EnableSelect()
@@ -40,7 +40,7 @@ public class UI_Btn_SelectUpgrade : MonoBehaviour
     public void Fade()
     {
         Color temp = rarityFade.color;
-        temp.a -= 0.04f;
+        temp.a -= 0.02f;
         rarityFade.color = temp;
     }
 

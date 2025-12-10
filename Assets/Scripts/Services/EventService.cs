@@ -68,6 +68,14 @@ public class EventService : MonoBehaviour
     public void RequestUIUpdateKillCount(int kc) => onRequestUIUpdateKillCount?.Invoke(kc);
 
 
+    public event Action<float> onRequestUIUpdateXpGained;
+    public void RequestUIUpdateXpGained(float xp) => onRequestUIUpdateXpGained?.Invoke(xp);
+
+
+    public event Action<float> onRequestUIUpdateMaterialsGained;
+    public void RequestUIUpdateMaterialsGained(float materials) => onRequestUIUpdateMaterialsGained?.Invoke(materials);
+
+
     public event Action<float, int> onRequestUIUpdateXpBar;
     public void RequestUIUpdateXpBar(float xp, int threshold) => onRequestUIUpdateXpBar?.Invoke(xp, threshold);
 
@@ -122,6 +130,9 @@ public class EventService : MonoBehaviour
 
     public event Action onLevelUpFinish;
     public void LevelUpFinish() => onLevelUpFinish?.Invoke();
+
+
+
     #endregion
 
     #region Control

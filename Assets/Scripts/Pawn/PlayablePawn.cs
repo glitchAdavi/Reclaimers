@@ -223,8 +223,8 @@ public class PlayablePawn : Pawn
     #region XP
     public void GainXp(float v)
     {
-        totalXp += v;
-        xp += v;
+        totalXp += (v * xpGain);
+        xp += (v * xpGain);
         while (xp >= levelThreshold)
         {
             xp -= levelThreshold;

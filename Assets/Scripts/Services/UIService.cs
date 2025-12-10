@@ -26,6 +26,10 @@ public class UIService : MonoBehaviour, IPause
     public GameObject stage2On;
     public GameObject stage3On;
 
+    public TMP_Text killCount;
+    public TMP_Text xpGained;
+    public TMP_Text materialsGained;
+
     public GameObject uiInteract;
     public TMP_Text uiInteractText;
     public Slider uiInteractFill;
@@ -59,7 +63,9 @@ public class UIService : MonoBehaviour, IPause
         GameManager.current.updateService.RegisterPause(this);
         floatingTextBuilder = GameManager.current.CreateService<FloatingTextBuilder>();
 
-
+        UpdateUIKillCount(0);
+        UpdateUIXpGained(0f);
+        UpdateUIMaterialsGained(0f);
 
         GameManager.current.eventService.onRequestUISpawnFloatingText += SpawnFloatingText;
         GameManager.current.eventService.onRequestUIUseMainMenu += (x) => useMainMenu = x;
@@ -71,6 +77,9 @@ public class UIService : MonoBehaviour, IPause
         GameManager.current.eventService.onRequestUIMapStage1 += UpdateUIMapStage1;
         GameManager.current.eventService.onRequestUIMapStage2 += UpdateUIMapStage2;
         GameManager.current.eventService.onRequestUIMapStage3 += UpdateUIMapStage3;
+        GameManager.current.eventService.onRequestUIUpdateKillCount += UpdateUIKillCount;
+        GameManager.current.eventService.onRequestUIUpdateXpGained += UpdateUIXpGained;
+        GameManager.current.eventService.onRequestUIUpdateMaterialsGained += UpdateUIMaterialsGained;
 
         GameManager.current.eventService.onRequestUIUpdateHealth += UpdateUIHealth;
         GameManager.current.eventService.onRequestUIUpdateXpBar += UpdateUIXpBar;
@@ -142,6 +151,21 @@ public class UIService : MonoBehaviour, IPause
         stage1On.SetActive(false);
         stage2On.SetActive(false);
         stage3On.SetActive(true);
+    }
+
+    public void UpdateUIKillCount(int kc)
+    {
+        killCount.text = $"{kc}";
+    }
+
+    public void UpdateUIXpGained(float xp)
+    {
+        xpGained.text = $"{xp.ToString("#.##")}";
+    }
+
+    public void UpdateUIMaterialsGained(float materials)
+    {
+        materialsGained.text = $"{materials.ToString("#.##")}";
     }
 
     public void UpdateUIHealth(float current, float max)
@@ -258,7 +282,7 @@ public class UIService : MonoBehaviour, IPause
 
     public void UpdateStats()
     {
-        statsMenuText.text = $"Player:/n" +
+        statsMenuText.text = $"Player:\n" +
             $"Speed - {GameManager.current.playerPawn.statBlock.speed.ValuesAsString()}\n" +
             $"Lifepoints - {GameManager.current.playerPawn.statBlock.lifepoints.ValuesAsString()}";
     }
