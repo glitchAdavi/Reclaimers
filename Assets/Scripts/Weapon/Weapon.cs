@@ -136,6 +136,8 @@ public abstract class Weapon : MonoBehaviour, IUpdate, IPause
         statBlock = ScriptableObject.CreateInstance<WeaponStatBlock>();
         statBlock.CopyValues(baseStatBlock);
 
+        ApplySprite();
+
         ApplyWeaponUpgrades();
 
         ApplyClipSize();
@@ -156,6 +158,11 @@ public abstract class Weapon : MonoBehaviour, IUpdate, IPause
         GameManager.current.eventService.RequestUIUpdateWeaponName(statBlock.weaponName);
         GameManager.current.eventService.RequestUIUpdateWeaponAmmo(currentClipSize, maxClipSize);
         GameManager.current.eventService.RequestUIUpdateWeaponSlider(currentClipSize, maxClipSize);
+    }
+
+    public void ApplySprite()
+    {
+        owner.weaponSprite.sprite = statBlock.weaponSprite;
     }
 
     public void ApplyClipSize()

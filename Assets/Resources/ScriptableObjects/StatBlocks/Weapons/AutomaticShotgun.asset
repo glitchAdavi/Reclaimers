@@ -17,10 +17,12 @@ MonoBehaviour:
   weaponName: Automatic Shotgun
   weaponDescription: An automatic shotgun.
   weaponType: WepProjectile
-  weaponSprite: {fileID: 0}
+  weaponSprite: {fileID: 1622481406, guid: 02cd70ca958753548bca24efd24d8ae2, type: 3}
   weaponSpriteColor: {r: 255, g: 255, b: 255, a: 255}
   projectileSprite: {fileID: 1808884840, guid: 3ec4a63b10e35d148ac5655a22663811, type: 3}
   projectileSpriteColor: {r: 255, g: 255, b: 255, a: 255}
+  projectileSpriteAux: {fileID: 0}
+  projectileSpriteColorAux: {r: 255, g: 255, b: 255, a: 255}
   hitSprite: {fileID: 976902520, guid: 3ec4a63b10e35d148ac5655a22663811, type: 3}
   hitSpriteColor: {r: 255, g: 255, b: 255, a: 255}
   projectilePrefab: {fileID: 7636891095021424926, guid: 1e01c1f30261a1744a9b892dc86189bb, type: 3}
@@ -87,6 +89,10 @@ MonoBehaviour:
     addVal: 0
     multVal: 1
   explodeImmediately: 0
+  explosionRadius:
+    baseVal: 0
+    addVal: 0
+    multVal: 1
   projCritChance:
     baseVal: 1
     addVal: 0

@@ -9,6 +9,8 @@ public class PlayablePawn : Pawn
 {
     [SerializeField] protected bool isActivePlayer;
 
+    public GameObject weaponStretcher;
+    public SpriteRenderer weaponSprite;
     public Weapon equippedWeapon;
     public Ability equippedAbility;
     public Light muzzleFlash;
@@ -16,12 +18,7 @@ public class PlayablePawn : Pawn
 
     public Dictionary<string, int> appliedUpgrades = new Dictionary<string, int>();
 
-
-    //TEMP
     public int levelThreshold = 5;
-
-    //TEMP
-
 
     public int pendingLevelUps = 0;
 
@@ -59,6 +56,8 @@ public class PlayablePawn : Pawn
 
         Destroy(equippedWeapon);
         Destroy(equippedAbility);
+
+        weaponSprite.sprite = statBlock.equippedWeapon.weaponSprite;
 
         GameManager.current.eventService.onGivePlayerXp -= GainXp;
         GameManager.current.eventService.onGivePlayerLevel -= GainLevel;
@@ -459,6 +458,7 @@ public class PlayablePawn : Pawn
     private void UpdateSprite()
     {
         float posX = Input.mousePosition.x - (Screen.width / 2);
+        float posY = Input.mousePosition.y - (Screen.height / 2);
 
         if (!isMoving)
         {
@@ -472,16 +472,27 @@ public class PlayablePawn : Pawn
         {
             _sr.flipX = true;
             _srColor.flipX = true;
-            //weaponSprite.flipY = true;
-            //weaponStretcher.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
+            weaponSprite.flipX = false;
+            weaponStretcher.transform.localPosition = new Vector3(0.15f, 0f, -0.2f);
+            if (Physics.Raycast(GameManager.current.playerCamera.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition), out var info, 100f, 1 << 20))
+            {
+                Vector3 dir = info.point - transform.position;
+                weaponSprite.transform.rotation = Quaternion.LookRotation(Vector3.up, dir) * Quaternion.AngleAxis(90, Vector3.forward);
+            }
 
         } else
         {
             _sr.flipX = false;
             _srColor.flipX = false;
-            //weaponSprite.flipY = false;
-            //weaponStretcher.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
+            weaponSprite.flipX = true;
+            weaponStretcher.transform.localPosition = new Vector3(-0.15f, 0f, -0.2f);
+            if (Physics.Raycast(GameManager.current.playerCamera.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition), out var info, 100f, 1 << 20))
+            {
+                Vector3 dir = info.point - transform.position;
+                weaponSprite.transform.rotation = Quaternion.LookRotation(Vector3.up, -dir) * Quaternion.AngleAxis(90, Vector3.forward);
+            }
         }
+
     }
 
 

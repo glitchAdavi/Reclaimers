@@ -17,7 +17,7 @@ MonoBehaviour:
   weaponName: Minigun (Explosion)
   weaponDescription: A minigun with explosive projectiles.
   weaponType: WepProjectile
-  weaponSprite: {fileID: 0}
+  weaponSprite: {fileID: 1622481406, guid: 02cd70ca958753548bca24efd24d8ae2, type: 3}
   weaponSpriteColor: {r: 1, g: 1, b: 1, a: 1}
   projectileSprite: {fileID: -12038996, guid: 3ec4a63b10e35d148ac5655a22663811, type: 3}
   projectileSpriteColor: {r: 1, g: 0, b: 0.05047798, a: 1}
