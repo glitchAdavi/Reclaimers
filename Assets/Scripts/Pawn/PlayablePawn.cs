@@ -504,6 +504,7 @@ public class PlayablePawn : Pawn
     public void SetInactivePlayer(PawnStatBlock pawnStatBlock = null)
     {
         isActivePlayer = false;
+        if (pawnStatBlock != null) pawnStatBlock.equippedWeapon = GameManager.current.GetRandomWeaponStatBlock();
         InitializeInactivePlayer(pawnStatBlock);
     }
 

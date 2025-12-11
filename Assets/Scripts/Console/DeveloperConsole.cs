@@ -44,9 +44,10 @@ public class DeveloperConsole : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.BackQuote))
+        if (Input.GetKeyDown(KeyCode.BackQuote) || Input.GetKeyDown(KeyCode.C))
         {
             consoleEnabled = !consoleEnabled;
+            consoleText.text = "> For all commands type 'help'";
             console.SetActive(consoleEnabled);
             GameManager.current.eventService.RequestEnableControlAll(!consoleEnabled);
             consoleInput.ActivateInputField();

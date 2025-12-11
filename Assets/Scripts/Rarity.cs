@@ -4,5 +4,6 @@ public enum Rarity
     Uncommon = 25,
     Rare = 10,
     Epic = 4,
-    Legendary = 1
+    Legendary = 1,
+    Developer = 0
 }

@@ -1,0 +1,107 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c22bd9ed10cd9454989a0b57bea33825, type: 3}
+  m_Name: Shotgun
+  m_EditorClassIdentifier: 
+  rarity: 60
+  internalName: shotgun
+  weaponName: Shotgun
+  weaponDescription: A shotgun.
+  weaponType: WepProjectile
+  weaponSprite: {fileID: -275670043, guid: 02cd70ca958753548bca24efd24d8ae2, type: 3}
+  weaponSpriteColor: {r: 255, g: 255, b: 255, a: 255}
+  projectileSprite: {fileID: 1808884840, guid: 3ec4a63b10e35d148ac5655a22663811, type: 3}
+  projectileSpriteColor: {r: 255, g: 255, b: 255, a: 255}
+  projectileSpriteAux: {fileID: 0}
+  projectileSpriteColorAux: {r: 255, g: 255, b: 255, a: 255}
+  hitSprite: {fileID: 976902520, guid: 3ec4a63b10e35d148ac5655a22663811, type: 3}
+  hitSpriteColor: {r: 255, g: 255, b: 255, a: 255}
+  projectilePrefab: {fileID: 7636891095021424926, guid: 1e01c1f30261a1744a9b892dc86189bb, type: 3}
+  projScale:
+    baseVal: 1
+    addVal: 0
+    multVal: 1
+  automatic: 0
+  clipSize:
+    baseVal: 20
+    addVal: 0
+    multVal: 1
+  bulletPerShot:
+    baseVal: 5
+    addVal: 0
+    multVal: 1
+  bulletPerShotCost:
+    baseVal: 1
+    addVal: 0
+    multVal: 1
+  bulletPerShotSpread:
+    baseVal: 30
+    addVal: 0
+    multVal: 1
+  bulletSpread:
+    baseVal: 0
+    addVal: 0
+    multVal: 1
+  bulletSpreadGain:
+    baseVal: 0
+    addVal: 0
+    multVal: 1
+  fireRate:
+    baseVal: 0.3
+    addVal: 0
+    multVal: 1
+  reloadTime:
+    baseVal: 2.5
+    addVal: 0
+    multVal: 1
+  projDamage:
+    baseVal: 2
+    addVal: 0
+    multVal: 1
+  projDamageRadius:
+    baseVal: 0
+    addVal: 0
+    multVal: 1
+  projSpeed:
+    baseVal: 50
+    addVal: 0
+    multVal: 1
+  projPenetration:
+    baseVal: 1
+    addVal: 0
+    multVal: 1
+  projUseDistance: 1
+  projMaxLifetime:
+    baseVal: 7.5
+    addVal: 0
+    multVal: 1
+  projArmingLifetime:
+    baseVal: 0
+    addVal: 0
+    multVal: 1
+  explodeImmediately: 0
+  explosionRadius:
+    baseVal: 0
+    addVal: 0
+    multVal: 1
+  projCritChance:
+    baseVal: 1
+    addVal: 0
+    multVal: 1
+  projCritMultiplier:
+    baseVal: 2
+    addVal: 0
+    multVal: 1
+  knockback:
+    baseVal: 5
+    addVal: 0
+    multVal: 1

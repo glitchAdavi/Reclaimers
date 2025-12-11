@@ -1,0 +1,102 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6581263b1eb231f41a7591befddad961, type: 3}
+  m_Name: WU_critChance5
+  m_EditorClassIdentifier: 
+  rarity: 1
+  internalName: weapon_critchance_legendary
+  upgradeName: Critical Chance
+  upgradeDesc: +10% Crit Chance.
+  projectileSprite: {fileID: 0}
+  projectileSpriteColor: {r: 255, g: 255, b: 255, a: 255}
+  projectileSpriteAux: {fileID: 0}
+  projectileSpriteColorAux: {r: 255, g: 255, b: 255, a: 255}
+  projectilePrefab: {fileID: 0}
+  projScale:
+    baseVal: 0
+    addVal: 0
+    multVal: 0
+  automatic: 0
+  clipSize:
+    baseVal: 0
+    addVal: 0
+    multVal: 0
+  bulletPerShot:
+    baseVal: 0
+    addVal: 0
+    multVal: 0
+  bulletPerShotCost:
+    baseVal: 0
+    addVal: 0
+    multVal: 0
+  bulletPerShotSpread:
+    baseVal: 0
+    addVal: 0
+    multVal: 0
+  bulletSpread:
+    baseVal: 0
+    addVal: 0
+    multVal: 0
+  bulletSpreadGain:
+    baseVal: 0
+    addVal: 0
+    multVal: 0
+  fireRate:
+    baseVal: 0
+    addVal: 0
+    multVal: 0
+  reloadTime:
+    baseVal: 0
+    addVal: 0
+    multVal: 0
+  projDamage:
+    baseVal: 0
+    addVal: 0
+    multVal: 0
+  projDamageRadius:
+    baseVal: 0
+    addVal: 0
+    multVal: 0
+  projSpeed:
+    baseVal: 0
+    addVal: 0
+    multVal: 0
+  projPenetration:
+    baseVal: 0
+    addVal: 0
+    multVal: 0
+  projUseDistance: 0
+  projMaxLifetime:
+    baseVal: 0
+    addVal: 0
+    multVal: 0
+  projArmingLifetime:
+    baseVal: 0
+    addVal: 0
+    multVal: 0
+  explodeImmediately: 0
+  explosionRadius:
+    baseVal: 0
+    addVal: 0
+    multVal: 0
+  projCritChance:
+    baseVal: 0
+    addVal: 0
+    multVal: 0.1
+  projCritMultiplier:
+    baseVal: 0
+    addVal: 0
+    multVal: 0
+  knockback:
+    baseVal: 0
+    addVal: 0
+    multVal: 0

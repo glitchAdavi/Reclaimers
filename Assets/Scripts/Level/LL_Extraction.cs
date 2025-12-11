@@ -35,11 +35,11 @@ public class LL_Extraction : LevelLogic
                 Debug.Log("LS1");
                 break;
             case 1:
-                currentLevelScript = gameObject.AddComponent<LS_1>();
+                currentLevelScript = gameObject.AddComponent<LS_2>();
                 Debug.Log("LS2");
                 break;
             case 2:
-                currentLevelScript = gameObject.AddComponent<LS_1>();
+                currentLevelScript = gameObject.AddComponent<LS_3>();
                 Debug.Log("LS3");
                 break;
         }

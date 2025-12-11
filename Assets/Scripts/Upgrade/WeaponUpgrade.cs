@@ -6,6 +6,11 @@ using UnityEngine.UIElements;
 [CreateAssetMenu(fileName = "WeaponUpgrade", menuName = "Upgrades/WeaponUpgrade")]
 public class WeaponUpgrade : Upgrade
 {
+    public Sprite projectileSprite;
+    public Color projectileSpriteColor = new Color(255, 255, 255, 255);
+    public Sprite projectileSpriteAux;
+    public Color projectileSpriteColorAux = new Color(255, 255, 255, 255);
+
     public GameObject projectilePrefab;
 
     public Stat projScale = new Stat(0f, 0f, 0f);
@@ -41,6 +46,18 @@ public class WeaponUpgrade : Upgrade
 
     public override void Apply(PlayablePawn p)
     {
+        if (projectileSprite != null)
+        {
+            p.equippedWeapon.projSprite = projectileSprite;
+            p.equippedWeapon.projSpriteColor = projectileSpriteColor;
+        }
+
+        if (projectileSpriteAux != null)
+        {
+            p.equippedWeapon.projSpriteAux = projectileSpriteAux;
+            p.equippedWeapon.projSpriteAuxColor = projectileSpriteColorAux;
+        }
+
         if (projectilePrefab != null)
         {
             GameManager.current.SetNewProjectile(projectilePrefab);
@@ -163,6 +180,16 @@ public class WeaponUpgrade : Upgrade
 
     public override void Remove(PlayablePawn p)
     {
+        if (projectileSprite != null)
+        {
+            p.equippedWeapon.ApplyProjectileSprite();
+        }
+
+        if (projectileSpriteAux != null)
+        {
+            p.equippedWeapon.ApplyProjectileSprite();
+        }
+
         if (projectilePrefab != null)
         {
             GameManager.current.SetNewProjectile(projectilePrefab);

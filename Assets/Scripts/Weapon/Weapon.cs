@@ -19,6 +19,11 @@ public abstract class Weapon : MonoBehaviour, IUpdate, IPause
     public float bulletSpreadGain = 0f;
     Timer timerBulletSpreadReset;
 
+    public Sprite projSprite;
+    public Color projSpriteColor;
+    public Sprite projSpriteAux;
+    public Color projSpriteAuxColor;
+
     public float reloadTime = 3f;
     Timer timerReload;
 
@@ -137,6 +142,7 @@ public abstract class Weapon : MonoBehaviour, IUpdate, IPause
         statBlock.CopyValues(baseStatBlock);
 
         ApplySprite();
+        ApplyProjectileSprite();
 
         ApplyWeaponUpgrades();
 
@@ -163,6 +169,14 @@ public abstract class Weapon : MonoBehaviour, IUpdate, IPause
     public void ApplySprite()
     {
         owner.weaponSprite.sprite = statBlock.weaponSprite;
+    }
+
+    public void ApplyProjectileSprite()
+    {
+        if (projSprite != null) projSprite = statBlock.projectileSprite;
+        projSpriteColor = statBlock.projectileSpriteColor;
+        if (projSpriteAux != null) projSpriteAux = statBlock.projectileSpriteAux;
+        projSpriteAuxColor = statBlock.projectileSpriteColorAux;
     }
 
     public void ApplyClipSize()

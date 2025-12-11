@@ -15,9 +15,9 @@ MonoBehaviour:
   rarity: 60
   internalName: smg
   weaponName: SMG
-  weaponDescription: A weapon.
+  weaponDescription: A SMG.
   weaponType: WepProjectile
-  weaponSprite: {fileID: 1622481406, guid: 02cd70ca958753548bca24efd24d8ae2, type: 3}
+  weaponSprite: {fileID: 1987427741, guid: 02cd70ca958753548bca24efd24d8ae2, type: 3}
   weaponSpriteColor: {r: 1, g: 1, b: 1, a: 1}
   projectileSprite: {fileID: 1808884840, guid: 3ec4a63b10e35d148ac5655a22663811, type: 3}
   projectileSpriteColor: {r: 1, g: 1, b: 1, a: 1}
@@ -30,7 +30,7 @@ MonoBehaviour:
     baseVal: 1
     addVal: 0
     multVal: 1
-  automatic: 0
+  automatic: 1
   clipSize:
     baseVal: 30
     addVal: 0
@@ -72,7 +72,7 @@ MonoBehaviour:
     addVal: 0
     multVal: 1
   projSpeed:
-    baseVal: 25
+    baseVal: 50
     addVal: 0
     multVal: 1
   projPenetration:
@@ -81,7 +81,7 @@ MonoBehaviour:
     multVal: 1
   projUseDistance: 0
   projMaxLifetime:
-    baseVal: 1
+    baseVal: 5
     addVal: 0
     multVal: 1
   projArmingLifetime:
@@ -94,7 +94,7 @@ MonoBehaviour:
     addVal: 0
     multVal: 1
   projCritChance:
-    baseVal: 1
+    baseVal: 10
     addVal: 0
     multVal: 1
   projCritMultiplier:

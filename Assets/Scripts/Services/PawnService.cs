@@ -59,6 +59,7 @@ public class PawnService : MonoBehaviour, IUpdate, IPause
         Transform[] allFixedSpawnPoints = GameObject.Find("FixedPointSpawns").GetComponentsInChildren<Transform>();
         foreach (Transform t in allFixedSpawnPoints)
         {
+            if (t.position.Equals(Vector3.zero)) continue;
             fixedSpawnPoints.Add(t.position);
         }
 
@@ -123,7 +124,7 @@ public class PawnService : MonoBehaviour, IUpdate, IPause
         {
             for (int i = 0; i < fixedSpawnPoints.Count; i++)
             {
-                for (int j = 0; j < 10; j++)
+                for (int j = 0; j < spawnBatch; j++)
                 {
                     SpawnEnemy(SelectEnemy(), fixedSpawnPoints[i], -1, true);
                 }
