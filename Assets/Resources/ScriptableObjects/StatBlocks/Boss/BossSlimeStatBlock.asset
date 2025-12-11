@@ -17,11 +17,13 @@ MonoBehaviour:
   pawnDescription: Attacking it causes pieces to fall off.
   equippedWeapon: {fileID: 0}
   equippedAbility: {fileID: 0}
-  controller: {fileID: 0}
+  controller: {fileID: 9100000, guid: af1f1311f76c54a4491c0d13a810370a, type: 2}
   keyUpgrade: []
   valueUpgrade: 
-  pawnSprite: {fileID: 0}
-  pawnSpriteColor: {r: 255, g: 255, b: 255, a: 255}
+  pawnMainSprite: {fileID: 0}
+  pawnMainSpriteColor: {r: 255, g: 255, b: 255, a: 255}
+  pawnColorSprite: {fileID: 0}
+  pawnColorSpriteColor: {r: 255, g: 255, b: 255, a: 255}
   scale:
     baseVal: 1
     addVal: 0

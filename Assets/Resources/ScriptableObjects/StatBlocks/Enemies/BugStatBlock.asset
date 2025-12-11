@@ -20,8 +20,10 @@ MonoBehaviour:
   controller: {fileID: 9100000, guid: aa07d1c065428944798ce26f7467cc0e, type: 2}
   keyUpgrade: []
   valueUpgrade: 
-  pawnSprite: {fileID: 963889092, guid: e19d92438ce7134418cd981c4d1975b9, type: 3}
-  pawnSpriteColor: {r: 255, g: 255, b: 255, a: 255}
+  pawnMainSprite: {fileID: 0}
+  pawnMainSpriteColor: {r: 255, g: 255, b: 255, a: 255}
+  pawnColorSprite: {fileID: 0}
+  pawnColorSpriteColor: {r: 255, g: 255, b: 255, a: 255}
   scale:
     baseVal: 1
     addVal: 0
@@ -51,7 +53,7 @@ MonoBehaviour:
     addVal: 0
     multVal: 1
   speed:
-    baseVal: 5
+    baseVal: 3.75
     addVal: 0
     multVal: 1
   lifepoints:
@@ -98,6 +100,10 @@ MonoBehaviour:
     baseVal: 0
     addVal: 0
     multVal: 0
+  knockBackResist:
+    baseVal: 0
+    addVal: 0
+    multVal: 1
   xpKillValue:
     baseVal: 1
     addVal: 0

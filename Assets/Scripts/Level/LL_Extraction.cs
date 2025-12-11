@@ -1,7 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 
 public class LL_Extraction : LevelLogic
@@ -53,6 +51,8 @@ public class LL_Extraction : LevelLogic
         GameManager.current.eventService.RequestUIMapProgressionEnable(true);
         GameManager.current.eventService.RequestUIMapProgressionSetup(stage1ProgressionMax);
         GameManager.current.eventService.RequestUIMapProgression(0f);
+
+        GameManager.current.eventService.onPlayerDeath += Lose;
 
         base.Activate();
 
@@ -178,6 +178,8 @@ public class LL_Extraction : LevelLogic
 
     protected override void Win()
     {
+        GameManager.current.levelService.win = true;
+
         GameManager.current.eventService.SetPawnServiceActive(false);
         GameManager.current.eventService.RequestKillAllEnemies();
 

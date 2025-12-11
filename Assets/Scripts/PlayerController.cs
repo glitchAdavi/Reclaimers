@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdat
 
         GameManager.current.eventService.onRequestEnableControlAll += (x) => controlEnabledAll = x;
         GameManager.current.eventService.onRequestEnableControlPlayer += (x) => controlEnabledPlayer = x;
+
+        GameManager.current.eventService.onPlayerDeath += () => controlEnabledAll = false;
     }
 
     public void ExecuteUpdate()

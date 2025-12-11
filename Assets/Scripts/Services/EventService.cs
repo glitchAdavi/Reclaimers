@@ -23,7 +23,8 @@ public class EventService : MonoBehaviour
 
     #endregion
 
-
+    public event Action onPlayerDeath;
+    public void PlayerDeath() => onPlayerDeath?.Invoke();
 
 
 

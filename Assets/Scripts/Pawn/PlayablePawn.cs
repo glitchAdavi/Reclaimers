@@ -35,6 +35,8 @@ public class PlayablePawn : Pawn
     float useThreshold = 1f;
     float useTimer = 0f;
 
+    public bool isAlive = true;
+
 
     protected override void OnEnable()
     {
@@ -217,6 +219,12 @@ public class PlayablePawn : Pawn
                                                                     0f,
                                                                     0.5f);
         GameManager.current.eventService.RequestUIUpdateHealth(lifepoints, maxLifepoints);
+    }
+
+    protected override void Die()
+    {
+        isAlive = false;
+        GameManager.current.eventService.PlayerDeath();
     }
 
     #region XP

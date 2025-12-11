@@ -53,7 +53,7 @@ MonoBehaviour:
     addVal: 0
     multVal: 1
   speed:
-    baseVal: 3
+    baseVal: 2.8
     addVal: 0
     multVal: 1
   lifepoints:
