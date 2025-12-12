@@ -331,7 +331,7 @@ public class GameManager : MonoBehaviour
 
     public float Scaling()
     {
-        return 1f + (0.01f * playerPawn.GetLevel());
+        return 1f + (0.05f * playerPawn.GetLevel());
     }
 
     public void ReturnToMenu()

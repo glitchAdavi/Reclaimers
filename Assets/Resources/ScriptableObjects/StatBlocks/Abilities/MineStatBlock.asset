@@ -10,29 +10,29 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 27880ad5568697e4190dea599ca1412c, type: 3}
-  m_Name: GrenadeStatBlock
+  m_Name: MineStatBlock
   m_EditorClassIdentifier: 
   rarity: 60
-  internalName: ability_grenade
-  abilityName: Grenade
-  abilityDescription: A grenade.
-  abilityType: A_grenade
+  internalName: ability_mine
+  abilityName: Mine
+  abilityDescription: Deply a mine.
+  abilityType: A_building
   abilityModifier: {fileID: 0}
-  abilityPrefabToInstantiate: {fileID: 7554708043864741938, guid: 255d2692aec6967408a89832f018e2e5, type: 3}
-  abilityThrowableSprite: {fileID: -786821839, guid: 02cd70ca958753548bca24efd24d8ae2, type: 3}
+  abilityPrefabToInstantiate: {fileID: 2539062290913815258, guid: 2b0f39fc2194e1e4bbcfcd4402821665, type: 3}
+  abilityThrowableSprite: {fileID: 0}
   abilityCooldown:
-    baseVal: 3
+    baseVal: 5
     addVal: 0
     multVal: 1
   abilityDamage:
-    baseVal: 1
+    baseVal: 0
     addVal: 0
     multVal: 1
   abilityRadius:
-    baseVal: 4
+    baseVal: 7.5
     addVal: 0
     multVal: 1
   abilityCharges:
-    baseVal: 3
+    baseVal: 1
     addVal: 0
     multVal: 1

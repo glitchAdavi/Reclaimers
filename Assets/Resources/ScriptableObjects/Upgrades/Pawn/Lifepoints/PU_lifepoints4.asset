@@ -15,7 +15,7 @@ MonoBehaviour:
   rarity: 4
   internalName: pawn_lifepoints_epic
   upgradeName: Lifepoints
-  upgradeDesc: +20 lifepoints.
+  upgradeDesc: +200 lifepoints.
   scale:
     baseVal: 0
     addVal: 0
@@ -33,7 +33,7 @@ MonoBehaviour:
     addVal: 0
     multVal: 0
   lifepoints:
-    baseVal: 20
+    baseVal: 200
     addVal: 0
     multVal: 0
   lpRegen:

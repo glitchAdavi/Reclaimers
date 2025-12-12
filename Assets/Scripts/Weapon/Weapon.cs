@@ -107,6 +107,7 @@ public abstract class Weapon : MonoBehaviour, IUpdate, IPause
     public virtual void Reload()
     {
         if (isReloading) return;
+        if (currentClipSize == maxClipSize) return;
 
         isReloading = true;
 

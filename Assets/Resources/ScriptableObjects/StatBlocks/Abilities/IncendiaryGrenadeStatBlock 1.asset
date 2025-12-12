@@ -13,11 +13,13 @@ MonoBehaviour:
   m_Name: IncendiaryGrenadeStatBlock 1
   m_EditorClassIdentifier: 
   rarity: 60
-  internalName: ability_greande_incendiary
+  internalName: ability_grenade_incendiary
   abilityName: Incendiary Grenade
-  abilityDescription: An incendiary greande.
+  abilityDescription: An incendiary grenade.
   abilityType: A_grenade
   abilityModifier: {fileID: 11400000, guid: 79ae492fa1c6062449ceabd1e32d5a14, type: 2}
+  abilityPrefabToInstantiate: {fileID: 7554708043864741938, guid: 255d2692aec6967408a89832f018e2e5, type: 3}
+  abilityThrowableSprite: {fileID: 2057978206, guid: 02cd70ca958753548bca24efd24d8ae2, type: 3}
   abilityCooldown:
     baseVal: 3
     addVal: 0
@@ -27,7 +29,7 @@ MonoBehaviour:
     addVal: 0
     multVal: 1
   abilityRadius:
-    baseVal: 5
+    baseVal: 4
     addVal: 0
     multVal: 1
   abilityCharges:

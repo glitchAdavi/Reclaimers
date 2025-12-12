@@ -240,7 +240,9 @@ public class PawnService : MonoBehaviour, IUpdate, IPause
         foreach (PlayablePawn pp in playablePawnsInScene.items)
         {
             if (pp.IsActivePlayer()) continue;
-            pp.SetInactivePlayer(GameManager.current.allPlayablePawns[Random.Range(0, GameManager.current.allPlayablePawns.Count())]);
+            PawnStatBlock newPsb = GameManager.current.allPlayablePawns[Random.Range(0, GameManager.current.allPlayablePawns.Count())];
+            newPsb.equippedAbility = GameManager.current.GetRandomAbilityStatBlock();
+            pp.SetInactivePlayer(newPsb);
         }
     }
 

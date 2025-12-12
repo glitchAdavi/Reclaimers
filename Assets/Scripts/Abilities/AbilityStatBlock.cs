@@ -12,6 +12,8 @@ public class AbilityStatBlock : ScriptableObject
     public string abilityType = "A_grenade";
 
     public Modifier abilityModifier;
+    public GameObject abilityPrefabToInstantiate;
+    public Sprite abilityThrowableSprite;
 
     public Stat abilityCooldown = new Stat(1f, 0f, 1f);
 
@@ -32,6 +34,8 @@ public class AbilityStatBlock : ScriptableObject
         abilityType = asb.abilityType;
 
         abilityModifier = asb.abilityModifier;
+        abilityPrefabToInstantiate = asb.abilityPrefabToInstantiate;
+        abilityThrowableSprite = asb.abilityThrowableSprite;
 
         abilityCooldown.SetValues(asb.abilityCooldown);
 

@@ -15,7 +15,7 @@ MonoBehaviour:
   rarity: 10
   internalName: pawn_damage_rare
   upgradeName: Damage
-  upgradeDesc: +6% damage.
+  upgradeDesc: +60% damage.
   scale:
     baseVal: 0
     addVal: 0
@@ -51,7 +51,7 @@ MonoBehaviour:
   damageMultiplier:
     baseVal: 0
     addVal: 0
-    multVal: 0.06
+    multVal: 0.6
   healingMultiplier:
     baseVal: 0
     addVal: 0

@@ -44,7 +44,7 @@ public class DeveloperConsole : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.BackQuote) || Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.BackQuote))
         {
             consoleEnabled = !consoleEnabled;
             consoleText.text = "> For all commands type 'help'";

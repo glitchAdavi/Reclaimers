@@ -299,6 +299,7 @@ public class PlayablePawn : Pawn
             if (equippedWeapon != null) Destroy(currentWeapon);
         } else
         {
+            if (equippedWeapon != null) Destroy(equippedWeapon);
             GameManager.current.eventService.RequestUIWeaponShow(false);
         }
     }
@@ -336,6 +337,7 @@ public class PlayablePawn : Pawn
         }
         else
         {
+            if (equippedAbility != null) Destroy(equippedAbility);
             GameManager.current.eventService.RequestUIAbilityShow(false);
         }
     }

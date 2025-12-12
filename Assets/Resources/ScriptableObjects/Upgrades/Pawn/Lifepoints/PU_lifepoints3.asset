@@ -15,7 +15,7 @@ MonoBehaviour:
   rarity: 10
   internalName: pawn_lifepoints_rare
   upgradeName: Lifepoints
-  upgradeDesc: +15 lifepoints.
+  upgradeDesc: +150 lifepoints.
   scale:
     baseVal: 0
     addVal: 0
@@ -33,7 +33,7 @@ MonoBehaviour:
     addVal: 0
     multVal: 0
   lifepoints:
-    baseVal: 15
+    baseVal: 150
     addVal: 0
     multVal: 0
   lpRegen:

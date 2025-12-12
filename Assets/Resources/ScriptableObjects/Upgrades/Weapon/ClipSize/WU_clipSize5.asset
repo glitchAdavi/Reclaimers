@@ -15,7 +15,7 @@ MonoBehaviour:
   rarity: 1
   internalName: weapon_clipsize_legendary
   upgradeName: Clip Size
-  upgradeDesc: +25 Bullets.
+  upgradeDesc: +50 Bullets.
   projectileSprite: {fileID: 0}
   projectileSpriteColor: {r: 255, g: 255, b: 255, a: 255}
   projectileSpriteAux: {fileID: 0}
@@ -28,7 +28,7 @@ MonoBehaviour:
   automatic: 0
   clipSize:
     baseVal: 0
-    addVal: 25
+    addVal: 50
     multVal: 0
   bulletPerShot:
     baseVal: 0

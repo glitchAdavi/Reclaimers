@@ -15,7 +15,7 @@ MonoBehaviour:
   rarity: 1
   internalName: pawn_xp_legendary
   upgradeName: Xp Gain
-  upgradeDesc: +50% XP gain.
+  upgradeDesc: +500% XP gain.
   scale:
     baseVal: 0
     addVal: 0
@@ -27,7 +27,7 @@ MonoBehaviour:
   xpGain:
     baseVal: 0
     addVal: 0
-    multVal: 0.5
+    multVal: 5
   speed:
     baseVal: 0
     addVal: 0

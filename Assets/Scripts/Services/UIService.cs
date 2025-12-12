@@ -95,7 +95,7 @@ public class UIService : MonoBehaviour, IPause
 
         GameManager.current.eventService.onRequestUIAbilityShow += (x) => uiAbility.SetActive(x);
         GameManager.current.eventService.onRequestUIUpdateAbilityName += (x) => uiAbilityName.text = x;
-        GameManager.current.eventService.onRequestUIUpdateAbilityCharges += (x) => uiAbilityCharges.text = x.ToString();
+        GameManager.current.eventService.onRequestUIUpdateAbilityCharges += UpdateUIAbilityCharges;
         GameManager.current.eventService.onRequestUIUpdateAbilitySlider += UpdateUIAbilitySlider;
 
         GameManager.current.eventService.onQueueLevelUp += LevelUpMenuOpen;
@@ -213,6 +213,18 @@ public class UIService : MonoBehaviour, IPause
     {
         uiAbilityCooldownSlider.maxValue = max;
         uiAbilityCooldownSlider.value = current;
+    }
+
+    public void UpdateUIAbilityCharges(int charges)
+    {
+        if (charges < 0)
+        {
+            uiAbilityCharges.enabled = false;
+        } else
+        {
+            uiAbilityCharges.enabled = true;
+            uiAbilityCharges.text = charges.ToString();
+        }
     }
 
 

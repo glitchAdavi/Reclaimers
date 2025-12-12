@@ -15,7 +15,7 @@ MonoBehaviour:
   rarity: 4
   internalName: ability_damage_epic
   upgradeName: Ability Damage
-  upgradeDesc: +20% Ability Damage
+  upgradeDesc: +200% Ability Damage
   abilityCooldown:
     baseVal: 0
     addVal: 0
@@ -23,7 +23,7 @@ MonoBehaviour:
   abilityDamage:
     baseVal: 0
     addVal: 0
-    multVal: 0.2
+    multVal: 2
   abilityRadius:
     baseVal: 0
     addVal: 0

@@ -32,6 +32,7 @@ MonoBehaviour:
   abilityUpgradePrefab: {fileID: 8112691317515891204, guid: 0044bdc8ffb56124fbc2d3493a12d506, type: 3}
   weaponHitPrefab: {fileID: 9022209119693470882, guid: 9649bec77987b754d89c7dc0cdc34484, type: 3}
   explosionPrefab: {fileID: 7554708043864741938, guid: 255d2692aec6967408a89832f018e2e5, type: 3}
+  throwablePrefab: {fileID: 3804660221700111423, guid: 36e5512ecbc1313498f4330ab5579ef9, type: 3}
   defaultStatBlock: {fileID: 11400000, guid: 0280918b95d279a4ab02c3268abc60f5, type: 2}
   currentPlayerStatBlock: {fileID: 11400000, guid: 862a0ea39af23cf49adf90f75653856b, type: 2}
   defaultEnemyStatBlock: {fileID: 0}

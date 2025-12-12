@@ -15,7 +15,7 @@ MonoBehaviour:
   rarity: 4
   internalName: weapon_clipsize_epic
   upgradeName: Clip Size
-  upgradeDesc: +15 Bullets.
+  upgradeDesc: +40 Bullets.
   projectileSprite: {fileID: 0}
   projectileSpriteColor: {r: 255, g: 255, b: 255, a: 255}
   projectileSpriteAux: {fileID: 0}
@@ -28,7 +28,7 @@ MonoBehaviour:
   automatic: 0
   clipSize:
     baseVal: 0
-    addVal: 15
+    addVal: 40
     multVal: 0
   bulletPerShot:
     baseVal: 0

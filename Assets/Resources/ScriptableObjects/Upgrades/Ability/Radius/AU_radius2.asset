@@ -15,7 +15,7 @@ MonoBehaviour:
   rarity: 25
   internalName: ability_radius_uncommon
   upgradeName: Ability Radius
-  upgradeDesc: +10% Ability Radius.
+  upgradeDesc: +100% Ability Radius.
   abilityCooldown:
     baseVal: 0
     addVal: 0
@@ -27,7 +27,7 @@ MonoBehaviour:
   abilityRadius:
     baseVal: 0
     addVal: 0
-    multVal: 0.1
+    multVal: 1
   abilityCharges:
     baseVal: 0
     addVal: 0

@@ -15,11 +15,11 @@ MonoBehaviour:
   rarity: 1
   internalName: ability_cooldown_legendary
   upgradeName: Ability Cooldown
-  upgradeDesc: -5% Ability Cooldown
+  upgradeDesc: -50% Ability Cooldown
   abilityCooldown:
     baseVal: 0
     addVal: 0
-    multVal: -0.05
+    multVal: -0.5
   abilityDamage:
     baseVal: 0
     addVal: 0

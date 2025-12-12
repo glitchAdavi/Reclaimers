@@ -30,6 +30,7 @@ public class GameInfo : ScriptableObject
     public GameObject abilityUpgradePrefab;
     public GameObject weaponHitPrefab;
     public GameObject explosionPrefab;
+    public GameObject throwablePrefab;
 
 
     //---STATBLOCKS---

@@ -15,6 +15,7 @@ public abstract class Ability : MonoBehaviour, IPause
     public float aDamage;
     public float aRadius;
     public Modifier aModifier;
+    public GameObject aPrefab;
 
     Timer timerCooldown;
 
@@ -39,6 +40,7 @@ public abstract class Ability : MonoBehaviour, IPause
         Effect();
         aCharges--;
         if (aMaxCharges > 1) GameManager.current.eventService.RequestUIUpdateAbilityCharges(aCharges);
+        else GameManager.current.eventService.RequestUIUpdateAbilityCharges(-1);
         if (timerCooldown == null)
         {
             GameManager.current.eventService.RequestUIUpdateAbilitySlider(0f, aCooldown);
@@ -80,12 +82,14 @@ public abstract class Ability : MonoBehaviour, IPause
         ApplyDamage();
         ApplyRadius();
         ApplyModifier();
+        ApplyPrefab();
 
         aCharges = aMaxCharges;
 
         GameManager.current.eventService.RequestUIAbilityShow(true);
         GameManager.current.eventService.RequestUIUpdateAbilityName(statBlock.abilityName);
         if (aMaxCharges > 1) GameManager.current.eventService.RequestUIUpdateAbilityCharges(aCharges);
+        else GameManager.current.eventService.RequestUIUpdateAbilityCharges(-1);
         GameManager.current.eventService.RequestUIUpdateAbilitySlider(aCooldown, aCooldown);
     }
 
@@ -112,6 +116,11 @@ public abstract class Ability : MonoBehaviour, IPause
     public void ApplyModifier()
     {
         aModifier = statBlock.abilityModifier;
+    }
+
+    public void ApplyPrefab()
+    {
+        aPrefab = statBlock.abilityPrefabToInstantiate;
     }
 
 

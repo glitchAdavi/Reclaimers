@@ -15,7 +15,7 @@ MonoBehaviour:
   rarity: 1
   internalName: ability_damage_legendary
   upgradeName: Ability Damage
-  upgradeDesc: +25% Ability Damage
+  upgradeDesc: +250% Ability Damage
   abilityCooldown:
     baseVal: 0
     addVal: 0
@@ -23,7 +23,7 @@ MonoBehaviour:
   abilityDamage:
     baseVal: 0
     addVal: 0
-    multVal: 0.25
+    multVal: 2.5
   abilityRadius:
     baseVal: 0
     addVal: 0
