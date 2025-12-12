@@ -14,7 +14,8 @@ public class Corpse : MonoBehaviour
     public void Init(Sprite spr)
     {
         float angle = Random.Range(0f, 359f);
-        transform.Rotate(gameObject.transform.up, angle);
+        _sr.transform.Rotate(gameObject.transform.up, angle);
+        _sr.transform.rotation = Quaternion.Euler(new Vector3(90f, _sr.transform.rotation.eulerAngles.y, _sr.transform.rotation.eulerAngles.z));
         _sr.sprite = spr;
         _sr.enabled = true;
         timerDecay = GameManager.current.timerService.StartTimer(3600f, DestroyCorpse, 1f, Decay);

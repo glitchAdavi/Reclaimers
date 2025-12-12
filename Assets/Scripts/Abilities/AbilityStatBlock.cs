@@ -11,6 +11,8 @@ public class AbilityStatBlock : ScriptableObject
     public string abilityDescription = "An ability.";
     public string abilityType = "A_grenade";
 
+    public Modifier abilityModifier;
+
     public Stat abilityCooldown = new Stat(1f, 0f, 1f);
 
     public Stat abilityDamage = new Stat(1f, 0f, 1f);
@@ -28,6 +30,8 @@ public class AbilityStatBlock : ScriptableObject
         abilityName = asb.abilityName;
         abilityDescription = asb.abilityDescription;
         abilityType = asb.abilityType;
+
+        abilityModifier = asb.abilityModifier;
 
         abilityCooldown.SetValues(asb.abilityCooldown);
 

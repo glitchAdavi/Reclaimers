@@ -13,16 +13,21 @@ MonoBehaviour:
   m_Name: GrenadeStatBlock
   m_EditorClassIdentifier: 
   rarity: 60
-  internalName: abilityGrenade
+  internalName: ability_grenade
   abilityName: Grenade
-  abilityDescription: An ability.
+  abilityDescription: A grenade.
   abilityType: A_grenade
+  abilityModifier: {fileID: 0}
   abilityCooldown:
     baseVal: 3
     addVal: 0
     multVal: 1
   abilityDamage:
     baseVal: 1
+    addVal: 0
+    multVal: 1
+  abilityRadius:
+    baseVal: 0
     addVal: 0
     multVal: 1
   abilityCharges:

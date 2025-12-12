@@ -38,9 +38,8 @@ public class P_Explosive : Projectile
 
     public void Explode()
     {
-        Explosion e = Instantiate(GameManager.current.gameInfo.explosionPrefab, new Vector3(transform.position.x, 0.5f, transform.position.z), Quaternion.identity).GetComponent<Explosion>();
+        Explosive e = Instantiate(GameManager.current.gameInfo.explosionPrefab, new Vector3(transform.position.x, 0.5f, transform.position.z), Quaternion.identity).GetComponent<Explosive>();
         e.Init(damage, explosionRadius);
-        e.Explode();
         ResetAndReturn();
     }
 

@@ -191,8 +191,14 @@ public class GameManager : MonoBehaviour
 
     public WeaponStatBlock GetRandomWeaponStatBlock()
     {
-        List<WeaponStatBlock> filteredList = allWeapons.Where(x => x.rarity.Equals(GetRarity())).ToList();
-        return filteredList[Random.Range(0, filteredList.Count())];
+        WeaponStatBlock result = null;
+        while (result == null)
+        {
+            List<WeaponStatBlock> filteredList = allWeapons.Where(x => x.rarity.Equals(GetRarity())).ToList();
+            if (filteredList.Count < 1) continue;
+            result = filteredList[Random.Range(0, filteredList.Count())];
+        }
+        return result;
     }
 
     public WeaponStatBlock GetWeaponStatBlockByName(string name)
@@ -223,21 +229,16 @@ public class GameManager : MonoBehaviour
 
     public Upgrade GetRandomUpgrade()
     {
-        Upgrade result = null;
-        int r = Random.Range(0, 3);
-        switch (r)
-        {
-            case 0:
-                result = GetRandomPawnUpgrade();
-                break;
-            case 1:
-                result = GetRandomWeaponUpgrade();
-                break;
-            case 2:
-                result = GetRandomAbilityUpgrade();
-                break;
-        }
-        return result;
+        int max = (allPawnUpgrades.Count - 1) + (allWeaponUpgrades.Count - 1) + allAbilityUpgrades.Count;
+        int r = Random.Range(0, max);
+
+        if (r <= allPawnUpgrades.Count - 1) return GetRandomPawnUpgrade();
+        else r -= allPawnUpgrades.Count - 1;
+
+        if (r <= allWeaponUpgrades.Count - 1) return GetRandomWeaponUpgrade();
+        else r -= allWeaponUpgrades.Count - 1;
+
+        return GetRandomAbilityUpgrade();
         
     }
 

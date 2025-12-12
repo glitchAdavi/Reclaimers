@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-//[CreateAssetMenu(fileName = "Modifier", menuName = "Modifier")]
 public abstract class Modifier : ScriptableObject
 {
-    public Pawn target;
+    protected Pawn target;
 
     public string modifierName;
     public string id;

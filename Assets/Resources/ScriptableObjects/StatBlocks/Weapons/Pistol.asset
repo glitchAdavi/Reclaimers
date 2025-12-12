@@ -30,7 +30,7 @@ MonoBehaviour:
     baseVal: 1
     addVal: 0
     multVal: 1
-  automatic: 0
+  automatic: 1
   clipSize:
     baseVal: 17
     addVal: 0
@@ -56,7 +56,7 @@ MonoBehaviour:
     addVal: 0
     multVal: 1
   fireRate:
-    baseVal: 0.5
+    baseVal: 0.3
     addVal: 0
     multVal: 1
   reloadTime:

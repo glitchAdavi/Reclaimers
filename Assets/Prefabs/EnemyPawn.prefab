@@ -58,8 +58,10 @@ MonoBehaviour:
   _nav: {fileID: 7986239759954467792}
   _rb: {fileID: 4468738102152005207}
   _sr: {fileID: 4783894989800080317}
+  _srColor: {fileID: 0}
   _damageCollider: {fileID: 4284146357034445626}
   _anm: {fileID: 3764161665747557665}
+  _anmColor: {fileID: 0}
   maxLifepoints: 1
   lifepoints: 1
   lpRegen: 0
@@ -72,6 +74,7 @@ MonoBehaviour:
   pickUpRange: 0
   interactionRange: 0
   iFrameDuration: 0
+  knockBackResist: 0
   isPaused: 0
   isDead: 0
   totalXp: 0
@@ -83,10 +86,12 @@ MonoBehaviour:
   materialGain: 0
   target: {fileID: 0}
   active: 0
+  irregularSpawn: 0
   pathUpdateTimer: 0
   pathUpdateTimerLimit: 1
   isIdle: 0
   playerDetectionRange: 10
+  onDamageSpawnPartialLeftover: 0
 --- !u!33 &4309345653681728347
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -351,7 +356,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0.38268343, y: -0, z: -0, w: 0.92387956}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.1, y: 1, z: 1.1000001}
+  m_LocalScale: {x: 1.1, y: 2, z: 1.1000001}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4825972928005609977}

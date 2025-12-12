@@ -14,6 +14,7 @@ public abstract class Ability : MonoBehaviour, IPause
     public int aCharges;
     public float aDamage;
     public float aRadius;
+    public Modifier aModifier;
 
     Timer timerCooldown;
 
@@ -76,6 +77,9 @@ public abstract class Ability : MonoBehaviour, IPause
 
         ApplyCooldown();
         ApplyCharges();
+        ApplyDamage();
+        ApplyRadius();
+        ApplyModifier();
 
         aCharges = aMaxCharges;
 
@@ -103,6 +107,11 @@ public abstract class Ability : MonoBehaviour, IPause
     public void ApplyRadius()
     {
         aRadius = statBlock.abilityRadius.Value();
+    }
+
+    public void ApplyModifier()
+    {
+        aModifier = statBlock.abilityModifier;
     }
 
 

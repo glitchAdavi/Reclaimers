@@ -184,19 +184,10 @@ public class LevelService : MonoBehaviour
 
     public void SpawnRandomUpgrade(Vector3 pos)
     {
-        int r = UnityEngine.Random.Range(0, 3);
-        switch (r)
-        {
-            case 0:
-                SpawnPawnUpgrade(pos);
-                break;
-            case 1:
-                SpawnWeaponUpgrade(pos);
-                break;
-            case 2:
-                SpawnAbilityUpgrade(pos);
-                break;
-        }
+        Upgrade u = GameManager.current.GetRandomUpgrade();
+        if (u is PawnUpgrade) SpawnPawnUpgrade(pos);
+        if (u is WeaponUpgrade) SpawnWeaponUpgrade(pos);
+        if (u is AbilityUpgrade) SpawnAbilityUpgrade(pos);
     }
 
     public void SetLevelBoss(EnemyPawn boss)

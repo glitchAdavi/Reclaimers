@@ -9,12 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 422ee3e524daa414281620fc6cee8d80, type: 3}
-  m_Name: M_Speed
+  m_Script: {fileID: 11500000, guid: 9df9725cf25f87d45b25863de08e9ade, type: 3}
+  m_Name: M_Burn
   m_EditorClassIdentifier: 
-  modifierName: Speed
-  id: speed
-  durationTotal: 3
-  durationTick: 0
-  executePartialOnEnd: 0
-  value: 2
+  modifierName: Burn
+  id: burn
+  durationTotal: 5
+  durationTick: 1
+  executePartialOnEnd: 1
+  value: 1

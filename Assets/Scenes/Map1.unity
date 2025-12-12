@@ -1628,18 +1628,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   allServices: []
   gameInfo: {fileID: 11400000, guid: 044ec71be7f3e014cbb97e0ad428f3e5, type: 2}
+  console: {fileID: 0}
   dataPersistenceService: {fileID: 0}
   tileService: {fileID: 0}
   updateService: {fileID: 0}
   eventService: {fileID: 0}
   timerService: {fileID: 0}
+  audioService: {fileID: 0}
   levelService: {fileID: 0}
   pawnService: {fileID: 0}
+  statService: {fileID: 0}
   uiService: {fileID: 0}
   playerController: {fileID: 0}
   playerPawn: {fileID: 0}
   playerCamera: {fileID: 0}
   projectileBuilder: {fileID: 0}
+  allBosses: []
+  allPlayablePawns: []
+  allWeapons: []
+  allAbilities: []
+  allPawnUpgrades: []
+  allWeaponUpgrades: []
+  allAbilityUpgrades: []
+  allModifiers: []
   playerStatBlock: {fileID: 0}
 --- !u!4 &980320021
 Transform:
@@ -6232,6 +6243,9 @@ MonoBehaviour:
   clearColliders: 0
   generateAll: 0
   clearAll: 0
+  searchForLights: 1
+  allLights:
+  - {fileID: 1954981945}
 --- !u!114 &1446030251
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6246,6 +6260,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isActive: 0
   isPaused: 0
+  currentLevelScript: {fileID: 0}
+  levelStage: 0
+  stage1ProgressionMax: 180
+  stage1Progression: 0
+  stage2ProgressionMax: 300
+  hasStage3: 1
+  boss: {fileID: 0}
+  setupStage1: 0
+  setupStage2: 0
+  setupStage3: 0
 --- !u!156049354 &1446030252
 Grid:
   m_ObjectHideFlags: 0
@@ -6328,10 +6352,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3

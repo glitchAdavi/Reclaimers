@@ -210,14 +210,15 @@ public abstract class Pawn : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdate, 
     public void AddModifier(Modifier newModifier)
     {
         Modifier existing = GetModifier(newModifier.id);
-        if (existing)
+        if (existing != null)
         {
             existing.Reset();
             return;
         }
 
-        currentModifiers.Add(newModifier);
-        newModifier.ApplyModifier(this);
+        Modifier newMod = Instantiate(newModifier);
+        currentModifiers.Add(newMod);
+        newMod.ApplyModifier(this);
     }
 
     public void RemoveModifier(string id)

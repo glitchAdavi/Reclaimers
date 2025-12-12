@@ -17,6 +17,8 @@ public class EnemyPawn : Pawn
     protected bool canMeleeAttack = true;
     Timer attackCooldown;
 
+    Timer timerHitEffect;
+
     [SerializeField] protected bool isIdle = false;
     [SerializeField] protected int playerDetectionRange = 10;
 
@@ -110,6 +112,7 @@ public class EnemyPawn : Pawn
             pathUpdateTimer = 0;
         }
 
+        LookAtPlayer();
     }
 
     protected void GetPath()
@@ -135,7 +138,12 @@ public class EnemyPawn : Pawn
 
     public override void GetHit(float damage, bool isCrit, float knockback = 0, Vector3? knockbackPush = null)
     {
+        if (isDead) return;
+
         base.GetHit(damage, isCrit, knockback, knockbackPush);
+
+        _sr.color = Color.red;
+        timerHitEffect = GameManager.current.timerService.StartTimer(0.05f, () => _sr.color = Color.white);
 
         isIdle = false;
 
@@ -162,6 +170,7 @@ public class EnemyPawn : Pawn
     {
         if (!isDead)
         {
+            
             Instantiate(GameManager.current.gameInfo.corpsePrefab, new Vector3(transform.position.x, 0.01f, transform.position.z), Quaternion.identity).GetComponent<Corpse>().Init(statBlock.pawnMainSprite);
 
             if (statBlock.onDeathSpawnEnemy && statBlock.onDeathEnemyToSpawn != null)
@@ -193,6 +202,15 @@ public class EnemyPawn : Pawn
     protected bool CheckIfPlayerIsClose()
     {
         return GameManager.current.pawnService.IsPlayerClose(transform.position, playerDetectionRange);
+    }
+
+    protected void LookAtPlayer()
+    {
+        Vector2 targetPos = GameManager.current.playerCamera.GetComponent<Camera>().WorldToScreenPoint(target.transform.position);
+        Vector2 myPos = GameManager.current.playerCamera.GetComponent<Camera>().WorldToScreenPoint(transform.position);
+
+        if (targetPos.x >= myPos.x) _sr.flipX = true;
+        else _sr.flipX = false;
     }
 
 

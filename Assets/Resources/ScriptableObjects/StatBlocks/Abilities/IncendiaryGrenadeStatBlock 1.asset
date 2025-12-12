@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 27880ad5568697e4190dea599ca1412c, type: 3}
-  m_Name: SprintStatBlock
+  m_Name: IncendiaryGrenadeStatBlock 1
   m_EditorClassIdentifier: 
   rarity: 60
-  internalName: ability_sprint
-  abilityName: Sprint
-  abilityDescription: 3 seconds of double speed.
-  abilityType: A_sprint
-  abilityModifier: {fileID: 0}
+  internalName: ability_greande_incendiary
+  abilityName: Incendiary Grenade
+  abilityDescription: An incendiary greande.
+  abilityType: A_grenade
+  abilityModifier: {fileID: 11400000, guid: 79ae492fa1c6062449ceabd1e32d5a14, type: 2}
   abilityCooldown:
-    baseVal: 6
+    baseVal: 3
     addVal: 0
     multVal: 1
   abilityDamage:
@@ -27,10 +27,10 @@ MonoBehaviour:
     addVal: 0
     multVal: 1
   abilityRadius:
-    baseVal: 0
+    baseVal: 5
     addVal: 0
     multVal: 1
   abilityCharges:
-    baseVal: 1
+    baseVal: 3
     addVal: 0
     multVal: 1
