@@ -15,7 +15,7 @@ MonoBehaviour:
   rarity: 4
   internalName: pawn_damage_epic
   upgradeName: Damage
-  upgradeDesc: +80% damage.
+  upgradeDesc: -4% damage.
   scale:
     baseVal: 0
     addVal: 0
@@ -51,7 +51,7 @@ MonoBehaviour:
   damageMultiplier:
     baseVal: 0
     addVal: 0
-    multVal: 0.8
+    multVal: -0.04
   healingMultiplier:
     baseVal: 0
     addVal: 0

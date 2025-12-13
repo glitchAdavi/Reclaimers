@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c22bd9ed10cd9454989a0b57bea33825, type: 3}
-  m_Name: DevExplosion
+  m_Name: M79
   m_EditorClassIdentifier: 
   rarity: 0
-  internalName: dev_explosive
-  weaponName: Dev (Explosion)
-  weaponDescription: Dev explosive.
+  internalName: glauncher
+  weaponName: M79
+  weaponDescription: Single shot grenade launcher.
   weaponType: WepProjectile
   weaponSprite: {fileID: 1622481406, guid: 02cd70ca958753548bca24efd24d8ae2, type: 3}
   weaponSpriteColor: {r: 1, g: 1, b: 1, a: 1}
@@ -32,7 +32,7 @@ MonoBehaviour:
     multVal: 1
   automatic: 1
   clipSize:
-    baseVal: 500
+    baseVal: 1
     addVal: 0
     multVal: 1
   bulletPerShot:
@@ -48,15 +48,15 @@ MonoBehaviour:
     addVal: 0
     multVal: 1
   bulletSpread:
-    baseVal: 20
+    baseVal: 0
     addVal: 0
     multVal: 1
   bulletSpreadGain:
-    baseVal: 0.5
+    baseVal: 0
     addVal: 0
     multVal: 1
   fireRate:
-    baseVal: 0.02
+    baseVal: 0.85
     addVal: 0
     multVal: 1
   reloadTime:
@@ -64,7 +64,7 @@ MonoBehaviour:
     addVal: 0
     multVal: 1
   projDamage:
-    baseVal: 1
+    baseVal: 3
     addVal: 0
     multVal: 1
   projDamageRadius:
@@ -72,7 +72,7 @@ MonoBehaviour:
     addVal: 0
     multVal: 1
   projSpeed:
-    baseVal: 50
+    baseVal: 25
     addVal: 0
     multVal: 1
   projPenetration:
@@ -81,14 +81,14 @@ MonoBehaviour:
     multVal: 1
   projUseDistance: 0
   projMaxLifetime:
-    baseVal: 0.5
+    baseVal: 1
     addVal: 0
     multVal: 1
   projArmingLifetime:
-    baseVal: 0.15
+    baseVal: 0.25
     addVal: 0
     multVal: 1
-  explodeImmediately: 1
+  explodeImmediately: 0
   explosionRadius:
     baseVal: 5
     addVal: 0

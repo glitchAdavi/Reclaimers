@@ -9,74 +9,94 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 05bc8370a418559438fa64e191d285a4, type: 3}
-  m_Name: PU_damage2
+  m_Script: {fileID: 11500000, guid: 6581263b1eb231f41a7591befddad961, type: 3}
+  m_Name: WU_damage1
   m_EditorClassIdentifier: 
-  rarity: 25
-  internalName: pawn_damage_uncommon
-  upgradeName: Damage
-  upgradeDesc: -2% damage.
-  scale:
+  rarity: 60
+  internalName: weapon_damage_common
+  upgradeName: Weapon Damage
+  upgradeDesc: +20% Weapon damage.
+  projectileSprite: {fileID: 0}
+  projectileSpriteColor: {r: 255, g: 255, b: 255, a: 255}
+  projectileSpriteAux: {fileID: 0}
+  projectileSpriteColorAux: {r: 255, g: 255, b: 255, a: 255}
+  projectilePrefab: {fileID: 0}
+  projScale:
     baseVal: 0
     addVal: 0
     multVal: 0
-  materialGain:
+  automatic: 0
+  clipSize:
     baseVal: 0
     addVal: 0
     multVal: 0
-  xpGain:
+  bulletPerShot:
     baseVal: 0
     addVal: 0
     multVal: 0
-  speed:
+  bulletPerShotCost:
     baseVal: 0
     addVal: 0
     multVal: 0
-  lifepoints:
+  bulletPerShotSpread:
     baseVal: 0
     addVal: 0
     multVal: 0
-  lpRegen:
+  bulletSpread:
     baseVal: 0
     addVal: 0
     multVal: 0
-  lpRegenDelay:
+  bulletSpreadGain:
     baseVal: 0
     addVal: 0
     multVal: 0
-  lpRegenTickTime:
+  fireRate:
     baseVal: 0
     addVal: 0
     multVal: 0
-  damageMultiplier:
-    baseVal: 0
-    addVal: 0
-    multVal: -0.02
-  healingMultiplier:
+  reloadTime:
     baseVal: 0
     addVal: 0
     multVal: 0
-  meleeDamage:
+  projDamage:
+    baseVal: 0
+    addVal: 0
+    multVal: 0.2
+  projDamageRadius:
     baseVal: 0
     addVal: 0
     multVal: 0
-  meleeCooldown:
+  projSpeed:
     baseVal: 0
     addVal: 0
     multVal: 0
-  pickUpRange:
+  projPenetration:
     baseVal: 0
     addVal: 0
     multVal: 0
-  interactionRange:
+  projUseDistance: 0
+  projMaxLifetime:
     baseVal: 0
     addVal: 0
     multVal: 0
-  iFrameDuration:
+  projArmingLifetime:
     baseVal: 0
     addVal: 0
     multVal: 0
-  knockBackResist:
+  explodeImmediately: 0
+  explosionRadius:
+    baseVal: 0
+    addVal: 0
+    multVal: 0
+  projCritChance:
+    baseVal: 0
+    addVal: 0
+    multVal: 0
+  projCritMultiplier:
+    baseVal: 0
+    addVal: 0
+    multVal: 0
+  knockback:
     baseVal: 0
     addVal: 0
     multVal: 0

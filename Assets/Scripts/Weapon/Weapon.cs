@@ -79,6 +79,7 @@ public abstract class Weapon : MonoBehaviour, IUpdate, IPause
         }
 
         currentClipSize -= bulletsPerShotCost;
+        if (currentClipSize < 0) currentClipSize = 0;
         GameManager.current.eventService.RequestUIUpdateWeaponAmmo(currentClipSize, maxClipSize);
         GameManager.current.eventService.RequestUIUpdateWeaponSlider(currentClipSize, maxClipSize);
 

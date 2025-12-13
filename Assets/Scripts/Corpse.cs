@@ -6,16 +6,17 @@ public class Corpse : MonoBehaviour
 {
     [SerializeField] SpriteRenderer _sr;
 
-    [SerializeField] float decayRate = 0.01f;
+    [SerializeField] float decayRate = 0.03f;
     [SerializeField] float alpha;
 
     Timer timerDecay;
 
-    public void Init(Sprite spr)
+    public void Init(Sprite spr, float scale)
     {
         float angle = Random.Range(0f, 359f);
-        _sr.transform.Rotate(gameObject.transform.up, angle);
-        _sr.transform.rotation = Quaternion.Euler(new Vector3(90f, _sr.transform.rotation.eulerAngles.y, _sr.transform.rotation.eulerAngles.z));
+        _sr.transform.localScale = new Vector3(scale, scale, scale);
+        //_sr.transform.Rotate(gameObject.transform.up, angle);
+        _sr.transform.rotation = Quaternion.Euler(new Vector3(90f, angle, _sr.transform.rotation.eulerAngles.z));
         _sr.sprite = spr;
         _sr.enabled = true;
         timerDecay = GameManager.current.timerService.StartTimer(3600f, DestroyCorpse, 1f, Decay);

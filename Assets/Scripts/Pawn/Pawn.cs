@@ -289,6 +289,7 @@ public abstract class Pawn : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdate, 
     {
         maxLifepoints = statBlock.lifepoints.Value();
         if (useScaling) maxLifepoints *= GameManager.current.Scaling();
+        if (this is PlayablePawn) GameManager.current.eventService.RequestUIUpdateHealth(lifepoints, maxLifepoints);
     }
 
     public void ApplyLpRegen()

@@ -28,7 +28,7 @@ public class WepProjectile : Weapon
                 newBullet.transform.Rotate(Vector3.up, Random.Range(-bulletSpread / 2, bulletSpread / 2));
             }
             newBullet.transform.GetComponent<Projectile>().ProjectileSetup(statBlock.projScale.Value(),
-                                                                           statBlock.projDamage.Value() * owner.statBlock.damageMultiplier.Value(),
+                                                                           statBlock.projDamage.Value(),
                                                                            statBlock.projDamageRadius.Value(),
                                                                            statBlock.projSpeed.Value(),
                                                                            statBlock.projCritChance.Value(),
@@ -58,7 +58,7 @@ public class WepProjectile : Weapon
             newBullet.transform.forward = tempForward;
             newBullet.transform.Rotate(Vector3.up, Random.Range(-bulletPerShotSpread / 2, bulletPerShotSpread / 2));
             newBullet.transform.GetComponent<Projectile>().ProjectileSetup(statBlock.projScale.Value(),
-                                                                           statBlock.projDamage.Value() * owner.statBlock.damageMultiplier.Value(),
+                                                                           statBlock.projDamage.Value(),
                                                                            statBlock.projDamageRadius.Value(),
                                                                            RandomSpeedMod(statBlock.projSpeed.Value()),
                                                                            statBlock.projCritChance.Value(),
