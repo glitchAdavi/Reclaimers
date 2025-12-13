@@ -18,6 +18,7 @@ public abstract class Pawn : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdate, 
     [SerializeField] protected DamageCollider _damageCollider;
     [SerializeField] protected Animator _anm;
     [SerializeField] protected Animator _anmColor;
+    [SerializeField] protected AudioSource _as;
 
     [SerializeField] protected float maxLifepoints = 1f;
     [SerializeField] protected float lifepoints = 1f;

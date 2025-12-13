@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 public class AudioService : MonoBehaviour, IPause
 {
@@ -13,6 +14,11 @@ public class AudioService : MonoBehaviour, IPause
     private void OnEnable()
     {
         backgroundSource = gameObject.AddComponent<AudioSource>();
+
+        for (int i = 0; i < 10; i++)
+        {
+            Instantiate(GameManager.current.gameInfo.audioSourcePrefab);
+        }
 
         GameManager.current.updateService.RegisterPause(this);
     }
@@ -52,9 +58,21 @@ public class AudioService : MonoBehaviour, IPause
         return result;
     }
 
+    public void PlaySound(AudioClip clip, Vector3? pos, float time = -1f, bool forcePlay = false)
+    {
+        PlaySound(clip, pos, time, forcePlay, null);
+    }
+    public void PlaySound(AudioClip clip, AudioSource external, float time = -1f, bool forcePlay = false)
+    {
+        PlaySound(clip, null, time, forcePlay, external);
+    }
     public void PlaySound(AudioClip clip, Vector3? pos = null, float time = -1f, bool forcePlay = false, AudioSource external = null)
     {
-        if (clip == null) return;
+        if (clip == null)
+        {
+            Debug.Log("Missing audio clip.");
+            return;
+        }
 
         AudioSource source;
         if (external == null)
@@ -72,6 +90,7 @@ public class AudioService : MonoBehaviour, IPause
             timers.Add(GameManager.current.timerService.StartTimer(time, () =>
             {
                 source.Stop();
+                source.loop = false;
                 _reserved.Remove(source);
             }));
             source.clip = clip;

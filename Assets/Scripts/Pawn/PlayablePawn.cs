@@ -18,7 +18,7 @@ public class PlayablePawn : Pawn
 
     public Dictionary<string, int> appliedUpgrades = new Dictionary<string, int>();
 
-    public int levelThreshold = 5;
+    public int levelThreshold = 10;
 
     public int pendingLevelUps = 0;
 
@@ -206,6 +206,7 @@ public class PlayablePawn : Pawn
     {
         base.GetHit(damage, isCrit, knockback, knockbackPush);
 
+        GameManager.current.audioService.PlaySound(GameManager.current.gameInfo.acPlayerHurt, _as);
         GameManager.current.eventService.RequestUIUpdateHealth(lifepoints, maxLifepoints);
     }
 
@@ -260,7 +261,7 @@ public class PlayablePawn : Pawn
 
     protected void LevelThreshold()
     {
-        levelThreshold += 10;
+        levelThreshold += 10 + (2 * (level - 1));
     }
     #endregion
 

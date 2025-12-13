@@ -62,6 +62,7 @@ MonoBehaviour:
   _damageCollider: {fileID: 4284146357034445626}
   _anm: {fileID: 3764161665747557665}
   _anmColor: {fileID: 0}
+  _as: {fileID: 0}
   maxLifepoints: 1
   lifepoints: 1
   lpRegen: 0

@@ -30,15 +30,12 @@ public class LL_Extraction : LevelLogic
         {
             case 0:
                 currentLevelScript = gameObject.AddComponent<LS_1>();
-                Debug.Log("LS1");
                 break;
             case 1:
                 currentLevelScript = gameObject.AddComponent<LS_2>();
-                Debug.Log("LS2");
                 break;
             case 2:
                 currentLevelScript = gameObject.AddComponent<LS_3>();
-                Debug.Log("LS3");
                 break;
         }
 
@@ -46,7 +43,6 @@ public class LL_Extraction : LevelLogic
         stage2ProgressionMax = currentLevelScript.stage2Time;
         hasStage3 = currentLevelScript.hasStage3;
 
-        Debug.Log($"Starting Extraction Mode Logic");
         GameManager.current.eventService.RequestUIUseMainMenu(false);
         GameManager.current.eventService.RequestUIMapProgressionEnable(true);
         GameManager.current.eventService.RequestUIMapProgressionSetup(stage1ProgressionMax);

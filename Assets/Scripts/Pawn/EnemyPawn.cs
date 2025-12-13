@@ -151,6 +151,8 @@ public class EnemyPawn : Pawn
         if (isCrit) GameManager.current.eventService.RequestUISpawnFloatingText(transform.position, damageText, Color.red, 2f, 0.5f);
         else GameManager.current.eventService.RequestUISpawnFloatingText(transform.position, $"{damage}", Color.white, 2f, 0.5f);
 
+        GameManager.current.audioService.PlaySound(GameManager.current.gameInfo.acEnemyHurt, _as);
+
         if (statBlock.onDamageSpawnEnemy && statBlock.onDamageEnemyToSpawn != null)
         {
             float temp = damage + onDamageSpawnPartialLeftover;

@@ -31,6 +31,7 @@ public class GameInfo : ScriptableObject
     public GameObject weaponHitPrefab;
     public GameObject explosionPrefab;
     public GameObject throwablePrefab;
+    public GameObject audioSourcePrefab;
 
 
     //---STATBLOCKS---
@@ -43,9 +44,16 @@ public class GameInfo : ScriptableObject
     public PawnStatBlock zombieEnemyStatBlock;
     public PawnStatBlock bugEnemyStatBlock;
 
+    //---AUDIO---
+    public AudioClip acButtonPress;
 
+    public AudioClip acLevelUp;
+    public AudioClip acXpPickUp;
 
+    public AudioClip acPlayerHurt;
+    public AudioClip acEnemyHurt;
 
+    public AudioClip acExplosion;
 
 
 

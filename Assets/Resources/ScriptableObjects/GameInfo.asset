@@ -33,9 +33,16 @@ MonoBehaviour:
   weaponHitPrefab: {fileID: 9022209119693470882, guid: 9649bec77987b754d89c7dc0cdc34484, type: 3}
   explosionPrefab: {fileID: 7554708043864741938, guid: 255d2692aec6967408a89832f018e2e5, type: 3}
   throwablePrefab: {fileID: 3804660221700111423, guid: 36e5512ecbc1313498f4330ab5579ef9, type: 3}
+  audioSourcePrefab: {fileID: 9027432562781916077, guid: 34c0d184b3348844ca22db652d9826ea, type: 3}
   defaultStatBlock: {fileID: 11400000, guid: 0280918b95d279a4ab02c3268abc60f5, type: 2}
   currentPlayerStatBlock: {fileID: 11400000, guid: 862a0ea39af23cf49adf90f75653856b, type: 2}
   defaultEnemyStatBlock: {fileID: 0}
   slimeEnemyStatBlock: {fileID: 11400000, guid: 4ccf96d21a259474f82429fbfc784e30, type: 2}
   zombieEnemyStatBlock: {fileID: 11400000, guid: 75b5ef5a9eebbf44c8eb7312752a7613, type: 2}
   bugEnemyStatBlock: {fileID: 11400000, guid: c4643fd506bdeea4a96dd2d69ae58cf6, type: 2}
+  acButtonPress: {fileID: 8300000, guid: ddefcc67ded81834a8be5f9021fdcec3, type: 3}
+  acLevelUp: {fileID: 8300000, guid: 069c02c9484cdcf40961a166fca1fea9, type: 3}
+  acXpPickUp: {fileID: 8300000, guid: 9e1dca9fa369c13429960a4efd008180, type: 3}
+  acPlayerHurt: {fileID: 8300000, guid: 5648fa8f08b739e4ab5afdd1a510ec74, type: 3}
+  acEnemyHurt: {fileID: 0}
+  acExplosion: {fileID: 8300000, guid: 9c7e3676fd9d7754ea8c08d6fed93f84, type: 3}
