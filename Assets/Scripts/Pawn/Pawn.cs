@@ -26,8 +26,8 @@ public abstract class Pawn : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdate, 
     [SerializeField] protected float lpRegen = 0f;
     [SerializeField] protected float lpRegenDelay = 1f;
     [SerializeField] protected float lpRegenTickTime = 1f;
-    Timer lpRegenDelayTimer;
-    Timer lpRegenTickTimer;
+    protected Timer lpRegenDelayTimer;
+    protected Timer lpRegenTickTimer;
 
     [SerializeField] protected float damageMultiplier = 1f;
     [SerializeField] protected float healingMultiplier = 1f;
@@ -39,7 +39,7 @@ public abstract class Pawn : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdate, 
     [SerializeField] protected float interactionRange = 0f;
 
     [SerializeField] protected float iFrameDuration = 0f;
-    Timer iFrameTimer;
+    protected Timer iFrameTimer;
     protected bool hasIFrames = false;
 
     [SerializeField] protected float knockBackResist = 0f;
@@ -57,8 +57,8 @@ public abstract class Pawn : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdate, 
     [SerializeField] protected float materials = 0f;
     [SerializeField] protected float materialGain = 0f;
 
-    Timer knockbackTimer;
-    Timer hitEffectTimer;
+    protected Timer knockbackTimer;
+    protected Timer hitEffectTimer;
 
 
     protected virtual void OnEnable()

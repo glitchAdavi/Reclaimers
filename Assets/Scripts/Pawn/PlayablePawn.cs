@@ -204,6 +204,8 @@ public class PlayablePawn : Pawn
 
     public override void GetHit(float damage, bool isCrit, float knockback = 0, Vector3? knockbackPush = null)
     {
+        if (hasIFrames) return;
+
         base.GetHit(damage, isCrit, knockback, knockbackPush);
 
         GameManager.current.audioService.PlaySound(GameManager.current.gameInfo.acPlayerHurt, _as);
