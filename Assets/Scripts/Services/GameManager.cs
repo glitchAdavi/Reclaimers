@@ -217,8 +217,14 @@ public class GameManager : MonoBehaviour
 
     public AbilityStatBlock GetRandomAbilityStatBlock()
     {
-        List<AbilityStatBlock> filteredList = allAbilities.Where(x => x.rarity.Equals(GetRarity())).ToList();
-        return filteredList[Random.Range(0, filteredList.Count())];
+        AbilityStatBlock result = null;
+        while (result == null)
+        {
+            List<AbilityStatBlock> filteredList = allAbilities.Where(x => x.rarity.Equals(GetRarity())).ToList();
+            if (filteredList.Count < 1) continue;
+            result = filteredList[Random.Range(0, filteredList.Count())];
+        }
+        return result;
     }
 
     public AbilityStatBlock GetAbilityStatBlockByName(string name)
