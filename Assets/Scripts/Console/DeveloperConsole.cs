@@ -145,6 +145,11 @@ public class DeveloperConsole : MonoBehaviour
             return GiveLevel(args.Skip(1).ToArray());
         }
 
+        if (args[0].Equals("material"))
+        {
+            return GiveMaterial(args.Skip(1).ToArray());
+        }
+
         if (args[0].Equals("weapon"))
         {
             return GiveWeapon(args.Skip(1).ToArray());
@@ -195,6 +200,23 @@ public class DeveloperConsole : MonoBehaviour
         else
         {
             return "ERROR: give level [x] || x has to be a number";
+        }
+    }
+
+    string GiveMaterial(string[] args)
+    {
+        if (args.Length < 1) return "ERROR: Quantity needed";
+        if (args.Length > 1) return "ERROR: Wrong parameters";
+
+        float result;
+        if (float.TryParse(args[0], out result))
+        {
+            GameManager.current.eventService.GivePlayerMaterial(result);
+            return $"{result} materials given to Player";
+        }
+        else
+        {
+            return "ERROR: give material [x] || x has to be a number";
         }
     }
 

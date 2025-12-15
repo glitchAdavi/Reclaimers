@@ -39,6 +39,8 @@ public class GameManager : MonoBehaviour
     public List<WeaponUpgrade> allWeaponUpgrades = new List<WeaponUpgrade>();
     public List<AbilityUpgrade> allAbilityUpgrades = new List<AbilityUpgrade>();
     public List<Modifier> allModifiers = new List<Modifier>();
+
+    public Dictionary<string, int> permanentUpgrades = new Dictionary<string, int>();
     
     //TEMP for the case in which the player quits and we have to reset fully
     public PawnStatBlock playerStatBlock;

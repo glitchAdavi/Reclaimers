@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdat
         //TEST
         if (Input.GetKeyDown(KeyCode.Y))
         {
-            
+            GameManager.current.eventService.RequestUIOpenShopMenu();
         }
         //TEST
 
@@ -114,8 +114,14 @@ public class PlayerController : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdat
 
     public void ControllerEscape()
     {
-        GameManager.current.eventService.RequestTogglePause();
-        GameManager.current.eventService.RequestUITogglePauseMenu(!GameManager.current.updateService.isGamePausedInspector);
+        if (GameManager.current.uiService.shopMenu.activeSelf)
+        {
+            GameManager.current.eventService.RequestUICloseShopMenu();
+        } else
+        {
+            GameManager.current.eventService.RequestTogglePause();
+            GameManager.current.eventService.RequestUITogglePauseMenu(!GameManager.current.updateService.isGamePausedInspector);
+        }
     }
 
     public void ControllerInteract()

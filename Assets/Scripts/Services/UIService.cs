@@ -50,7 +50,18 @@ public class UIService : MonoBehaviour, IPause
     public Slider uiAbilityCooldownSlider;
 
     public GameObject levelUpMenu;
+    public TMP_Text levelUpPending;
 
+    public GameObject shopMenu;
+    public TMP_Text currentMaterials;
+    public UI_ShopStat ssLife;
+    public UI_ShopStat ssXpGain;
+    public UI_ShopStat ssMaterialGain;
+    public UI_ShopStat ssSpeed;
+    public UI_ShopStat ssDamageMultiplier;
+    public UI_ShopStat ssHealingMultiplier;
+    public UI_ShopStat ssProjDamage;
+    public UI_ShopStat ssPickUpRange;
 
     Timer timerFadeIn;
     Timer timerFadeOut;
@@ -100,6 +111,9 @@ public class UIService : MonoBehaviour, IPause
 
         GameManager.current.eventService.onQueueLevelUp += LevelUpMenuOpen;
         GameManager.current.eventService.onLevelUpFinish += LevelUpMenuClose;
+
+        GameManager.current.eventService.onRequestUIOpenShopMenu += ShopOpen;
+        GameManager.current.eventService.onRequestUICloseShopMenu += ShopClose;
     }
 
     public void Pause(bool paused)
@@ -243,10 +257,16 @@ public class UIService : MonoBehaviour, IPause
         GameManager.current.eventService.RequestTogglePause();
         GameManager.current.eventService.RequestEnableControlAll(false);
         levelUpMenu.SetActive(true);
+        if (GameManager.current.playerPawn.pendingLevelUps > 0)
+        {
+            levelUpPending.enabled = true;
+            levelUpPending.text = $"({GameManager.current.playerPawn.pendingLevelUps} pending)";
+        }
     }
 
     public void LevelUpMenuClose()
     {
+        levelUpPending.enabled = false;
         levelUpMenu.SetActive(false);
         GameManager.current.eventService.RequestEnableControlAll(true);
         GameManager.current.eventService.RequestTogglePause();
@@ -297,5 +317,29 @@ public class UIService : MonoBehaviour, IPause
         statsMenuText.text = $"Player:\n" +
             $"Speed - {GameManager.current.playerPawn.statBlock.speed.ValuesAsString()}\n" +
             $"Lifepoints - {GameManager.current.playerPawn.statBlock.lifepoints.ValuesAsString()}";
+    }
+
+
+
+
+    public void ShopOpen()
+    {
+        GameManager.current.eventService.RequestEnableControlPlayer(false);
+        currentMaterials.text = GameManager.current.playerPawn.statBlock.materials.Value().ToString("#.##");
+        ssLife.Init("pawn_permanent_lifepoints");
+        ssXpGain.Init("pawn_permanent_xpgain");
+        ssMaterialGain.Init("pawn_permanent_materialgain");
+        ssSpeed.Init("pawn_permanent_speed");
+        ssDamageMultiplier.Init("pawn_permanent_damagemultiplier");
+        ssHealingMultiplier.Init("pawn_permanent_healingmultiplier");
+        ssProjDamage.Init("weapon_permanent_projdamage");
+        ssPickUpRange.Init("pawn_permanent_pickuprange");
+        shopMenu.SetActive(true);
+    }
+
+    public void ShopClose()
+    {
+        GameManager.current.eventService.RequestEnableControlPlayer(true);
+        shopMenu.SetActive(false);
     }
 }

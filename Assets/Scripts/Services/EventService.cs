@@ -129,6 +129,14 @@ public class EventService : MonoBehaviour
     public void RequestUISpawnFloatingText(Vector3 pos, string text, Color c, float driftRange, float duration) => onRequestUISpawnFloatingText?.Invoke(pos, text, c, driftRange, duration);
 
 
+    public event Action onRequestUIOpenShopMenu;
+    public void RequestUIOpenShopMenu() => onRequestUIOpenShopMenu?.Invoke();
+
+
+    public event Action onRequestUICloseShopMenu;
+    public void RequestUICloseShopMenu() => onRequestUICloseShopMenu?.Invoke();
+
+
     public event Action onLevelUpFinish;
     public void LevelUpFinish() => onLevelUpFinish?.Invoke();
 

@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEngine.UIElements.UxmlAttributeDescription;
 
 public class PlayablePawn : Pawn
 {
@@ -86,6 +85,8 @@ public class PlayablePawn : Pawn
 
         ApplyWeapon();
         ApplyAbility();
+
+        AddPermanentUpgrades();
         
         GameManager.current.updateService.RegisterUpdate(this);
         GameManager.current.updateService.RegisterPause(this);
@@ -279,6 +280,11 @@ public class PlayablePawn : Pawn
         statBlock.materials.SetValues(materials, 0f, 1f);
     }
 
+    public void RemoveMaterials(float mats)
+    {
+        statBlock.materials.ModifyValues(-mats, 0f, 0f);
+    }
+
 
     #endregion
 
@@ -393,6 +399,17 @@ public class PlayablePawn : Pawn
         }
 
         return result;
+    }
+
+    public void AddPermanentUpgrades()
+    {
+        foreach (KeyValuePair<string, int> kvp in GameManager.current.permanentUpgrades)
+        {
+            for (int i = 0; i < kvp.Value; i++)
+            {
+                GameManager.current.GetUpgradeByName(kvp.Key).Apply(this);
+            }
+        }
     }
 
     #endregion
