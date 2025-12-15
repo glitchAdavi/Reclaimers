@@ -193,16 +193,16 @@ public class LL_Extraction : LevelLogic
         GameManager.current.eventService.SetPawnServiceActive(false);
         GameManager.current.eventService.RequestKillAllEnemies();
 
-
+        GameManager.current.showTutorial = false;
         base.Win();
     }
 
     protected override void Lose()
     {
-        
 
 
 
+        GameManager.current.showTutorial = false;
         base.Lose();
     }
 }
