@@ -231,6 +231,8 @@ public class PlayablePawn : Pawn
     #region XP
     public void GainXp(float v)
     {
+        if (!isAlive) return;
+
         totalXp += (v * xpGain);
         xp += (v * xpGain);
         while (xp >= levelThreshold)
@@ -249,6 +251,8 @@ public class PlayablePawn : Pawn
 
     public void GainLevel(int l, bool noLevelUp = false)
     {
+        if (!isAlive) return;
+
         level += l;
         if (!noLevelUp) LevelUpEffect(l);
         GameManager.current.eventService.RequestUIUpdateLevelCounter(level);
@@ -392,6 +396,12 @@ public class PlayablePawn : Pawn
     #endregion
 
     #region Interaction
+    public bool InteractableInRange()
+    {
+        if (closestInteractable != null || closestPlayablePawn != null) return true;
+        return false;
+    }
+
     public void Interact()
     {
         timerClosestInteractable?.Pause(true);

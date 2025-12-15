@@ -43,6 +43,7 @@ public abstract class Pawn : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdate, 
     protected bool hasIFrames = false;
 
     [SerializeField] protected float knockBackResist = 0f;
+    [SerializeField] protected bool isKnockbacked = false;
 
     [SerializeField] protected bool isPaused = false;
     [SerializeField] protected bool isDead = false;
@@ -155,18 +156,19 @@ public abstract class Pawn : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdate, 
 
     protected virtual void Knockback(float knockback, Vector3? knockbackPush = null)
     {
-        if (knockback <= 0 || !knockbackPush.HasValue) return;
+        if (knockback * (1 - knockBackResist) <= 0 || !knockbackPush.HasValue || isKnockbacked) return;
 
+        isKnockbacked = true;
         _nav.enabled = false;
         _rb.isKinematic = false;
         _rb.AddForce(((Vector3)knockbackPush).normalized * knockback * (1 - knockBackResist), ForceMode.Impulse);
 
         knockbackTimer = GameManager.current.timerService.StartTimer(0.1f, () =>
         {
-            _rb.isKinematic = false;
             _nav.enabled = true;
             _rb.linearVelocity = Vector3.zero;
             _rb.isKinematic = true;
+            isKnockbacked = false;
         });
     }
 
@@ -184,8 +186,14 @@ public abstract class Pawn : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdate, 
 
     public virtual void Heal(float value)
     {
+        Debug.Log($"{value} * {healingMultiplier}");
         lifepoints += value * healingMultiplier;
-        if (lifepoints > maxLifepoints) lifepoints = maxLifepoints;
+        if (lifepoints > maxLifepoints)
+        {
+            lpRegenTickTimer.Cancel();
+            lpRegenTickTimer = null;
+            lifepoints = maxLifepoints;
+        }
     }
 
     protected virtual void Die()

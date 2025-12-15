@@ -40,7 +40,7 @@ public class Mine : MonoBehaviour
     {
         Instantiate(GameManager.current.gameInfo.explosionPrefab, transform.position, Quaternion.identity)
             .GetComponent<Explosive>().Init(damage, radius, delay, mod);
-        Destroy(this);
+        Destroy(gameObject);
     }
 
     public void Arm()

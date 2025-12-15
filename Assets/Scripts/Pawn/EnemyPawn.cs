@@ -75,19 +75,21 @@ public class EnemyPawn : Pawn
 
         if (active)
         {
+            _nav.enabled = !isPaused;
+
+            if (_nav.isOnNavMesh)
+            {
+                
+                //_nav.isStopped = isPaused;
+                //_nav.velocity = Vector3.zero;
+            }
+
             attackCooldown?.Pause(isPaused);
 
             if (!_rb.isKinematic) _rb.isKinematic = true;
 
-            _nav.velocity = Vector3.zero;
 
             _anm.enabled = !isPaused;
-
-            if (_nav.isOnNavMesh)
-            {
-                if (isPaused) _nav.isStopped = true;
-                else _nav.isStopped = false;
-            }
         }
     }
 
@@ -147,9 +149,9 @@ public class EnemyPawn : Pawn
 
         isIdle = false;
 
-        string damageText = $"Crit!\n{damage}";
+        string damageText = $"Crit!\n{damage.ToString("#.##")}";
         if (isCrit) GameManager.current.eventService.RequestUISpawnFloatingText(transform.position, damageText, Color.red, 2f, 0.5f);
-        else GameManager.current.eventService.RequestUISpawnFloatingText(transform.position, $"{damage}", Color.white, 2f, 0.5f);
+        else GameManager.current.eventService.RequestUISpawnFloatingText(transform.position, damage.ToString("#.##"), Color.white, 2f, 0.5f);
 
         GameManager.current.audioService.PlaySound(GameManager.current.gameInfo.acEnemyHurt, _as);
 

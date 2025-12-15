@@ -33,8 +33,8 @@ MonoBehaviour:
     addVal: 0
     multVal: 0
   lifepoints:
-    baseVal: 200
-    addVal: 0
+    baseVal: 0
+    addVal: 200
     multVal: 0
   lpRegen:
     baseVal: 0

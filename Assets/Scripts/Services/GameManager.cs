@@ -43,6 +43,8 @@ public class GameManager : MonoBehaviour
     //TEMP for the case in which the player quits and we have to reset fully
     public PawnStatBlock playerStatBlock;
 
+    public bool showTutorial = true;
+
 
     private void Awake()
     {

@@ -22,6 +22,10 @@ public class LL_Extraction : LevelLogic
     public bool setupStage2 = false;
     public bool setupStage3 = false;
 
+    public bool triggerWin = false;
+    public bool triggerLose = false;
+
+
     public override void Activate()
     {
         
@@ -48,7 +52,7 @@ public class LL_Extraction : LevelLogic
         GameManager.current.eventService.RequestUIMapProgressionSetup(stage1ProgressionMax);
         GameManager.current.eventService.RequestUIMapProgression(0f);
 
-        GameManager.current.eventService.onPlayerDeath += Lose;
+        GameManager.current.eventService.onPlayerDeath += () => triggerLose = true;
 
         base.Activate();
 
@@ -58,6 +62,16 @@ public class LL_Extraction : LevelLogic
 
     protected override void LogicUpdate()
     {
+        if (triggerWin)
+        {
+            if (GameManager.current.playerPawn.pendingLevelUps < 1)
+            {
+                Win();
+            }
+        }
+
+        if (triggerLose) Lose();
+
         switch (levelStage)
         {
             case 1:
@@ -140,7 +154,7 @@ public class LL_Extraction : LevelLogic
             } else
             {
                 levelStage = -1;
-                Win();
+                triggerWin = true;
             }
         }
     }
@@ -167,7 +181,7 @@ public class LL_Extraction : LevelLogic
         {
             GameManager.current.eventService.RequestUIMapProgression(0);
             levelStage = -1;
-            Win();
+            triggerWin = true;
         }
     }
 

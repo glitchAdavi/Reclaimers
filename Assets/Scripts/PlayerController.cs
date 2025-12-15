@@ -50,7 +50,10 @@ public class PlayerController : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdat
 
         if (Input.GetKeyDown(KeyCode.R)) ControllerReload();
 
-        if (Input.GetKey(KeyCode.F)) ControllerInteract();
+        if (Input.GetKey(KeyCode.F) && playerPawn.InteractableInRange())
+        {
+            ControllerInteract();
+        }
         else ControllerInteractReset();
 
         if (Input.GetKeyDown(KeyCode.E)) ControllerUseAbility();
