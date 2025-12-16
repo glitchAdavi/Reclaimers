@@ -50,4 +50,4 @@ MonoBehaviour:
   acEnemyHurt: {fileID: 8300000, guid: 54a43389674d0a240b52c0003d91cba1, type: 3}
   acExplosion: {fileID: 8300000, guid: 9c7e3676fd9d7754ea8c08d6fed93f84, type: 3}
   defaultMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  selectableMaterial: {fileID: 0}
+  selectableMaterial: {fileID: 2100000, guid: 60bee607472a4d64eb9b0e424edd8543, type: 2}

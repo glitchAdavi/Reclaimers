@@ -48,6 +48,8 @@ public class PlayablePawn : Pawn
         timerClosestInteractable?.Cancel();
         timerClosestPlayablePawn?.Cancel();
 
+        SetMaterial(GameManager.current.gameInfo.defaultMaterial);
+
         if (pawnStatBlock != null) baseStatBlock = pawnStatBlock;
         else if (baseStatBlock == null) baseStatBlock = GameManager.current.gameInfo.defaultStatBlock;
 
@@ -76,6 +78,8 @@ public class PlayablePawn : Pawn
 
     protected void InitializeActivePlayer(PawnStatBlock currentPlayerStatBlock = null)
     {
+        SetMaterial(GameManager.current.gameInfo.defaultMaterial);
+
         if (currentPlayerStatBlock != null) baseStatBlock = GameManager.current.gameInfo.currentPlayerStatBlock;
         else if (baseStatBlock == null) baseStatBlock = GameManager.current.gameInfo.defaultStatBlock;
 

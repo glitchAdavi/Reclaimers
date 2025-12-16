@@ -254,6 +254,7 @@ public class UIService : MonoBehaviour, IPause
 
     public void LevelUpMenuOpen()
     {
+        GameManager.current.audioService.PlaySound(GameManager.current.gameInfo.acLevelUp);
         GameManager.current.eventService.RequestTogglePause();
         GameManager.current.eventService.RequestEnableControlAll(false);
         levelUpMenu.SetActive(true);

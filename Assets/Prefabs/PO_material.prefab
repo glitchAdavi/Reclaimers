@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dmgColl: {fileID: 999610133681876620}
+  _sr: {fileID: 0}
   graceTime: 0.25
   matValue: 1
 --- !u!1 &2489970339468146606
@@ -274,8 +275,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 48
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 0.8489028, b: 0, a: 1}
+  m_Sprite: {fileID: 1748393204, guid: 3ec4a63b10e35d148ac5655a22663811, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

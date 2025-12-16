@@ -13,6 +13,7 @@ public class PO_material : PickableObject
 
     protected override void Effect()
     {
+        GameManager.current.audioService.PlaySound(GameManager.current.gameInfo.acXpPickUp);
         if (target != null)
         {
             if (matValue > 0) GameManager.current.eventService.GivePlayerMaterial(matValue);

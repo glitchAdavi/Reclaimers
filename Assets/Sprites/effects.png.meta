@@ -237,7 +237,7 @@ TextureImporter:
         width: 13
         height: 13
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 6, y: 6, z: 6, w: 6}
       customData: 
       outline: []
@@ -246,6 +246,50 @@ TextureImporter:
       bones: []
       spriteID: d7fd3d062fabfe24da9ed229d88db046
       internalID: -165373801
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: effects_7
+      rect:
+        serializedVersion: 2
+        x: 103
+        y: 957
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9c3b1279d05525242be456a0618abc0a
+      internalID: 1748393204
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: effects_8
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 957
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f84084af298fa2e4ea230c5e2d0b3e8d
+      internalID: -2007097403
       vertices: []
       indices: 
       edges: []
@@ -271,6 +315,8 @@ TextureImporter:
       effects_4: -12038996
       effects_5: -836604555
       effects_6: -165373801
+      effects_7: 1748393204
+      effects_8: -2007097403
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
