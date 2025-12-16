@@ -15,6 +15,8 @@ public class GameInfo : ScriptableObject
     public GameObject playerCameraPrefab;
     public GameObject enemyPawnPrefab;
 
+    public GameObject crosshairPrefab;
+
     public GameObject corpsePrefab;
     
     public GameObject projectilePrefab;
@@ -60,8 +62,8 @@ public class GameInfo : ScriptableObject
 
 
     //---SHADERS---
-    public Material selectableObject;
-    public Material selectablePawn;
+    public Material defaultMaterial;
+    public Material selectableMaterial;
 
 
 

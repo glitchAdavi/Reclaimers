@@ -19,6 +19,7 @@ MonoBehaviour:
   playablePawnPrefab: {fileID: 8418645380850837868, guid: 0b7e26dbaf2b2ca46adcc6ea8e7bbdd2, type: 3}
   playerCameraPrefab: {fileID: 4425283191490408489, guid: 36f144c874aa7ed4b872cbaae5d6364d, type: 3}
   enemyPawnPrefab: {fileID: 289805666693742518, guid: c179bf0f67cc1b646bb528aba493bce8, type: 3}
+  crosshairPrefab: {fileID: 5756490953647102084, guid: 00c829cf9e15ffc4fbcfdd89bb723a92, type: 3}
   corpsePrefab: {fileID: 4137331474737329006, guid: a60d6b0ed6c63ee42ac258b33afe0c37, type: 3}
   projectilePrefab: {fileID: 7636891095021424926, guid: 1e01c1f30261a1744a9b892dc86189bb, type: 3}
   bounceProjectilePrefab: {fileID: 7636891095021424926, guid: 74fc1500fe6d46f4982574af2a0b27f5, type: 3}
@@ -48,3 +49,5 @@ MonoBehaviour:
   acPlayerHurt: {fileID: 8300000, guid: 5648fa8f08b739e4ab5afdd1a510ec74, type: 3}
   acEnemyHurt: {fileID: 8300000, guid: 54a43389674d0a240b52c0003d91cba1, type: 3}
   acExplosion: {fileID: 8300000, guid: 9c7e3676fd9d7754ea8c08d6fed93f84, type: 3}
+  defaultMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  selectableMaterial: {fileID: 0}

@@ -448,25 +448,48 @@ public class PlayablePawn : Pawn
         if (GameManager.current.levelService.IsPlayerInsideAnInteractableArea()) return;
 
         string intText = "";
+        InteractableObject current = closestInteractable;
         closestInteractable = GameManager.current.levelService.GetClosestInteractable(transform.position, interactionRange);
         if (closestInteractable != null)
         {
+            if (current != null && !closestInteractable.Equals(current))
+            {
+                current.SetMaterial(GameManager.current.gameInfo.defaultMaterial);
+                closestInteractable.SetMaterial(GameManager.current.gameInfo.selectableMaterial);
+            }
+            else closestInteractable.SetMaterial(GameManager.current.gameInfo.selectableMaterial);
             intText = closestInteractable.IOVerb + closestInteractable.IOName;
             GameManager.current.eventService.RequestUIUpdateInteractText(intText, true);
         }
-        else if (closestPlayablePawn == null) GameManager.current.eventService.RequestUIUpdateInteractText("", false);
+        else
+        {
+            if (current != null) current.SetMaterial(GameManager.current.gameInfo.defaultMaterial);
+            if (closestPlayablePawn == null) GameManager.current.eventService.RequestUIUpdateInteractText("", false);
+        }
     }
 
     public void FindClosestPlayablePawn()
     {
+        if (GameManager.current.levelService.IsPlayerInsideAnInteractableArea()) return;
+
         string intText = "";
+        PlayablePawn current = closestPlayablePawn;
         closestPlayablePawn = GameManager.current.pawnService.GetClosestPlayablePawn(transform.position, interactionRange);
         if (closestPlayablePawn != null)
         {
+            if (current != null && !closestPlayablePawn.Equals(current))
+            {
+                current.SetMaterial(GameManager.current.gameInfo.defaultMaterial);
+                closestPlayablePawn.SetMaterial(GameManager.current.gameInfo.selectableMaterial);
+            } else closestPlayablePawn.SetMaterial(GameManager.current.gameInfo.selectableMaterial);
             intText = $"Change to {closestPlayablePawn.statBlock.pawnName}";
             GameManager.current.eventService.RequestUIUpdateInteractText(intText, true);
         }
-        else if (currentArea == null && closestInteractable == null) GameManager.current.eventService.RequestUIUpdateInteractText("", false);
+        else
+        {
+            if (current != null) current.SetMaterial(GameManager.current.gameInfo.defaultMaterial);
+            if (currentArea == null && closestInteractable == null) GameManager.current.eventService.RequestUIUpdateInteractText("", false);
+        }
     }
 
     public virtual void Use()
@@ -559,5 +582,10 @@ public class PlayablePawn : Pawn
     public bool IsActivePlayer()
     {
         return isActivePlayer;
+    }
+
+    public void SetMaterial(Material newMaterial)
+    {
+        _sr.material = newMaterial;
     }
 }

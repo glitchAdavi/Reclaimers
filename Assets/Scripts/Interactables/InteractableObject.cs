@@ -53,4 +53,9 @@ public abstract class InteractableObject : MonoBehaviour
     {
         if (destroyOnUse) Destroy(gameObject);
     }
+
+    public virtual void SetMaterial(Material newMaterial)
+    {
+        if (_sr != null) _sr.material = newMaterial;
+    }
 }

@@ -17,7 +17,7 @@ public class WepProjectile : Weapon
         {
             Debug.DrawLine(transform.position, info.point, Color.red, 0.5f);
 
-            tempForward = info.point - GameManager.current.gameInfo.playerPositionVar.Value;
+            tempForward = (info.point + new Vector3(0f, 0f, 0.25f)) - GameManager.current.gameInfo.playerPositionVar.Value;
 
             Projectile newBullet = GameManager.current.projectileBuilder.GetObject();
             newBullet.transform.position = GameManager.current.gameInfo.playerPositionVar.Value;

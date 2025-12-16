@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
     public PlayerController playerController;
     public PlayablePawn playerPawn;
     public PlayerCamera playerCamera;
+    public Crosshair playerCrosshair;
 
     public ProjectileBuilder projectileBuilder;
 
@@ -55,6 +56,9 @@ public class GameManager : MonoBehaviour
             current = this;
             
             DontDestroyOnLoad(this);
+
+            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.visible = false;
 
             gameInfo.useCurrentPlayerStatBlock = false;
 
@@ -92,6 +96,7 @@ public class GameManager : MonoBehaviour
         playerController = CreateService<PlayerController>();
         playerPawn = InstantiatePlayer();
         playerCamera = InstantiateCamera();
+        playerCrosshair = InstantiateCrosshair();
 
 
         //dataPersistenceService = CreateService<DataPersistenceService>();
@@ -139,6 +144,12 @@ public class GameManager : MonoBehaviour
         PlayerCamera newCamera = Instantiate(gameInfo.playerCameraPrefab, new Vector3(0, 0, 0), gameInfo.playerCameraPrefab.transform.rotation)
                                 .GetComponent<PlayerCamera>();
         return newCamera;
+    }
+
+    private Crosshair InstantiateCrosshair()
+    {
+        Crosshair newCrosshair = Instantiate(gameInfo.crosshairPrefab).GetComponent<Crosshair>();
+        return newCrosshair;
     }
 
     private UIService InstantiateUI()
