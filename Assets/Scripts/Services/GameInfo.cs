@@ -50,14 +50,18 @@ public class GameInfo : ScriptableObject
     public AudioClip acLevelUp;
     public AudioClip acXpPickUp;
 
+    public AudioClip acPlayerSearch;
+    public AudioClip acPlayerShoot;
+
     public AudioClip acPlayerHurt;
     public AudioClip acEnemyHurt;
 
     public AudioClip acExplosion;
 
 
-
-
+    //---SHADERS---
+    public Material selectableObject;
+    public Material selectablePawn;
 
 
 

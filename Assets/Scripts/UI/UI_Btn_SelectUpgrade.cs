@@ -46,6 +46,8 @@ public class UI_Btn_SelectUpgrade : MonoBehaviour
 
     public void SelectUpgrade()
     {
+        GameManager.current.audioService.PlaySound(GameManager.current.gameInfo.acButtonPress);
+
         if (currentUpgrade != null)
         {
             GameManager.current.playerPawn.AddUpgrade(currentUpgrade);

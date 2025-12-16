@@ -1,26 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
 
 public class AudioService : MonoBehaviour, IPause
 {
-    [SerializeField] List<AudioSource> _sources;
-    [SerializeField] List<AudioSource> _reserved;
+    [SerializeField] List<AudioSource> _sources = new List<AudioSource>();
+    [SerializeField] List<AudioSource> _reserved = new List<AudioSource>();
     [SerializeField] List<Timer> timers = new List<Timer>();
 
     [SerializeField] AudioSource backgroundSource;
 
     private void OnEnable()
     {
+        GameManager.current.updateService.RegisterPause(this);
+    }
+
+    private void Start()
+    {
         backgroundSource = gameObject.AddComponent<AudioSource>();
 
         for (int i = 0; i < 10; i++)
         {
-            Instantiate(GameManager.current.gameInfo.audioSourcePrefab);
+            _sources.Add(Instantiate(GameManager.current.gameInfo.audioSourcePrefab).GetComponent<AudioSource>());
         }
-
-        GameManager.current.updateService.RegisterPause(this);
     }
 
     public void Pause(bool paused)
@@ -58,15 +60,15 @@ public class AudioService : MonoBehaviour, IPause
         return result;
     }
 
-    public void PlaySound(AudioClip clip, Vector3? pos, float time = -1f, bool forcePlay = false)
+    public void PlaySound(AudioClip clip, Vector3? pos, float variation = 0f, float time = -1f, bool forcePlay = false)
     {
-        PlaySound(clip, pos, time, forcePlay, null);
+        PlaySound(clip, pos, null, time, forcePlay, variation);
     }
-    public void PlaySound(AudioClip clip, AudioSource external, float time = -1f, bool forcePlay = false)
+    public void PlaySound(AudioClip clip, AudioSource external, float variation = 0f, float time = -1f, bool forcePlay = false)
     {
-        PlaySound(clip, null, time, forcePlay, external);
+        PlaySound(clip, null, external, time, forcePlay, variation);
     }
-    public void PlaySound(AudioClip clip, Vector3? pos = null, float time = -1f, bool forcePlay = false, AudioSource external = null)
+    public void PlaySound(AudioClip clip, Vector3? pos = null, AudioSource external = null, float time = -1f, bool forcePlay = false, float variation = 0f)
     {
         if (clip == null)
         {
@@ -81,7 +83,11 @@ public class AudioService : MonoBehaviour, IPause
             if (pos != null) source.transform.position = (Vector3)pos;
             else source.transform.position = transform.position;
         }
-        else source = external;
+        else
+        {
+            if (forcePlay) external.Stop();
+            source = external;
+        }
 
         if (time > 0f)
         {
@@ -96,7 +102,11 @@ public class AudioService : MonoBehaviour, IPause
             source.clip = clip;
             source.Play();
         }
-        else source.PlayOneShot(clip);
+        else
+        {
+            if (variation > 0f) source.pitch = Random.Range(1 - (variation / 2), 1 + (variation / 2));
+            source.PlayOneShot(clip);
+        }
     }
 
     public void PlayBackgroundMusic(AudioClip clip)

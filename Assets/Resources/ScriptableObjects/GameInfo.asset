@@ -43,6 +43,8 @@ MonoBehaviour:
   acButtonPress: {fileID: 8300000, guid: ddefcc67ded81834a8be5f9021fdcec3, type: 3}
   acLevelUp: {fileID: 8300000, guid: 069c02c9484cdcf40961a166fca1fea9, type: 3}
   acXpPickUp: {fileID: 8300000, guid: 9e1dca9fa369c13429960a4efd008180, type: 3}
+  acPlayerSearch: {fileID: 8300000, guid: 136ead55b5422f34ab7b316a9fb5ce60, type: 3}
+  acPlayerShoot: {fileID: 8300000, guid: 57871f2105721ea4fafc0df522f2c9fa, type: 3}
   acPlayerHurt: {fileID: 8300000, guid: 5648fa8f08b739e4ab5afdd1a510ec74, type: 3}
-  acEnemyHurt: {fileID: 0}
+  acEnemyHurt: {fileID: 8300000, guid: 54a43389674d0a240b52c0003d91cba1, type: 3}
   acExplosion: {fileID: 8300000, guid: 9c7e3676fd9d7754ea8c08d6fed93f84, type: 3}

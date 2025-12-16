@@ -184,14 +184,27 @@ public abstract class Pawn : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdate, 
     }
     #endregion
 
-    public virtual void Heal(float value)
+    public virtual void Heal(float value = 0f)
     {
+        if (value == 0)
+        {
+            if (lpRegenTickTimer != null)
+            {
+                lpRegenTickTimer.Cancel();
+                lpRegenTickTimer = null;
+            }
+            lifepoints = maxLifepoints;
+        }
+
         Debug.Log($"{value} * {healingMultiplier}");
         lifepoints += value * healingMultiplier;
         if (lifepoints > maxLifepoints)
         {
-            lpRegenTickTimer.Cancel();
-            lpRegenTickTimer = null;
+            if (lpRegenTickTimer != null)
+            {
+                lpRegenTickTimer.Cancel();
+                lpRegenTickTimer = null;
+            }
             lifepoints = maxLifepoints;
         }
     }

@@ -62,7 +62,8 @@ public class PawnUpgrade : Upgrade
         {
             p.statBlock.lifepoints.ModifyValues(lifepoints);
             p.ApplyLifepoints();
-            p.Heal(lifepoints.Add);
+            if (lifepoints.Add > 0) p.Heal(lifepoints.Add);
+            if (lifepoints.Mult > 0) p.Heal();
         }
 
         if (lpRegen.IsNotEmpty())

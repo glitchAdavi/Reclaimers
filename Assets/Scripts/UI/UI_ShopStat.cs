@@ -45,6 +45,8 @@ public class UI_ShopStat : MonoBehaviour
 
     public void Buy()
     {
+        GameManager.current.audioService.PlaySound(GameManager.current.gameInfo.acButtonPress);
+
         if (GameManager.current.permanentUpgrades.ContainsKey(upgrade.internalName))
         {
             GameManager.current.permanentUpgrades[upgrade.internalName]++;

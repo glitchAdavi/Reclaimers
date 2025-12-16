@@ -95,6 +95,7 @@ public abstract class Weapon : MonoBehaviour, IUpdate, IPause
             timerBulletSpreadReset = GameManager.current.timerService.StartTimer(0.5f, () => bulletSpread = 0f);
         }
 
+        GameManager.current.audioService.PlaySound(GameManager.current.gameInfo.acPlayerShoot, owner.asWeapon, 0.1f, -1, false);
         ShootEffect();
     }
 

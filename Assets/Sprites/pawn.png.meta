@@ -100,10 +100,10 @@ TextureImporter:
       name: pawn_0
       rect:
         serializedVersion: 2
-        x: 1
-        y: 991
-        width: 32
-        height: 32
+        x: 0
+        y: 990
+        width: 34
+        height: 34
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -122,10 +122,10 @@ TextureImporter:
       name: pawn_1
       rect:
         serializedVersion: 2
-        x: 35
-        y: 991
-        width: 32
-        height: 32
+        x: 34
+        y: 990
+        width: 34
+        height: 34
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -232,12 +232,12 @@ TextureImporter:
       name: pawn_6
       rect:
         serializedVersion: 2
-        x: 1
-        y: 958
-        width: 32
-        height: 32
+        x: 0
+        y: 956
+        width: 34
+        height: 34
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -254,12 +254,12 @@ TextureImporter:
       name: pawn_7
       rect:
         serializedVersion: 2
-        x: 35
-        y: 958
-        width: 32
-        height: 32
+        x: 34
+        y: 956
+        width: 34
+        height: 34
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -281,7 +281,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -303,7 +303,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []

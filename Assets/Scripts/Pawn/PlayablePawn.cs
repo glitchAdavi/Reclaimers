@@ -13,6 +13,7 @@ public class PlayablePawn : Pawn
     public Weapon equippedWeapon;
     public Ability equippedAbility;
     public Light muzzleFlash;
+    public AudioSource asWeapon;
     Timer timerMuzzleFlash;
 
     public Dictionary<string, int> appliedUpgrades = new Dictionary<string, int>();
@@ -213,7 +214,7 @@ public class PlayablePawn : Pawn
         GameManager.current.eventService.RequestUIUpdateHealth(lifepoints, maxLifepoints);
     }
 
-    public override void Heal(float value)
+    public override void Heal(float value = 0f)
     {
         base.Heal(value);
 
@@ -249,6 +250,7 @@ public class PlayablePawn : Pawn
         statBlock.xp.SetValues(xp, 0f, 1f);
         statBlock.level.SetValues(level, 0f, 1f);
 
+        GameManager.current.audioService.PlaySound(GameManager.current.gameInfo.acXpPickUp, transform.position, 0.1f);
         GameManager.current.eventService.RequestUIUpdateXpBar(xp, levelThreshold);
     }
 

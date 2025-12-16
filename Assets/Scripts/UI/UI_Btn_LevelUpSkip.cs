@@ -15,6 +15,7 @@ public class UI_Btn_LevelUpSkip : MonoBehaviour
 
     public void Skip()
     {
+        GameManager.current.audioService.PlaySound(GameManager.current.gameInfo.acButtonPress);
         GameManager.current.eventService.LevelUpFinish();
     }
 
