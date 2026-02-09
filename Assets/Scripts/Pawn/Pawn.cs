@@ -20,6 +20,9 @@ public abstract class Pawn : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdate, 
     [SerializeField] protected Animator _anmColor;
     [SerializeField] protected AudioSource _as;
 
+    [SerializeField] protected SpriteRenderer _shadow;
+    [SerializeField] protected Animator _shadowAnm;
+
     [SerializeField] protected float maxLifepoints = 1f;
     [SerializeField] protected float lifepoints = 1f;
 
@@ -97,7 +100,10 @@ public abstract class Pawn : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdate, 
     }
     #endregion
 
-    protected virtual void PawnUpdate() { }
+    protected virtual void PawnUpdate()
+    {
+        if (_shadow != null) _shadow.transform.LookAt(GameManager.current.tileService.GetClosestLight(transform.position).transform);
+    }
     protected virtual void PawnFixedUpdate() { }
     protected virtual void PawnLateUpdate() { }
     protected virtual void PawnPause()
@@ -271,6 +277,7 @@ public abstract class Pawn : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdate, 
         if (statBlock.pawnMainSprite != null)
         {
             _sr.sprite = statBlock.pawnMainSprite;
+            if (_shadow != null) _shadow.sprite = statBlock.pawnMainSprite;
             _anm.enabled = true;
         }
     }
@@ -286,7 +293,11 @@ public abstract class Pawn : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdate, 
 
     public void ApplyController()
     {
-        if (statBlock.controller != null) _anm.runtimeAnimatorController = statBlock.controller;
+        if (statBlock.controller != null)
+        {
+            _anm.runtimeAnimatorController = statBlock.controller;
+            if (_shadowAnm != null) _shadowAnm.runtimeAnimatorController = statBlock.controller;
+        }
     }
 
     public void ApplyScale()
@@ -299,11 +310,13 @@ public abstract class Pawn : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdate, 
         _nav.speed = statBlock.speed.Value();
         _anm.speed = 0.1f * statBlock.speed.Value();
         if (_anmColor != null) _anmColor.speed = 0.1f * statBlock.speed.Value();
+        if (_shadowAnm != null) _shadowAnm.speed = 0.1f * statBlock.speed.Value();
         if (useScaling)
         {
             _nav.speed *= GameManager.current.Scaling();
             _anm.speed *= GameManager.current.Scaling();
             if (_anmColor != null) _anmColor.speed *= GameManager.current.Scaling();
+            if (_shadowAnm != null) _shadowAnm.speed = 0.1f * statBlock.speed.Value();
         }
     }
 

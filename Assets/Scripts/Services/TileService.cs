@@ -427,7 +427,20 @@ public class TileService : MonoBehaviour
         }
     }
 
-
+    public Light GetClosestLight(Vector3 pos)
+    {
+        Light result = allLights[0];
+        float dist = Vector3.Distance(pos, allLights[0].transform.position);
+        for (int i = 1; i < allLights.Count; i++)
+        {
+            if (Vector3.Distance(pos, allLights[i].transform.position) < dist)
+            {
+                result = allLights[i];
+                dist = Vector3.Distance(pos, allLights[i].transform.position);
+            }
+        }
+        return result;
+    }
 
 
 

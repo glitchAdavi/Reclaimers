@@ -213,8 +213,8 @@ public class EnemyPawn : Pawn
         Vector2 targetPos = GameManager.current.playerCamera.GetComponent<Camera>().WorldToScreenPoint(target.transform.position);
         Vector2 myPos = GameManager.current.playerCamera.GetComponent<Camera>().WorldToScreenPoint(transform.position);
 
-        if (targetPos.x >= myPos.x) _sr.flipX = true;
-        else _sr.flipX = false;
+        if (targetPos.x >= myPos.x) _sr.material.SetFloat("_FlipX", 0);
+        else _sr.material.SetFloat("_FlipX", 1);
     }
 
 

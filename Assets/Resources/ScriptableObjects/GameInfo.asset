@@ -49,5 +49,5 @@ MonoBehaviour:
   acPlayerHurt: {fileID: 8300000, guid: 5648fa8f08b739e4ab5afdd1a510ec74, type: 3}
   acEnemyHurt: {fileID: 8300000, guid: 54a43389674d0a240b52c0003d91cba1, type: 3}
   acExplosion: {fileID: 8300000, guid: 9c7e3676fd9d7754ea8c08d6fed93f84, type: 3}
-  defaultMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  defaultMaterial: {fileID: 2100000, guid: cdc8f6d44071f3a479f9f9906bac0503, type: 2}
   selectableMaterial: {fileID: 2100000, guid: 60bee607472a4d64eb9b0e424edd8543, type: 2}

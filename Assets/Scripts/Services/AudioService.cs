@@ -81,7 +81,8 @@ public class AudioService : MonoBehaviour, IPause
         {
             source = GetAudioSource(forcePlay);
             if (pos != null) source.transform.position = (Vector3)pos;
-            else source.transform.position = transform.position;
+            else source.transform.position = GameManager.current.gameInfo.playerPositionVar.Value;
+            //else source.transform.position = transform.position;
         }
         else
         {

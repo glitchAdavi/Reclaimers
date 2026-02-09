@@ -533,15 +533,18 @@ public class PlayablePawn : Pawn
         {
             _sr.sprite = statBlock.pawnMainSprite;
             _srColor.sprite = statBlock.pawnColorSprite;
+            _shadow.sprite = statBlock.pawnMainSprite;
         }
         _anm.enabled = isMoving;
         _anmColor.enabled = isMoving;
+        _shadowAnm.enabled = isMoving;
 
         if (posX > 0)
         {
-            _sr.flipX = true;
-            _srColor.flipX = true;
-            weaponSprite.flipX = false;
+            _sr.material.SetFloat("_FlipX", 0);
+            _srColor.material.SetFloat("_FlipX", 0);
+            _shadow.material.SetFloat("_FlipX", 0);
+            weaponSprite.material.SetFloat("_FlipX", 0);
             weaponStretcher.transform.localPosition = new Vector3(0.15f, 0f, -0.2f);
             if (Physics.Raycast(GameManager.current.playerCamera.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition), out var info, 100f, 1 << 20))
             {
@@ -551,9 +554,10 @@ public class PlayablePawn : Pawn
 
         } else
         {
-            _sr.flipX = false;
-            _srColor.flipX = false;
-            weaponSprite.flipX = true;
+            _sr.material.SetFloat("_FlipX", 1);
+            _srColor.material.SetFloat("_FlipX", 1);
+            _shadow.material.SetFloat("_FlipX", 1);
+            weaponSprite.material.SetFloat("_FlipX", 1);
             weaponStretcher.transform.localPosition = new Vector3(-0.15f, 0f, -0.2f);
             if (Physics.Raycast(GameManager.current.playerCamera.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition), out var info, 100f, 1 << 20))
             {
