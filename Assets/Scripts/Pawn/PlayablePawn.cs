@@ -141,7 +141,13 @@ public class PlayablePawn : Pawn
 
     protected void BaseStatApplication()
     {
-        if (statBlock.pawnMainSprite != null) _sr.sprite = statBlock.pawnMainSprite;
+        if (statBlock.pawnMainSprite.Count > 0 && statBlock.pawnMainSprite.Count < 2) _sr.sprite = statBlock.pawnMainSprite[0];
+        else if (statBlock.pawnMainSprite.Count > 1)
+        {
+            int temp = UnityEngine.Random.Range(0, statBlock.pawnMainSprite.Count + 1);
+            _sr.sprite = statBlock.pawnMainSprite[temp];
+        }
+
         if (statBlock.pawnColorSprite != null) _srColor.sprite = statBlock.pawnColorSprite;
         _sr.color = statBlock.pawnMainSpriteColor;
         _srColor.color = statBlock.pawnColorSpriteColor;
@@ -531,9 +537,9 @@ public class PlayablePawn : Pawn
 
         if (!isMoving)
         {
-            _sr.sprite = statBlock.pawnMainSprite;
+            _sr.sprite = statBlock.pawnMainSprite[spriteNum];
             _srColor.sprite = statBlock.pawnColorSprite;
-            _shadow.sprite = statBlock.pawnMainSprite;
+            _shadow.sprite = statBlock.pawnMainSprite[spriteNum];
         }
         _anm.enabled = isMoving;
         _anmColor.enabled = isMoving;

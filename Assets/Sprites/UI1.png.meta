@@ -276,7 +276,7 @@ TextureImporter:
       name: UI1_8
       rect:
         serializedVersion: 2
-        x: 480
+        x: 240
         y: 470
         width: 240
         height: 340
@@ -298,7 +298,7 @@ TextureImporter:
       name: UI1_9
       rect:
         serializedVersion: 2
-        x: 720
+        x: 480
         y: 470
         width: 240
         height: 340
@@ -364,13 +364,13 @@ TextureImporter:
       name: UI1_12
       rect:
         serializedVersion: 2
-        x: 1080
+        x: 1440
         y: 405
         width: 360
         height: 405
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 10, y: 10, z: 10, w: 10}
+      border: {x: 117, y: 29, z: 117, w: 45}
       customData: 
       outline: []
       physicsShape: []

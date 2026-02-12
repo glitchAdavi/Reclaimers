@@ -16,7 +16,10 @@ public class PawnStatBlock : ScriptableObject
     public List<string> keyUpgrade;
     public List<int> valueUpgrade;
 
-    public Sprite pawnMainSprite;
+    public bool spriteVariableHue = false;
+    public int spriteVariableHueRange = 0;
+
+    public List<Sprite> pawnMainSprite;
     public Color pawnMainSpriteColor = new Color(255, 255, 255, 255);
     public Sprite pawnColorSprite;
     public Color pawnColorSpriteColor = new Color(255, 255, 255, 255);
@@ -80,7 +83,10 @@ public class PawnStatBlock : ScriptableObject
         keyUpgrade = new List<string>(psb.keyUpgrade);
         valueUpgrade = new List<int>(psb.valueUpgrade);
 
-        pawnMainSprite = psb.pawnMainSprite;
+        spriteVariableHue = psb.spriteVariableHue;
+        spriteVariableHueRange = psb.spriteVariableHueRange;
+
+        pawnMainSprite = new List<Sprite>(psb.pawnMainSprite);
         pawnMainSpriteColor = psb.pawnMainSpriteColor;
         pawnColorSprite = psb.pawnColorSprite;
         pawnColorSpriteColor = psb.pawnColorSpriteColor;

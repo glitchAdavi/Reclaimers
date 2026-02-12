@@ -20,6 +20,8 @@ public abstract class Pawn : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdate, 
     [SerializeField] protected Animator _anmColor;
     [SerializeField] protected AudioSource _as;
 
+    [SerializeField] protected int spriteNum;
+
     [SerializeField] protected SpriteRenderer _shadow;
     [SerializeField] protected Animator _shadowAnm;
 
@@ -274,11 +276,29 @@ public abstract class Pawn : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdate, 
 
     public void ApplySprite()
     {
-        if (statBlock.pawnMainSprite != null)
+        if (statBlock.pawnMainSprite.Count > 0 && statBlock.pawnMainSprite.Count < 2)
         {
-            _sr.sprite = statBlock.pawnMainSprite;
-            if (_shadow != null) _shadow.sprite = statBlock.pawnMainSprite;
+            spriteNum = 0;
+            _sr.sprite = statBlock.pawnMainSprite[0];
+            if (_shadow != null) _shadow.sprite = statBlock.pawnMainSprite[0];
             _anm.enabled = true;
+            _anm.SetInteger("spriteNum", spriteNum);
+            
+        }
+        else if (statBlock.pawnMainSprite.Count > 1)
+        {
+            int temp = UnityEngine.Random.Range(0, statBlock.pawnMainSprite.Count);
+            spriteNum = temp;
+            _sr.sprite = statBlock.pawnMainSprite[spriteNum];
+            if (_shadow != null) _shadow.sprite = statBlock.pawnMainSprite[spriteNum];
+            _anm.enabled = true;
+            _anm.SetInteger("spriteNum", spriteNum);
+        }
+
+        if (statBlock.spriteVariableHue)
+        {
+            int mult = Random.Range(-1, 2);
+            _sr.material.SetFloat("_HueOffset", statBlock.spriteVariableHueRange * mult);
         }
     }
 

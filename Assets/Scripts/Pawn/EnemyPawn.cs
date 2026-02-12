@@ -175,7 +175,7 @@ public class EnemyPawn : Pawn
         if (!isDead)
         {
             
-            Instantiate(GameManager.current.gameInfo.corpsePrefab, new Vector3(transform.position.x, 0.01f, transform.position.z), Quaternion.identity).GetComponent<Corpse>().Init(statBlock.pawnMainSprite, statBlock.scale.Value());
+            Instantiate(GameManager.current.gameInfo.corpsePrefab, new Vector3(transform.position.x, 0.01f, transform.position.z), Quaternion.identity).GetComponent<Corpse>().Init(statBlock.pawnMainSprite[spriteNum], statBlock.scale.Value(), (int)_sr.material.GetFloat("_HueOffset"));
 
             if (statBlock.onDeathSpawnEnemy && statBlock.onDeathEnemyToSpawn != null)
             {
