@@ -13,6 +13,8 @@ public class TileService : MonoBehaviour
 {
     [SerializeField] private Grid grid;
 
+    public bool clearTilemaps = false;
+
     [SerializeField] private Tilemap cTilemap;
     [SerializeField] private List<Vector3Int> cTiles = new List<Vector3Int>();
     private List<Vector3Int> cTilesAux = new List<Vector3Int>();
@@ -31,9 +33,8 @@ public class TileService : MonoBehaviour
     [SerializeField] private List<GameObject> colliderList = new List<GameObject>();
 
     private List<List<Vector3Int>> groups = new List<List<Vector3Int>>();
-    private int globalMax = 64;
-
-
+    [SerializeField] private int globalMax = 256;
+    [SerializeField] private int groupMax = 256;
 
     public bool generateMeshes = false;
     public bool clearMeshes = false;
@@ -58,6 +59,7 @@ public class TileService : MonoBehaviour
     
     void Update()
     {
+
         if (generateAll)
         {
             generateAll = false;
@@ -100,6 +102,17 @@ public class TileService : MonoBehaviour
             clearColliders = false;
             DestroyChildren(colliderParent);
             colliderList.Clear();
+        }
+
+
+        if (clearTilemaps)
+        {
+            clearTilemaps = false;
+            cTilemap.ClearAllTiles();
+            fTilemap.ClearAllTiles();
+            fDetailsTilemap.ClearAllTiles();
+            wTilemap.ClearAllTiles();
+            wTopTilemap.ClearAllTiles();
         }
 
     }
@@ -285,7 +298,7 @@ public class TileService : MonoBehaviour
 
         if (toCheck.Contains(currentStart)) result.Add(currentStart);
 
-        for (int i = 1; i < 128; i++)
+        for (int i = 1; i < groupMax; i++)
         //while (currentAdd.x > 0 && currentAdd.y > 0)
         {
             tempX.Clear();

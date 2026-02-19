@@ -580,6 +580,160 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: wall_22
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 315
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 83f4d5567bd88ec47aeb067e3bb500c2
+      internalID: 348559623
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wall_23
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 315
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8b8a622057f03404c9154e44a4dc0047
+      internalID: -1198453605
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wall_24
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 315
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 097f466a27cbe4b4bb30dd23069a8587
+      internalID: 113211373
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wall_25
+      rect:
+        serializedVersion: 2
+        x: 103
+        y: 315
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a1e1a179553fcd64987a191c54d3f0b7
+      internalID: -2119946641
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wall_26
+      rect:
+        serializedVersion: 2
+        x: 137
+        y: 315
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 46d8dde8e4e8bc24289ad3a24b4e32e7
+      internalID: 1379649636
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wall_27
+      rect:
+        serializedVersion: 2
+        x: 171
+        y: 315
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 12b720749eca33e408764dd99cd32216
+      internalID: -904519635
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wall_28
+      rect:
+        serializedVersion: 2
+        x: 205
+        y: 315
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 72c7ca8ecde5b6247a6bbdc87e8ef9f6
+      internalID: -2107767733
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -609,6 +763,13 @@ TextureImporter:
       wall_2: 839186243
       wall_20: -1453663696
       wall_21: -1921134523
+      wall_22: 348559623
+      wall_23: -1198453605
+      wall_24: 113211373
+      wall_25: -2119946641
+      wall_26: 1379649636
+      wall_27: -904519635
+      wall_28: -2107767733
       wall_3: -859791400
       wall_4: 1094792837
       wall_5: -40197951

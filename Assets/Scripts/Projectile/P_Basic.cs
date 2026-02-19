@@ -9,7 +9,11 @@ public class P_Basic : Projectile
         if (collider.gameObject.layer == 22) //LevelCollision
         {
             SeparateFromWall(collider.collider, collider.transform.position, collider.transform.rotation);
-            if (hitSprite != null) Instantiate(GameManager.current.gameInfo.weaponHitPrefab, transform.position, Quaternion.identity).GetComponent<WeaponHit>().Activate(hitSprite, hitColor);
+            if (hitSprite != null)
+            {
+                Vector3 yVar = new Vector3(0f, Random.Range(0f, 1f), 0f);
+                Instantiate(GameManager.current.gameInfo.weaponHitPrefab, transform.position + yVar, Quaternion.identity).GetComponent<WeaponHit>().Activate(hitSprite, hitColor);
+            }
             ResetAndReturn();
         }
     }
