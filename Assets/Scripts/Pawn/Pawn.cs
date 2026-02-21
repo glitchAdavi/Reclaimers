@@ -130,6 +130,11 @@ public abstract class Pawn : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdate, 
         return transform.position;
     }
 
+    public Vector3Int GetCurrentTile()
+    {
+        return GameManager.current.tileService.GetPawnTilePos(this);
+    }
+
     public void Teleport(Vector3 pos)
     {
         _nav.Warp(pos);
@@ -264,9 +269,9 @@ public abstract class Pawn : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdate, 
     #region ApplyValues
     protected virtual void FirstStatApplication(bool useScaling = false)
     {
+        ApplyController();
         ApplySprite();
         ApplyColorSprite();
-        ApplyController();
         ApplyScale();
         ApplySpeed();
         ApplyLifepoints(useScaling);
@@ -299,6 +304,9 @@ public abstract class Pawn : MonoBehaviour, IUpdate, IFixedUpdate, ILateUpdate, 
         {
             int mult = Random.Range(-1, 2);
             _sr.material.SetFloat("_HueOffset", statBlock.spriteVariableHueRange * mult);
+        } else
+        {
+            _sr.material.SetFloat("_HueOffset", 0);
         }
     }
 

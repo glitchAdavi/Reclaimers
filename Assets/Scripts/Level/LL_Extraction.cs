@@ -28,7 +28,7 @@ public class LL_Extraction : LevelLogic
 
     public override void Activate()
     {
-        
+        /*
         int r = Random.Range(0, 3);
         switch (r)
         {
@@ -42,6 +42,9 @@ public class LL_Extraction : LevelLogic
                 currentLevelScript = gameObject.AddComponent<LS_3>();
                 break;
         }
+        */
+
+        currentLevelScript = gameObject.AddComponent<LS_1>();
 
         stage1ProgressionMax = currentLevelScript.stage1Time;
         stage2ProgressionMax = currentLevelScript.stage2Time;

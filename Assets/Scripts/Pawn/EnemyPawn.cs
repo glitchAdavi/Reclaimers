@@ -8,6 +8,7 @@ public class EnemyPawn : Pawn
     [SerializeField] protected Pawn target;
     [SerializeField] protected bool active;
     public bool irregularSpawn = false;
+    public bool canTeleport = true;
 
     protected bool dropXp = true;
 
@@ -23,6 +24,9 @@ public class EnemyPawn : Pawn
     [SerializeField] protected int playerDetectionRange = 10;
 
     [SerializeField] protected float onDamageSpawnPartialLeftover = 0f;
+
+    [SerializeField] protected float speedVariationMin = 1f;
+    [SerializeField] protected float speedVariationMax = 1.25f;
 
     protected override void OnEnable()
     {
@@ -90,6 +94,7 @@ public class EnemyPawn : Pawn
 
 
             _anm.enabled = !isPaused;
+            _shadowAnm.enabled = !isPaused;
         }
     }
 
@@ -110,7 +115,8 @@ public class EnemyPawn : Pawn
         pathUpdateTimer++;
         if (pathUpdateTimer > pathUpdateTimerLimit)
         {
-            GetPath();
+            if (GameManager.current.pawnService.IsOutsidePlayerRange(GetCurrentTile()) && canTeleport) ResetSelf();
+            else GetPath();
             pathUpdateTimer = 0;
         }
 
@@ -124,6 +130,13 @@ public class EnemyPawn : Pawn
         NavMeshPath path = new NavMeshPath();
         _nav.CalculatePath(target.GetPosition(), path);
         _nav.SetPath(path);
+    }
+
+    protected void ResetSelf()
+    {
+        if (!target) return;
+
+        GameManager.current.pawnService.ResetEnemy(transform.position - target.transform.position, this);
     }
     #endregion
 
@@ -174,8 +187,8 @@ public class EnemyPawn : Pawn
     {
         if (!isDead)
         {
+            GameManager.current.pawnService.SpawnCorpse(transform.position, statBlock.pawnMainSprite[spriteNum], statBlock.scale.Value(), (int)_sr.material.GetFloat("_HueOffset"));
             
-            Instantiate(GameManager.current.gameInfo.corpsePrefab, new Vector3(transform.position.x, 0.01f, transform.position.z), Quaternion.identity).GetComponent<Corpse>().Init(statBlock.pawnMainSprite[spriteNum], statBlock.scale.Value(), (int)_sr.material.GetFloat("_HueOffset"));
 
             if (statBlock.onDeathSpawnEnemy && statBlock.onDeathEnemyToSpawn != null)
             {
@@ -246,5 +259,16 @@ public class EnemyPawn : Pawn
         ApplyXpKillValue(useScaling);
         ApplyInteractionRange();
         ApplyKnockbackResist();
+
+        AddSpeedVariation();
+    }
+
+    protected void AddSpeedVariation()
+    {
+        float modifier = Random.Range(speedVariationMin, speedVariationMax);
+        _nav.speed = _nav.speed * modifier;
+        _anm.speed = _anm.speed * modifier;
+        if (_anmColor != null) _anmColor.speed = _anmColor.speed * modifier;
+        if (_shadowAnm != null) _shadowAnm.speed = _shadowAnm.speed * modifier;
     }
 }

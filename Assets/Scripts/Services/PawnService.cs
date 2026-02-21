@@ -1,9 +1,11 @@
+using NUnit.Framework;
+using NUnit.Framework.Interfaces;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Rendering;
+using UnityEngine.AI;
+using static UnityEditor.Progress;
 
 public struct SpawnBlock
 {
@@ -25,6 +27,8 @@ public class PawnService : MonoBehaviour, IUpdate, IPause
 
     [SerializeField] private ExecutableList<Pawn> pawnsInScene = new ExecutableList<Pawn>();
     [SerializeField] private ExecutableList<PlayablePawn> playablePawnsInScene = new ExecutableList<PlayablePawn>();
+    [SerializeField] private List<Corpse> corpsesInScene = new List<Corpse>();
+    public int corpsesInSceneMax = 200;
 
     public List<Vector3> fixedSpawnPoints = new List<Vector3>();
     public float fixedSpawnPointRange = 20f;
@@ -38,6 +42,8 @@ public class PawnService : MonoBehaviour, IUpdate, IPause
     public int spawnBatch = 1;
     public int maxSimultaneousEnemies = 30;
     public int spawnedEnemies = 0;
+
+    public int globalMax = 300;
 
     public List<SpawnBlock> enemiesToSpawn = new List<SpawnBlock>();
     public int totalWeight = 0;
@@ -203,6 +209,58 @@ public class PawnService : MonoBehaviour, IUpdate, IPause
     }
     #endregion
 
+    public void ResetEnemy(Vector3 pos, EnemyPawn e)
+    {
+        int aux = Random.Range(0, 2);
+        if (aux == 0) TryReset(e.gameObject, FindNearestTile(pos));
+        else TryReset(e.gameObject, GetRandomSpawnableTile());
+    }
+
+    public bool TryReset(GameObject e, Vector3Int tile)
+    {
+        Vector3 vector = GameManager.current.tileService.TileToPos(tile);
+        if (NavMesh.SamplePosition(vector, out var _, 1f, -1))
+        {
+            e.GetComponent<Pawn>().Teleport(vector);
+            return true;
+        }
+        return false;
+    }
+
+    public Vector3Int FindNearestTile(Vector3 point)
+    {
+        Vector3Int result = Vector3Int.zero;
+        float num = 9999f;
+        point = new Vector3(0f - point.x, 0f, 0f - point.z);
+        point += GameManager.current.playerPawn.transform.position;
+        foreach(Vector3Int tile in spawnableTiles)
+        {
+            if (Vector3.Distance(point, GameManager.current.tileService.TileToPos(tile)) < num)
+            {
+                num = Vector3.Distance(point, GameManager.current.tileService.TileToPos(tile));
+                result = tile;
+            }
+        }
+        return result;
+
+    }
+
+    public bool IsOutsidePlayerRange(Vector3Int pos)
+    {
+        Vector3Int vector3Int = DistanceInTiles(GameManager.current.tileService.GetPawnTilePos(GameManager.current.playerPawn), pos);
+        if (vector3Int.x > spawnArea.x + 2 || vector3Int.y > spawnArea.y + 2)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public Vector3Int DistanceInTiles(Vector3Int center, Vector3Int pos)
+    {
+        Vector3Int vector3Int = center - pos;
+        return new Vector3Int(Mathf.Abs(vector3Int.x), Mathf.Abs(vector3Int.y), Mathf.Abs(vector3Int.z));
+    }
+
     public Pawn GetTarget()
     {
         return GameManager.current.playerPawn;
@@ -295,8 +353,8 @@ public class PawnService : MonoBehaviour, IUpdate, IPause
     public void SetSpawnVars(float interval, int batch, int max)
     {
         spawnTimerLimit = interval;
-        spawnBatch = batch;
-        maxSimultaneousEnemies = max;
+        maxSimultaneousEnemies = (max > globalMax) ? globalMax : max;
+        spawnBatch = (batch > maxSimultaneousEnemies) ? maxSimultaneousEnemies : batch;
     }
 
     public void KillAllEnemiesSilently()
@@ -329,6 +387,23 @@ public class PawnService : MonoBehaviour, IUpdate, IPause
     {
         enemiesToSpawn.Clear();
         totalWeight = 0;
+    }
+
+    public void SpawnCorpse(Vector3 pos, Sprite spr, float scale, int hueOffset)
+    {
+        if (corpsesInScene.Count > corpsesInSceneMax)
+        {
+            corpsesInScene[0].ForceDecay();
+            DeleteCorpse(corpsesInScene[0]);
+        }
+        Corpse newCorpse = Instantiate(GameManager.current.gameInfo.corpsePrefab, new Vector3(pos.x, 0.01f, pos.z), Quaternion.identity).GetComponent<Corpse>();
+        corpsesInScene.Add(newCorpse);
+        newCorpse.Init(spr, scale, hueOffset);
+    }
+
+    public void DeleteCorpse(Corpse c)
+    {
+        if (corpsesInScene.Contains(c)) corpsesInScene.Remove(c);
     }
 
     private void OnDrawGizmos()

@@ -551,6 +551,7 @@ public class PlayablePawn : Pawn
             _srColor.material.SetFloat("_FlipX", 0);
             _shadow.material.SetFloat("_FlipX", 0);
             weaponSprite.material.SetFloat("_FlipX", 0);
+            weaponSprite.material.SetFloat("_FlipY", 1);
             weaponStretcher.transform.localPosition = new Vector3(0.15f, 0f, -0.2f);
             if (Physics.Raycast(GameManager.current.playerCamera.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition), out var info, 100f, 1 << 20))
             {
@@ -564,6 +565,7 @@ public class PlayablePawn : Pawn
             _srColor.material.SetFloat("_FlipX", 1);
             _shadow.material.SetFloat("_FlipX", 1);
             weaponSprite.material.SetFloat("_FlipX", 1);
+            weaponSprite.material.SetFloat("_FlipY", 1);
             weaponStretcher.transform.localPosition = new Vector3(-0.15f, 0f, -0.2f);
             if (Physics.Raycast(GameManager.current.playerCamera.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition), out var info, 100f, 1 << 20))
             {

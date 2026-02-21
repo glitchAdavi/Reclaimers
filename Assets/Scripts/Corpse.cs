@@ -32,9 +32,15 @@ public class Corpse : MonoBehaviour
         if (color.a <= decayRate) DestroyCorpse();
     }
 
+    public void ForceDecay()
+    {
+        decayRate = 0.25f;
+    }
+
     public void DestroyCorpse()
     {
         if (timerDecay != null) timerDecay.Cancel();
+        GameManager.current.pawnService.DeleteCorpse(this);
         Destroy(gameObject);
     }
 }

@@ -29,14 +29,14 @@ public class LS_1 : LevelScript
     public override void Minute1()
     {
         i = 3f;
-        b = 10;
-        m = 30;
+        b = 100;
+        m = 100;
         scaling = GameManager.current.Scaling();
         GameManager.current.eventService.SetPawnSpawnVars(i, (int)(b * scaling), (int)(m * scaling));
         GameManager.current.eventService.PawnServiceClearSpawns();
-        GameManager.current.eventService.PawnServiceAddSpawn(GameManager.current.gameInfo.slimeEnemyStatBlock, 100);
-        //GameManager.current.eventService.PawnServiceAddSpawn(GameManager.current.gameInfo.bugEnemyStatBlock, 100);
-        //GameManager.current.eventService.PawnServiceAddSpawn(GameManager.current.gameInfo.zombieEnemyStatBlock, 100);
+        GameManager.current.eventService.PawnServiceAddSpawn(GameManager.current.gameInfo.slimeEnemyStatBlock, 33);
+        GameManager.current.eventService.PawnServiceAddSpawn(GameManager.current.gameInfo.bugEnemyStatBlock, 33);
+        GameManager.current.eventService.PawnServiceAddSpawn(GameManager.current.gameInfo.zombieEnemyStatBlock, 33);
 
         base.Minute1();
     }
