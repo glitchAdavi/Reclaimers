@@ -1,0 +1,90 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5013f6d78fd236640b907703b1e552e6, type: 3}
+  m_Name: WB_Pistol
+  m_EditorClassIdentifier: 
+  weaponName: Pistol
+  magSize:
+    _base: 10
+    _mult: 1
+    _min: 1
+    _max: Infinity
+  bulletsPerShot:
+    _base: 1
+    _mult: 1
+    _min: 1
+    _max: Infinity
+  bulletsPerShotCost:
+    _base: 1
+    _mult: 1
+    _min: 1
+    _max: Infinity
+  bulletsPerShotSpread:
+    _base: 30
+    _mult: 1
+    _min: 0
+    _max: Infinity
+  burstAmount:
+    _base: 1
+    _mult: 1
+    _min: 0
+    _max: Infinity
+  burstDelay:
+    _base: 0.03
+    _mult: 1
+    _min: 0
+    _max: Infinity
+  bulletSpread:
+    _base: 5
+    _mult: 1
+    _min: 0
+    _max: Infinity
+  bulletSpreadGain:
+    _base: 1
+    _mult: 1
+    _min: 0
+    _max: Infinity
+  fireRate:
+    _base: 0.5
+    _mult: 1
+    _min: 0
+    _max: Infinity
+  reloadTime:
+    _base: 2
+    _mult: 1
+    _min: 0
+    _max: Infinity
+  projDamage:
+    _base: 1
+    _mult: 1
+    _min: 0
+    _max: Infinity
+  projDamageRadius:
+    _base: 0
+    _mult: 0
+    _min: 0
+    _max: Infinity
+  projSpeed:
+    _base: 12
+    _mult: 1
+    _min: 0
+    _max: 50
+  projPenetration:
+    _base: 0
+    _mult: 1
+    _min: 0
+    _max: Infinity
+  projStun:
+    _base: 0
+    _mult: 1
+    _min: 0
+    _max: Infinity

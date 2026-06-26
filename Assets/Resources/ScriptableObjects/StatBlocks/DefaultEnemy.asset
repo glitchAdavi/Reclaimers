@@ -1,0 +1,128 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf8a7c16e162b404db46caec6e350b8a, type: 3}
+  m_Name: DefaultEnemy
+  m_EditorClassIdentifier: 
+  pName: Enemy
+  pDesc: Default Enemy.
+  weaponBlock: {fileID: 0}
+  sprNames:
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  sprFrameColor:
+  - {r: 1, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  xpTotal:
+    _base: 0
+    _mult: 1
+    _min: 0
+    _max: Infinity
+  xpCur:
+    _base: 0
+    _mult: 1
+    _min: 0
+    _max: Infinity
+  xpGain:
+    _base: 1
+    _mult: 1
+    _min: 0
+    _max: Infinity
+  level:
+    _base: 0
+    _mult: 1
+    _min: 0
+    _max: Infinity
+  money:
+    _base: 0
+    _mult: 1
+    _min: 0
+    _max: Infinity
+  moneyGain:
+    _base: 1
+    _mult: 1
+    _min: 0
+    _max: Infinity
+  speed:
+    _base: 2.5
+    _mult: 1
+    _min: -Infinity
+    _max: Infinity
+  hp:
+    _base: 9999
+    _mult: 1
+    _min: 1
+    _max: Infinity
+  hpRegen:
+    _base: 0
+    _mult: 1
+    _min: 0
+    _max: Infinity
+  hpRegenDelay:
+    _base: 0
+    _mult: 1
+    _min: 0
+    _max: Infinity
+  hpRegenTickTime:
+    _base: 0
+    _mult: 1
+    _min: 0
+    _max: Infinity
+  iFrameDuration:
+    _base: 0
+    _mult: 1
+    _min: -Infinity
+    _max: Infinity
+  damageModifier:
+    _base: 1
+    _mult: 1
+    _min: 0
+    _max: Infinity
+  healingModifier:
+    _base: 0
+    _mult: 1
+    _min: 0
+    _max: Infinity
+  meleeDamage:
+    _base: 1
+    _mult: 1
+    _min: 0
+    _max: Infinity
+  meleeRange:
+    _base: 1
+    _mult: 1
+    _min: 0
+    _max: Infinity
+  meleeCooldown:
+    _base: 0.5
+    _mult: 1
+    _min: 0
+    _max: Infinity
+  pickUpRange:
+    _base: 5
+    _mult: 1
+    _min: 0
+    _max: Infinity
+  interactionRange:
+    _base: 3
+    _mult: 1
+    _min: 0
+    _max: Infinity
