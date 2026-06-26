@@ -1,6 +1,14 @@
 using System;
 using UnityEngine;
 
+public enum AbilityBlockVars
+{
+    abilityCooldown,
+    abilityDamage,
+    abilityRadius,
+    abilityCharges
+}
+
 [CreateAssetMenu(fileName = "AbilityBlock")]
 public class AbilityBlock : ScriptableObject, ICloneable
 {

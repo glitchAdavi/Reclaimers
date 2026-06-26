@@ -4,6 +4,7 @@ using Reclaimers.Systems;
 using Reclaimers.UpdateSystem;
 using System;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -21,6 +22,7 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
     [SerializeField] private Collider _col;
     [SerializeField] private SpriteRenderer _sprite;
     [SerializeField] private SpriteRenderer _shadowSpr;
+    [SerializeField] private SpriteRenderer _statusEffectSprite;
     [SerializeField] private Weapon _weapon;
 
     public Sprite frame1;
@@ -33,6 +35,7 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
     private float np_navUpdateInterval = 0.25f;
 
     [SerializeField] private List<Pawn> p_nearbyEnemies = new List<Pawn>();
+    [SerializeField] private List<Interactable> p_nearbyInteractables = new List<Interactable>();
     [SerializeField] private List<StatusEffect> activeStatusEffects = new List<StatusEffect>();
 
     public bool isActive = false;
@@ -491,12 +494,32 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
 
         StatusEffect newSE = Instantiate(newStatusEffect);
         activeStatusEffects.Add(newSE);
+        SetStatusEffectSprite();
         newSE.ApplyStatusEffect(this);
     }
 
     public void RemoveStatusEffect(string id)
     {
         activeStatusEffects.Remove(GetStatusEffect(id));
+        SetStatusEffectSprite();
+    }
+
+    public void SetStatusEffectSprite()
+    {
+        if (activeStatusEffects.Count == 0)
+        {
+            _statusEffectSprite = null;
+            return;
+        }
+
+        List<Sprite> seSprites = new List<Sprite>();
+
+        foreach (StatusEffect se in activeStatusEffects)
+        {
+            if (se.statusEffectSprite != null) seSprites.Add(se.statusEffectSprite);
+        }
+
+        _statusEffectSprite.sprite = SetSprite(seSprites.ToArray(), new Color[seSprites.Count - 1]);
     }
     #endregion
 
@@ -506,7 +529,7 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
     {
         p_nearbyEnemies.Clear();
 
-        int mask = (1 << 11) | (1 << 13); // 11 - Enemy | 13 - Orb
+        int mask = (1 << 11) | (1 << 13) | (1 << 14); // 11 - Enemy | 13 - Orb | 14 - Interactable
         Collider[] detected = Physics.OverlapSphere(transform.position, statBlock.pickUpRange.Value(), mask);
 
         foreach (Collider c in detected)
@@ -518,6 +541,9 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
                     break;
                 case 13:
                     c.gameObject.GetComponentInParent<Orb>().Trigger(this);
+                    break;
+                case 14:
+                    p_nearbyInteractables.Add(c.gameObject.GetComponent<Interactable>());
                     break;
                 default:
                     break;
@@ -606,7 +632,11 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
 
         for (int i = 0; i < sprFrame.Length; i++)
         {
-            if (sprFrame[i] != null) allSprites.Add(CreateTexture2DFromSprite(sprFrame[i], sprFrameColor[i]));
+            if (sprFrame[i] != null)
+            {
+                if (sprFrameColor[i] != null) allSprites.Add(CreateTexture2DFromSprite(sprFrame[i], sprFrameColor[i]));
+                else allSprites.Add(CreateTexture2DFromSprite(sprFrame[i], Color.white));
+            }
         }
 
         if (allSprites.Count == 0) return null;

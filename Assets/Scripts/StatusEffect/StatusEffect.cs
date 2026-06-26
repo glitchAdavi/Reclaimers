@@ -24,7 +24,7 @@ public struct WeaponVarStruct
 [Serializable]
 public struct AbilityVarStruct
 {
-
+    public AbilityBlockVars abilityBlockVar;
     public float valueB;
     public float valueM;
 }
@@ -74,6 +74,22 @@ public class StatusEffect : ScriptableObject
                 ModifyStat(svs, remove);
             }
         }
+
+        if (weaponVarsToModify.Count > 0)
+        {
+            foreach (WeaponVarStruct wvs in weaponVarsToModify)
+            {
+                ModifyStat(wvs, remove);
+            }
+        }
+
+        if (abilityVarsToModify.Count > 0)
+        {
+            foreach (AbilityVarStruct avs in abilityVarsToModify)
+            {
+                ModifyStat(avs, remove);
+            }
+        }
     }
 
     protected void ModifyStat(StatVarStruct stat, bool remove = false)
@@ -93,6 +109,46 @@ public class StatusEffect : ScriptableObject
                 aux.ModMult(stat.valueM);
             }
             param.SetValue(target.statBlock, aux);
+        }
+    }
+    protected void ModifyStat(WeaponVarStruct stat, bool remove = false)
+    {
+        FieldInfo param = typeof(StatBlock).GetField(stat.weaponBlockVar.ToString());
+        if (param != null)
+        {
+            Stat aux = param.GetValue(target.weaponBlock) as Stat;
+
+            if (remove)
+            {
+                aux.ModB(-stat.valueB);
+                aux.ModMult(-stat.valueM);
+            }
+            else
+            {
+                aux.ModB(stat.valueB);
+                aux.ModMult(stat.valueM);
+            }
+            param.SetValue(target.weaponBlock, aux);
+        }
+    }
+    protected void ModifyStat(AbilityVarStruct stat, bool remove = false)
+    {
+        FieldInfo param = typeof(StatBlock).GetField(stat.abilityBlockVar.ToString());
+        if (param != null)
+        {
+            Stat aux = param.GetValue(target.abilityBlock) as Stat;
+
+            if (remove)
+            {
+                aux.ModB(-stat.valueB);
+                aux.ModMult(-stat.valueM);
+            }
+            else
+            {
+                aux.ModB(stat.valueB);
+                aux.ModMult(stat.valueM);
+            }
+            param.SetValue(target.abilityBlock, aux);
         }
     }
 
