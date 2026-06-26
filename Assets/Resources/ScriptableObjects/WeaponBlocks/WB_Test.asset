@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponName: Test
   wepType: 0
-  projType: 0
+  projType: 2
   magSize:
     _base: 100
     _mult: 1

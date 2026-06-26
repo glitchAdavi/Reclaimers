@@ -12,6 +12,8 @@ public abstract class LevelLogic : MonoBehaviour, IUpdateable, IPauseable
     {
         this.Register();
         isActive = true;
+
+        EventSystem.Instance.EnablePlayerControls(true);
     }
 
     public void ManagedUpdate()

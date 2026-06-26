@@ -23,22 +23,6 @@ MonoBehaviour:
   - 
   - 
   - 
-  sprFrame1:
-  - {fileID: 7618729962914242426, guid: 83a4e23f0a0b5f644a6396568fa9efc0, type: 3}
-  - {fileID: -4986690571480930750, guid: 83a4e23f0a0b5f644a6396568fa9efc0, type: 3}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  sprFrame2:
-  - {fileID: -2961486943644666061, guid: 83a4e23f0a0b5f644a6396568fa9efc0, type: 3}
-  - {fileID: 1686531347586281368, guid: 83a4e23f0a0b5f644a6396568fa9efc0, type: 3}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   sprFrameColor:
   - {r: 1, g: 1, b: 1, a: 0}
   - {r: 1, g: 0, b: 0, a: 0}
@@ -48,12 +32,12 @@ MonoBehaviour:
   - {r: 0, g: 0, b: 0, a: 0}
   - {r: 0, g: 0, b: 0, a: 0}
   xpTotal:
-    _base: 0
+    _base: 2
     _mult: 1
     _min: 0
     _max: Infinity
   xpCur:
-    _base: 0
+    _base: 2
     _mult: 1
     _min: 0
     _max: Infinity
@@ -129,6 +113,16 @@ MonoBehaviour:
     _max: Infinity
   meleeCooldown:
     _base: 1
+    _mult: 1
+    _min: 0
+    _max: Infinity
+  critChance:
+    _base: 0
+    _mult: 1
+    _min: 0
+    _max: Infinity
+  critMult:
+    _base: 0
     _mult: 1
     _min: 0
     _max: Infinity

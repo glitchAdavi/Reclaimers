@@ -52,9 +52,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floatingText: {fileID: 4169259394112700269}
+  phaseDuration: 0.5
+  interval: 0.05
   speed: 2
-  returnTime: 0.5
+  targetSpeed: 0
+  size: 6
+  targetSize: 0
   drift: 0
+  targetDrift: 0
 --- !u!23 &6917558911559645664
 MeshRenderer:
   m_ObjectHideFlags: 0

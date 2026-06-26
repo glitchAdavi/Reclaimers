@@ -23,6 +23,9 @@ namespace Reclaimers.Systems
 
 
         #region Player
+        public event Action<bool> onEnablePlayerControls;
+        public void EnablePlayerControls(bool active) => onEnablePlayerControls?.Invoke(active);
+
         public event Action<float> onGivePlayerXp;
         public void GivePlayerXp(float v) => onGivePlayerXp?.Invoke(v);
 

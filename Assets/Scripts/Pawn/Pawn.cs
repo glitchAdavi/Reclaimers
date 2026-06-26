@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using static UnityEngine.Rendering.DebugUI;
 
 public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateable, IPauseable
 {
@@ -34,6 +33,7 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
     private float np_navUpdateInterval = 0.25f;
 
     [SerializeField] private List<Pawn> p_nearbyEnemies = new List<Pawn>();
+    [SerializeField] private List<StatusEffect> activeStatusEffects = new List<StatusEffect>();
 
     public bool isActive = false;
     public bool isDead = false;
@@ -157,17 +157,6 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
             UpdateSpriteFlip();
             WeaponAim();
             DetectionCast();
-
-            if (Input.GetKey(KeyCode.Mouse0))
-            {
-                WeaponFire();
-            }
-
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-                WeaponReload();
-            }
-
 
         } else
         {
@@ -479,6 +468,36 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
 
 
 
+    #endregion
+
+    #region StatusEffect
+    public StatusEffect GetStatusEffect(string id)
+    {
+        foreach (StatusEffect se in activeStatusEffects)
+        {
+            if (se.id.Equals(id)) return se;
+        }
+        return null;
+    }
+
+    public void AddStatusEffect(StatusEffect newStatusEffect)
+    {
+        StatusEffect activeSE = GetStatusEffect(newStatusEffect.id);
+        if (activeSE != null)
+        {
+            activeSE.ResetStatusEffect();
+            return;
+        }
+
+        StatusEffect newSE = Instantiate(newStatusEffect);
+        activeStatusEffects.Add(newSE);
+        newSE.ApplyStatusEffect(this);
+    }
+
+    public void RemoveStatusEffect(string id)
+    {
+        activeStatusEffects.Remove(GetStatusEffect(id));
+    }
     #endregion
 
 

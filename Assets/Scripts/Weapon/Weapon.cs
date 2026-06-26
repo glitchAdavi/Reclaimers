@@ -78,22 +78,14 @@ public class Weapon : MonoBehaviour
         {
             tempForward = ray.GetPoint(enterDistance) - owner.transform.position;
 
-            Projectile proj = owner.projectileBuilder.GetObject();
-            proj.transform.position = new Vector3(transform.position.x, 0.25f, transform.position.z);
-            proj.transform.forward = tempForward;
-            proj.transform.Rotate(Vector3.up, Random.Range(-bulletSpreadCurrent / 2, bulletSpreadCurrent / 2));
-            proj.SetShooter(owner);
+            InstantiateProjectile(tempForward, Random.Range(-bulletSpreadCurrent / 2, bulletSpreadCurrent / 2));
 
             bulletsToFire--;
         }
 
         while(bulletsToFire > 0)
         {
-            Projectile proj = owner.projectileBuilder.GetObject();
-            proj.transform.position = new Vector3(transform.position.x, 0.25f, transform.position.z);
-            proj.transform.forward = tempForward;
-            proj.transform.Rotate(Vector3.up, Random.Range(-owner.weaponBlock.bulletsPerShotSpread.Value() / 2, owner.weaponBlock.bulletsPerShotSpread.Value() / 2));
-            proj.SetShooter(owner);
+            InstantiateProjectile(tempForward, Random.Range(-owner.weaponBlock.bulletsPerShotSpread.Value() / 2, owner.weaponBlock.bulletsPerShotSpread.Value() / 2));
 
             bulletsToFire--;
         }
@@ -138,7 +130,14 @@ public class Weapon : MonoBehaviour
 
 
 
-
+    public void InstantiateProjectile(Vector3 forw, float spread)
+    {
+        Projectile proj = owner.projectileBuilder.GetObject();
+        proj.transform.position = new Vector3(transform.position.x, 0.25f, transform.position.z);
+        proj.transform.forward = forw;
+        proj.transform.Rotate(Vector3.up, spread);
+        proj.SetShooter(owner);
+    }
 
     public void SetOwner(Pawn p)
     {

@@ -1,6 +1,25 @@
 using System;
 using UnityEngine;
 
+public enum WeaponBlockVars
+{
+    magSize,
+    bulletsPerShot,
+    bulletsPerShotCost,
+    bulletsPerShotSpread,
+    burstAmount,
+    burstDelay,
+    bulletSpread,
+    bulletSpreadGain,
+    fireRate,
+    reloadTime,
+    projDamage,
+    projDamageRadius,
+    projSpeed,
+    projPenetration,
+    projStun
+}
+
 [CreateAssetMenu(fileName = "WeaponBlock")]
 public class WeaponBlock : ScriptableObject, ICloneable
 {
@@ -36,8 +55,7 @@ public class WeaponBlock : ScriptableObject, ICloneable
 
     public object Clone()
     {
-        WeaponBlock wb = CreateInstance<WeaponBlock>();
-        Utilities.CopyValues(this, wb);
+        WeaponBlock wb = Instantiate(this);
         return wb;
     }
 }

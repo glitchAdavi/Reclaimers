@@ -10,7 +10,9 @@ public class FloatingText : MonoBehaviour, IUpdateable, IPauseable
 
 
 
-    public float phaseDuration = 1f;
+    public float startPhaseDuration = 0.5f;
+    public float middlePhaseDuration = 0.5f;
+    public float endPhaseDuration = 0.2f;
     public float interval = 0.05f;
 
     public float speed = 2f;
@@ -30,6 +32,8 @@ public class FloatingText : MonoBehaviour, IUpdateable, IPauseable
         floatingText.color = c;
         floatingText.text = text;
         floatingText.fontSize = 0;
+
+        speed += Random.Range(-0.3f, 0.3f);
 
         if (timerReturn != null) timerReturn.Cancel();
         StartPhase();
@@ -63,10 +67,10 @@ public class FloatingText : MonoBehaviour, IUpdateable, IPauseable
         targetSize = size;
         targetDrift = 0f;
 
-        timerReturn = GameManager.Instance.timerSystem.SetTimer(phaseDuration, MiddlePhase, interval, () =>
+        timerReturn = GameManager.Instance.timerSystem.SetTimer(startPhaseDuration, MiddlePhase, interval, () =>
         {
-            drift = Mathf.Lerp(drift, targetDrift, timerReturn.durationElapsed / phaseDuration);
-            floatingText.fontSize = Mathf.Lerp(0f, targetSize, timerReturn.durationElapsed / phaseDuration);
+            drift = Mathf.Lerp(drift, targetDrift, timerReturn.durationElapsed / startPhaseDuration);
+            floatingText.fontSize = Mathf.Lerp(0f, targetSize, timerReturn.durationElapsed / startPhaseDuration);
         });
     }
 
@@ -76,16 +80,16 @@ public class FloatingText : MonoBehaviour, IUpdateable, IPauseable
         speed = targetSpeed;
         drift = 0f;
 
-        timerReturn = GameManager.Instance.timerSystem.SetTimer(phaseDuration, EndPhase);
+        timerReturn = GameManager.Instance.timerSystem.SetTimer(middlePhaseDuration, EndPhase);
     }
 
     private void EndPhase()
     {
         targetSize = 0f;
 
-        timerReturn = GameManager.Instance.timerSystem.SetTimer(phaseDuration, Return, interval, () =>
+        timerReturn = GameManager.Instance.timerSystem.SetTimer(endPhaseDuration, Return, interval, () =>
         {
-            floatingText.fontSize = Mathf.Lerp(size, targetSize, timerReturn.durationElapsed / phaseDuration);
+            floatingText.fontSize = Mathf.Lerp(size, targetSize, timerReturn.durationElapsed / endPhaseDuration);
         });
     }
 

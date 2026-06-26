@@ -5,7 +5,8 @@ using UnityEngine;
 public enum ProjectileCollection
 {
     P_Basic,
-    P_Bounce
+    P_Bounce,
+    P_Split
 }
 
 public abstract class Projectile : MonoBehaviour, IUpdateable, IPauseable
@@ -101,10 +102,14 @@ public abstract class Projectile : MonoBehaviour, IUpdateable, IPauseable
     }
 
 
-    public void SetShooter(Pawn shooter)
+    public void SetShooter(Pawn shooter, int overridePen = -1, List<GameObject> inheritHitEnemies = null)
     {
         this.shooter = shooter;
-        currentPen = shooter.weaponBlock.projPenetration.ValueInt();
+
+        if (overridePen < 0) currentPen = shooter.weaponBlock.projPenetration.ValueInt();
+        else currentPen = overridePen;
+
+        if (inheritHitEnemies != null) hitEnemies = new List<GameObject>(inheritHitEnemies);
     }
 
     public void Setup()

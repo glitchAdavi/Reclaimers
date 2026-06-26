@@ -31,7 +31,7 @@ namespace Reclaimers.Systems
         public void SpawnFloatingText(Vector3 pos, string text, Color c, float driftRange)
         {
             FloatingText newFT = floatingTextBuilder.GetObject();
-            newFT.transform.position = new Vector3(pos.x, 1f, pos.z + 0.5f);
+            newFT.transform.position = new Vector3(pos.x, 1f, pos.z + 0.25f);
             newFT.Init(text, c, driftRange);
         }
 

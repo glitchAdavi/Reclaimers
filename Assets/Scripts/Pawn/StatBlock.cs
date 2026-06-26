@@ -3,6 +3,31 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
 
+public enum StatBlockVars
+{
+    xpTotal,
+    xpCur,
+    xpGain,
+    level,
+    money,
+    moneyGain,
+    speed,
+    hp,
+    hpRegen,
+    hpRegenDelay,
+    hpRegenTickTime,
+    iFrameDuration,
+    damageModifier,
+    healingModifier,
+    meleeDamage,
+    meleeRange,
+    meleeCooldown,
+    critChance,
+    critMult,
+    pickUpRange,
+    interactionRange
+}
+
 [CreateAssetMenu(fileName = "StatBlock")]
 public class StatBlock : ScriptableObject, ICloneable
 {
@@ -43,19 +68,18 @@ public class StatBlock : ScriptableObject, ICloneable
     public Stat damageModifier = new Stat(1f, 1f, 0f);
     public Stat healingModifier = new Stat(1f, 1f, 0f);
 
-
     public Stat meleeDamage = new Stat(0f, 1f, 0f);
     public Stat meleeRange = new Stat(0f, 1f, 0f);
     public Stat meleeCooldown = new Stat(0f, 1f, 0f);
 
-
+    public Stat critChance = new Stat(0f, 1f, 0f);
+    public Stat critMult = new Stat(1f, 2f, 0f);
 
     public Stat pickUpRange = new Stat(5f, 1f, 0f);
     public Stat interactionRange = new Stat(3f, 1f, 0f);
 
     public object Clone()
     {
-        //StatBlock sb = CreateInstance<StatBlock>();
         StatBlock sb = Instantiate(this);
         return sb;
     }
