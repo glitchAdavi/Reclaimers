@@ -18,4 +18,6 @@ public class GameInfo : ScriptableObject
     public GameObject pawnPrefab;
     public GameObject projectilePrefab;
     public GameObject floatingTextPrefab;
+    public GameObject xpOrbPrefab;
+    public GameObject moneyOrbPrefab;
 }

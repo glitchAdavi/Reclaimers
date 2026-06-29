@@ -78,6 +78,22 @@ public class StatBlock : ScriptableObject, ICloneable
     public Stat pickUpRange = new Stat(5f, 1f, 0f);
     public Stat interactionRange = new Stat(3f, 1f, 0f);
 
+    // Enemy Exclusive
+
+    public bool xpInstant = false;
+    public Stat xpKillValue = new Stat(1f, 1f, 0f);
+    public bool moneyInstant = false;
+    public Stat moneyKillValue = new Stat(0f, 1f, 0f);
+
+    public bool onDamageSpawnEnemy;
+    public StatBlock onDamageEnemyToSpawn;
+    public Stat onDamageInterval = new Stat(0f, 1f, 1f);
+    public Stat onDamageNumToSpawn = new Stat(0f, 1f, 1f);
+
+    public bool onDeathSpawnEnemy;
+    public StatBlock onDeathEnemyToSpawn;
+    public Stat onDeathNumToSpawn = new Stat(0f, 1f, 1f);
+
     public object Clone()
     {
         StatBlock sb = Instantiate(this);

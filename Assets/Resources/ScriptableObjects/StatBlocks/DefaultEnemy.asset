@@ -67,7 +67,7 @@ MonoBehaviour:
     _min: -Infinity
     _max: Infinity
   hp:
-    _base: 9999
+    _base: 1
     _mult: 1
     _min: 1
     _max: Infinity
@@ -116,6 +116,16 @@ MonoBehaviour:
     _mult: 1
     _min: 0
     _max: Infinity
+  critChance:
+    _base: 0
+    _mult: 1
+    _min: 0
+    _max: Infinity
+  critMult:
+    _base: 1
+    _mult: 2
+    _min: 0
+    _max: Infinity
   pickUpRange:
     _base: 5
     _mult: 1
@@ -125,4 +135,33 @@ MonoBehaviour:
     _base: 3
     _mult: 1
     _min: 0
+    _max: Infinity
+  xpKillValue:
+    _base: 1
+    _mult: 1
+    _min: 0
+    _max: Infinity
+  moneyKillValue:
+    _base: 0
+    _mult: 1
+    _min: 0
+    _max: Infinity
+  onDamageSpawnEnemy: 0
+  onDamageEnemyToSpawn: {fileID: 0}
+  onDamageInterval:
+    _base: 0
+    _mult: 1
+    _min: 1
+    _max: Infinity
+  onDamageNumToSpawn:
+    _base: 0
+    _mult: 1
+    _min: 1
+    _max: Infinity
+  onDeathSpawnEnemy: 0
+  onDeathEnemyToSpawn: {fileID: 0}
+  onDeathNumToSpawn:
+    _base: 0
+    _mult: 1
+    _min: 1
     _max: Infinity

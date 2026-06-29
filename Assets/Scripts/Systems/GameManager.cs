@@ -136,6 +136,11 @@ public class GameManager : MonoBehaviour, IDataPersistence
         return player;
     }
 
+
+
+
+
+
     public float DistanceToPlayer(Vector3 pos)
     {
         return Vector3.Distance(playerPawn.transform.position, pos);
@@ -154,6 +159,14 @@ public class GameManager : MonoBehaviour, IDataPersistence
     public SpritePart GetSpritePart(string partName)
     {
         return spriteParts.FirstOrDefault(sp => sp.partName == partName);
+    }
+
+    public bool IsVisibleToPlayerCamera(Vector3 pos)
+    {
+        Vector3 posInCamera = playerCamera.gameObject.GetComponent<Camera>().WorldToViewportPoint(pos);
+
+        return posInCamera.x >= -0.05f && posInCamera.x <= 1.05f &&
+               posInCamera.y >= -0.05f && posInCamera.y <= 1.05f;
     }
 }
 

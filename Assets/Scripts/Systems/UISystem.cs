@@ -28,11 +28,11 @@ namespace Reclaimers.Systems
 
 
 
-        public void SpawnFloatingText(Vector3 pos, string text, Color c, float driftRange)
+        public void SpawnFloatingText(Vector3 pos, string text, Color c, float driftRange, float maxSize)
         {
             FloatingText newFT = floatingTextBuilder.GetObject();
             newFT.transform.position = new Vector3(pos.x, 1f, pos.z + 0.25f);
-            newFT.Init(text, c, driftRange);
+            newFT.Init(text, c, driftRange, maxSize);
         }
 
         public FloatingText FloatingTextFactory(Transform parent = null)

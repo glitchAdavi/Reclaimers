@@ -29,4 +29,22 @@ public class XpOrb : Orb
     {
         return value;
     }
+
+    protected override void Die()
+    {
+        EventSystem.Instance.XpOrbDeath(this);
+        base.Die();
+    }
+
+    protected override void Decay()
+    {
+        EventSystem.Instance.XpOrbDecay(this);
+        base.Decay();
+    }
+
+    protected override void UpdateVisibility()
+    {
+        base.UpdateVisibility();
+        EventSystem.Instance.XpOrbUpdateVisibility(this, isVisible);
+    }
 }

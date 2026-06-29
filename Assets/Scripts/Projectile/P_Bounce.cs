@@ -32,7 +32,7 @@ public class P_Bounce : Projectile
                 {
                     lastHit = collision.gameObject;
 
-                    enemyHit.GetHit(-shooter.weaponBlock.projDamage.Value(), false, shooter.weaponBlock.projStun.Value());
+                    HitPawn(enemyHit);
 
                     Reflect(11);
                 }
@@ -43,7 +43,7 @@ public class P_Bounce : Projectile
                 {
                     lastHit = collision.gameObject;
 
-                    enemyHit.GetHit(-shooter.weaponBlock.projDamage.Value(), false, shooter.weaponBlock.projStun.Value());
+                    HitPawn(enemyHit);
 
                     Reflect(11);
                 }

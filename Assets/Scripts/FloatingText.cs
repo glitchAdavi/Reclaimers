@@ -26,7 +26,7 @@ public class FloatingText : MonoBehaviour, IUpdateable, IPauseable
 
     Timer timerReturn;
 
-    public void Init(string text, Color c, float driftRange = 0f)
+    public void Init(string text, Color c, float driftRange = 0f, float maxSize = 6f)
     {
         drift = Random.Range(-driftRange, driftRange);
         floatingText.color = c;
@@ -34,6 +34,7 @@ public class FloatingText : MonoBehaviour, IUpdateable, IPauseable
         floatingText.fontSize = 0;
 
         speed += Random.Range(-0.3f, 0.3f);
+        size = maxSize;
 
         if (timerReturn != null) timerReturn.Cancel();
         StartPhase();
@@ -98,6 +99,7 @@ public class FloatingText : MonoBehaviour, IUpdateable, IPauseable
         timerReturn = null;
         drift = 0;
         speed = 2f;
+        size = 6f;
 
         floatingText.fontSize = 0;
 

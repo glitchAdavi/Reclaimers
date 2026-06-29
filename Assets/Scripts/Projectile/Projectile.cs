@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Reclaimers.Systems;
 using Reclaimers.UpdateSystem;
 using UnityEngine;
 
@@ -33,10 +34,14 @@ public abstract class Projectile : MonoBehaviour, IUpdateable, IPauseable
         hitEnemies.Clear();
         lastHit = null;
         _extCol.onCollisionEnter += ManageOnCollisionEnter;
+
+        EventSystem.Instance.onEnemyDeath += RemoveFromHit;
     }
 
     protected void OnDisable()
     {
+        EventSystem.Instance.onEnemyDeath -= RemoveFromHit;
+
         _extCol.onCollisionEnter -= ManageOnCollisionEnter;
 
         this.Unregister();
@@ -69,9 +74,6 @@ public abstract class Projectile : MonoBehaviour, IUpdateable, IPauseable
     }
 
     public abstract void ManageOnCollisionEnter(Collision collision);
-
-
-
 
     public void SeparateFromWall(Collider wallCol, Vector3 wallPos, Quaternion wallRot)
     {
@@ -110,12 +112,28 @@ public abstract class Projectile : MonoBehaviour, IUpdateable, IPauseable
         else currentPen = overridePen;
 
         if (inheritHitEnemies != null) hitEnemies = new List<GameObject>(inheritHitEnemies);
+        else hitEnemies = new List<GameObject>();
+    }
+
+    public void HitPawn(Pawn p)
+    {
+        bool crit = shooter.IsCrit();
+        if (crit) p.GetHit(-shooter.weaponBlock.projDamage.Value() * shooter.statBlock.critMult.Value(), true, shooter.weaponBlock.projStun.Value() * shooter.statBlock.critMult.Value());
+        else p.GetHit(-shooter.weaponBlock.projDamage.Value(), false, shooter.weaponBlock.projStun.Value());
     }
 
     public void Setup()
     {
         _extCol = gameObject.GetComponentInChildren<ExternalCollider>();
         _sprt = gameObject.GetComponentInChildren<SpriteRenderer>();
+    }
+
+    public void RemoveFromHit(Pawn enemy)
+    {
+        if (hitEnemies.Count < 1) return;
+
+        GameObject enemyGO = enemy.GetComponentInChildren<Collider>().gameObject;
+        if (hitEnemies.Contains(enemyGO)) hitEnemies.Remove(enemyGO);
     }
 
     public static void TurnOn(Projectile p)

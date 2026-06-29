@@ -1,3 +1,4 @@
+using Reclaimers.DeveloperConsole;
 using UnityEngine;
 using static UnityEngine.UI.GridLayoutGroup;
 
@@ -15,12 +16,15 @@ public class P_Split : Projectile
         {
             Pawn enemyHit = collision.collider.gameObject.GetComponentInParent<Pawn>();
 
+            if (enemyHit == null) return;
+
             if (currentPen > 0)
             {
                 if (!hitEnemies.Contains(enemyHit.gameObject))
                 {
                     hitEnemies.Add(enemyHit.gameObject);
-                    enemyHit.GetHit(-shooter.weaponBlock.projDamage.Value(), false, shooter.weaponBlock.projStun.Value());
+
+                    HitPawn(enemyHit);
 
                     currentPen--;
 
@@ -35,7 +39,8 @@ public class P_Split : Projectile
                 if (!hitEnemies.Contains(enemyHit.gameObject))
                 {
                     hitEnemies.Add(enemyHit.gameObject);
-                    enemyHit.GetHit(-shooter.weaponBlock.projDamage.Value(), false, shooter.weaponBlock.projStun.Value());
+
+                    HitPawn(enemyHit);
                 }
 
                 shooter.projectileBuilder.ReturnObject(this);

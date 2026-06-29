@@ -52,7 +52,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floatingText: {fileID: 4169259394112700269}
-  phaseDuration: 0.5
+  startPhaseDuration: 0.5
+  middlePhaseDuration: 0.5
+  endPhaseDuration: 0.2
   interval: 0.05
   speed: 2
   targetSpeed: 0
@@ -169,7 +171,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_TextWrappingMode: 1
+  m_TextWrappingMode: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}

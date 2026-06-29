@@ -264,13 +264,13 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
     }
 
 
-    public void GetHit(float value, bool isCrit, float stunDur = 0)
+    public void GetHit(float value, bool isCrit = false, float stunDur = 0)
     {
         if (value < 0)
         {
             if (isInvulnerable) return;
 
-            Damage(value);
+            Damage(value, isCrit);
             Stun(stunDur);
 
             if (isPlayer)
@@ -294,11 +294,15 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
         }
     }
 
-    public void Damage(float damageVal)
+    public void Damage(float damageVal, bool isCrit = false)
     {
         float totalDamage = (-damageVal) * statBlock.damageModifier.Value();
 
-        if (!isPlayer) EventSystem.Instance.SpawnFloatingText(transform.position, totalDamage.ToString("#.##"), Color.red, 2);
+        if (!isPlayer)
+        {
+            if (!isCrit) EventSystem.Instance.SpawnFloatingText(transform.position, totalDamage.ToString("#.##"), Color.red, 2);
+            else EventSystem.Instance.SpawnFloatingText(transform.position, totalDamage.ToString("#.##!"), Color.red, 2, 8);
+        }
 
         if (currentHp <= totalDamage)
         {
@@ -388,6 +392,12 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
             CancelTimer(ref np_navUpdateTimer);
             CancelTimer(ref meleeCooldownTimer);
             CancelTimer(ref stunTimer);
+
+            if (statBlock.xpInstant) EventSystem.Instance.GivePlayerXp(statBlock.xpKillValue.Value());
+            else EventSystem.Instance.SpawnXp(transform.position, statBlock.xpKillValue.Value());
+
+            if (statBlock.moneyInstant) EventSystem.Instance.GivePlayerMoney(statBlock.moneyKillValue.Value());
+            else EventSystem.Instance.SpawnMoney(transform.position, statBlock.moneyKillValue.Value());
 
             EventSystem.Instance.EnemyDeath(this);
         }
@@ -704,6 +714,12 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
         newProjectile.AddComponent(aux);
 
         return newProjectile.GetComponent(aux) as Projectile;
+    }
+
+    public bool IsCrit()
+    {
+        if (statBlock.critChance.Value() >= UnityEngine.Random.Range(0f, 100f)) return true;
+        return false;
     }
 
     public static void TurnOn(Pawn p)

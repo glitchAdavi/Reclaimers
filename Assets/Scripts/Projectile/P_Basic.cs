@@ -19,7 +19,7 @@ public class P_Basic : Projectile
                 if (!hitEnemies.Contains(enemyHit.gameObject))
                 {
                     hitEnemies.Add(enemyHit.gameObject);
-                    enemyHit.GetHit(-shooter.weaponBlock.projDamage.Value(), false, shooter.weaponBlock.projStun.Value());
+                    HitPawn(enemyHit);
 
                     currentPen--;
                 }
@@ -28,7 +28,7 @@ public class P_Basic : Projectile
                 if (!hitEnemies.Contains(enemyHit.gameObject))
                 {
                     hitEnemies.Add(enemyHit.gameObject);
-                    enemyHit.GetHit(-shooter.weaponBlock.projDamage.Value(), false, shooter.weaponBlock.projStun.Value());
+                    HitPawn(enemyHit);
                 }
 
                 shooter.projectileBuilder.ReturnObject(this);

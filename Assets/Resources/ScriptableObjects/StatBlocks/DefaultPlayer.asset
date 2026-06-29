@@ -23,22 +23,6 @@ MonoBehaviour:
   - 
   - 
   - 
-  sprFrame1:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  sprFrame2:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   sprFrameColor:
   - {r: 0, g: 0, b: 0, a: 0}
   - {r: 0, g: 0, b: 0, a: 0}
@@ -48,12 +32,12 @@ MonoBehaviour:
   - {r: 0, g: 0, b: 0, a: 0}
   - {r: 0, g: 0, b: 0, a: 0}
   xpTotal:
-    _base: 2
+    _base: 41
     _mult: 1
     _min: 0
     _max: Infinity
   xpCur:
-    _base: 2
+    _base: 11
     _mult: 1
     _min: 0
     _max: Infinity
@@ -63,7 +47,7 @@ MonoBehaviour:
     _min: 0
     _max: Infinity
   level:
-    _base: 0
+    _base: 3
     _mult: 1
     _min: 0
     _max: Infinity
@@ -132,6 +116,16 @@ MonoBehaviour:
     _mult: 1
     _min: 0
     _max: Infinity
+  critChance:
+    _base: 100
+    _mult: 1
+    _min: 0
+    _max: Infinity
+  critMult:
+    _base: 1
+    _mult: 1.25
+    _min: 0
+    _max: Infinity
   pickUpRange:
     _base: 5
     _mult: 1
@@ -141,4 +135,35 @@ MonoBehaviour:
     _base: 1
     _mult: 1
     _min: 0
+    _max: Infinity
+  xpInstant: 0
+  xpKillValue:
+    _base: 1
+    _mult: 1
+    _min: 0
+    _max: Infinity
+  moneyInstant: 0
+  moneyKillValue:
+    _base: 0
+    _mult: 1
+    _min: 0
+    _max: Infinity
+  onDamageSpawnEnemy: 0
+  onDamageEnemyToSpawn: {fileID: 0}
+  onDamageInterval:
+    _base: 0
+    _mult: 1
+    _min: 1
+    _max: Infinity
+  onDamageNumToSpawn:
+    _base: 0
+    _mult: 1
+    _min: 1
+    _max: Infinity
+  onDeathSpawnEnemy: 0
+  onDeathEnemyToSpawn: {fileID: 0}
+  onDeathNumToSpawn:
+    _base: 0
+    _mult: 1
+    _min: 1
     _max: Infinity

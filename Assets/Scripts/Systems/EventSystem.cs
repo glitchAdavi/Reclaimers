@@ -14,8 +14,8 @@ namespace Reclaimers.Systems
 
 
         #region UI
-        public event Action<Vector3, string, Color, float> onSpawnFloatingText;
-        public void SpawnFloatingText(Vector3 pos, string text, Color c, float driftRange = 0f) => onSpawnFloatingText?.Invoke(pos, text, c, driftRange);
+        public event Action<Vector3, string, Color, float, float> onSpawnFloatingText;
+        public void SpawnFloatingText(Vector3 pos, string text, Color c, float driftRange = 0f, float maxSize = 6f) => onSpawnFloatingText?.Invoke(pos, text, c, driftRange, maxSize);
 
 
 
@@ -42,6 +42,34 @@ namespace Reclaimers.Systems
         public void EnemyDeath(Pawn enemy) => onEnemyDeath?.Invoke(enemy);
 
 
+        #endregion
+
+        #region XpOrb
+        public event Action<Vector3, float> onSpawnXp;
+        public void SpawnXp(Vector3 pos, float val) => onSpawnXp?.Invoke(pos, val);
+
+        public event Action<XpOrb, bool> onXpOrbUpdateVisibility;
+        public void XpOrbUpdateVisibility(XpOrb xpOrb, bool visible) => onXpOrbUpdateVisibility?.Invoke(xpOrb, visible);
+
+        public event Action<XpOrb> onXpOrbDeath;
+        public void XpOrbDeath(XpOrb xpOrb) => onXpOrbDeath?.Invoke(xpOrb);
+
+        public event Action<XpOrb> onXpOrbDecay;
+        public void XpOrbDecay(XpOrb xpOrb) => onXpOrbDecay?.Invoke(xpOrb);
+        #endregion
+
+        #region MoneyOrb
+        public event Action<Vector3, float> onSpawnMoney;
+        public void SpawnMoney(Vector3 pos, float val) => onSpawnMoney?.Invoke(pos, val);
+
+        public event Action<MoneyOrb, bool> onMoneyOrbUpdateVisibility;
+        public void MoneyOrbUpdateVisibility(MoneyOrb MoneyOrb, bool visible) => onMoneyOrbUpdateVisibility?.Invoke(MoneyOrb, visible);
+
+        public event Action<MoneyOrb> onMoneyOrbDeath;
+        public void MoneyOrbDeath(MoneyOrb moneyOrb) => onMoneyOrbDeath?.Invoke(moneyOrb);
+
+        public event Action<MoneyOrb> onMoneyOrbDecay;
+        public void MoneyOrbDecay(MoneyOrb moneyOrb) => onMoneyOrbDecay?.Invoke(moneyOrb);
         #endregion
     }
 }

@@ -12,17 +12,23 @@ public class Orb : MonoBehaviour, IUpdateable, IPauseable
     [SerializeField] protected bool active = false;
     [SerializeField] protected bool triggered = false;
     [SerializeField] protected float gracePeriod = 0.15f;
+    [SerializeField] protected int decay = 60;
     protected float speed = 0f;
 
     protected bool isPaused = false;
+    protected bool isVisible = false;
 
     Timer timerGracePeriod;
+    Timer timerDecay;
 
     protected virtual void OnEnable()
     {
         this.Register();
 
         _extColl.onTriggerEnter += ManageOnTriggerEnter;
+
+        decay = 60;
+        timerDecay = GameManager.Instance.timerSystem.SetTimer(decay, Decay, 1f, () => decay--);
 
         if (gracePeriod > 0) timerGracePeriod = GameManager.Instance.timerSystem.SetTimer(gracePeriod, () =>
         {
@@ -34,6 +40,8 @@ public class Orb : MonoBehaviour, IUpdateable, IPauseable
     public virtual void ManagedUpdate()
     {
         if (isPaused) return;
+
+        if (!triggered) UpdateVisibility();
 
         if (triggered && target != null) Move();
     }
@@ -47,6 +55,9 @@ public class Orb : MonoBehaviour, IUpdateable, IPauseable
 
     protected virtual void OnDisable()
     {
+        if (timerDecay) timerDecay.Cancel();
+        if (timerGracePeriod) timerGracePeriod.Cancel();
+
         this.Unregister();
     }
 
@@ -62,6 +73,7 @@ public class Orb : MonoBehaviour, IUpdateable, IPauseable
     {
         if (!active) return;
 
+        if (timerDecay) timerDecay.Cancel();
         this.target = target;
         triggered = true;
     }
@@ -80,5 +92,23 @@ public class Orb : MonoBehaviour, IUpdateable, IPauseable
     protected virtual void Die()
     {
         Destroy(gameObject);
+    }
+
+    protected virtual void Decay()
+    {
+        Die();
+    }
+
+    public virtual void ForceDecay()
+    {
+        Decay();
+    }
+
+    protected virtual void UpdateVisibility()
+    {
+        if (GameManager.Instance.IsVisibleToPlayerCamera(transform.position)) isVisible = true;
+        else isVisible = false;
+
+        if (timerDecay) timerDecay.Pause(isVisible);
     }
 }

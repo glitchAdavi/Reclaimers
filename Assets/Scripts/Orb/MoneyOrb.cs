@@ -29,4 +29,22 @@ public class MoneyOrb : Orb
     {
         return value;
     }
+
+    protected override void Die()
+    {
+        EventSystem.Instance.MoneyOrbDeath(this);
+        base.Die();
+    }
+
+    protected override void Decay()
+    {
+        EventSystem.Instance.MoneyOrbDecay(this);
+        base.Decay();
+    }
+
+    protected override void UpdateVisibility()
+    {
+        base.UpdateVisibility();
+        EventSystem.Instance.MoneyOrbUpdateVisibility(this, isVisible);
+    }
 }
