@@ -20,4 +20,5 @@ public class GameInfo : ScriptableObject
     public GameObject floatingTextPrefab;
     public GameObject xpOrbPrefab;
     public GameObject moneyOrbPrefab;
+    public GameObject obstaclePartPrefab;
 }
