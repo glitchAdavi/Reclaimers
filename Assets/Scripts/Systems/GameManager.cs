@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour, IDataPersistence
 
     public DataPersistenceSystem dataPersistenceSystem;
 
+    public GridSystem gridSystem;
     public EventSystem eventSystem;
     public TimerSystem timerSystem;
     public PawnSystem pawnSystem;
@@ -63,6 +64,7 @@ public class GameManager : MonoBehaviour, IDataPersistence
     {
         dataPersistenceSystem = CreateSystem<DataPersistenceSystem>();
 
+        gridSystem = GameObject.Find("Grid").GetComponent<GridSystem>();
         eventSystem = CreateSystem<EventSystem>();
         timerSystem = CreateSystem<TimerSystem>();
         pawnSystem = CreateSystem<PawnSystem>();

@@ -19,6 +19,8 @@ namespace Reclaimers.Systems
         private int maxMoneyOrbsInScene = 150;
         private int maxMoneyOrbsVisible = 100;
 
+        [SerializeField] CustomList<Interactable> interactablesInScene = new CustomList<Interactable>();
+
         [SerializeField] LevelLogic currentLevelLogic;
 
 
@@ -53,12 +55,6 @@ namespace Reclaimers.Systems
 
             currentLevelLogic.Begin();
         }
-
-
-
-
-
-
 
 
         #region XP
@@ -171,6 +167,25 @@ namespace Reclaimers.Systems
         {
             accumulatedMoney += moneyOrb.GetValue();
         }
+        #endregion
+
+
+        #region Interactables
+        public void GetInteractablesInScene()
+        {
+            Interactable[] interactables = FindObjectsByType<Interactable>(FindObjectsSortMode.None);
+            foreach (Interactable i in interactables)
+            {
+                interactablesInScene.Add(i);
+            }
+        }
+
+        public void RemoveInteractable(Interactable i)
+        {
+            interactablesInScene.Remove(i);
+        }
+
+
         #endregion
     }
 }

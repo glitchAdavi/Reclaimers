@@ -41,10 +41,11 @@ public class PlayerController : MonoBehaviour, IUpdateable, IPauseable
             PlayerReload();
         }
 
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKey(KeyCode.F))
         {
             PlayerInteract();
         }
+        else PlayerInteractReset();
 
         PlayerMove();
 
@@ -91,7 +92,14 @@ public class PlayerController : MonoBehaviour, IUpdateable, IPauseable
     {
         if (player == null) return;
 
+        player.Interact();
+    }
 
+    public void PlayerInteractReset()
+    {
+        if (player == null) return;
+
+        player.InteractReset();
     }
 
     #endregion

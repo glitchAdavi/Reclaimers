@@ -478,6 +478,18 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
 
         _weapon.Reload();
     }
+    #endregion
+
+    #region Interact
+    public void Interact()
+    {
+
+    }
+
+    public void InteractReset()
+    {
+
+    }
 
 
 
@@ -720,6 +732,11 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
     {
         if (statBlock.critChance.Value() >= UnityEngine.Random.Range(0f, 100f)) return true;
         return false;
+    }
+
+    public void Teleport(Vector3 pos)
+    {
+        _nav.Warp(pos);
     }
 
     public static void TurnOn(Pawn p)

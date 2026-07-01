@@ -1,7 +1,9 @@
 using Reclaimers.DeveloperConsole;
+using Reclaimers.UpdateSystem;
 using System.Collections.Generic;
 using Unity.AI.Navigation;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Tilemaps;
 
 
@@ -360,6 +362,55 @@ namespace Reclaimers.Systems
             return result;
         }
 
+        #region PawnInfo
+        public Vector3Int GetPawnTilePos(Pawn p)
+        {
+            return grid.WorldToCell(p.transform.position);
+        }
+
+        public CustomList<Vector3Int> GetAllTilesInRangeFromPos(Pawn p, int width, int height, int thickness = 1)
+        {
+            return GetAllTilesInRangeFromPos(p.transform.position, width, height, thickness);
+        }
+        public CustomList<Vector3Int> GetAllTilesInRangeFromPos(Vector3 pos, int width, int height, int thickness = 1)
+        {
+            if (thickness <= 0) return new CustomList<Vector3Int>();
+
+            Vector3Int center = grid.WorldToCell(pos);
+            CustomList<Vector3Int> result = new CustomList<Vector3Int>();
+
+            for (int i = 0; i < thickness; i++)
+            {
+                width++;
+                height++;
+                foreach (Vector3Int v in fTiles)
+                {
+                    if (v.x == center.x + width && v.y <= center.y + height && v.y >= center.y - height)
+                    {
+                        result.Add(v);
+                    }
+
+                    if (v.x == center.x - width && v.y <= center.y + height && v.y >= center.y - height)
+                    {
+                        result.Add(v);
+                    }
+
+                    if (v.y == center.y + height && v.x <= center.x + width && v.x >= center.x - width)
+                    {
+                        result.Add(v);
+                    }
+
+                    if (v.y == center.y - height && v.x <= center.x + width && v.x >= center.x - width)
+                    {
+                        result.Add(v);
+                    }
+                }
+            }
+
+            return result;
+        }
+        #endregion
+
         #region Utilities
         private int Vector3IntSort(Vector3Int v1, Vector3Int v2)
         {
@@ -381,6 +432,16 @@ namespace Reclaimers.Systems
             if (collection.Count < 1) return Vector3.zero;
             Vector3 result = (grid.CellToWorld(collection[collection.Count - 1]) - grid.CellToWorld(collection[0])) / 2;
             return (grid.CellToWorld(collection[0]) + result);
+        }
+
+        public Vector3Int PosToTile(Vector3 pos)
+        {
+            return grid.WorldToCell(pos);
+        }
+
+        public Vector3 TileToPos(Vector3Int tile)
+        {
+            return grid.CellToWorld(tile) + (new Vector3(grid.cellSize.x, 0, grid.cellSize.y) / 2);
         }
 
         private List<Vector3Int> GetAllTiles(Tilemap tilemap)
@@ -407,6 +468,11 @@ namespace Reclaimers.Systems
                     DestroyImmediate(allChildren[i].gameObject);
                 }
             }
+        }
+
+        public bool SamplePosition(Vector3 pos)
+        {
+            return NavMesh.SamplePosition(pos, out NavMeshHit hit, 0.5f, NavMesh.AllAreas);
         }
         #endregion
     }
