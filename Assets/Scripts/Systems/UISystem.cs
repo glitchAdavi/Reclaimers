@@ -5,7 +5,7 @@ namespace Reclaimers.Systems
 {
     public class UISystem : MonoBehaviour, IPauseable
     {
-        public FloatingTextBuilder floatingTextBuilder;
+        public ObjectBuilder<FloatingText> floatingTextBuilder;
 
         private void OnEnable()
         {
@@ -13,7 +13,7 @@ namespace Reclaimers.Systems
 
             GameObject textParent = new GameObject();
             textParent.name = "FloatingTextParent";
-            floatingTextBuilder = GameManager.Instance.CreateSystem<FloatingTextBuilder>();
+            floatingTextBuilder = new ObjectBuilder<FloatingText>();
             floatingTextBuilder.BuildPool(FloatingTextFactory, 100, textParent.transform);
 
             EventSystem.Instance.onSpawnFloatingText += SpawnFloatingText;
@@ -45,6 +45,7 @@ namespace Reclaimers.Systems
 
             return ft;
         }
+
     }
 }
 

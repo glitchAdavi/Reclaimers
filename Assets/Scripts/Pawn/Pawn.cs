@@ -14,7 +14,7 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
     public WeaponBlock weaponBlock;
     public AbilityBlock abilityBlock;
 
-    public ProjectileBuilder projectileBuilder;
+    public ObjectBuilder<Projectile> projectileBuilder;
     public GameObject projParent;
 
     [SerializeField] private NavMeshAgent _nav;
@@ -39,6 +39,7 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
     [SerializeField] private List<StatusEffect> activeStatusEffects = new List<StatusEffect>();
 
     public bool isActive = false;
+    public bool isIdle = false;
     public bool isDead = false;
     public bool isPaused = false;
     public bool isPlayer = false;
@@ -47,6 +48,7 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
     public bool isMeleeAvailable = false;
     public bool isStunned = false;
     public bool isFrame1 = true;
+    public bool isTeleportable = true;
     //public bool isLookingRight = false;
 
     private Timer p_iFrameTimer;
@@ -83,7 +85,7 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
 
         projParent = new GameObject();
         projParent.name = "ProjectileParent";
-        projectileBuilder = GameManager.Instance.CreateSystem<ProjectileBuilder>();
+        projectileBuilder = new ObjectBuilder<Projectile>();
         projectileBuilder.BuildPool(ProjectileFactory, 50, projParent.transform);
 
         _col.gameObject.layer = 10;
@@ -106,7 +108,7 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
 
     public void Setup(StatBlock toClone)
     {
-        isActive = false;
+        isActive = true;
         isDead = false;
         isInvulnerable = false;
         isMeleeAvailable = true;
@@ -116,6 +118,7 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
         statBlock = toClone.Clone() as StatBlock;
 
         SetSprites();
+        SetScale();
 
         currentHp = statBlock.hp.Value();
 
@@ -141,7 +144,14 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
 
     private void OnDisable()
     {
+        CancelTimer(ref p_iFrameTimer);
+        CancelTimer(ref p_hpRegenStartTimer);
+        CancelTimer(ref p_hpRegenTickTimer);
         CancelTimer(ref np_navUpdateTimer);
+        CancelTimer(ref meleeCooldownTimer);
+        CancelTimer(ref stunTimer);
+        CancelTimer(ref damageEffectTimer);
+        CancelTimer(ref animationTimer);
 
         EventSystem.Instance.onGivePlayerXp -= GainXp;
         EventSystem.Instance.onGivePlayerLevel -= GainLevel;
@@ -185,6 +195,23 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
     public void ManagedPause(bool paused)
     {
         isPaused = paused;
+
+        if (isPlayer)
+        {
+            p_iFrameTimer?.Pause(isPaused);
+            p_hpRegenStartTimer?.Pause(isPaused);
+            p_hpRegenTickTimer?.Pause(isPaused);
+
+        } else {
+            _nav.enabled = !isPaused;
+
+            np_navUpdateTimer?.Pause(isPaused);
+            stunTimer?.Pause(isPaused);
+            damageEffectTimer?.Pause(isPaused);
+            meleeCooldownTimer?.Pause(isPaused);
+        }
+
+        animationTimer?.Pause(isPaused);
     }
 
     public void Move(float xInput = 0f, float yInput = 0f)
@@ -206,6 +233,12 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
         {
             if (target != null)
             {
+                if (isTeleportable && GameManager.Instance.pawnSystem.IsOutsidePlayerRange(transform.position))
+                {
+                    ResetSelf();
+                    return;
+                }
+
                 finalPos = target.GetPosition();
 
                 Vector2 targetPos = GameManager.Instance.playerCamera.GetComponent<Camera>().WorldToScreenPoint(finalPos);
@@ -224,15 +257,15 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
 
         if (isMoving)
         {
-            if (animationTimer == null) animationTimer = GameManager.Instance.timerSystem.SetForeverTimer(0.25f, MoveAnimation);
-        } else
+            if (animationTimer == null) animationTimer = GameManager.Instance.timerSystem.SetForeverTimer(0.25f, MoveAnimation, "PAWN_MoveAnimation");
+        }
+        else
         {
             CancelTimer(ref animationTimer);
 
             _sprite.sprite = frame1;
             isFrame1 = true;
         }
-
 
         _nav.destination = finalPos;
     }
@@ -279,9 +312,9 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
                 CancelTimer(ref p_hpRegenTickTimer);
 
                 isInvulnerable = true;
-                p_iFrameTimer = GameManager.Instance.timerSystem.SetTimer(statBlock.iFrameDuration.Value(), () => isInvulnerable = false);
+                p_iFrameTimer = GameManager.Instance.timerSystem.SetTimer(statBlock.iFrameDuration.Value(), () => isInvulnerable = false, "PAWN_P_iFrame");
 
-                p_hpRegenStartTimer = GameManager.Instance.timerSystem.SetTimer(statBlock.hpRegenDelay.Value(), StartHpRegen);
+                p_hpRegenStartTimer = GameManager.Instance.timerSystem.SetTimer(statBlock.hpRegenDelay.Value(), StartHpRegen, "PAWN_P_HpRegenStart");
             }
         }
         else if (value > 0)
@@ -319,7 +352,7 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
     public void DamageEffect()
     {
         _sprite.color = Color.red;
-        damageEffectTimer = GameManager.Instance.timerSystem.SetTimer(0.1f, () => _sprite.color = Color.white);
+        damageEffectTimer = GameManager.Instance.timerSystem.SetTimer(0.1f, () => _sprite.color = Color.white, "PAWN_DamageEffect");
     }
 
     public void Heal(float healVal)
@@ -340,12 +373,12 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
     public void HealEffect()
     {
         _sprite.color = Color.green;
-        damageEffectTimer = GameManager.Instance.timerSystem.SetTimer(0.1f, () => _sprite.color = Color.white);
+        damageEffectTimer = GameManager.Instance.timerSystem.SetTimer(0.1f, () => _sprite.color = Color.white, "PAWN_HealEffect");
     }
 
     public void StartHpRegen()
     {
-        p_hpRegenTickTimer = GameManager.Instance.timerSystem.SetForeverTimer(statBlock.hpRegenTickTime.Value(), () => Heal(statBlock.hpRegen.Value()));
+        p_hpRegenTickTimer = GameManager.Instance.timerSystem.SetForeverTimer(statBlock.hpRegenTickTime.Value(), () => Heal(statBlock.hpRegen.Value()), "PAWN_P_HpRegenTick");
     }
 
     public void Stun(float stunDur)
@@ -363,19 +396,22 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
             statBlock.speed.SetMult(tempSpeedMult);
             _nav.speed = statBlock.speed.Value();
             isStunned = false;
-        });
+        }, "PAWN_Stun");
     }
 
     public void Melee()
     {
         isMeleeAvailable = false;
         target.GetHit(-statBlock.meleeDamage.Value(), false);
-        meleeCooldownTimer = GameManager.Instance.timerSystem.SetTimer(statBlock.meleeCooldown.Value(), () => isMeleeAvailable = true);
+        meleeCooldownTimer = GameManager.Instance.timerSystem.SetTimer(statBlock.meleeCooldown.Value(), () => isMeleeAvailable = true, "PAWN_MeleeCooldown");
     }
 
 
     public void Die()
     {
+        isActive = false;
+        isDead = true;
+
         CancelTimer(ref animationTimer);
         CancelTimer(ref damageEffectTimer);
 
@@ -590,17 +626,23 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
 
     public void SetTarget(Pawn target)
     {
-        this.target = target;
         CancelTimer(ref np_navUpdateTimer);
-        if (this.target == null) return;
-        np_navUpdateTimer = GameManager.Instance.timerSystem.SetForeverTimer(np_navUpdateInterval, () => Move());
+
+        if (target == null)
+        {
+            isIdle = true;
+            return;
+        }
+
+        this.target = target;
+        np_navUpdateTimer = GameManager.Instance.timerSystem.SetForeverTimer(np_navUpdateInterval, () => Move(), "PAWN_NP_NavUpdateTimer");
     }
 
     public void ChangeNavUpdateInterval(float newInterval)
     {
         np_navUpdateInterval = newInterval;
         CancelTimer(ref np_navUpdateTimer);
-        np_navUpdateTimer = GameManager.Instance.timerSystem.SetForeverTimer(np_navUpdateInterval, () => Move());
+        np_navUpdateTimer = GameManager.Instance.timerSystem.SetForeverTimer(np_navUpdateInterval, () => Move(), "PAWN_NP_NavUpdateTimer");
     }
 
     public void CancelTimer(ref Timer t)
@@ -615,6 +657,11 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
         float maxRangeSqr = range * range;
         Vector3 dir = target.GetPosition() - transform.position;
         return dir.sqrMagnitude <= maxRangeSqr;
+    }
+
+    public void SetScale()
+    {
+        gameObject.transform.localScale = new Vector3(1f, 1f, 1f) * statBlock.scale.Value();
     }
 
     public void SetSprites()
@@ -739,14 +786,9 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
         _nav.Warp(pos);
     }
 
-    public static void TurnOn(Pawn p)
+    private void ResetSelf()
     {
-        p.gameObject.SetActive(true);
-    }
-
-    public static void TurnOff(Pawn p)
-    {
-        p.gameObject.SetActive(false);
+        GameManager.Instance.pawnSystem.ResetEnemy(transform.position - target.transform.position, this);
     }
     #endregion
 }

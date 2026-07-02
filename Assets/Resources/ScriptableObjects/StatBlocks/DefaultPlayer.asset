@@ -32,12 +32,12 @@ MonoBehaviour:
   - {r: 0, g: 0, b: 0, a: 0}
   - {r: 0, g: 0, b: 0, a: 0}
   xpTotal:
-    _base: 41
+    _base: 65
     _mult: 1
     _min: 0
     _max: Infinity
   xpCur:
-    _base: 11
+    _base: 5
     _mult: 1
     _min: 0
     _max: Infinity
@@ -47,7 +47,7 @@ MonoBehaviour:
     _min: 0
     _max: Infinity
   level:
-    _base: 3
+    _base: 6
     _mult: 1
     _min: 0
     _max: Infinity
@@ -62,7 +62,7 @@ MonoBehaviour:
     _min: 0
     _max: Infinity
   speed:
-    _base: 5
+    _base: 10
     _mult: 1
     _min: -Infinity
     _max: Infinity

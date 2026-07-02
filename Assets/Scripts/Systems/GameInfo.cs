@@ -11,6 +11,9 @@ public class GameInfo : ScriptableObject
     public StatBlock tempPlayerStatBlock;
 
     public StatBlock defaultEnemyStatBlock;
+    public StatBlock slimeEnemyStatBlock;
+    public StatBlock zombieEnemyStatBlock;
+    public StatBlock bugEnemyStatBlock;
 
     public WeaponBlock defaultWeaponBlock;
 

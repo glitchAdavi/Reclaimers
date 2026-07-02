@@ -93,6 +93,7 @@ namespace Reclaimers.Systems
         public void RemoveXpOrb(XpOrb toRemove)
         {
             xpOrbsInScene.Remove(toRemove);
+            visibleXpOrbs.Remove(toRemove);
         }
 
         public void AddRemoveXpOrbVisible(XpOrb xpOrb, bool visible)
@@ -149,6 +150,7 @@ namespace Reclaimers.Systems
         public void RemoveMoneyOrb(MoneyOrb toRemove)
         {
             moneyOrbsInScene.Remove(toRemove);
+            visibleMoneyOrbs.Remove(toRemove);
         }
 
         public void AddRemoveMoneyOrbVisible(MoneyOrb moneyOrb, bool visible)

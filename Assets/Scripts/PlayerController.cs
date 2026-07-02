@@ -14,7 +14,9 @@ public class PlayerController : MonoBehaviour, IUpdateable, IPauseable
     {
         this.Register();
 
+        EventSystem.Instance.onEnableAllControls += EnableAllControls;
         EventSystem.Instance.onEnablePlayerControls += EnablePlayerControls;
+
     }
 
     public void ManagedUpdate()
@@ -23,13 +25,12 @@ public class PlayerController : MonoBehaviour, IUpdateable, IPauseable
         if (!controlEnabledAll) return;
 
 
-
+        if (Input.GetKeyDown(KeyCode.Escape)) PlayerEscape();
 
 
         if (!controlEnabledPlayer || isPaused) return;
 
-
-
+        PlayerMove();
 
         if (Input.GetKey(KeyCode.Mouse0))
         {
@@ -47,8 +48,6 @@ public class PlayerController : MonoBehaviour, IUpdateable, IPauseable
         }
         else PlayerInteractReset();
 
-        PlayerMove();
-
     }
 
     public void ManagedPause(bool paused)
@@ -64,6 +63,11 @@ public class PlayerController : MonoBehaviour, IUpdateable, IPauseable
     public void EnablePlayerControls(bool active)
     {
         controlEnabledPlayer = active;
+    }
+
+    public void EnableAllControls(bool active)
+    {
+        controlEnabledAll = active;
     }
 
     #region Controls
@@ -100,6 +104,11 @@ public class PlayerController : MonoBehaviour, IUpdateable, IPauseable
         if (player == null) return;
 
         player.InteractReset();
+    }
+
+    public void PlayerEscape()
+    {
+        EventSystem.Instance.SetPause(!isPaused);
     }
 
     #endregion

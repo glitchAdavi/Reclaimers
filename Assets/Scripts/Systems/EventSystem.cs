@@ -13,6 +13,9 @@ namespace Reclaimers.Systems
         }
 
 
+        public event Action<bool> onSetPause;
+        public void SetPause(bool pause) => onSetPause?.Invoke(pause);
+
         #region UI
         public event Action<Vector3, string, Color, float, float> onSpawnFloatingText;
         public void SpawnFloatingText(Vector3 pos, string text, Color c, float driftRange = 0f, float maxSize = 6f) => onSpawnFloatingText?.Invoke(pos, text, c, driftRange, maxSize);
@@ -23,6 +26,9 @@ namespace Reclaimers.Systems
 
 
         #region Player
+        public event Action<bool> onEnableAllControls;
+        public void EnableAllControls(bool active) => onEnableAllControls?.Invoke(active);
+
         public event Action<bool> onEnablePlayerControls;
         public void EnablePlayerControls(bool active) => onEnablePlayerControls?.Invoke(active);
 
@@ -34,6 +40,9 @@ namespace Reclaimers.Systems
 
         public event Action<float> onGivePlayerMoney;
         public void GivePlayerMoney(float v) => onGivePlayerMoney?.Invoke(v);
+
+        public event Action onPlayerDeath;
+        public void PlayerDeath() => onPlayerDeath?.Invoke();
         #endregion
 
 

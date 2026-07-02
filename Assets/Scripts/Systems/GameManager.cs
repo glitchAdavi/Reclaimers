@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour, IDataPersistence
 
     public DataPersistenceSystem dataPersistenceSystem;
 
+    public UpdateSystem updateSystem;
     public GridSystem gridSystem;
     public EventSystem eventSystem;
     public TimerSystem timerSystem;
@@ -64,6 +65,7 @@ public class GameManager : MonoBehaviour, IDataPersistence
     {
         dataPersistenceSystem = CreateSystem<DataPersistenceSystem>();
 
+        updateSystem = GetComponent<UpdateSystem>();
         gridSystem = GameObject.Find("Grid").GetComponent<GridSystem>();
         eventSystem = CreateSystem<EventSystem>();
         timerSystem = CreateSystem<TimerSystem>();
@@ -78,6 +80,7 @@ public class GameManager : MonoBehaviour, IDataPersistence
 
 
 
+        EventSystem.Instance.onSetPause += SetPause;
 
         timerSystem.SetTimer(1f, levelSystem.StartLevel);
     }
@@ -169,6 +172,29 @@ public class GameManager : MonoBehaviour, IDataPersistence
 
         return posInCamera.x >= -0.05f && posInCamera.x <= 1.05f &&
                posInCamera.y >= -0.05f && posInCamera.y <= 1.05f;
+    }
+
+    public void SetPause(bool pause)
+    {
+        if (pause && updateSystem.isPaused) return;
+        if (!pause && !updateSystem.isPaused) return;
+
+        updateSystem.TogglePause();
+    }
+
+    public float Scaling()
+    {
+        return 1f + (0.02f * playerPawn.statBlock.level.ValueInt());
+    }
+
+    public void GoToLevel(int sceneIndex)
+    {
+        SceneManager.LoadScene(sceneIndex);
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 }
 

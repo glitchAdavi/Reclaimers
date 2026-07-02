@@ -1,6 +1,7 @@
 using Reclaimers.DeveloperConsole;
 using Reclaimers.UpdateSystem;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Reclaimers.Systems
 {
@@ -21,7 +22,7 @@ namespace Reclaimers.Systems
     public class PawnSystem : MonoBehaviour, IUpdateable, IPauseable
     {
 
-        EnemyBuilder _enemyBuilder;
+        ObjectBuilder<Pawn> _enemyBuilder;
         GameObject _enemyParent;
 
         [SerializeField] private CustomList<Pawn> pawnsInScene = new CustomList<Pawn>();
@@ -32,7 +33,7 @@ namespace Reclaimers.Systems
         public float mapSpawnPointRange = 20f;
 
         private CustomList<Vector3Int> spawnableTiles = new CustomList<Vector3Int>();
-        public Vector3Int spawneableArea = new Vector3Int(20, 14, 3);
+        public Vector3Int spawneableArea = new Vector3Int(16, 9, 3);
 
 
         public float spawnTime = 1f;
@@ -50,6 +51,9 @@ namespace Reclaimers.Systems
         public bool enemiesSpawnIdle = false;
 
         public bool isPaused = false;
+        public bool showGizmos = false;
+
+        Timer spawnTimer;
 
         private void Start()
         {
@@ -58,7 +62,7 @@ namespace Reclaimers.Systems
             EventSystem.Instance.onEnemyDeath += OnEnemyDeath;
             
             _enemyParent = new GameObject("EnemyParent");
-            _enemyBuilder = GameManager.Instance.CreateSystem<EnemyBuilder>();
+            _enemyBuilder = new ObjectBuilder<Pawn>();
             _enemyBuilder.BuildPool(EnemyFactory, 100, _enemyParent.transform);
 
             Transform[] currentMapSpawnPoints = GameObject.Find("MapSpawnPoints").GetComponentsInChildren<Transform>();
@@ -67,20 +71,28 @@ namespace Reclaimers.Systems
                 if (t.position.Equals(Vector3.zero)) continue;
                 mapSpawnPoints.Add(t.position);
             }
+
+            spawnTimer = GameManager.Instance.timerSystem.SetForeverTimer(spawnTime, TrySpawn, "SYSTEM_PAWN_Spawn");
+
+            AddSpawns(GameManager.Instance.gameInfo.defaultEnemyStatBlock, 100);
         }
 
 
         public void ManagedUpdate()
         {
+            GetSpawnableTiles();
+
             if (Input.GetKeyDown(KeyCode.I))
             {
-                SpawnEnemy(GameManager.Instance.gameInfo.defaultEnemyStatBlock, new Vector3(-5f, 0.25f, -5f), 0, false);
+                SpawnEnemy(GameManager.Instance.gameInfo.defaultEnemyStatBlock, new Vector3(-10f, 0.25f, -10f), 0, false);
             }
         }
 
         public void ManagedPause(bool paused)
         {
-            
+            isPaused = paused;
+
+            spawnTimer?.Pause(isPaused);
         }
 
 
@@ -148,8 +160,7 @@ namespace Reclaimers.Systems
             }
 
             Pawn newEnemy = _enemyBuilder.GetObject();
-            newEnemy.SetAsNonPlayer(enemy, GameManager.Instance.playerPawn);
-            //newEnemy.SetIsIdle(idle);
+            newEnemy.SetAsNonPlayer(enemy, idle ? null : GameManager.Instance.playerPawn);
             if (pos.HasValue)
             {
                 Vector3 position = (Vector3)pos;
@@ -177,12 +188,98 @@ namespace Reclaimers.Systems
 
 
 
+
+
+
+
+
+        public void SetSpawnList(CustomList<SpawnBlock> enemies)
+        {
+            ClearSpawns();
+            foreach (SpawnBlock sb in enemies)
+            {
+                totalWeight += sb.weight;
+            }
+            enemiesToSpawn = enemies;
+        }
+
+        public void AddSpawns(StatBlock enemy, int weight)
+        {
+            totalWeight += weight;
+            enemiesToSpawn.Add(new SpawnBlock(enemy, weight));
+        }
+
+        public void ClearSpawns()
+        {
+            enemiesToSpawn.Clear();
+            totalWeight = 0;
+        }
         #endregion
+
+        public void ResetEnemy(Vector3 pos, Pawn e)
+        {
+            int aux = Random.Range(0, 2);
+            if (aux == 0) TryReset(e.gameObject, FindNearestTile(pos));
+            else TryReset(e.gameObject, GetRandomSpawnableTile());
+        }
+
+        public bool TryReset(GameObject e, Vector3 tile)
+        {
+            if (NavMesh.SamplePosition(tile, out var _, 1f, 1))
+            {
+                e.GetComponent<Pawn>().Teleport(tile);
+                return true;
+            }
+            return false;
+        }
+
+        public Vector3 FindNearestTile(Vector3 point)
+        {
+            Vector3 result = Vector3.zero;
+            float num = 1000f;
+            point = new Vector3(0f - point.x, 0f, 0f - point.z);
+            point += GameManager.Instance.playerPawn.transform.position;
+            foreach (Vector3Int tile in spawnableTiles)
+            {
+                Vector3 point2 = GameManager.Instance.gridSystem.TileToPos(tile);
+                if (CheckRange(point, point2, num))
+                {
+                    num = Vector3.Distance(point, point2);
+                    result = point2;
+                }
+            }
+            return result;
+        }
+
+        public bool CheckRange(Vector3 pos1, Vector3 pos2, float range)
+        {
+            float maxRangeSqr = range * range;
+            Vector3 dir = pos2 - pos1;
+            return dir.sqrMagnitude <= maxRangeSqr;
+        }
+
+        public bool IsOutsidePlayerRange(Vector3 pos)
+        {
+            Vector3Int tile = GameManager.Instance.gridSystem.PosToTile(pos);
+            Vector3Int distance = DistanceInTiles(GameManager.Instance.gridSystem.GetPawnTilePos(GameManager.Instance.playerPawn), tile);
+            if (distance.x > spawneableArea.x + spawneableArea.z + 3 || distance.y > spawneableArea.y + spawneableArea.z + 3)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public Vector3Int DistanceInTiles(Vector3Int center, Vector3Int pos)
+        {
+            Vector3Int vector3Int = center - pos;
+            return new Vector3Int(Mathf.Abs(vector3Int.x), Mathf.Abs(vector3Int.y), Mathf.Abs(vector3Int.z));
+        }
 
         public void OnEnemyDeath(Pawn enemy)
         {
             pawnsInScene.Remove(enemy);
             _enemyBuilder.ReturnObject(enemy);
+            enemiesInPlay--;
         }
 
         private Vector3 GetRandomPosInRadius(Vector3 pos, float radius)
@@ -208,6 +305,37 @@ namespace Reclaimers.Systems
             newPawn.SetAsNonPlayer(GameManager.Instance.gameInfo.defaultEnemyStatBlock, GameManager.Instance.playerPawn);
 
             return newPawn;
+        }
+
+        public void SetSpawnVars(float interval, int batch, int max)
+        {
+            spawnTimer?.Cancel();
+            spawnTime = interval;
+            spawnTimer = GameManager.Instance.timerSystem.SetForeverTimer(spawnTime, TrySpawn);
+            maxEnemiesInPlay = (max > permanentMaxEnemiesInPlay) ? permanentMaxEnemiesInPlay : max;
+            spawnBatch = (batch > maxEnemiesInPlay) ? maxEnemiesInPlay : batch;
+        }
+
+
+
+
+
+
+
+        private void OnDrawGizmos()
+        {
+            if (showGizmos)
+            {
+                foreach (Vector3Int v in spawnableTiles)
+                {
+                    Gizmos.DrawCube(GameManager.Instance.gridSystem.TileToPos(v), new Vector3(1, 0.3f, 1.4f));
+                }
+
+                foreach (Vector3 v in mapSpawnPoints)
+                {
+                    Gizmos.DrawWireSphere(v, mapSpawnPointRange / 2);
+                }
+            }
         }
     }
 }

@@ -13,10 +13,10 @@ public class Weapon : MonoBehaviour
     [SerializeField] int currentBullets = 0;
     [SerializeField] float bulletSpreadCurrent = 0f;
 
-    Timer timerBulletSpreadReset;
-    Timer timerReload;
-    Timer timerFireRate;
-    Timer timerBurst;
+    Timer bulletSpreadResetTimer;
+    Timer reloadTimer;
+    Timer fireRateTimer;
+    Timer burstTimer;
 
     [SerializeField] bool canShoot = true;
     [SerializeField] bool isReloading = false;
@@ -27,9 +27,9 @@ public class Weapon : MonoBehaviour
     {
         if (!canShoot) return;
 
-        if (timerReload != null && currentBullets > 0)
+        if (reloadTimer != null && currentBullets > 0)
         {
-            owner.CancelTimer(ref timerReload);
+            owner.CancelTimer(ref reloadTimer);
             isReloading = false;
         }
 
@@ -51,15 +51,16 @@ public class Weapon : MonoBehaviour
             {
                 burstCount = Mathf.FloorToInt(currentBullets / owner.weaponBlock.bulletsPerShotCost.Value()) * owner.weaponBlock.burstDelay.Value();
             }
-            timerBurst = GameManager.Instance.timerSystem.SetTimer(burstCount,
+            burstTimer = GameManager.Instance.timerSystem.SetTimer(burstCount,
                      () => {
-                         timerFireRate = GameManager.Instance.timerSystem.SetTimer(owner.weaponBlock.fireRate.Value(), ShootEnd);
+                         fireRateTimer = GameManager.Instance.timerSystem.SetTimer(owner.weaponBlock.fireRate.Value(), ShootEnd, "WEAPON_FireRate");
                      },
                      owner.weaponBlock.burstDelay.Value(),
-                     ShootEffect);
+                     ShootEffect,
+                     "WEAPON_Burst");
         } else
         {
-            timerFireRate = GameManager.Instance.timerSystem.SetTimer(owner.weaponBlock.fireRate.Value(), ShootEnd);
+            fireRateTimer = GameManager.Instance.timerSystem.SetTimer(owner.weaponBlock.fireRate.Value(), ShootEnd, "WEAPON_FireRate");
         }
     }
 
@@ -92,10 +93,10 @@ public class Weapon : MonoBehaviour
 
         if (owner.weaponBlock.bulletSpread.Value() > 0)
         {
-            if (timerBulletSpreadReset != null) owner.CancelTimer(ref timerBulletSpreadReset);
+            if (bulletSpreadResetTimer != null) owner.CancelTimer(ref bulletSpreadResetTimer);
             bulletSpreadCurrent += owner.weaponBlock.bulletSpreadGain.Value();
             if (bulletSpreadCurrent > owner.weaponBlock.bulletSpread.Value()) bulletSpreadCurrent = owner.weaponBlock.bulletSpread.Value();
-            timerBulletSpreadReset = GameManager.Instance.timerSystem.SetTimer(0.5f, () => bulletSpreadCurrent = 0f);
+            bulletSpreadResetTimer = GameManager.Instance.timerSystem.SetTimer(0.5f, () => bulletSpreadCurrent = 0f, "WEAPON_BulletSpreadReset");
         }
     }
 
@@ -113,7 +114,7 @@ public class Weapon : MonoBehaviour
         if (currentBullets >= owner.weaponBlock.magSize.ValueInt()) return;
 
         isReloading = true;
-        timerReload = GameManager.Instance.timerSystem.SetTimer(owner.weaponBlock.reloadTime.Value(), ReloadEnd);
+        reloadTimer = GameManager.Instance.timerSystem.SetTimer(owner.weaponBlock.reloadTime.Value(), ReloadEnd, "WEAPON_Reload");
 
     }
 

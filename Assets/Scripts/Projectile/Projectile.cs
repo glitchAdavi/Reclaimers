@@ -136,14 +136,4 @@ public abstract class Projectile : MonoBehaviour, IUpdateable, IPauseable
         GameObject enemyGO = enemy.GetComponentInChildren<Collider>().gameObject;
         if (hitEnemies.Contains(enemyGO)) hitEnemies.Remove(enemyGO);
     }
-
-    public static void TurnOn(Projectile p)
-    {
-        p.gameObject.SetActive(true);
-    }
-
-    public static void TurnOff(Projectile p)
-    {
-        p.gameObject.SetActive(false);
-    }
 }

@@ -18,8 +18,8 @@ public class Orb : MonoBehaviour, IUpdateable, IPauseable
     protected bool isPaused = false;
     protected bool isVisible = false;
 
-    Timer timerGracePeriod;
-    Timer timerDecay;
+    Timer gracePeriodTimer;
+    Timer decayTimer;
 
     protected virtual void OnEnable()
     {
@@ -28,13 +28,13 @@ public class Orb : MonoBehaviour, IUpdateable, IPauseable
         _extColl.onTriggerEnter += ManageOnTriggerEnter;
 
         decay = 60;
-        timerDecay = GameManager.Instance.timerSystem.SetTimer(decay, Decay, 1f, () => decay--);
+        decayTimer = GameManager.Instance.timerSystem.SetTimer(decay, Decay, 1f, () => decay--, "ORB_Decay");
 
-        if (gracePeriod > 0) timerGracePeriod = GameManager.Instance.timerSystem.SetTimer(gracePeriod, () =>
+        if (gracePeriod > 0) gracePeriodTimer = GameManager.Instance.timerSystem.SetTimer(gracePeriod, () =>
         {
             active = true;
-            timerGracePeriod = null;
-        });
+            gracePeriodTimer = null;
+        }, "ORB_GracePeriod");
     }
 
     public virtual void ManagedUpdate()
@@ -50,13 +50,14 @@ public class Orb : MonoBehaviour, IUpdateable, IPauseable
     {
         isPaused = paused;
 
-        if (timerGracePeriod != null) timerGracePeriod.Pause(paused);
+        gracePeriodTimer?.Pause(isPaused);
+        decayTimer?.Pause(isPaused);
     }
 
     protected virtual void OnDisable()
     {
-        if (timerDecay) timerDecay.Cancel();
-        if (timerGracePeriod) timerGracePeriod.Cancel();
+        decayTimer?.Cancel();
+        gracePeriodTimer?.Cancel();
 
         this.Unregister();
     }
@@ -73,7 +74,7 @@ public class Orb : MonoBehaviour, IUpdateable, IPauseable
     {
         if (!active) return;
 
-        if (timerDecay) timerDecay.Cancel();
+        if (decayTimer) decayTimer.Cancel();
         this.target = target;
         triggered = true;
     }
@@ -91,6 +92,9 @@ public class Orb : MonoBehaviour, IUpdateable, IPauseable
 
     protected virtual void Die()
     {
+        decayTimer?.Cancel();
+        gracePeriodTimer?.Cancel();
+
         Destroy(gameObject);
     }
 
@@ -109,6 +113,6 @@ public class Orb : MonoBehaviour, IUpdateable, IPauseable
         if (GameManager.Instance.IsVisibleToPlayerCamera(transform.position)) isVisible = true;
         else isVisible = false;
 
-        if (timerDecay) timerDecay.Pause(isVisible);
+        decayTimer?.Pause(isVisible);
     }
 }

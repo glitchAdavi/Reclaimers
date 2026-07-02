@@ -5,6 +5,7 @@ using UnityEngine;
 
 public enum StatBlockVars
 {
+    scale,
     xpTotal,
     xpCur,
     xpGain,
@@ -45,6 +46,8 @@ public class StatBlock : ScriptableObject, ICloneable
     // 6 - GeneralDetails
     public string[] sprNames = new string[7];
     public Color[] sprFrameColor = new Color[7];
+
+    public Stat scale = new Stat(1f, 1f, 0.1f);
 
     public Stat xpTotal = new Stat(0f, 1f, 0f);
     public Stat xpCur = new Stat(0f, 1f, 0f);

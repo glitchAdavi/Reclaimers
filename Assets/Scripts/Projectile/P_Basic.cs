@@ -14,6 +14,8 @@ public class P_Basic : Projectile
         {
             Pawn enemyHit = collision.collider.gameObject.GetComponentInParent<Pawn>();
 
+            if (enemyHit == null) return;
+
             if (currentPen > 0)
             {
                 if (!hitEnemies.Contains(enemyHit.gameObject))

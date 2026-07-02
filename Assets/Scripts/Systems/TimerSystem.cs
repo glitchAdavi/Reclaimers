@@ -1,3 +1,4 @@
+using Reclaimers.DeveloperConsole;
 using Reclaimers.UpdateSystem;
 using System;
 using UnityEngine;
@@ -69,9 +70,9 @@ namespace Reclaimers.Systems
 
             if (durationLeft <= 0 && duration >= 0)
             {
-                ended = true;
                 if (callback != null) callback();
                 if (stepCallback != null && stepExecuteOnEnd) stepCallback();
+                ended = true;
             }
         }
 
@@ -101,6 +102,8 @@ namespace Reclaimers.Systems
         [SerializeField] CustomList<Timer> timers = new CustomList<Timer>();
         [SerializeField] int activeTimerCount = 0;
 
+        private bool _print = false;
+
         private void Start()
         {
             this.Register();
@@ -108,14 +111,19 @@ namespace Reclaimers.Systems
 
         public void ManagedUpdate()
         {
-            activeTimerCount = timers.Count;
+            if (Input.GetKeyDown(KeyCode.P)) _print = true;
 
             foreach (Timer t in timers)
             {
+                if (_print) LogSystem.Log(t.id);
+
                 if (t.paused) continue;
                 t.TimerUpdate(Time.deltaTime);
                 if (t.ended) timers.Remove(t);
             }
+
+            _print = false;
+            activeTimerCount = timers.Count;
         }
 
         public void ManagedPause(bool paused)
@@ -136,9 +144,9 @@ namespace Reclaimers.Systems
             return SetTimer(-1f, null, partialTime, partialCallback, identifier, false);
         }
 
-        public Timer SetTimer(float time, Action callback, float partialTime, Action partialCallback, string id = "", bool partialExecuteOnEnd = false)
+        public Timer SetTimer(float time, Action callback, float partialTime, Action partialCallback, string identifier = "", bool partialExecuteOnEnd = false)
         {
-            Timer timer = new Timer(time, callback, partialTime, partialCallback, partialExecuteOnEnd, id);
+            Timer timer = new Timer(time, callback, partialTime, partialCallback, partialExecuteOnEnd, identifier);
             timers.Add(timer);
             return timer;
         }
@@ -153,9 +161,9 @@ namespace Reclaimers.Systems
             return SetTimer(-1f, null, partialTime, partialCallback, identifier, false);
         }
 
-        public Timer SetTimerIndependent(float time, Action callback, float partialTime, Action partialCallback, string id = "", bool partialExecuteOnEnd = false)
+        public Timer SetTimerIndependent(float time, Action callback, float partialTime, Action partialCallback, string identifier = "", bool partialExecuteOnEnd = false)
         {
-            Timer timer = new Timer(time, callback, partialTime, partialCallback, partialExecuteOnEnd, id);
+            Timer timer = new Timer(time, callback, partialTime, partialCallback, partialExecuteOnEnd, identifier);
             return timer;
         }
     }

@@ -11,16 +11,11 @@ public class ObjectPool<T>
     [SerializeField] public List<T> _currentStock;
     private bool _isDynamic;
 
-    private Action<T> _turnOnCallback;
-    private Action<T> _turnOffCallback;
-
     private Transform _parent;
 
-    public ObjectPool(FactoryMethod factoryMethod, Action<T> turnOnCallback, Action<T> turnOffCallback, int initialStock = 0, bool isDynamic = true, Transform parent = null)
+    public ObjectPool(FactoryMethod factoryMethod, int initialStock = 0, bool isDynamic = true, Transform parent = null)
     {
         _factoryMethod = factoryMethod;
-        _turnOnCallback = turnOnCallback;
-        _turnOffCallback = turnOffCallback;
 
         _isDynamic = isDynamic;
 
@@ -30,8 +25,8 @@ public class ObjectPool<T>
 
         for (int i = 0; i < initialStock; i++)
         {
-            var obj = _factoryMethod(_parent);
-            _turnOffCallback(obj);
+            T obj = _factoryMethod(_parent);
+            (obj as MonoBehaviour).gameObject.SetActive(false);
             _currentStock.Add(obj);
         }
     }
@@ -50,13 +45,13 @@ public class ObjectPool<T>
             result = _factoryMethod(_parent);
         }
 
-        _turnOnCallback(result);
+        (result as MonoBehaviour).gameObject.SetActive(true);
         return result;
     }
 
     public void ReturnObject(T obj)
     {
-        _turnOffCallback(obj);
+        (obj as MonoBehaviour).gameObject.SetActive(false);
         _currentStock.Add(obj);
     }
 

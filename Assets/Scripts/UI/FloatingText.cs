@@ -105,14 +105,4 @@ public class FloatingText : MonoBehaviour, IUpdateable, IPauseable
 
         GameManager.Instance.uiSystem.floatingTextBuilder.ReturnObject(this);
     }
-
-    public static void TurnOn(FloatingText ft)
-    {
-        ft.gameObject.SetActive(true);
-    }
-
-    public static void TurnOff(FloatingText ft)
-    {
-        ft.gameObject.SetActive(false);
-    }
 }
