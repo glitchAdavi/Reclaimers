@@ -56,8 +56,14 @@ public class Orb : MonoBehaviour, IUpdateable, IPauseable
 
     protected virtual void OnDisable()
     {
+        active = false;
+        triggered = false;
+        target = null;
+
         decayTimer?.Cancel();
+        decayTimer = null;
         gracePeriodTimer?.Cancel();
+        gracePeriodTimer = null;
 
         this.Unregister();
     }
@@ -74,7 +80,8 @@ public class Orb : MonoBehaviour, IUpdateable, IPauseable
     {
         if (!active) return;
 
-        if (decayTimer) decayTimer.Cancel();
+        decayTimer?.Cancel();
+        decayTimer = null;
         this.target = target;
         triggered = true;
     }
@@ -92,10 +99,7 @@ public class Orb : MonoBehaviour, IUpdateable, IPauseable
 
     protected virtual void Die()
     {
-        decayTimer?.Cancel();
-        gracePeriodTimer?.Cancel();
-
-        Destroy(gameObject);
+        
     }
 
     protected virtual void Decay()

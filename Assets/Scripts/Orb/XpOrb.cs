@@ -32,8 +32,8 @@ public class XpOrb : Orb
 
     protected override void Die()
     {
-        EventSystem.Instance.XpOrbDeath(this);
         base.Die();
+        EventSystem.Instance.XpOrbDeath(this);
     }
 
     protected override void Decay()

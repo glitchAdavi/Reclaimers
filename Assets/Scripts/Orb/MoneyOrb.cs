@@ -32,8 +32,8 @@ public class MoneyOrb : Orb
 
     protected override void Die()
     {
-        EventSystem.Instance.MoneyOrbDeath(this);
         base.Die();
+        EventSystem.Instance.MoneyOrbDeath(this);
     }
 
     protected override void Decay()

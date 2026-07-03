@@ -17,6 +17,7 @@ public abstract class Projectile : MonoBehaviour, IUpdateable, IPauseable
     [SerializeField] protected ExternalCollider _extCol;
     [SerializeField] protected SpriteRenderer _sprt;
     [SerializeField] protected List<GameObject> hitEnemies = new List<GameObject>();
+    [SerializeField] protected List<string> onHitEffectsToApply = new List<string>();
 
     [SerializeField] protected int currentPen = 0;
 
@@ -121,6 +122,15 @@ public abstract class Projectile : MonoBehaviour, IUpdateable, IPauseable
         bool crit = shooter.IsCrit();
         if (crit) p.GetHit(-shooter.weaponBlock.projDamage.Value() * shooter.statBlock.critMult.Value(), true, shooter.weaponBlock.projStun.Value() * shooter.statBlock.critMult.Value());
         else p.GetHit(-shooter.weaponBlock.projDamage.Value(), false, shooter.weaponBlock.projStun.Value());
+        OnHit(p);
+    }
+
+    public void OnHit(Pawn p)
+    {
+        foreach (string se in onHitEffectsToApply)
+        {
+            GameManager.Instance.GetModifier(se).Apply(p);
+        }
     }
 
     public void Setup()

@@ -36,6 +36,8 @@ public class GameManager : MonoBehaviour, IDataPersistence
 
     public CustomList<SpritePart> spriteParts = new CustomList<SpritePart>();
     public CustomList<SpritePart> playerParts = new CustomList<SpritePart>();
+    public CustomList<Upgrade> upgradeList = new CustomList<Upgrade>();
+    public CustomList<StatusEffect> statusEffectList = new CustomList<StatusEffect>();
     
 
     //---AccountData---
@@ -54,6 +56,7 @@ public class GameManager : MonoBehaviour, IDataPersistence
         else Destroy(this);
 
         LoadSpriteParts();
+        LoadModifiers();
 
         SceneManager.sceneLoaded += OnSceneLoaded;
         SceneManager.sceneUnloaded += OnSceneUnloaded;
@@ -154,6 +157,7 @@ public class GameManager : MonoBehaviour, IDataPersistence
     public void LoadSpriteParts()
     {
         spriteParts = new CustomList<SpritePart>(Resources.LoadAll<SpritePart>("ScriptableObjects/SpriteParts").ToList());
+        LogSystem.Log($"GameManager: Loaded {spriteParts.Count} sprite parts.");
 
         foreach  (SpritePart sp in spriteParts)
         {
@@ -164,6 +168,21 @@ public class GameManager : MonoBehaviour, IDataPersistence
     public SpritePart GetSpritePart(string partName)
     {
         return spriteParts.FirstOrDefault(sp => sp.partName == partName);
+    }
+
+    public void LoadModifiers()
+    {
+        upgradeList = new CustomList<Upgrade>(Resources.LoadAll<Upgrade>("ScriptableObjects/Modifiers/Upgrades").ToList());
+        LogSystem.Log($"GameManager: Loaded {upgradeList.Count} upgrades.");
+        statusEffectList = new CustomList<StatusEffect>(Resources.LoadAll<StatusEffect>("ScriptableObjects/Modifiers/StatusEffects").ToList());
+        LogSystem.Log($"GameManager: Loaded {statusEffectList.Count} status effects.");
+    }
+
+    public Modifier GetModifier(string id)
+    {
+        Modifier result = upgradeList.FirstOrDefault(u => u.modId == id);
+        if (result == null) result = statusEffectList.FirstOrDefault(se => se.modId == id);
+        return result;
     }
 
     public bool IsVisibleToPlayerCamera(Vector3 pos)

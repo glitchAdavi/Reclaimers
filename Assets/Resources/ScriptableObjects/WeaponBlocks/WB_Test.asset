@@ -21,7 +21,7 @@ MonoBehaviour:
     _min: 1
     _max: Infinity
   bulletsPerShot:
-    _base: 1
+    _base: 10
     _mult: 1
     _min: 1
     _max: Infinity
@@ -36,12 +36,12 @@ MonoBehaviour:
     _min: 0
     _max: Infinity
   burstAmount:
-    _base: 1
+    _base: 3
     _mult: 1
     _min: 0
     _max: Infinity
   burstDelay:
-    _base: 0
+    _base: 0.1
     _mult: 1
     _min: 0
     _max: Infinity
@@ -56,7 +56,7 @@ MonoBehaviour:
     _min: 0
     _max: Infinity
   fireRate:
-    _base: 0.05
+    _base: 0.5
     _mult: 1
     _min: 0
     _max: Infinity
@@ -81,7 +81,7 @@ MonoBehaviour:
     _min: 0
     _max: 50
   projPenetration:
-    _base: 1
+    _base: 2
     _mult: 1
     _min: 0
     _max: Infinity

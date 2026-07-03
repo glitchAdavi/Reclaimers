@@ -5,6 +5,7 @@ using Reclaimers.Extensions;
 
 namespace Reclaimers.UpdateSystem
 {
+    [System.Serializable]
     public class CustomList<T> : IReadOnlyList<T>
     {
         private List<T> _list = new List<T>();

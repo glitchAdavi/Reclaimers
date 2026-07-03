@@ -7,12 +7,16 @@ namespace Reclaimers.Systems
 {
     public class LevelSystem : MonoBehaviour
     {
+        GameObject xpOrbParent;
+        ObjectBuilder<XpOrb> _xpOrbBuilder;
         [SerializeField] CustomList<XpOrb> xpOrbsInScene = new CustomList<XpOrb>();
         [SerializeField] CustomList<XpOrb> visibleXpOrbs = new CustomList<XpOrb>();
         [SerializeField] private float accumulatedXp = 0f;
         private int maxXpOrbsInScene = 150;
         private int maxXpOrbsVisible = 100;
 
+        GameObject moneyOrbParent;
+        ObjectBuilder<MoneyOrb> _moneyOrbBuilder;
         [SerializeField] CustomList<MoneyOrb> moneyOrbsInScene = new CustomList<MoneyOrb>();
         [SerializeField] CustomList<MoneyOrb> visibleMoneyOrbs = new CustomList<MoneyOrb>();
         [SerializeField] private float accumulatedMoney = 0f;
@@ -30,11 +34,20 @@ namespace Reclaimers.Systems
         {
             currentLevelLogic = GameObject.Find("Grid").GetComponent<LevelLogic>();
 
+            xpOrbParent = new GameObject();
+            xpOrbParent.name = "XpOrbParent";
+            _xpOrbBuilder = new ObjectBuilder<XpOrb>();
+            _xpOrbBuilder.BuildPool(XpOrbFactory, 50, xpOrbParent.transform);
             EventSystem.Instance.onSpawnXp += SpawnXpOrb;
             EventSystem.Instance.onXpOrbDeath += RemoveXpOrb;
             EventSystem.Instance.onXpOrbDecay += OnXpOrbDecay;
             EventSystem.Instance.onXpOrbUpdateVisibility += AddRemoveXpOrbVisible;
 
+            
+            moneyOrbParent = new GameObject();
+            moneyOrbParent.name = "MoneyOrbParent";
+            _moneyOrbBuilder = new ObjectBuilder<MoneyOrb>();
+            _moneyOrbBuilder.BuildPool(MoneyOrbFactory, 50, moneyOrbParent.transform);
             EventSystem.Instance.onSpawnMoney += SpawnMoneyOrb;
             EventSystem.Instance.onMoneyOrbDeath += RemoveMoneyOrb;
             EventSystem.Instance.onMoneyOrbDecay += OnMoneyOrbDecay;
@@ -58,6 +71,11 @@ namespace Reclaimers.Systems
 
 
         #region XP
+        public XpOrb XpOrbFactory(Transform parent = null)
+        {
+            return Instantiate(GameManager.Instance.gameInfo.xpOrbPrefab, Vector3.zero, Quaternion.identity, parent).GetComponent<XpOrb>();
+        }
+
         public void SpawnXpOrb(Vector3 pos, float val)
         {
             if (xpOrbsInScene.Count >= maxXpOrbsInScene)
@@ -83,7 +101,8 @@ namespace Reclaimers.Systems
             }
 
             Vector3 newPos = new Vector3(pos.x, 0.25f, pos.z);
-            XpOrb newOrb = Instantiate(GameManager.Instance.gameInfo.xpOrbPrefab, newPos, Quaternion.identity).GetComponent<XpOrb>();
+            XpOrb newOrb = _xpOrbBuilder.GetObject();
+            newOrb.transform.position = newPos;
             newOrb.Init(val + accumulatedXp);
             accumulatedXp = 0;
             xpOrbsInScene.Add(newOrb);
@@ -94,6 +113,7 @@ namespace Reclaimers.Systems
         {
             xpOrbsInScene.Remove(toRemove);
             visibleXpOrbs.Remove(toRemove);
+            _xpOrbBuilder.ReturnObject(toRemove);
         }
 
         public void AddRemoveXpOrbVisible(XpOrb xpOrb, bool visible)
@@ -115,6 +135,11 @@ namespace Reclaimers.Systems
         #endregion
 
         #region Money
+        public MoneyOrb MoneyOrbFactory(Transform parent = null)
+        {
+            return Instantiate(GameManager.Instance.gameInfo.moneyOrbPrefab, Vector3.zero, Quaternion.identity, parent).GetComponent<MoneyOrb>();
+        }
+
         public void SpawnMoneyOrb(Vector3 pos, float val)
         {
             if (moneyOrbsInScene.Count >= maxMoneyOrbsInScene)
@@ -140,7 +165,8 @@ namespace Reclaimers.Systems
             }
 
             Vector3 newPos = new Vector3(pos.x, 0.25f, pos.z);
-            MoneyOrb newOrb = Instantiate(GameManager.Instance.gameInfo.moneyOrbPrefab, newPos, Quaternion.identity).GetComponent<MoneyOrb>();
+            MoneyOrb newOrb = _moneyOrbBuilder.GetObject();
+            newOrb.transform.position = newPos;
             newOrb.Init(val + accumulatedMoney);
             accumulatedMoney = 0;
             moneyOrbsInScene.Add(newOrb);
@@ -151,6 +177,7 @@ namespace Reclaimers.Systems
         {
             moneyOrbsInScene.Remove(toRemove);
             visibleMoneyOrbs.Remove(toRemove);
+            _moneyOrbBuilder.ReturnObject(toRemove);
         }
 
         public void AddRemoveMoneyOrbVisible(MoneyOrb moneyOrb, bool visible)

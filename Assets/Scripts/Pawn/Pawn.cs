@@ -531,19 +531,53 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
 
     #endregion
 
+    #region Upgrade
+    public void AddUpgrade(Upgrade u)
+    {
+        int index = statBlock.upgradesNames.IndexOf(u.modId);
+        if (index > -1)
+        {
+            statBlock.upgradesStacks[index]++;
+        } else
+        {
+            statBlock.upgradesNames.Add(u.modId);
+            statBlock.upgradesStacks.Add(1);
+        }
+
+        u.Apply(this);
+    }
+
+    public void RemoveUpgrade(Upgrade u)
+    {
+        int index = statBlock.upgradesNames.IndexOf(u.modId);
+        if (index > -1)
+        {
+            statBlock.upgradesStacks[index]--;
+            if (statBlock.upgradesStacks[index] <= 0)
+            {
+                statBlock.upgradesNames.RemoveAt(index);
+                statBlock.upgradesStacks.RemoveAt(index);
+            }
+
+            u.Remove(this);
+        }
+    }
+
+    #endregion
+
     #region StatusEffect
     public StatusEffect GetStatusEffect(string id)
     {
         foreach (StatusEffect se in activeStatusEffects)
         {
-            if (se.id.Equals(id)) return se;
+            if (se.modId.Equals(id)) return se;
         }
         return null;
     }
 
     public void AddStatusEffect(StatusEffect newStatusEffect)
     {
-        StatusEffect activeSE = GetStatusEffect(newStatusEffect.id);
+        StatusEffect activeSE = GetStatusEffect(newStatusEffect.modId);
         if (activeSE != null)
         {
             activeSE.ResetStatusEffect();
@@ -553,7 +587,7 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
         StatusEffect newSE = Instantiate(newStatusEffect);
         activeStatusEffects.Add(newSE);
         SetStatusEffectSprite();
-        newSE.ApplyStatusEffect(this);
+        newSE.Apply(this);
     }
 
     public void RemoveStatusEffect(string id)

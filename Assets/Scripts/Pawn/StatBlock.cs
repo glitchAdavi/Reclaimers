@@ -35,6 +35,9 @@ public class StatBlock : ScriptableObject, ICloneable
     public string pName = "Pawn";
     public string pDesc = "A Pawn.";
 
+    public List<string> upgradesNames = new List<string>();
+    public List<int> upgradesStacks = new List<int>();
+
     public WeaponBlock weaponBlock;
 
     // 0 - Head

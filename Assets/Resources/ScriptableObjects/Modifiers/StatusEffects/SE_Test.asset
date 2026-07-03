@@ -12,15 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d695791c29a3a024db306d86b43425ad, type: 3}
   m_Name: SE_Test
   m_EditorClassIdentifier: 
+  quality: 1
+  modName: Stat Test
+  modDesc: 
+  modId: se_stat_test
   statVarsToModify:
-  - statBlockVar: 6
+  - statBlockVar: 7
     valueB: 0
     valueM: 1
   weaponVarsToModify: []
   abilityVarsToModify: []
   statusEffectSprite: {fileID: 0}
-  seName: Test
-  id: test
   duration: 3
   tickTime: 0
   executePartialOnEnd: 0

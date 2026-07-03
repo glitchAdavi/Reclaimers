@@ -3,7 +3,7 @@ using UnityEngine;
 
 public enum WeaponCollection
 {
-    TEST
+    Projectile
 }
 
 public class Weapon : MonoBehaviour

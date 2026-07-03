@@ -117,8 +117,7 @@ namespace Reclaimers.Systems
             {
                 if (_print) LogSystem.Log(t.id);
 
-                if (t.paused) continue;
-                t.TimerUpdate(Time.deltaTime);
+                if (!t.paused) t.TimerUpdate(Time.deltaTime);
                 if (t.ended) timers.Remove(t);
             }
 

@@ -1,16 +1,16 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "SE_DoT", menuName = "StatusEffect/SE_Stat")]
+[CreateAssetMenu(fileName = "SE_Stat", menuName = "Modifier/StatusEffect/SE_Stat")]
 public class SE_Stat : StatusEffect
 {
     public override void OnStatusEffectStart()
     {
-        ModifyAllStats();
+        ModifyStats();
     }
 
     public override void OnStatusEffectEnd()
     {
-        ModifyAllStats(true);
+        ModifyStats(true);
 
         base.OnStatusEffectEnd();
     }

@@ -1,5 +1,3 @@
-using Reclaimers.DataPersistence;
-using Reclaimers.Systems;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -29,43 +27,39 @@ public struct AbilityVarStruct
     public float valueM;
 }
 
-public class StatusEffect : ScriptableObject
+public enum Quality
 {
-    protected Pawn target;
+    Common = 1,
+    Uncommon = 2,
+    Rare = 3,
+    Epic = 4,
+    Legendary = 5
+}
+
+public abstract class Modifier : ScriptableObject
+{
+    public Quality quality = Quality.Common;
+
+    public string modName = "";
+    public string modDesc = "";
+    public string modId = "";
 
     public List<StatVarStruct> statVarsToModify = new List<StatVarStruct>();
     public List<WeaponVarStruct> weaponVarsToModify = new List<WeaponVarStruct>();
     public List<AbilityVarStruct> abilityVarsToModify = new List<AbilityVarStruct>();
 
-    public Sprite statusEffectSprite;
 
-    public string seName;
-    public string id;
-    public float duration;
-    public float tickTime;
-    public bool executePartialOnEnd;
 
-    public float value;
+    protected Pawn target;
 
-    Timer timerStatus;
-
-    public virtual void ApplyStatusEffect(Pawn target)
+    public virtual void Apply(Pawn target)
     {
         this.target = target;
-        OnStatusEffectStart();
-        timerStatus = GameManager.Instance.timerSystem.SetTimer(duration, OnStatusEffectEnd, tickTime, OnStatusEffectTick, id, executePartialOnEnd);
     }
 
-    public virtual void OnStatusEffectStart() { }
+    public virtual void Remove(Pawn target) { }
 
-    public virtual void OnStatusEffectTick() { }
-
-    public virtual void OnStatusEffectEnd()
-    {
-        target.RemoveStatusEffect(id);
-    }
-
-    protected void ModifyAllStats(bool remove = false)
+    protected void ModifyStats(bool remove = false)
     {
         if (statVarsToModify.Count > 0)
         {
@@ -101,12 +95,13 @@ public class StatusEffect : ScriptableObject
 
             if (remove)
             {
-                aux.ModB(-stat.valueB);
-                aux.ModMult(-stat.valueM);
-            } else
+                aux.ModB(-stat.valueB * (int)quality);
+                aux.ModMult(-stat.valueM * (int)quality);
+            }
+            else
             {
-                aux.ModB(stat.valueB);
-                aux.ModMult(stat.valueM);
+                aux.ModB(stat.valueB * (int)quality);
+                aux.ModMult(stat.valueM * (int)quality);
             }
             param.SetValue(target.statBlock, aux);
         }
@@ -120,13 +115,13 @@ public class StatusEffect : ScriptableObject
 
             if (remove)
             {
-                aux.ModB(-stat.valueB);
-                aux.ModMult(-stat.valueM);
+                aux.ModB(-stat.valueB * (int)quality);
+                aux.ModMult(-stat.valueM * (int)quality);
             }
             else
             {
-                aux.ModB(stat.valueB);
-                aux.ModMult(stat.valueM);
+                aux.ModB(stat.valueB * (int)quality);
+                aux.ModMult(stat.valueM * (int)quality);
             }
             param.SetValue(target.weaponBlock, aux);
         }
@@ -140,20 +135,15 @@ public class StatusEffect : ScriptableObject
 
             if (remove)
             {
-                aux.ModB(-stat.valueB);
-                aux.ModMult(-stat.valueM);
+                aux.ModB(-stat.valueB * (int)quality);
+                aux.ModMult(-stat.valueM * (int)quality);
             }
             else
             {
-                aux.ModB(stat.valueB);
-                aux.ModMult(stat.valueM);
+                aux.ModB(stat.valueB * (int)quality);
+                aux.ModMult(stat.valueM * (int)quality);
             }
             param.SetValue(target.abilityBlock, aux);
         }
-    }
-
-    public virtual void ResetStatusEffect()
-    {
-        timerStatus.Reset();
     }
 }
