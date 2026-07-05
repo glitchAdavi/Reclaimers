@@ -1,18 +1,15 @@
-using Reclaimers;
 using Reclaimers.DeveloperConsole;
 using Reclaimers.Systems;
 using Reclaimers.UpdateSystem;
 using System;
+using System.Linq;
 using System.Collections.Generic;
-using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateable, IPauseable
 {
     public StatBlock statBlock;
-    public WeaponBlock weaponBlock;
-    public AbilityBlock abilityBlock;
 
     public ObjectBuilder<Projectile> projectileBuilder;
     public GameObject projParent;
@@ -78,7 +75,13 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
 
         if (_weapon == null)
         {
-            if (statBlock.weaponBlock == null) weaponBlock = GameManager.Instance.gameInfo.defaultWeaponBlock;
+            if (statBlock.weaponBlock == null)
+            {
+                statBlock.weaponBlock = GameManager.Instance.gameInfo.defaultWeaponBlock;
+                
+            }
+            Utilities.CopyValues(statBlock.weaponBlock, toClone, typeof(WeaponVar));
+
             _weapon = gameObject.AddComponent<Weapon>();
             _weapon.SetOwner(this);
         }
@@ -534,31 +537,19 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
     #region Upgrade
     public void AddUpgrade(Upgrade u)
     {
-        int index = statBlock.upgradesNames.IndexOf(u.modId);
-        if (index > -1)
-        {
-            statBlock.upgradesStacks[index]++;
-        } else
-        {
-            statBlock.upgradesNames.Add(u.modId);
-            statBlock.upgradesStacks.Add(1);
-        }
-
+        int index = statBlock.upgrades.FindIndex(su => su.modId == u.modId);
+        if (index > -1) statBlock.upgrades[index].modStacks++;
+        else statBlock.upgrades.Add(new StatUpgrade(u.modId, 1));
         u.Apply(this);
     }
 
     public void RemoveUpgrade(Upgrade u)
     {
-        int index = statBlock.upgradesNames.IndexOf(u.modId);
+        int index = statBlock.upgrades.FindIndex(su => su.modId == u.modId);
         if (index > -1)
         {
-            statBlock.upgradesStacks[index]--;
-            if (statBlock.upgradesStacks[index] <= 0)
-            {
-                statBlock.upgradesNames.RemoveAt(index);
-                statBlock.upgradesStacks.RemoveAt(index);
-            }
-
+            statBlock.upgrades[index].modStacks--;
+            if (statBlock.upgrades[index].modStacks <= 0) statBlock.upgrades.RemoveAt(index);
             u.Remove(this);
         }
     }
@@ -801,7 +792,7 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
 
     public Projectile ProjectileFactory(Transform parent = null)
     {
-        Type aux = Type.GetType(weaponBlock.projType.ToString());
+        Type aux = Type.GetType(statBlock.projType.ToString());
 
         GameObject newProjectile = Instantiate(GameManager.Instance.gameInfo.projectilePrefab, new Vector3(0f, 0.25f, 0f), Quaternion.identity, parent);
         newProjectile.AddComponent(aux);

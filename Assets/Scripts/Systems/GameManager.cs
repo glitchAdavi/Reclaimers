@@ -98,12 +98,12 @@ public class GameManager : MonoBehaviour, IDataPersistence
         accountLevel = data.accountLevel;
         accountXp = data.accountXp;
 
-        foreach (FieldInfo fieldData in typeof(GameData).GetFields())
+        foreach (FieldInfo dataField in typeof(GameData).GetFields())
         {
-            FieldInfo fieldStat = typeof(StatBlock).GetField(fieldData.Name);
-            if (fieldStat != null)
+            FieldInfo statField = typeof(StatBlock).GetField(dataField.Name);
+            if (statField != null)
             {
-                fieldStat.SetValue(gameInfo.tempPlayerStatBlock, fieldData.GetValue(data));
+                statField.SetValue(gameInfo.tempPlayerStatBlock, dataField.GetValue(data));
             }
         }
 
@@ -139,7 +139,7 @@ public class GameManager : MonoBehaviour, IDataPersistence
         Pawn player = Instantiate(gameInfo.pawnPrefab, new Vector3(0f, 0.5633f, 0f), Quaternion.identity)
             .GetComponent<Pawn>();
 
-        player.SetAsPlayer(gameInfo.defaultPlayerStatBlock);
+        //player.SetAsPlayer(gameInfo.defaultPlayerStatBlock);
 
         return player;
     }

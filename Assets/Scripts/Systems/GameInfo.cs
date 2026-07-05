@@ -15,7 +15,7 @@ public class GameInfo : ScriptableObject
     public StatBlock zombieEnemyStatBlock;
     public StatBlock bugEnemyStatBlock;
 
-    public WeaponBlock defaultWeaponBlock;
+    public StatBlock defaultWeaponBlock;
 
 
     public GameObject pawnPrefab;

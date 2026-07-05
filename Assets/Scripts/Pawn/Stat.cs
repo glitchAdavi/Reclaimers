@@ -130,8 +130,8 @@ public class Stat
 
     public bool IsEmpty()
     {
-        if (_base != 0f || _mult != 1f) return true;
-        return false;
+        if (_base != 0f || _mult != 0f) return false;
+        return true;
     }
 
     public static Stat operator -(Stat s)

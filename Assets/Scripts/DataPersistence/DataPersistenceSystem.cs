@@ -62,7 +62,7 @@ namespace Reclaimers.DataPersistence
 
         private void OnApplicationQuit()
         {
-            SaveGame();
+            //SaveGame();
         }
 
         private List<IDataPersistence> FindAllDataPersistenceObjects()

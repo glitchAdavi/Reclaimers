@@ -9,7 +9,7 @@ public class P_Split : Projectile
         if (collision.gameObject.layer == 20)
         {
             SeparateFromWall(collision.collider, collision.transform.position, collision.transform.rotation);
-            shooter.projectileBuilder.ReturnObject(this);
+            p.projectileBuilder.ReturnObject(this);
         }
 
         if (collision.gameObject.layer == 11)
@@ -31,7 +31,7 @@ public class P_Split : Projectile
                     InstantiateProjectile(transform.forward, -20f);
                     InstantiateProjectile(transform.forward, 20f);
 
-                    shooter.projectileBuilder.ReturnObject(this);
+                    p.projectileBuilder.ReturnObject(this);
                 }
             }
             else
@@ -43,17 +43,17 @@ public class P_Split : Projectile
                     HitPawn(enemyHit);
                 }
 
-                shooter.projectileBuilder.ReturnObject(this);
+                p.projectileBuilder.ReturnObject(this);
             }
         }
     }
 
     public void InstantiateProjectile(Vector3 forw, float spread)
     {
-        Projectile proj = shooter.projectileBuilder.GetObject();
+        Projectile proj = p.projectileBuilder.GetObject();
         proj.transform.position = new Vector3(transform.position.x, 0.25f, transform.position.z);
         proj.transform.forward = forw;
         proj.transform.Rotate(Vector3.up, spread);
-        proj.SetShooter(shooter, currentPen, hitEnemies);
+        proj.SetShooter(p, currentPen, hitEnemies);
     }
 }

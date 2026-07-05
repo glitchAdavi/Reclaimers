@@ -1,14 +1,14 @@
 using Reclaimers.Systems;
 using UnityEngine;
 
-public enum WeaponCollection
+public enum WeaponType
 {
     Projectile
 }
 
 public class Weapon : MonoBehaviour
 {
-    [SerializeField] private Pawn owner;
+    [SerializeField] private Pawn p;
 
     [SerializeField] int currentBullets = 0;
     [SerializeField] float bulletSpreadCurrent = 0f;
@@ -29,7 +29,7 @@ public class Weapon : MonoBehaviour
 
         if (reloadTimer != null && currentBullets > 0)
         {
-            owner.CancelTimer(ref reloadTimer);
+            p.CancelTimer(ref reloadTimer);
             isReloading = false;
         }
 
@@ -43,41 +43,41 @@ public class Weapon : MonoBehaviour
 
         ShootEffect();
         
-        if (owner.weaponBlock.burstAmount.ValueInt() > 1)
+        if (p.statBlock.burstAmount.ValueInt() > 1)
         {
-            float burstCount = (owner.weaponBlock.burstAmount.ValueInt() - 0.5f) * owner.weaponBlock.burstDelay.Value();
+            float burstCount = (p.statBlock.burstAmount.ValueInt() - 0.5f) * p.statBlock.burstDelay.Value();
 
-            if (owner.weaponBlock.burstAmount.ValueInt() * owner.weaponBlock.bulletsPerShotCost.Value() > currentBullets)
+            if (p.statBlock.burstAmount.ValueInt() * p.statBlock.bulletsPerShotCost.Value() > currentBullets)
             {
-                burstCount = Mathf.FloorToInt(currentBullets / owner.weaponBlock.bulletsPerShotCost.Value()) * owner.weaponBlock.burstDelay.Value();
+                burstCount = Mathf.FloorToInt(currentBullets / p.statBlock.bulletsPerShotCost.Value()) * p.statBlock.burstDelay.Value();
             }
             burstTimer = GameManager.Instance.timerSystem.SetTimer(burstCount,
                      () => {
-                         fireRateTimer = GameManager.Instance.timerSystem.SetTimer(owner.weaponBlock.fireRate.Value(), ShootEnd, "WEAPON_FireRate");
+                         fireRateTimer = GameManager.Instance.timerSystem.SetTimer(p.statBlock.fireRate.Value(), ShootEnd, "WEAPON_FireRate");
                      },
-                     owner.weaponBlock.burstDelay.Value(),
+                     p.statBlock.burstDelay.Value(),
                      ShootEffect,
                      "WEAPON_Burst");
         } else
         {
-            fireRateTimer = GameManager.Instance.timerSystem.SetTimer(owner.weaponBlock.fireRate.Value(), ShootEnd, "WEAPON_FireRate");
+            fireRateTimer = GameManager.Instance.timerSystem.SetTimer(p.statBlock.fireRate.Value(), ShootEnd, "WEAPON_FireRate");
         }
     }
 
     public void ShootEffect()
     {
-        currentBullets -= owner.weaponBlock.bulletsPerShotCost.ValueInt();
+        currentBullets -= p.statBlock.bulletsPerShotCost.ValueInt();
 
         if (currentBullets < 0) currentBullets = 0;
 
-        int bulletsToFire = owner.weaponBlock.bulletsPerShot.ValueInt();
+        int bulletsToFire = p.statBlock.bulletsPerShot.ValueInt();
 
         Vector3 tempForward = Vector3.zero;
         Ray ray = GameManager.Instance.playerCamera.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
 
         if (aimPlane.Raycast(ray, out float enterDistance))
         {
-            tempForward = ray.GetPoint(enterDistance) - owner.transform.position;
+            tempForward = ray.GetPoint(enterDistance) - p.transform.position;
 
             InstantiateProjectile(tempForward, Random.Range(-bulletSpreadCurrent / 2, bulletSpreadCurrent / 2));
 
@@ -86,16 +86,16 @@ public class Weapon : MonoBehaviour
 
         while(bulletsToFire > 0)
         {
-            InstantiateProjectile(tempForward, Random.Range(-owner.weaponBlock.bulletsPerShotSpread.Value() / 2, owner.weaponBlock.bulletsPerShotSpread.Value() / 2));
+            InstantiateProjectile(tempForward, Random.Range(-p.statBlock.bulletsPerShotSpread.Value() / 2, p.statBlock.bulletsPerShotSpread.Value() / 2));
 
             bulletsToFire--;
         }
 
-        if (owner.weaponBlock.bulletSpread.Value() > 0)
+        if (p.statBlock.bulletSpread.Value() > 0)
         {
-            if (bulletSpreadResetTimer != null) owner.CancelTimer(ref bulletSpreadResetTimer);
-            bulletSpreadCurrent += owner.weaponBlock.bulletSpreadGain.Value();
-            if (bulletSpreadCurrent > owner.weaponBlock.bulletSpread.Value()) bulletSpreadCurrent = owner.weaponBlock.bulletSpread.Value();
+            if (bulletSpreadResetTimer != null) p.CancelTimer(ref bulletSpreadResetTimer);
+            bulletSpreadCurrent += p.statBlock.bulletSpreadGain.Value();
+            if (bulletSpreadCurrent > p.statBlock.bulletSpread.Value()) bulletSpreadCurrent = p.statBlock.bulletSpread.Value();
             bulletSpreadResetTimer = GameManager.Instance.timerSystem.SetTimer(0.5f, () => bulletSpreadCurrent = 0f, "WEAPON_BulletSpreadReset");
         }
     }
@@ -111,10 +111,10 @@ public class Weapon : MonoBehaviour
     public void Reload()
     {
         if (isReloading) return;
-        if (currentBullets >= owner.weaponBlock.magSize.ValueInt()) return;
+        if (currentBullets >= p.statBlock.magSize.ValueInt()) return;
 
         isReloading = true;
-        reloadTimer = GameManager.Instance.timerSystem.SetTimer(owner.weaponBlock.reloadTime.Value(), ReloadEnd, "WEAPON_Reload");
+        reloadTimer = GameManager.Instance.timerSystem.SetTimer(p.statBlock.reloadTime.Value(), ReloadEnd, "WEAPON_Reload");
 
     }
 
@@ -126,23 +126,23 @@ public class Weapon : MonoBehaviour
     public void ReloadEnd()
     {
         isReloading = false;
-        currentBullets = owner.weaponBlock.magSize.ValueInt();
+        currentBullets = p.statBlock.magSize.ValueInt();
     }
 
 
 
     public void InstantiateProjectile(Vector3 forw, float spread)
     {
-        Projectile proj = owner.projectileBuilder.GetObject();
+        Projectile proj = p.projectileBuilder.GetObject();
         proj.transform.position = new Vector3(transform.position.x, 0.25f, transform.position.z);
         proj.transform.forward = forw;
         proj.transform.Rotate(Vector3.up, spread);
-        proj.SetShooter(owner);
+        proj.SetShooter(p);
     }
 
     public void SetOwner(Pawn p)
     {
-        owner = p;
-        currentBullets = owner.weaponBlock.magSize.ValueInt();
+        this.p = p;
+        currentBullets = this.p.statBlock.magSize.ValueInt();
     }
 }

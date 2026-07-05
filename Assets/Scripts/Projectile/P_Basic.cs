@@ -7,7 +7,7 @@ public class P_Basic : Projectile
         if (collision.gameObject.layer == 20)
         {
             SeparateFromWall(collision.collider, collision.transform.position, collision.transform.rotation);
-            shooter.projectileBuilder.ReturnObject(this);
+            p.projectileBuilder.ReturnObject(this);
         }
 
         if (collision.gameObject.layer == 11)
@@ -33,7 +33,7 @@ public class P_Basic : Projectile
                     HitPawn(enemyHit);
                 }
 
-                shooter.projectileBuilder.ReturnObject(this);
+                p.projectileBuilder.ReturnObject(this);
             }
         }
     }

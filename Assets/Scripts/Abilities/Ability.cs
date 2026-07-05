@@ -9,7 +9,7 @@ public enum AbilityType
 
 public abstract class Ability : MonoBehaviour, IPauseable
 {
-    [SerializeField] private Pawn owner;
+    [SerializeField] private Pawn p;
 
     int curCharges = 0;
 
@@ -17,7 +17,7 @@ public abstract class Ability : MonoBehaviour, IPauseable
 
     protected virtual void OnEnable()
     {
-        curCharges = owner.abilityBlock.abilityCharges.ValueInt();
+        curCharges = p.statBlock.abilityCharges.ValueInt();
 
         this.Register();
     }
@@ -40,7 +40,7 @@ public abstract class Ability : MonoBehaviour, IPauseable
 
         if (!timerCooldown)
         {
-            timerCooldown = GameManager.Instance.timerSystem.SetTimer(owner.abilityBlock.abilityCooldown.Value(), CooldownEnd);
+            timerCooldown = GameManager.Instance.timerSystem.SetTimer(p.statBlock.abilityCooldown.Value(), CooldownEnd);
         }
     }
 
@@ -53,9 +53,9 @@ public abstract class Ability : MonoBehaviour, IPauseable
     {
         curCharges++;
         timerCooldown = null;
-        if (curCharges < owner.abilityBlock.abilityCharges.ValueInt())
+        if (curCharges < p.statBlock.abilityCharges.ValueInt())
         {
-            timerCooldown = GameManager.Instance.timerSystem.SetTimer(owner.abilityBlock.abilityCooldown.Value(), CooldownEnd);
+            timerCooldown = GameManager.Instance.timerSystem.SetTimer(p.statBlock.abilityCooldown.Value(), CooldownEnd);
         }
     }
 

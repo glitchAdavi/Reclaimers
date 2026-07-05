@@ -3,7 +3,7 @@ using Reclaimers.Systems;
 using Reclaimers.UpdateSystem;
 using UnityEngine;
 
-public enum ProjectileCollection
+public enum ProjectileType
 {
     P_Basic,
     P_Bounce,
@@ -12,7 +12,7 @@ public enum ProjectileCollection
 
 public abstract class Projectile : MonoBehaviour, IUpdateable, IPauseable
 {
-    [SerializeField] protected Pawn shooter;
+    [SerializeField] protected Pawn p;
 
     [SerializeField] protected ExternalCollider _extCol;
     [SerializeField] protected SpriteRenderer _sprt;
@@ -66,7 +66,7 @@ public abstract class Projectile : MonoBehaviour, IUpdateable, IPauseable
 
     protected void Move()
     {
-        Vector3 movement = transform.forward * shooter.weaponBlock.projSpeed.Value() * Time.deltaTime;
+        Vector3 movement = transform.forward * p.statBlock.projSpeed.Value() * Time.deltaTime;
         transform.position += new Vector3(movement.x, 0f, movement.z);
     }
 
@@ -106,11 +106,11 @@ public abstract class Projectile : MonoBehaviour, IUpdateable, IPauseable
     }
 
 
-    public void SetShooter(Pawn shooter, int overridePen = -1, List<GameObject> inheritHitEnemies = null)
+    public void SetShooter(Pawn p, int overridePen = -1, List<GameObject> inheritHitEnemies = null)
     {
-        this.shooter = shooter;
+        this.p = p;
 
-        if (overridePen < 0) currentPen = shooter.weaponBlock.projPenetration.ValueInt();
+        if (overridePen < 0) currentPen = p.statBlock.projPenetration.ValueInt();
         else currentPen = overridePen;
 
         if (inheritHitEnemies != null) hitEnemies = new List<GameObject>(inheritHitEnemies);
@@ -119,9 +119,9 @@ public abstract class Projectile : MonoBehaviour, IUpdateable, IPauseable
 
     public void HitPawn(Pawn p)
     {
-        bool crit = shooter.IsCrit();
-        if (crit) p.GetHit(-shooter.weaponBlock.projDamage.Value() * shooter.statBlock.critMult.Value(), true, shooter.weaponBlock.projStun.Value() * shooter.statBlock.critMult.Value());
-        else p.GetHit(-shooter.weaponBlock.projDamage.Value(), false, shooter.weaponBlock.projStun.Value());
+        bool crit = this.p.IsCrit();
+        if (crit) p.GetHit(-this.p.statBlock.projDamage.Value() * this.p.statBlock.critMult.Value(), true, this.p.statBlock.projStun.Value() * this.p.statBlock.critMult.Value());
+        else p.GetHit(-this.p.statBlock.projDamage.Value(), false, this.p.statBlock.projStun.Value());
         OnHit(p);
     }
 
