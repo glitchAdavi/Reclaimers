@@ -66,6 +66,7 @@ public abstract class Projectile : MonoBehaviour, IUpdateable, IPauseable
 
     protected void Move()
     {
+        _extCol.transform.localPosition = new Vector3(0f, 0f, 0f);
         Vector3 movement = transform.forward * p.statBlock.projSpeed.Value() * Time.deltaTime;
         transform.position += new Vector3(movement.x, 0f, movement.z);
     }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ItemMod : Modifier
+public class Item : Modifier
 {
     
 }

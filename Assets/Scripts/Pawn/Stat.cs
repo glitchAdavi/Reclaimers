@@ -10,6 +10,12 @@ public class Stat
     [SerializeField] private float _mult = 1f;
     public float Mult { get { return _mult; } }
 
+    [SerializeField] private float _addTotal = 0f;
+    public float AddTotal { get { return _addTotal; } }
+
+    [SerializeField] private float _multTotal = 1f;
+    public float MultTotal { get { return _multTotal; } }
+
     [SerializeField] private float _min;
     public float Min { get { return _min; } }
 
@@ -49,6 +55,16 @@ public class Stat
         _mult = val;
     }
 
+    public void SetAddTotal(float val)
+    {
+        _addTotal = val;
+    }
+
+    public void SetMultTotal(float val)
+    {
+        _multTotal = val;
+    }
+
     public void SetMin(float val)
     {
         if (val > _max) _min = _max;
@@ -69,6 +85,16 @@ public class Stat
     public void ModMult(float val)
     {
         _mult += val;
+    }
+
+    public void ModAddTotal(float val)
+    {
+        _addTotal += val;
+    }
+
+    public void ModMultTotal(float val)
+    {
+        _multTotal += val;
     }
 
     public void ModMin(float val)
@@ -97,7 +123,7 @@ public class Stat
 
     public float Value()
     {
-        return Mathf.Clamp(_base * _mult, _min, _max);
+        return Mathf.Clamp((_base * _mult) * _multTotal + _addTotal, _min, _max);
     }
 
     public int ValueInt()
@@ -115,10 +141,10 @@ public class Stat
                 s = $"{Value().ToString("0.##")}";
                 break;
             case 1:
-                s = $"{Value().ToString("0.##")} = {_base.ToString("0.##")} * {_mult.ToString("0.##")}";
+                s = $"{Value().ToString("0.##")} = ({_base.ToString("0.##")} * {_mult.ToString("0.##")}) * {_multTotal.ToString("0.##")} + {_addTotal.ToString("0.##")}";
                 break;
             case 2:
-                s = $"{Value().ToString("0.##")} = {_base.ToString("0.##")} * {_mult.ToString("0.##")} (Min: {_min.ToString("0.##")}|Max: {_max.ToString("0.##")})";
+                s = $"{Value().ToString("0.##")} = ({_base.ToString("0.##")} * {_mult.ToString("0.##")}) * {_multTotal.ToString("0.##")} + {_addTotal.ToString("0.##")} (Min: {_min.ToString("0.##")}|Max: {_max.ToString("0.##")})";
                 break;
             default:
                 s = $"{Value().ToString("0.##")}";
@@ -136,6 +162,9 @@ public class Stat
 
     public static Stat operator -(Stat s)
     {
-        return new Stat(-s.Base, -s.Mult);
+        Stat neg = new Stat(-s.Base, -s.Mult, s.Min, s.Max);
+        neg.SetAddTotal(-neg.AddTotal);
+        neg.SetMultTotal(-neg.MultTotal);
+        return neg;
     }
 }

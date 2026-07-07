@@ -55,7 +55,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  - {fileID: 2100000, guid: fd921738e2f34884dad7678bcd1403fd, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 50
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -206,7 +206,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  - {fileID: 2100000, guid: fd921738e2f34884dad7678bcd1403fd, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -377,9 +377,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statBlock: {fileID: 11400000, guid: 6ea78e35f8d9c58458ae43b7c90e0720, type: 2}
-  weaponBlock: {fileID: 0}
-  abilityBlock: {fileID: 0}
-  projectileBuilder: {fileID: 0}
   projParent: {fileID: 0}
   _nav: {fileID: 1229752112147138801}
   _rb: {fileID: 0}
@@ -395,6 +392,7 @@ MonoBehaviour:
   p_nearbyInteractables: []
   activeStatusEffects: []
   isActive: 0
+  isIdle: 0
   isDead: 0
   isPaused: 0
   isPlayer: 0
@@ -403,6 +401,7 @@ MonoBehaviour:
   isMeleeAvailable: 0
   isStunned: 0
   isFrame1: 1
+  isTeleportable: 1
   target: {fileID: 0}
 --- !u!33 &8819520897767289870
 MeshFilter:

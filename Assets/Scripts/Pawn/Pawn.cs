@@ -6,6 +6,7 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Rendering;
 
 public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateable, IPauseable
 {
@@ -17,6 +18,7 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
     [SerializeField] private NavMeshAgent _nav;
     [SerializeField] private Rigidbody _rb;
     [SerializeField] private Collider _col;
+    [SerializeField] private MaterialPropertyBlock _matBlock;
     [SerializeField] private SpriteRenderer _sprite;
     [SerializeField] private SpriteRenderer _shadowSpr;
     [SerializeField] private SpriteRenderer _statusEffectSprite;
@@ -30,6 +32,7 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
     private int p_levelThreshold = 10;
     private int p_pendingLevelUps = 0;
     private float np_navUpdateInterval = 0.25f;
+    private float np_dissolveTime = 0.25f;
 
     [SerializeField] private List<Pawn> p_nearbyEnemies = new List<Pawn>();
     [SerializeField] private List<Interactable> p_nearbyInteractables = new List<Interactable>();
@@ -56,6 +59,7 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
     private Timer np_navUpdateTimer;
     private Timer damageEffectTimer;
     private Timer animationTimer;
+    private Timer np_dissolveTimer;
 
     public Pawn target = null;
 
@@ -101,7 +105,9 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
         SetupCleanup();
 
         isPlayer = false;
+        _nav.enabled = true;
         _nav.avoidancePriority = 50;
+        _nav.isStopped = false;
         SetTarget(target);
 
         _col.gameObject.layer = 11;
@@ -111,6 +117,10 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
 
     public void Setup(StatBlock toClone)
     {
+        _matBlock.SetFloat("_AlphaClip", 0.01f);
+        _sprite.SetPropertyBlock(_matBlock);
+        _shadowSpr.SetPropertyBlock(_matBlock);
+
         isActive = true;
         isDead = false;
         isInvulnerable = false;
@@ -138,6 +148,11 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
         EventSystem.Instance.onGivePlayerXp -= GainXp;
         EventSystem.Instance.onGivePlayerLevel -= GainLevel;
         EventSystem.Instance.onGivePlayerMoney -= GainMoney;
+    }
+
+    private void Awake()
+    {
+        _matBlock = new MaterialPropertyBlock();
     }
 
     private void OnEnable()
@@ -247,11 +262,16 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
                 Vector2 targetPos = GameManager.Instance.playerCamera.GetComponent<Camera>().WorldToScreenPoint(finalPos);
                 Vector2 currentPos = GameManager.Instance.playerCamera.GetComponent<Camera>().WorldToScreenPoint(transform.position);
 
-                //if (targetPos.x >= myPos.x) _sr.material.SetFloat("_FlipX", 0);
-                //else _sr.material.SetFloat("_FlipX", 1);
-
-                if (targetPos.x >= currentPos.x) _sprite.flipX = false;
-                else _sprite.flipX = true;
+                if (targetPos.x >= currentPos.x)
+                {
+                    _sprite.flipX = false;
+                    _shadowSpr.flipX = false;
+                }
+                else
+                {
+                    _sprite.flipX = true;
+                    _shadowSpr.flipX = true;
+                }
             }
             else finalPos = transform.position;
 
@@ -289,19 +309,24 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
     public void UpdateSpriteFlip()
     {
         float posX = Input.mousePosition.x - (Screen.width / 2);
+        float posY = Input.mousePosition.y - (Screen.height / 2);
 
         if (posX > 0)
         {
             _sprite.flipX = false;
+            _shadowSpr.flipX = false;
         } else
         {
             _sprite.flipX = true;
+            _shadowSpr.flipX = true;
         }
     }
 
 
     public void GetHit(float value, bool isCrit = false, float stunDur = 0)
     {
+        if (isDead) return;
+
         if (value < 0)
         {
             if (isInvulnerable) return;
@@ -415,6 +440,7 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
         isActive = false;
         isDead = true;
 
+
         CancelTimer(ref animationTimer);
         CancelTimer(ref damageEffectTimer);
 
@@ -424,13 +450,14 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
             CancelTimer(ref p_hpRegenStartTimer);
             CancelTimer(ref p_hpRegenTickTimer);
 
-
-
         } else
         {
             CancelTimer(ref np_navUpdateTimer);
             CancelTimer(ref meleeCooldownTimer);
             CancelTimer(ref stunTimer);
+
+            _nav.isStopped = true;
+            _nav.enabled = false;
 
             if (statBlock.xpInstant) EventSystem.Instance.GivePlayerXp(statBlock.xpKillValue.Value());
             else EventSystem.Instance.SpawnXp(transform.position, statBlock.xpKillValue.Value());
@@ -438,8 +465,20 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
             if (statBlock.moneyInstant) EventSystem.Instance.GivePlayerMoney(statBlock.moneyKillValue.Value());
             else EventSystem.Instance.SpawnMoney(transform.position, statBlock.moneyKillValue.Value());
 
-            EventSystem.Instance.EnemyDeath(this);
+            float dissolveStep = 0.05f;
+            np_dissolveTimer = GameManager.Instance.timerSystem.SetTimer(np_dissolveTime, ConfirmDeath, dissolveStep, () =>
+            {
+                _matBlock.SetFloat("_AlphaClip", _matBlock.GetFloat("_AlphaClip") + (dissolveStep / np_dissolveTime));
+                _sprite.SetPropertyBlock(_matBlock);
+                _shadowSpr.SetPropertyBlock(_matBlock);
+            });
         }
+
+    }
+
+    public void ConfirmDeath()
+    {
+        EventSystem.Instance.EnemyDeath(this);
     }
 
     #region XP
@@ -529,9 +568,6 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
     {
 
     }
-
-
-
     #endregion
 
     #region Upgrade
@@ -764,6 +800,7 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
         merged.Apply();
 
         Sprite mergedSprite = Sprite.Create(merged, new Rect(0, 0, 32, 32), new Vector2(0.5f, 0.5f), 32);
+        
 
         return mergedSprite;
     }

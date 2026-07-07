@@ -9,6 +9,8 @@ public struct StatVarStruct
     public StatBlockVars statBlockVar;
     public float valueB;
     public float valueM;
+    public float valueATotal;
+    public float valueMTotal;
 }
 
 public enum Quality
@@ -61,11 +63,15 @@ public abstract class Modifier : ScriptableObject
             {
                 aux.ModB(-stat.valueB * (int)quality);
                 aux.ModMult(-stat.valueM * (int)quality);
+                aux.ModAddTotal(-stat.valueATotal * (int)quality);
+                aux.ModMultTotal(-stat.valueMTotal * (int)quality);
             }
             else
             {
                 aux.ModB(stat.valueB * (int)quality);
                 aux.ModMult(stat.valueM * (int)quality);
+                aux.ModAddTotal(stat.valueATotal * (int)quality);
+                aux.ModMultTotal(stat.valueMTotal * (int)quality);
             }
             param.SetValue(target.statBlock, aux);
         }

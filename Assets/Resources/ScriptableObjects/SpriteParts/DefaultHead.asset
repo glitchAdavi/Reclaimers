@@ -16,5 +16,5 @@ MonoBehaviour:
   spType: 0
   levelRequirement: 0
   partName: DefaultHead1
-  frame1: {fileID: 7618729962914242426, guid: 83a4e23f0a0b5f644a6396568fa9efc0, type: 3}
-  frame2: {fileID: -2961486943644666061, guid: 83a4e23f0a0b5f644a6396568fa9efc0, type: 3}
+  frame1: {fileID: -1193671215, guid: 48b860379e2c16742b27ddd34fe5d75d, type: 3}
+  frame2: {fileID: -1193671215, guid: 48b860379e2c16742b27ddd34fe5d75d, type: 3}

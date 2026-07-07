@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using UnityEngine;
 
 public class StatOnHitEffect
@@ -76,6 +75,8 @@ public enum StatBlockVars
 public class StatBlock : ScriptableObject, ICloneable
 {
     #region Pawn
+    [Header("Pawn Stats")]
+    [Header("")]
     [PawnVar] public string pName = "Pawn";
     [PawnVar] public string pDesc = "A Pawn.";
 
@@ -149,7 +150,9 @@ public class StatBlock : ScriptableObject, ICloneable
     #endregion
 
     #region Weapon
-
+    [Header("")]
+    [Header("Weapon Stats")]
+    [Header("")]
     [WeaponVar] public string weaponName = "";
 
     [WeaponVar] public WeaponType wepType;
@@ -182,7 +185,9 @@ public class StatBlock : ScriptableObject, ICloneable
     #endregion
 
     #region Ability
-
+    [Header("")]
+    [Header("Ability Stats")]
+    [Header("")]
     [AbilityVar] public string abilityName = "";
     [AbilityVar] public AbilityType abilityType;
 

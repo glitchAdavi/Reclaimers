@@ -19,9 +19,9 @@ MonoBehaviour:
   statVarsToModify:
   - statBlockVar: 7
     valueB: 0
-    valueM: 1
-  weaponVarsToModify: []
-  abilityVarsToModify: []
+    valueM: 0
+    valueATotal: 0
+    valueMTotal: 1
   statusEffectSprite: {fileID: 0}
   duration: 3
   tickTime: 0
