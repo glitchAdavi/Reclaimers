@@ -18,9 +18,7 @@ namespace Reclaimers.Systems
         public Image fadeImage;
         public GameObject fadeMenu;
 
-        public bool useMainMenu = true;
-        public GameObject mainMenu;
-        public GameObject pauseMenu;
+        public UIMenu pauseMenu;
 
         public GameObject statMenu;
         public TMP_Text statMenuText;
@@ -34,10 +32,16 @@ namespace Reclaimers.Systems
         public TMP_Text xpGained;
         public TMP_Text moneyGained;
 
+        public TMP_Text healthText;
 
+        public TMP_Text levelText;
+
+        public UIMenu levelUpMenu;
+        public TMP_Text levelUpPending;
 
 
         Timer timerFade;
+        bool isPaused = false;
 
         private void OnEnable()
         {
@@ -48,18 +52,43 @@ namespace Reclaimers.Systems
             floatingTextBuilder = new ObjectBuilder<FloatingText>();
             floatingTextBuilder.BuildPool(FloatingTextFactory, 100, textParent.transform);
 
+
+
+
+
+
             EventSystem.Instance.onSpawnFloatingText += SpawnFloatingText;
         }
 
         public void ManagedPause(bool paused)
         {
+            isPaused = paused;
             timerFade?.Pause(paused);
         }
 
 
+        public void OpenCloseMenues()
+        {
+            if (activeMenues.Count > 0)
+            {
+                UIMenu m = activeMenues[^1];
+                activeMenues.Remove(m);
+                m.Close();
+                if (isPaused) EventSystem.Instance.SetPause(false);
+            } else
+            {
+                OpenPauseMenu();
+            }
 
+        }
 
+        public void OpenPauseMenu()
+        {
+            activeMenues.Add(pauseMenu);
+            pauseMenu.Open();
 
+            EventSystem.Instance.SetPause(true);
+        }
 
 
 
