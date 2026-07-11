@@ -17,10 +17,11 @@ namespace Reclaimers.Systems
         public void SetPause(bool pause) => onSetPause?.Invoke(pause);
 
         #region UI
-        public event Action<Vector3, string, Color, float, float> onSpawnFloatingText;
-        public void SpawnFloatingText(Vector3 pos, string text, Color c, float driftRange = 0f, float maxSize = 6f) => onSpawnFloatingText?.Invoke(pos, text, c, driftRange, maxSize);
+        public event Action<Vector3, string, Sprite, Color, float, float> onSpawnFloatingText;
+        public void SpawnFloatingText(Vector3 pos, string text, Sprite image, Color c, float driftRange = 0f, float maxSize = 1f) => onSpawnFloatingText?.Invoke(pos, text, image, c, driftRange, maxSize);
 
-
+        public event Action onOpenCloseMenues;
+        public void OpenCloseMenues() => onOpenCloseMenues?.Invoke();
 
         #endregion
 
@@ -43,6 +44,12 @@ namespace Reclaimers.Systems
 
         public event Action onPlayerDeath;
         public void PlayerDeath() => onPlayerDeath?.Invoke();
+
+        public event Action onQueueLevelUp;
+        public void QueueLevelUp() => onQueueLevelUp?.Invoke();
+
+        public event Action onLevelUpFinish;
+        public void LevelUpFinish() => onLevelUpFinish?.Invoke();
         #endregion
 
 

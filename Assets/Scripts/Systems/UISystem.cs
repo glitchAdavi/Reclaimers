@@ -37,7 +37,6 @@ namespace Reclaimers.Systems
         public TMP_Text levelText;
 
         public UIMenu levelUpMenu;
-        public TMP_Text levelUpPending;
 
 
         Timer timerFade;
@@ -58,6 +57,11 @@ namespace Reclaimers.Systems
 
 
             EventSystem.Instance.onSpawnFloatingText += SpawnFloatingText;
+
+            EventSystem.Instance.onOpenCloseMenues += OpenCloseMenues;
+
+            EventSystem.Instance.onQueueLevelUp += LevelUpMenu;
+            EventSystem.Instance.onLevelUpFinish += CloseLevelUpMenu;
         }
 
         public void ManagedPause(bool paused)
@@ -73,7 +77,7 @@ namespace Reclaimers.Systems
             {
                 UIMenu m = activeMenues[^1];
                 activeMenues.Remove(m);
-                m.Close();
+                m.BeforeClose();
                 if (isPaused) EventSystem.Instance.SetPause(false);
             } else
             {
@@ -85,12 +89,24 @@ namespace Reclaimers.Systems
         public void OpenPauseMenu()
         {
             activeMenues.Add(pauseMenu);
-            pauseMenu.Open();
+            pauseMenu.BeforeOpen();
 
             EventSystem.Instance.SetPause(true);
         }
 
+        public void LevelUpMenu()
+        {
+            activeMenues.Add(levelUpMenu);
+            levelUpMenu.BeforeOpen();
 
+            EventSystem.Instance.SetPause(true);
+        }
+
+        public void CloseLevelUpMenu()
+        {
+            activeMenues.Remove(levelUpMenu);
+            EventSystem.Instance.SetPause(false);
+        }
 
         public void FadeIn(Action callback, float time = 1f)
         {
@@ -131,12 +147,21 @@ namespace Reclaimers.Systems
             });
         }
 
+
+        #region ButtonFuncs
+
+
+
+
+
+        #endregion
+
         #region FloatingText
-        public void SpawnFloatingText(Vector3 pos, string text, Color c, float driftRange, float maxSize)
+        public void SpawnFloatingText(Vector3 pos, string text, Sprite image, Color c, float driftRange, float maxSize)
         {
             FloatingText newFT = floatingTextBuilder.GetObject();
             newFT.transform.position = new Vector3(pos.x, 1f, pos.z + 0.25f);
-            newFT.Init(text, c, driftRange, maxSize);
+            newFT.Init(text, c, image, driftRange, maxSize);
         }
 
         public FloatingText FloatingTextFactory(Transform parent = null)

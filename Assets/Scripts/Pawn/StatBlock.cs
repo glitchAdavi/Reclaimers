@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
 public class StatOnHitEffect
 {
     public StatusEffect effect;
@@ -14,12 +15,26 @@ public class StatOnHitEffect
     }
 }
 
+[Serializable]
 public class StatUpgrade
 {
     public string modId;
     public int modStacks;
 
     public StatUpgrade(string id, int stacks)
+    {
+        modId = id;
+        modStacks = stacks;
+    }
+}
+
+[Serializable]
+public class ItemUpgrade
+{
+    public string modId;
+    public int modStacks;
+
+    public ItemUpgrade(string id, int stacks)
     {
         modId = id;
         modStacks = stacks;
@@ -81,6 +96,7 @@ public class StatBlock : ScriptableObject, ICloneable
     [PawnVar] public string pDesc = "A Pawn.";
 
     [PawnVar] public List<StatUpgrade> upgrades = new List<StatUpgrade>();
+    [PawnVar] public List<ItemUpgrade> items = new List<ItemUpgrade>();
 
     [PawnVar] public StatBlock weaponBlock;
     [PawnVar] public ProjectileType projType;

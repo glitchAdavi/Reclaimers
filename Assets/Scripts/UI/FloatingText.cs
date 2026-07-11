@@ -6,9 +6,8 @@ using Reclaimers.DeveloperConsole;
 
 public class FloatingText : MonoBehaviour, IUpdateable, IPauseable
 {
-    [SerializeField] TMP_Text floatingText;
-
-
+    [SerializeField] TMP_Text ftText;
+    [SerializeField] SpriteRenderer ftImage;
 
     public float startPhaseDuration = 0.5f;
     public float middlePhaseDuration = 0.5f;
@@ -17,8 +16,8 @@ public class FloatingText : MonoBehaviour, IUpdateable, IPauseable
 
     public float speed = 2f;
     [SerializeField] private float targetSpeed = 0f;
-    public float size = 6f;
-    [SerializeField]private float targetSize = 0f;
+    public float size = 0f;
+    [SerializeField]private float targetSize = 1f;
     public float drift = 0f;
     [SerializeField] private float targetDrift = 0f;
 
@@ -26,15 +25,21 @@ public class FloatingText : MonoBehaviour, IUpdateable, IPauseable
 
     Timer timerReturn;
 
-    public void Init(string text, Color c, float driftRange = 0f, float maxSize = 6f)
+    public void Init(string text, Color c, Sprite image = null, float driftRange = 0f, float maxSize = 1f)
     {
         drift = Random.Range(-driftRange, driftRange);
-        floatingText.color = c;
-        floatingText.text = text;
-        floatingText.fontSize = 0;
+        ftText.color = c;
+        ftText.text = text;
+        if (image != null)
+        {
+            ftImage.gameObject.SetActive(true);
+            ftImage.sprite = image;
+            ftImage.color = c;
+        }
+        transform.localScale = Vector3.one * size;
 
         speed += Random.Range(-0.3f, 0.3f);
-        size = maxSize;
+        targetSize = maxSize;
 
         if (timerReturn != null) timerReturn.Cancel();
         StartPhase();
@@ -65,19 +70,21 @@ public class FloatingText : MonoBehaviour, IUpdateable, IPauseable
     private void StartPhase()
     {
         targetSpeed = Random.Range(0.1f, 0.5f);
-        targetSize = size;
         targetDrift = 0f;
 
         timerReturn = GameManager.Instance.timerSystem.SetTimer(startPhaseDuration, MiddlePhase, interval, () =>
         {
             drift = Mathf.Lerp(drift, targetDrift, timerReturn.durationElapsed / startPhaseDuration);
-            floatingText.fontSize = Mathf.Lerp(0f, targetSize, timerReturn.durationElapsed / startPhaseDuration);
+
+            float currentSizeLerp = Mathf.Lerp(0f, targetSize, timerReturn.durationElapsed / endPhaseDuration);
+            size = currentSizeLerp;
+            transform.localScale = Vector3.one * size;
         });
     }
 
     private void MiddlePhase()
     {
-        floatingText.fontSize = size;
+        transform.localScale = Vector3.one * targetSize;
         speed = targetSpeed;
         drift = 0f;
 
@@ -90,7 +97,8 @@ public class FloatingText : MonoBehaviour, IUpdateable, IPauseable
 
         timerReturn = GameManager.Instance.timerSystem.SetTimer(endPhaseDuration, Return, interval, () =>
         {
-            floatingText.fontSize = Mathf.Lerp(size, targetSize, timerReturn.durationElapsed / endPhaseDuration);
+            float currentSizeLerp = Mathf.Lerp(size, targetSize, timerReturn.durationElapsed / endPhaseDuration);
+            transform.localScale = Vector3.one * currentSizeLerp;
         });
     }
 
@@ -99,9 +107,9 @@ public class FloatingText : MonoBehaviour, IUpdateable, IPauseable
         timerReturn = null;
         drift = 0;
         speed = 2f;
-        size = 6f;
+        size = 0f;
 
-        floatingText.fontSize = 0;
+        ftImage.gameObject.SetActive(false);
 
         GameManager.Instance.uiSystem.floatingTextBuilder.ReturnObject(this);
     }

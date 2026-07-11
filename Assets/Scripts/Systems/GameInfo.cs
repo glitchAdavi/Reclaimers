@@ -25,6 +25,7 @@ public class GameInfo : ScriptableObject
     public GameObject moneyOrbPrefab;
     public GameObject obstaclePartPrefab;
     public GameObject audioSourcePrefab;
+    public GameObject playerUIPrefab;
 
 
 

@@ -108,7 +108,7 @@ public class PlayerController : MonoBehaviour, IUpdateable, IPauseable
 
     public void PlayerEscape()
     {
-        EventSystem.Instance.SetPause(!isPaused);
+        EventSystem.Instance.OpenCloseMenues();
     }
 
     #endregion

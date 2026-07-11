@@ -21,8 +21,9 @@ namespace Reclaimers.Systems
 
         public bool paused = false;
         public bool ended = false;
+        public bool affectedByPause = true;
 
-        public Timer(float t, Action c, string id)
+        public Timer(float t, Action c, string id, bool pa)
         {
             this.id = id;
             duration = t;
@@ -34,9 +35,11 @@ namespace Reclaimers.Systems
             stepLeft = 0;
             stepCallback = null;
             stepExecuteOnEnd = false;
+
+            affectedByPause = pa;
         }
 
-        public Timer(float t, Action c, float s, Action sc, bool pe, string id)
+        public Timer(float t, Action c, float s, Action sc, bool pe, string id, bool pa)
         {
             this.id = id;
             duration = t;
@@ -48,6 +51,8 @@ namespace Reclaimers.Systems
             stepLeft = s;
             stepCallback = sc;
             stepExecuteOnEnd = pe;
+
+            affectedByPause = pa;
         }
 
         public void TimerUpdate(float deltaTime)
@@ -83,11 +88,19 @@ namespace Reclaimers.Systems
 
         public void Pause(bool paused)
         {
+            if (!affectedByPause) return;
             this.paused = paused;
         }
 
         public void Cancel()
         {
+            ended = true;
+        }
+
+        public void Finish()
+        {
+            if (stepExecuteOnEnd) stepCallback();
+            callback();
             ended = true;
         }
 
@@ -135,34 +148,34 @@ namespace Reclaimers.Systems
 
         public Timer SetTimer(float time, Action callback, string identifier = "")
         {
-            return SetTimer(time, callback, 0f, null, identifier, false);
+            return SetTimer(time, callback, 0f, null, identifier, false, true);
         }
 
         public Timer SetForeverTimer(float partialTime, Action partialCallback, string identifier = "")
         {
-            return SetTimer(-1f, null, partialTime, partialCallback, identifier, false);
+            return SetTimer(-1f, null, partialTime, partialCallback, identifier, false, true);
         }
 
-        public Timer SetTimer(float time, Action callback, float partialTime, Action partialCallback, string identifier = "", bool partialExecuteOnEnd = false)
+        public Timer SetTimer(float time, Action callback, float partialTime, Action partialCallback, string identifier = "", bool partialExecuteOnEnd = false, bool affectedByPause = true)
         {
-            Timer timer = new Timer(time, callback, partialTime, partialCallback, partialExecuteOnEnd, identifier);
+            Timer timer = new Timer(time, callback, partialTime, partialCallback, partialExecuteOnEnd, identifier, affectedByPause);
             timers.Add(timer);
             return timer;
         }
 
         public Timer SetTimerIndependent(float time, Action callback, string identifier = "")
         {
-            return SetTimer(time, callback, 0f, null, identifier, false);
+            return SetTimer(time, callback, 0f, null, identifier, false, true);
         }
 
         public Timer SetForeverTimerIndependent(float partialTime, Action partialCallback, string identifier = "")
         {
-            return SetTimer(-1f, null, partialTime, partialCallback, identifier, false);
+            return SetTimer(-1f, null, partialTime, partialCallback, identifier, false, true);
         }
 
-        public Timer SetTimerIndependent(float time, Action callback, float partialTime, Action partialCallback, string identifier = "", bool partialExecuteOnEnd = false)
+        public Timer SetTimerIndependent(float time, Action callback, float partialTime, Action partialCallback, string identifier = "", bool partialExecuteOnEnd = false, bool affectedByPause = true)
         {
-            Timer timer = new Timer(time, callback, partialTime, partialCallback, partialExecuteOnEnd, identifier);
+            Timer timer = new Timer(time, callback, partialTime, partialCallback, partialExecuteOnEnd, identifier, affectedByPause);
             return timer;
         }
     }

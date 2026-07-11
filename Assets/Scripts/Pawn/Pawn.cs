@@ -29,8 +29,8 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
 
     public float currentHp = 0f;
 
-    private int p_levelThreshold = 10;
-    private int p_pendingLevelUps = 0;
+    [SerializeField] private int p_levelThreshold = 10;
+    [SerializeField] private int p_pendingLevelUps = 0;
     private float np_navUpdateInterval = 0.25f;
     private float np_dissolveTime = 0.25f;
 
@@ -183,6 +183,12 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
 
         if (isPlayer)
         {
+            if (p_pendingLevelUps > 0)
+            {
+                p_pendingLevelUps--;
+                EventSystem.Instance.QueueLevelUp();
+            }
+
             GameManager.Instance.gameInfo.playerPositionVar.SetValue(transform.position);
 
             UpdateSpriteFlip();
@@ -361,8 +367,8 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
 
         if (!isPlayer)
         {
-            if (!isCrit) EventSystem.Instance.SpawnFloatingText(transform.position, totalDamage.ToString("#.##"), Color.red, 2);
-            else EventSystem.Instance.SpawnFloatingText(transform.position, totalDamage.ToString("#.##!"), Color.red, 2, 8);
+            if (!isCrit) EventSystem.Instance.SpawnFloatingText(transform.position, totalDamage.ToString("#.##"), null, Color.red);
+            else EventSystem.Instance.SpawnFloatingText(transform.position, totalDamage.ToString("#.##!"), null, Color.red, 2, 1.5f);
         }
 
         if (currentHp <= totalDamage)
@@ -570,25 +576,31 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
     }
     #endregion
 
+    public void AddModifier(Modifier m)
+    {
+        if (m is StatusEffect) AddStatusEffect((StatusEffect)m);
+        if (m is Upgrade) AddUpgrade((Upgrade)m);
+        if (m is Item) return;
+    }
+
     #region Upgrade
     public void AddUpgrade(Upgrade u)
     {
         int index = statBlock.upgrades.FindIndex(su => su.modId == u.modId);
-        if (index > -1) statBlock.upgrades[index].modStacks++;
+        if (index > -1) statBlock.upgrades[index].modStacks += (int)u.quality;
         else statBlock.upgrades.Add(new StatUpgrade(u.modId, 1));
         u.Apply(this);
     }
 
-    public void RemoveUpgrade(Upgrade u)
+    #endregion
+
+    #region Items
+    public void AddItem(Item i)
     {
-        int index = statBlock.upgrades.FindIndex(su => su.modId == u.modId);
-        if (index > -1)
-        {
-            statBlock.upgrades[index].modStacks--;
-            if (statBlock.upgrades[index].modStacks <= 0) statBlock.upgrades.RemoveAt(index);
-            u.Remove(this);
-        }
+
     }
+
+
 
     #endregion
 

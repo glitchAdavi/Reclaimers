@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Linq;
@@ -14,7 +12,7 @@ public class GameManager : MonoBehaviour, IDataPersistence
 {
     public static GameManager Instance { get; private set; }
 
-    public List<UnityEngine.Object> allSystems = new List<UnityEngine.Object>();
+    public List<Object> allSystems = new List<Object>();
 
     public GameInfo gameInfo;
 
@@ -38,6 +36,7 @@ public class GameManager : MonoBehaviour, IDataPersistence
     public CustomList<SpritePart> playerParts = new CustomList<SpritePart>();
     public CustomList<Upgrade> upgradeList = new CustomList<Upgrade>();
     public CustomList<StatusEffect> statusEffectList = new CustomList<StatusEffect>();
+    public CustomList<Item> itemList = new CustomList<Item>();
     
 
     //---AccountData---
@@ -75,7 +74,7 @@ public class GameManager : MonoBehaviour, IDataPersistence
         pawnSystem = CreateSystem<PawnSystem>();
         levelSystem = CreateSystem<LevelSystem>();
 
-        uiSystem = CreateSystem<UISystem>();
+        uiSystem = InstantiateUI();
 
         playerPawn = InstantiatePlayer();
         playerController = CreateSystem<PlayerController>();
@@ -144,7 +143,13 @@ public class GameManager : MonoBehaviour, IDataPersistence
         return player;
     }
 
-
+    private UISystem InstantiateUI()
+    {
+        UISystem newUI = Instantiate(gameInfo.playerUIPrefab, GameObject.Find("Canvas").transform)
+                              .GetComponent<UISystem>();
+        newUI.gameObject.transform.SetAsFirstSibling();
+        return newUI;
+    }
 
 
 
@@ -170,6 +175,7 @@ public class GameManager : MonoBehaviour, IDataPersistence
         return spriteParts.FirstOrDefault(sp => sp.partName == partName);
     }
 
+    #region Modifiers
     public void LoadModifiers()
     {
         upgradeList = new CustomList<Upgrade>(Resources.LoadAll<Upgrade>("ScriptableObjects/Modifiers/Upgrades").ToList());
@@ -178,12 +184,66 @@ public class GameManager : MonoBehaviour, IDataPersistence
         LogSystem.Log($"GameManager: Loaded {statusEffectList.Count} status effects.");
     }
 
-    public Modifier GetModifier(string id)
+    public Modifier GetModifier(string id, bool randomQuality = false)
     {
         Modifier result = upgradeList.FirstOrDefault(u => u.modId == id);
         if (result == null) result = statusEffectList.FirstOrDefault(se => se.modId == id);
+        if (randomQuality) result.quality = GetRandomQuality();
         return result;
     }
+
+    public Modifier GetRandomModifier()
+    {
+        int r = Random.Range(1, 11);
+        Modifier result;
+
+        result = (Upgrade)upgradeList[Random.Range(0, upgradeList.Count())].Clone();
+        result.quality = GetRandomQuality();
+
+
+
+        //if (r > 2)
+        //{
+            //result = (Upgrade)upgradeList[Random.Range(0, upgradeList.Count())].Clone();
+            //result.quality = GetRandomQuality();
+        //} else
+        //{
+            //result = (Item)itemList[Random.Range(0, itemList.Count())].Clone();
+            //result.quality = GetRandomQuality();
+        //}
+
+        return result;
+    }
+
+
+    public Quality GetRandomQuality()
+    {
+        int r = Random.Range(1, 101);
+
+        if (r <= 50) return Quality.Common;
+        else r -= 50;
+
+        if (r <= 25) return Quality.Uncommon;
+        else r -= 25;
+
+        if (r <= 15) return Quality.Rare;
+        else r -= 15;
+
+        if (r <= 9) return Quality.Epic;
+        else r -= 9;
+
+        return Quality.Legendary;
+    }
+
+    public Color GetQualityColor(Quality q)
+    {
+        if (q.Equals(Quality.Common)) return Color.white;
+        if (q.Equals(Quality.Uncommon)) return Color.green;
+        if (q.Equals(Quality.Rare)) return Color.blue;
+        if (q.Equals(Quality.Epic)) return new Color(128, 0, 128);
+        return new Color(255, 165, 0);
+    }
+    #endregion
 
     public bool IsVisibleToPlayerCamera(Vector3 pos)
     {

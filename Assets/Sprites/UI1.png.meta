@@ -144,13 +144,13 @@ TextureImporter:
       name: UI1_2
       rect:
         serializedVersion: 2
-        x: 1258
+        x: 1259
         y: 468
         width: 240
         height: 340
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 72, y: 75, z: 74, w: 71}
       customData: 
       outline: []
       physicsShape: []
@@ -158,6 +158,50 @@ TextureImporter:
       bones: []
       spriteID: 2db0c1b3017eec847bfbe1bafc87b89c
       internalID: 1775165774
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI1_3
+      rect:
+        serializedVersion: 2
+        x: 840
+        y: 405
+        width: 360
+        height: 405
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 117, y: 133, z: 117, w: 132}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 14a5ad39c5f2cc34e9bd1f42f398ab4d
+      internalID: -780106536
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI1_4
+      rect:
+        serializedVersion: 2
+        x: 1530
+        y: 405
+        width: 360
+        height: 405
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 118, y: 30, z: 118, w: 46}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b4e5aeeaa139d3e40adfc2a65e8d7c0f
+      internalID: 126847192
       vertices: []
       indices: 
       edges: []
@@ -181,6 +225,8 @@ TextureImporter:
       UI1_0: -2032114740
       UI1_1: -772327390
       UI1_2: 1775165774
+      UI1_3: -780106536
+      UI1_4: 126847192
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

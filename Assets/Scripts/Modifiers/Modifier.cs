@@ -22,13 +22,15 @@ public enum Quality
     Legendary = 5
 }
 
-public abstract class Modifier : ScriptableObject
+public abstract class Modifier : ScriptableObject, ICloneable
 {
     public Quality quality = Quality.Common;
 
     public string modName = "";
     public string modDesc = "";
     public string modId = "";
+
+    public Sprite modImage;
 
     public List<StatVarStruct> statVarsToModify = new List<StatVarStruct>();
 
@@ -75,5 +77,11 @@ public abstract class Modifier : ScriptableObject
             }
             param.SetValue(target.statBlock, aux);
         }
+    }
+
+    public object Clone()
+    {
+        Modifier mod = Instantiate(this);
+        return mod;
     }
 }
