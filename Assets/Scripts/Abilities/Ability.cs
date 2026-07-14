@@ -9,7 +9,7 @@ public enum AbilityType
 
 public abstract class Ability : MonoBehaviour, IPauseable
 {
-    [SerializeField] private Pawn p;
+    [SerializeField] protected Pawn p;
 
     int curCharges = 0;
 

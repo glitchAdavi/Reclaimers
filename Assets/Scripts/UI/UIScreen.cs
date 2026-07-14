@@ -39,7 +39,7 @@ public class UIScreen : MonoBehaviour
         }, turnStepDuration, () =>
         {
             _image.material.SetFloat("_TurnOn", turnTimer.durationElapsed / turnDuration);
-        });
+        }, "UI_Screen_TurnOn");
     }
 
     public void ForceOn()
@@ -58,7 +58,7 @@ public class UIScreen : MonoBehaviour
         }, turnStepDuration, () =>
         {
             _image.material.SetFloat("_TurnOn", 1 - turnTimer.durationElapsed / turnDuration);
-        });
+        }, "UI_Screen_TurnOff");
     }
 
     public void ForceOff()

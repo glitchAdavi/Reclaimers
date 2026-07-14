@@ -33,8 +33,18 @@ namespace Reclaimers.Systems
         public TMP_Text moneyGained;
 
         public TMP_Text healthText;
+        public UIFillableBar healthBar;
 
         public TMP_Text levelText;
+        public UIFillableBar xpBar;
+
+        public TMP_Text weaponAmmo;
+        public TMP_Text weaponName;
+        public UIFillableBar weaponBar;
+
+        public TMP_Text abilityName;
+        public TMP_Text abilityAmmo;
+        public UIFillableBar abilityBar;
 
         public UIMenu levelUpMenu;
 
@@ -62,6 +72,17 @@ namespace Reclaimers.Systems
 
             EventSystem.Instance.onQueueLevelUp += LevelUpMenu;
             EventSystem.Instance.onLevelUpFinish += CloseLevelUpMenu;
+
+            EventSystem.Instance.onUpdateHp += UpdateHp;
+            EventSystem.Instance.onUpdateXp += UpdateXp;
+            EventSystem.Instance.onUpdateLevel += UpdateLevel;
+            EventSystem.Instance.onUpdateWeapon += UpdateWeapon;
+            EventSystem.Instance.onUpdateWeaponName += UpdateWeaponName;
+            EventSystem.Instance.onUpdateAbility += UpdateAbility;
+            EventSystem.Instance.onUpdateAbilityName += UpdateAbilityName;
+            EventSystem.Instance.onUpdateKillCount += UpdateKillCount;
+            EventSystem.Instance.onUpdateXpGained += UpdateXpGained;
+            EventSystem.Instance.onUpdateMoneyGained += UpdateMoneyGained;
         }
 
         public void ManagedPause(bool paused)
@@ -146,6 +167,68 @@ namespace Reclaimers.Systems
                 fadeImage.color = temp;
             });
         }
+
+        #region UpdateUIValues
+        public void UpdateHp(float current, float max)
+        {
+            healthBar.UpdateBar(current / max, 1);
+            healthText.text = $"{current.ToString("#.##")}/{max.ToString("#.##")}";
+        }
+
+        public void UpdateXp(float current, float max)
+        {
+            xpBar.UpdateBar(current / max, 1);
+        }
+
+        public void UpdateLevel(int lvl)
+        {
+            levelText.text = $"<size=26>Lvl.<size=34> {lvl.ToString()}";
+        }
+
+        public void UpdateWeapon(float current, float max)
+        {
+            if (max > 49)
+            {
+                weaponBar.UpdateBar(current / max, 1);
+            } else
+            {
+                weaponBar.UpdateBar(current, max);
+            }
+            weaponAmmo.text = $"{current}/{max}";
+        }
+
+        public void UpdateWeaponName(string wName)
+        {
+            weaponName.text = wName;
+        }
+
+        public void UpdateAbility(float current, float max)
+        {
+            abilityBar.UpdateBar(current, max);
+            abilityAmmo.text = $"{Mathf.FloorToInt(current)}, {max}";
+        }
+
+        public void UpdateAbilityName(string aName)
+        {
+            abilityName.text = aName;
+        }
+
+        public void UpdateKillCount(float current)
+        {
+
+        }
+
+        public void UpdateXpGained(float current)
+        {
+
+        }
+
+        public void UpdateMoneyGained(float current)
+        {
+
+        }
+
+        #endregion
 
 
         #region ButtonFuncs

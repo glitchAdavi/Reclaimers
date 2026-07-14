@@ -23,6 +23,36 @@ namespace Reclaimers.Systems
         public event Action onOpenCloseMenues;
         public void OpenCloseMenues() => onOpenCloseMenues?.Invoke();
 
+        public event Action<float, float> onUpdateHp;
+        public void UpdateHp(float c, float m) => onUpdateHp?.Invoke(c, m);
+
+        public event Action<float, float> onUpdateXp;
+        public void UpdateXp(float c, float m) => onUpdateXp?.Invoke(c, m);
+
+        public event Action<int> onUpdateLevel;
+        public void UpdateLevel(int l) => onUpdateLevel?.Invoke(l);
+
+        public event Action<float, float> onUpdateWeapon;
+        public void UpdateWeapon(float c, float m) => onUpdateWeapon?.Invoke(c, m);
+
+        public event Action<string> onUpdateWeaponName;
+        public void UpdateWeaponName(string s) => onUpdateWeaponName?.Invoke(s);
+
+        public event Action<float, float> onUpdateAbility;
+        public void UpdateAbility(float c, float m) => onUpdateAbility?.Invoke(c, m);
+
+        public event Action<string> onUpdateAbilityName;
+        public void UpdateAbilityName(string s) => onUpdateAbilityName?.Invoke(s);
+
+        public event Action<float> onUpdateKillCount;
+        public void UpdateKillCount(float c) => onUpdateKillCount?.Invoke(c);
+
+        public event Action<float> onUpdateXpGained;
+        public void UpdateXpGained(float c) => onUpdateXpGained?.Invoke(c);
+
+        public event Action<float> onUpdateMoneyGained;
+        public void UpdateMoneyGained(float c) => onUpdateMoneyGained?.Invoke(c);
+
         #endregion
 
 

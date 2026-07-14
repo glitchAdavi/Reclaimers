@@ -29,7 +29,7 @@ public class UIMenu : MonoBehaviour
         animationTimer = GameManager.Instance.timerSystem.SetTimer(animationTime, OnOpen, animationTimeStep, () =>
         {
             transform.localScale += new Vector3(1f / animChange, 1f / animChange, 1f / animChange);
-        }, "", false, false);
+        }, "UI_Menu_Animation_Open", false, false);
     }
 
     protected virtual void OnOpen()
@@ -64,7 +64,7 @@ public class UIMenu : MonoBehaviour
         animationTimer = GameManager.Instance.timerSystem.SetTimer(animationTime, OnClose, animationTimeStep, () =>
         {
             transform.localScale -= new Vector3(1f / animChange, 1f / animChange, 1f / animChange);
-        }, "", false, false);
+        }, "UI_Menu_Animation_Close", false, false);
     }
 
     protected virtual void OnClose()

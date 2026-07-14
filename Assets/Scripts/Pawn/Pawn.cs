@@ -23,6 +23,7 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
     [SerializeField] private SpriteRenderer _shadowSpr;
     [SerializeField] private SpriteRenderer _statusEffectSprite;
     [SerializeField] private Weapon _weapon;
+    [SerializeField] private Ability _ability;
 
     public Sprite frame1;
     public Sprite frame2;
@@ -67,6 +68,8 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
 
     public void SetAsPlayer(StatBlock toClone)
     {
+        statBlock = toClone.Clone() as StatBlock;
+
         SetupCleanup();
 
         isPlayer = true;
@@ -84,10 +87,18 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
                 statBlock.weaponBlock = GameManager.Instance.gameInfo.defaultWeaponBlock;
                 
             }
-            Utilities.CopyValues(statBlock.weaponBlock, toClone, typeof(WeaponVar));
+            Utilities.CopyValues(statBlock.weaponBlock, statBlock, typeof(WeaponVar));
 
             _weapon = gameObject.AddComponent<Weapon>();
             _weapon.SetOwner(this);
+        }
+
+        if (_ability == null)
+        {
+            if (statBlock.abilityBlock == null)
+            {
+
+            }
         }
 
         projParent = new GameObject();
@@ -97,11 +108,19 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
 
         _col.gameObject.layer = 10;
 
-        Setup(toClone);
+        LevelThreshold();
+
+        EventSystem.Instance.UpdateHp(statBlock.hp.Value(), statBlock.hp.Value());
+        EventSystem.Instance.UpdateXp(statBlock.xpCur.Value(), p_levelThreshold);
+        EventSystem.Instance.UpdateLevel(statBlock.level.ValueInt());
+
+        Setup();
     }
 
     public void SetAsNonPlayer(StatBlock toClone, Pawn target = null)
     {
+        statBlock = toClone.Clone() as StatBlock;
+
         SetupCleanup();
 
         isPlayer = false;
@@ -112,10 +131,10 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
 
         _col.gameObject.layer = 11;
 
-        Setup(toClone);
+        Setup();
     }
 
-    public void Setup(StatBlock toClone)
+    public void Setup()
     {
         _matBlock.SetFloat("_AlphaClip", 0.01f);
         _sprite.SetPropertyBlock(_matBlock);
@@ -127,8 +146,6 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
         isMeleeAvailable = true;
 
         _nav.updateRotation = false;
-
-        statBlock = toClone.Clone() as StatBlock;
 
         SetSprites();
         SetScale();
@@ -385,6 +402,8 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
 
     public void DamageEffect()
     {
+        if (isPlayer) EventSystem.Instance.UpdateHp(currentHp, statBlock.hp.Value());
+
         _sprite.color = Color.red;
         damageEffectTimer = GameManager.Instance.timerSystem.SetTimer(0.1f, () => _sprite.color = Color.white, "PAWN_DamageEffect");
     }
@@ -406,6 +425,8 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
 
     public void HealEffect()
     {
+        if (isPlayer) EventSystem.Instance.UpdateHp(currentHp, statBlock.hp.Value());
+
         _sprite.color = Color.green;
         damageEffectTimer = GameManager.Instance.timerSystem.SetTimer(0.1f, () => _sprite.color = Color.white, "PAWN_HealEffect");
     }
@@ -501,6 +522,8 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
             LevelThreshold();
             GainLevel(1);
         }
+
+        EventSystem.Instance.UpdateXp(statBlock.xpCur.Value(), p_levelThreshold);
     }
 
     public void GainLevel(int l, bool silent = false)
@@ -510,6 +533,7 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
         statBlock.level.ModB(l);
         if (!silent) LevelUpEffect(l);
 
+        EventSystem.Instance.UpdateLevel(statBlock.level.ValueInt());
     }
 
     protected void LevelUpEffect(int l)
