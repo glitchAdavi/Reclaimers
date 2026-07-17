@@ -38,20 +38,24 @@ namespace Reclaimers.Systems
             xpOrbParent.name = "XpOrbParent";
             _xpOrbBuilder = new ObjectBuilder<XpOrb>();
             _xpOrbBuilder.BuildPool(XpOrbFactory, 50, xpOrbParent.transform);
-            EventSystem.Instance.onSpawnXp += SpawnXpOrb;
-            EventSystem.Instance.onXpOrbDeath += RemoveXpOrb;
-            EventSystem.Instance.onXpOrbDecay += OnXpOrbDecay;
-            EventSystem.Instance.onXpOrbUpdateVisibility += AddRemoveXpOrbVisible;
+            GameManager.Instance.eventSystem.onSpawnXp += SpawnXpOrb;
+            GameManager.Instance.eventSystem.onXpOrbDeath += RemoveXpOrb;
+            GameManager.Instance.eventSystem.onXpOrbDecay += OnXpOrbDecay;
+            GameManager.Instance.eventSystem.onXpOrbUpdateVisibility += AddRemoveXpOrbVisible;
 
             
             moneyOrbParent = new GameObject();
             moneyOrbParent.name = "MoneyOrbParent";
             _moneyOrbBuilder = new ObjectBuilder<MoneyOrb>();
             _moneyOrbBuilder.BuildPool(MoneyOrbFactory, 50, moneyOrbParent.transform);
-            EventSystem.Instance.onSpawnMoney += SpawnMoneyOrb;
-            EventSystem.Instance.onMoneyOrbDeath += RemoveMoneyOrb;
-            EventSystem.Instance.onMoneyOrbDecay += OnMoneyOrbDecay;
-            EventSystem.Instance.onMoneyOrbUpdateVisibility += AddRemoveMoneyOrbVisible;
+            GameManager.Instance.eventSystem.onSpawnMoney += SpawnMoneyOrb;
+            GameManager.Instance.eventSystem.onMoneyOrbDeath += RemoveMoneyOrb;
+            GameManager.Instance.eventSystem.onMoneyOrbDecay += OnMoneyOrbDecay;
+            GameManager.Instance.eventSystem.onMoneyOrbUpdateVisibility += AddRemoveMoneyOrbVisible;
+
+            GameManager.Instance.eventSystem.onTriggerEnd += OnEnd;
+            GameManager.Instance.eventSystem.onTriggerWin += OnWin;
+            GameManager.Instance.eventSystem.onTriggerLose += OnLose;
 
         }
 
@@ -66,6 +70,8 @@ namespace Reclaimers.Systems
 
             if (currentLevelLogic.isActive) return;
 
+
+            GameManager.Instance.eventSystem.EnableAllControls(true);
             currentLevelLogic.Begin();
         }
 
@@ -197,6 +203,20 @@ namespace Reclaimers.Systems
             accumulatedMoney += moneyOrb.GetValue();
         }
         #endregion
+        public void OnEnd()
+        {
+
+        }
+
+        public void OnWin()
+        {
+
+        }
+
+        public void OnLose()
+        {
+
+        }
 
 
         #region Interactables

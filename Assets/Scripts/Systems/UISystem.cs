@@ -1,9 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Reclaimers.UpdateSystem;
-using UnityEditor.MPE;
 using System;
-using System.Collections.Generic;
 using TMPro;
 
 namespace Reclaimers.Systems
@@ -16,13 +14,24 @@ namespace Reclaimers.Systems
 
         public GameObject fadeObject;
         public Image fadeImage;
-        public GameObject fadeMenu;
+        public UIMenu_Fade fadeMenu;
 
         public UIMenu pauseMenu;
+
+        public UIMenu missionMenu;
+
+        public UIMenu customizationMenu;
+
+        public UIMenu upgradeMenu;
 
         public GameObject statMenu;
         public TMP_Text statMenuText;
 
+        public GameObject uiTop;
+        public GameObject uiBot;
+
+        public UIFillableBar objectiveBar;
+        public TMP_Text objectiveText;
         public TMP_Text currentObjective;
         public GameObject stage1;
         public GameObject stage2;
@@ -61,34 +70,49 @@ namespace Reclaimers.Systems
             floatingTextBuilder = new ObjectBuilder<FloatingText>();
             floatingTextBuilder.BuildPool(FloatingTextFactory, 100, textParent.transform);
 
+            Material fMaterial = fadeImage.material;
+            fadeImage.material = Instantiate(fMaterial);
 
 
 
 
+            GameManager.Instance.eventSystem.onSpawnFloatingText += SpawnFloatingText;
 
-            EventSystem.Instance.onSpawnFloatingText += SpawnFloatingText;
+            GameManager.Instance.eventSystem.onOpenCloseMenues += OpenCloseMenues;
 
-            EventSystem.Instance.onOpenCloseMenues += OpenCloseMenues;
+            GameManager.Instance.eventSystem.onEnableUITop += EnableUITop;
 
-            EventSystem.Instance.onQueueLevelUp += LevelUpMenu;
-            EventSystem.Instance.onLevelUpFinish += CloseLevelUpMenu;
+            GameManager.Instance.eventSystem.onQueueLevelUp += LevelUpMenu;
+            GameManager.Instance.eventSystem.onLevelUpFinish += CloseLevelUpMenu;
 
-            EventSystem.Instance.onUpdateHp += UpdateHp;
-            EventSystem.Instance.onUpdateXp += UpdateXp;
-            EventSystem.Instance.onUpdateLevel += UpdateLevel;
-            EventSystem.Instance.onUpdateWeapon += UpdateWeapon;
-            EventSystem.Instance.onUpdateWeaponName += UpdateWeaponName;
-            EventSystem.Instance.onUpdateAbility += UpdateAbility;
-            EventSystem.Instance.onUpdateAbilityName += UpdateAbilityName;
-            EventSystem.Instance.onUpdateKillCount += UpdateKillCount;
-            EventSystem.Instance.onUpdateXpGained += UpdateXpGained;
-            EventSystem.Instance.onUpdateMoneyGained += UpdateMoneyGained;
+            GameManager.Instance.eventSystem.onUpdateHp += UpdateHp;
+            GameManager.Instance.eventSystem.onUpdateXp += UpdateXp;
+            GameManager.Instance.eventSystem.onUpdateLevel += UpdateLevel;
+            GameManager.Instance.eventSystem.onUpdateWeapon += UpdateWeapon;
+            GameManager.Instance.eventSystem.onUpdateWeaponName += UpdateWeaponName;
+            GameManager.Instance.eventSystem.onUpdateAbility += UpdateAbility;
+            GameManager.Instance.eventSystem.onUpdateAbilityName += UpdateAbilityName;
+            GameManager.Instance.eventSystem.onUpdateKillCount += UpdateKillCount;
+            GameManager.Instance.eventSystem.onUpdateXpGained += UpdateXpGained;
+            GameManager.Instance.eventSystem.onUpdateMoneyGained += UpdateMoneyGained;
+            GameManager.Instance.eventSystem.onUpdateObjective += UpdateObjective;
+            GameManager.Instance.eventSystem.onUpdateObjectiveBar += UpdateObjectiveBar;
+
+            GameManager.Instance.eventSystem.onTriggerWin += SetFadeWin;
+            GameManager.Instance.eventSystem.onTriggerLose += SetFadeLose;
         }
 
         public void ManagedPause(bool paused)
         {
             isPaused = paused;
             timerFade?.Pause(paused);
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.N)) MissionMenu();
+            if (Input.GetKeyDown(KeyCode.M)) UpgradeMenu();
+            if (Input.GetKeyDown(KeyCode.B)) CustomizationMenu();
         }
 
 
@@ -99,7 +123,7 @@ namespace Reclaimers.Systems
                 UIMenu m = activeMenues[^1];
                 activeMenues.Remove(m);
                 m.BeforeClose();
-                if (isPaused) EventSystem.Instance.SetPause(false);
+                if (isPaused) GameManager.Instance.eventSystem.SetPause(false);
             } else
             {
                 OpenPauseMenu();
@@ -112,7 +136,31 @@ namespace Reclaimers.Systems
             activeMenues.Add(pauseMenu);
             pauseMenu.BeforeOpen();
 
-            EventSystem.Instance.SetPause(true);
+            GameManager.Instance.eventSystem.SetPause(true);
+        }
+
+        public void MissionMenu()
+        {
+            activeMenues.Add(missionMenu);
+            missionMenu.BeforeOpen();
+
+            GameManager.Instance.eventSystem.SetPause(true);
+        }
+
+        public void CustomizationMenu()
+        {
+            activeMenues.Add(customizationMenu);
+            customizationMenu.BeforeOpen();
+
+            GameManager.Instance.eventSystem.SetPause(true);
+        }
+
+        public void UpgradeMenu()
+        {
+            activeMenues.Add(upgradeMenu);
+            upgradeMenu.BeforeOpen();
+
+            GameManager.Instance.eventSystem.SetPause(true);
         }
 
         public void LevelUpMenu()
@@ -120,52 +168,72 @@ namespace Reclaimers.Systems
             activeMenues.Add(levelUpMenu);
             levelUpMenu.BeforeOpen();
 
-            EventSystem.Instance.SetPause(true);
+            GameManager.Instance.eventSystem.SetPause(true);
         }
 
         public void CloseLevelUpMenu()
         {
             activeMenues.Remove(levelUpMenu);
-            EventSystem.Instance.SetPause(false);
+            GameManager.Instance.eventSystem.SetPause(false);
         }
 
-        public void FadeIn(Action callback, float time = 1f)
+        public void EnableUITop()
         {
-            EventSystem.Instance.EnableAllControls(false);
-            EventSystem.Instance.EnablePlayerControls(false);
+            uiTop.SetActive(true);
+        }
+
+        public void FadeIn(Action callback, float time = 3f)
+        {
+            GameManager.Instance.eventSystem.EnableAllControls(false);
+            GameManager.Instance.eventSystem.EnablePlayerControls(false);
 
             float stepTime = time / 100;
 
-            timerFade = GameManager.Instance.timerSystem.SetTimer(time, callback, stepTime, () =>
+            timerFade = GameManager.Instance.timerSystem.SetTimer(time, () =>
             {
-                Color temp = fadeImage.color;
-                time -= 0.01f;
-                temp.a = time;
-                fadeImage.color = temp;
-                if (temp.a <= 0.01f) fadeImage.enabled = false;
-            });
+                fadeImage.material.SetFloat("_AlphaClip", 1);
+                fadeImage.enabled = false;
+                if (callback != null) callback();
+            }, stepTime, () =>
+            {
+                fadeImage.material.SetFloat("_AlphaClip", (timerFade.durationElapsed / time));
+            }, "UI_FadeIn", false, false);
         }
 
-        public void FadeOut(Action callback, float time = 1f, bool menu = false)
+        public void FadeOut(Action callback, float time = 3f, bool menu = false)
         {
-            EventSystem.Instance.EnableAllControls(false);
-            EventSystem.Instance.EnablePlayerControls(false);
+            GameManager.Instance.eventSystem.EnableAllControls(false);
+            GameManager.Instance.eventSystem.EnablePlayerControls(false);
 
             float stepTime = time / 100;
             fadeImage.enabled = true;
 
             timerFade = GameManager.Instance.timerSystem.SetTimer(time, () =>
             {
-                Cursor.visible = true;
-
-                callback();
-                fadeMenu.SetActive(menu);
+                if (callback != null) callback();
+                if (menu) OpenFadeMenu();
             }, stepTime, () =>
             {
-                Color temp = fadeImage.color;
-                temp.a += 0.01f;
-                fadeImage.color = temp;
-            });
+                fadeImage.material.SetFloat("_AlphaClip", 1 - (timerFade.durationElapsed / time));
+            }, "UI_FadeOut", false, false);
+        }
+
+        public void OpenFadeMenu()
+        {
+            Cursor.visible = true;
+            fadeMenu.BeforeOpen();
+        }
+
+        public void SetFadeWin()
+        {
+            fadeMenu.SetText("You Survived!");
+            fadeMenu.SetStats("STATS");
+        }
+
+        public void SetFadeLose()
+        {
+            fadeMenu.SetText("You Died.");
+            fadeMenu.SetStats("");
         }
 
         #region UpdateUIValues
@@ -205,7 +273,7 @@ namespace Reclaimers.Systems
         public void UpdateAbility(float current, float max)
         {
             abilityBar.UpdateBar(current, max);
-            abilityAmmo.text = $"{Mathf.FloorToInt(current)}, {max}";
+            abilityAmmo.text = $"{Mathf.FloorToInt(current)}/{max}";
         }
 
         public void UpdateAbilityName(string aName)
@@ -215,19 +283,31 @@ namespace Reclaimers.Systems
 
         public void UpdateKillCount(float current)
         {
-
+            killCount.text = current.ToString("#.##");
         }
 
         public void UpdateXpGained(float current)
         {
-
+            xpGained.text = current.ToString("#.##");
         }
 
         public void UpdateMoneyGained(float current)
         {
-
+            moneyGained.text = current.ToString("#.##");
         }
 
+        public void UpdateObjective(string current)
+        {
+            currentObjective.text = $"<size=26>Current objective: <size=36>{current}";
+        }
+
+        public void UpdateObjectiveBar(float current, float max, bool updateText, bool altColor = false)
+        {
+            objectiveBar.UseAltColor(altColor);
+            objectiveBar.UpdateBar(current / max, 1);
+            if (updateText) objectiveText.text = $"{current:#}<size=26>s";
+            else objectiveText.text = "";
+        }
         #endregion
 
 

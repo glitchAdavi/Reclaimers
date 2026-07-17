@@ -47,6 +47,6 @@ public class UIMenu_LevelUp : UIMenu
 
         closeTimer = null;
 
-        EventSystem.Instance.LevelUpFinish();
+        GameManager.Instance.eventSystem.LevelUpFinish();
     }
 }

@@ -14,8 +14,8 @@ public class PlayerController : MonoBehaviour, IUpdateable, IPauseable
     {
         this.Register();
 
-        EventSystem.Instance.onEnableAllControls += EnableAllControls;
-        EventSystem.Instance.onEnablePlayerControls += EnablePlayerControls;
+        GameManager.Instance.eventSystem.onEnableAllControls += EnableAllControls;
+        GameManager.Instance.eventSystem.onEnablePlayerControls += EnablePlayerControls;
 
     }
 
@@ -40,6 +40,11 @@ public class PlayerController : MonoBehaviour, IUpdateable, IPauseable
         if (Input.GetKeyDown(KeyCode.R))
         {
             PlayerReload();
+        }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            PlayerAbility();
         }
 
         if (Input.GetKey(KeyCode.F))
@@ -92,6 +97,13 @@ public class PlayerController : MonoBehaviour, IUpdateable, IPauseable
         player.WeaponReload();
     }
 
+    public void PlayerAbility()
+    {
+        if (player == null) return;
+
+        player.UseAbility();
+    }
+
     public void PlayerInteract()
     {
         if (player == null) return;
@@ -108,7 +120,7 @@ public class PlayerController : MonoBehaviour, IUpdateable, IPauseable
 
     public void PlayerEscape()
     {
-        EventSystem.Instance.OpenCloseMenues();
+        GameManager.Instance.eventSystem.OpenCloseMenues();
     }
 
     #endregion

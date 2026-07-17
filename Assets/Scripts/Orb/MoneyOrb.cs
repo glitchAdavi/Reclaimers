@@ -21,7 +21,7 @@ public class MoneyOrb : Orb
     {
         if (target != null)
         {
-            if (value > 0) EventSystem.Instance.GivePlayerMoney(value);
+            if (value > 0) GameManager.Instance.eventSystem.GivePlayerMoney(value);
         }
     }
 
@@ -33,18 +33,18 @@ public class MoneyOrb : Orb
     protected override void Die()
     {
         base.Die();
-        EventSystem.Instance.MoneyOrbDeath(this);
+        GameManager.Instance.eventSystem.MoneyOrbDeath(this);
     }
 
     protected override void Decay()
     {
-        EventSystem.Instance.MoneyOrbDecay(this);
+        GameManager.Instance.eventSystem.MoneyOrbDecay(this);
         base.Decay();
     }
 
     protected override void UpdateVisibility()
     {
         base.UpdateVisibility();
-        EventSystem.Instance.MoneyOrbUpdateVisibility(this, isVisible);
+        GameManager.Instance.eventSystem.MoneyOrbUpdateVisibility(this, isVisible);
     }
 }

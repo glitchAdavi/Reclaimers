@@ -14,8 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pName: Test
   pDesc: A Pawn.
+  upgrades: []
+  items: []
   weaponBlock: {fileID: 11400000, guid: 3f5c620b243a5554b9a7dfcb85d7037e, type: 2}
   projType: 0
+  onHitEffects: []
   abilityBlock: {fileID: 0}
   sprNames:
   - DefaultHead1
@@ -26,13 +29,15 @@ MonoBehaviour:
   - 
   - 
   sprFrameColor:
+  - {r: 1, g: 1, b: 1, a: 0}
   - {r: 0, g: 0, b: 0, a: 0}
   - {r: 0, g: 0, b: 0, a: 0}
   - {r: 0, g: 0, b: 0, a: 0}
   - {r: 0, g: 0, b: 0, a: 0}
   - {r: 0, g: 0, b: 0, a: 0}
   - {r: 0, g: 0, b: 0, a: 0}
-  - {r: 0, g: 0, b: 0, a: 0}
+  spriteVariableHue: 0
+  spriteVariableHueRange: 0
   scale:
     _base: 1
     _mult: 1
@@ -336,7 +341,16 @@ MonoBehaviour:
     _min: 0
     _max: Infinity
   abilityName: 
-  abilityType: 0
+  abilityScript: 0
+  seToApply: {fileID: 0}
+  goToInstantiate: {fileID: 0}
+  abilityDuration:
+    _base: 0
+    _mult: 0
+    _addTotal: 0
+    _multTotal: 1
+    _min: 0
+    _max: Infinity
   abilityCooldown:
     _base: 0
     _mult: 0

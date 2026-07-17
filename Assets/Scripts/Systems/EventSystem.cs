@@ -5,16 +5,11 @@ namespace Reclaimers.Systems
 {
     public class EventSystem : MonoBehaviour
     {
-        public static EventSystem Instance { get; private set; }
-
-        private void Awake()
-        {
-            if (Instance == null) Instance = this;
-        }
-
-
         public event Action<bool> onSetPause;
         public void SetPause(bool pause) => onSetPause?.Invoke(pause);
+
+        public event Action<float> onGiveAccountXp;
+        public void GiveAccountXp(float val) => onGiveAccountXp?.Invoke(val);
 
         #region UI
         public event Action<Vector3, string, Sprite, Color, float, float> onSpawnFloatingText;
@@ -53,6 +48,37 @@ namespace Reclaimers.Systems
         public event Action<float> onUpdateMoneyGained;
         public void UpdateMoneyGained(float c) => onUpdateMoneyGained?.Invoke(c);
 
+        public event Action<string> onUpdateObjective;
+        public void UpdateObjective(string s) => onUpdateObjective?.Invoke(s);
+
+        public event Action<float, float, bool, bool> onUpdateObjectiveBar;
+        public void UpdateObjectiveBar(float c, float m, bool b, bool altC = false) => onUpdateObjectiveBar?.Invoke(c, m, b, altC);
+
+        public event Action onEnableUITop;
+        public void EnableUITop() => onEnableUITop?.Invoke();
+        #endregion
+
+        #region Level
+        public event Action<float, int, int> onSetPawnSpawnVars;
+        public void SetPawnSpawnVars(float i, int b, int m) => onSetPawnSpawnVars?.Invoke(i, b, m);
+
+        public event Action onRequestClearPawnSpawns;
+        public void RequestClearPawnSpawns() => onRequestClearPawnSpawns?.Invoke();
+
+        public event Action<StatBlock, int> onRequestAddPawnSpawn;
+        public void RequestAddPawnSpawn(StatBlock sb, int w) => onRequestAddPawnSpawn?.Invoke(sb, w);
+
+        public event Action onRequestBossSpawn;
+        public void RequestBossSpawn() => onRequestBossSpawn?.Invoke();
+
+        public event Action onTriggerEnd;
+        public void TriggerEnd() => onTriggerEnd?.Invoke();
+
+        public event Action onTriggerWin;
+        public void TriggerWin() => onTriggerWin?.Invoke();
+
+        public event Action onTriggerLose;
+        public void TriggerLose() => onTriggerLose?.Invoke();
         #endregion
 
 

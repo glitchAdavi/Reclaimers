@@ -21,6 +21,7 @@ MonoBehaviour:
   zombieEnemyStatBlock: {fileID: 0}
   bugEnemyStatBlock: {fileID: 0}
   defaultWeaponBlock: {fileID: 11400000, guid: 3f5c620b243a5554b9a7dfcb85d7037e, type: 2}
+  defaultAbilityBlock: {fileID: 11400000, guid: 7517908b9d2dc804980d21a9c661b217, type: 2}
   pawnPrefab: {fileID: 7670317755826226318, guid: a7836d36845584b4aba91a530fb6249f, type: 3}
   projectilePrefab: {fileID: 1786039620101491116, guid: 2126f2636b206074da66c30bbad4297f, type: 3}
   floatingTextPrefab: {fileID: 7148867433677660254, guid: 9eceed23d104c5c4c899490c4f468635, type: 3}

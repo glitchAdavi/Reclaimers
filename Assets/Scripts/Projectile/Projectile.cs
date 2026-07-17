@@ -37,12 +37,12 @@ public abstract class Projectile : MonoBehaviour, IUpdateable, IPauseable
         _extCol.transform.localPosition = new Vector3(0f, 0f, 0f);
         _extCol.onCollisionEnter += ManageOnCollisionEnter;
 
-        EventSystem.Instance.onEnemyDeath += RemoveFromHit;
+        GameManager.Instance.eventSystem.onEnemyDeath += RemoveFromHit;
     }
 
     protected void OnDisable()
     {
-        EventSystem.Instance.onEnemyDeath -= RemoveFromHit;
+        GameManager.Instance.eventSystem.onEnemyDeath -= RemoveFromHit;
 
         _extCol.onCollisionEnter -= ManageOnCollisionEnter;
 

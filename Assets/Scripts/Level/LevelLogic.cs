@@ -13,7 +13,7 @@ public abstract class LevelLogic : MonoBehaviour, IUpdateable, IPauseable
         this.Register();
         isActive = true;
 
-        EventSystem.Instance.EnablePlayerControls(true);
+        GameManager.Instance.eventSystem.EnablePlayerControls(true);
     }
 
     public void ManagedUpdate()
@@ -26,22 +26,27 @@ public abstract class LevelLogic : MonoBehaviour, IUpdateable, IPauseable
     public void ManagedPause(bool paused)
     {
         isPaused = paused;
+
+        LogicPause(isPaused);
     }
 
-    protected virtual void LogicUpdate()
-    {
+    protected virtual void LogicUpdate() { }
 
-    }
+    protected virtual void LogicPause(bool paused) { }
 
     protected virtual void Win()
     {
         if (ended) return;
         ended = true;
+
+        GameManager.Instance.uiSystem.FadeOut(null, 3f, true);
     }
 
     protected virtual void Lose()
     {
         if (ended) return;
         ended = true;
+
+        GameManager.Instance.uiSystem.FadeOut(null, 3f, true);
     }
 }

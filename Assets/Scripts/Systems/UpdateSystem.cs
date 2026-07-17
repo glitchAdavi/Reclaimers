@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -73,19 +74,19 @@ namespace Reclaimers.UpdateSystem
 
         public void Register(IManagedObject obj)
         {
-            if (obj is IUpdateable updateable)
+            if (obj is IUpdateable updateable && !_updateableObjects.Contains(updateable))
             {
                 _updateableObjects.Add(updateable);
             }
-            if (obj is IFixedUpdateable fixedUpdateable)
+            if (obj is IFixedUpdateable fixedUpdateable && !_fixedUpdateableObjects.Contains(fixedUpdateable))
             {
                 _fixedUpdateableObjects.Add(fixedUpdateable);
             }
-            if (obj is ILateUpdateable lateUpdateable)
+            if (obj is ILateUpdateable lateUpdateable && !_lateUpdateablesObjects.Contains(lateUpdateable))
             {
                 _lateUpdateablesObjects.Add(lateUpdateable);
             }
-            if (obj is IPauseable pauseable)
+            if (obj is IPauseable pauseable && !_pauseableObjects.Contains(pauseable))
             {
                 _pauseableObjects.Add(pauseable);
             }
@@ -93,19 +94,19 @@ namespace Reclaimers.UpdateSystem
 
         public void Unregister(IManagedObject obj)
         {
-            if (obj is IUpdateable updateable)
+            if (obj is IUpdateable updateable && _updateableObjects.Contains(updateable))
             {
                 _updateableObjects.Remove(updateable);
             }
-            if (obj is IFixedUpdateable fixedUpdateable)
+            if (obj is IFixedUpdateable fixedUpdateable && _fixedUpdateableObjects.Contains(fixedUpdateable))
             {
                 _fixedUpdateableObjects.Remove(fixedUpdateable);
             }
-            if (obj is ILateUpdateable lateUpdateable)
+            if (obj is ILateUpdateable lateUpdateable && _lateUpdateablesObjects.Contains(lateUpdateable))
             {
                 _lateUpdateablesObjects.Remove(lateUpdateable);
             }
-            if (obj is IPauseable pauseable)
+            if (obj is IPauseable pauseable && _pauseableObjects.Contains(pauseable))
             {
                 _pauseableObjects.Remove(pauseable);
             }

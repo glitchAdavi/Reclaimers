@@ -34,6 +34,7 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
     [SerializeField] private int p_pendingLevelUps = 0;
     private float np_navUpdateInterval = 0.25f;
     private float np_dissolveTime = 0.25f;
+    private float p_dissolveTime = 3f;
 
     [SerializeField] private List<Pawn> p_nearbyEnemies = new List<Pawn>();
     [SerializeField] private List<Interactable> p_nearbyInteractables = new List<Interactable>();
@@ -50,7 +51,6 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
     public bool isStunned = false;
     public bool isFrame1 = true;
     public bool isTeleportable = true;
-    //public bool isLookingRight = false;
 
     private Timer p_iFrameTimer;
     private Timer p_hpRegenStartTimer;
@@ -61,6 +61,7 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
     private Timer damageEffectTimer;
     private Timer animationTimer;
     private Timer np_dissolveTimer;
+    private Timer p_dissolveTimer;
 
     public Pawn target = null;
 
@@ -76,9 +77,9 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
         _nav.avoidancePriority = 1;
         SetTarget(null);
 
-        EventSystem.Instance.onGivePlayerXp += GainXp;
-        EventSystem.Instance.onGivePlayerLevel += GainLevel;
-        EventSystem.Instance.onGivePlayerMoney += GainMoney;
+        GameManager.Instance.eventSystem.onGivePlayerXp += GainXp;
+        GameManager.Instance.eventSystem.onGivePlayerLevel += GainLevel;
+        GameManager.Instance.eventSystem.onGivePlayerMoney += GainMoney;
 
         if (_weapon == null)
         {
@@ -97,8 +98,12 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
         {
             if (statBlock.abilityBlock == null)
             {
-
+                statBlock.abilityBlock = GameManager.Instance.gameInfo.defaultAbilityBlock;
             }
+            Utilities.CopyValues(statBlock.abilityBlock, statBlock, typeof(AbilityVar));
+
+            _ability = gameObject.AddComponent(Type.GetType(statBlock.abilityScript.ToString())) as Ability;
+            _ability.SetOwner(this);
         }
 
         projParent = new GameObject();
@@ -110,9 +115,9 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
 
         LevelThreshold();
 
-        EventSystem.Instance.UpdateHp(statBlock.hp.Value(), statBlock.hp.Value());
-        EventSystem.Instance.UpdateXp(statBlock.xpCur.Value(), p_levelThreshold);
-        EventSystem.Instance.UpdateLevel(statBlock.level.ValueInt());
+        GameManager.Instance.eventSystem.UpdateHp(statBlock.hp.Value(), statBlock.hp.Value());
+        GameManager.Instance.eventSystem.UpdateXp(statBlock.xpCur.Value(), p_levelThreshold);
+        GameManager.Instance.eventSystem.UpdateLevel(statBlock.level.ValueInt());
 
         Setup();
     }
@@ -162,9 +167,17 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
             projectileBuilder = null;
             Destroy(projParent);
         }
-        EventSystem.Instance.onGivePlayerXp -= GainXp;
-        EventSystem.Instance.onGivePlayerLevel -= GainLevel;
-        EventSystem.Instance.onGivePlayerMoney -= GainMoney;
+        if (_weapon != null)
+        {
+            Destroy(_weapon);
+        }
+        if (_ability != null)
+        {
+            Destroy(_ability);
+        }
+        GameManager.Instance.eventSystem.onGivePlayerXp -= GainXp;
+        GameManager.Instance.eventSystem.onGivePlayerLevel -= GainLevel;
+        GameManager.Instance.eventSystem.onGivePlayerMoney -= GainMoney;
     }
 
     private void Awake()
@@ -188,8 +201,8 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
         CancelTimer(ref damageEffectTimer);
         CancelTimer(ref animationTimer);
 
-        EventSystem.Instance.onGivePlayerXp -= GainXp;
-        EventSystem.Instance.onGivePlayerLevel -= GainLevel;
+        GameManager.Instance.eventSystem.onGivePlayerXp -= GainXp;
+        GameManager.Instance.eventSystem.onGivePlayerLevel -= GainLevel;
 
         this.Unregister();
     }
@@ -203,7 +216,7 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
             if (p_pendingLevelUps > 0)
             {
                 p_pendingLevelUps--;
-                EventSystem.Instance.QueueLevelUp();
+                GameManager.Instance.eventSystem.QueueLevelUp();
             }
 
             GameManager.Instance.gameInfo.playerPositionVar.SetValue(transform.position);
@@ -384,8 +397,8 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
 
         if (!isPlayer)
         {
-            if (!isCrit) EventSystem.Instance.SpawnFloatingText(transform.position, totalDamage.ToString("#.##"), null, Color.red);
-            else EventSystem.Instance.SpawnFloatingText(transform.position, totalDamage.ToString("#.##!"), null, Color.red, 2, 1.5f);
+            if (!isCrit) GameManager.Instance.eventSystem.SpawnFloatingText(transform.position, totalDamage.ToString("#.##"), null, Color.red);
+            else GameManager.Instance.eventSystem.SpawnFloatingText(transform.position, totalDamage.ToString("#.##!"), null, Color.red, 2, 1.5f);
         }
 
         if (currentHp <= totalDamage)
@@ -402,7 +415,7 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
 
     public void DamageEffect()
     {
-        if (isPlayer) EventSystem.Instance.UpdateHp(currentHp, statBlock.hp.Value());
+        if (isPlayer) GameManager.Instance.eventSystem.UpdateHp(currentHp, statBlock.hp.Value());
 
         _sprite.color = Color.red;
         damageEffectTimer = GameManager.Instance.timerSystem.SetTimer(0.1f, () => _sprite.color = Color.white, "PAWN_DamageEffect");
@@ -425,7 +438,7 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
 
     public void HealEffect()
     {
-        if (isPlayer) EventSystem.Instance.UpdateHp(currentHp, statBlock.hp.Value());
+        if (isPlayer) GameManager.Instance.eventSystem.UpdateHp(currentHp, statBlock.hp.Value());
 
         _sprite.color = Color.green;
         damageEffectTimer = GameManager.Instance.timerSystem.SetTimer(0.1f, () => _sprite.color = Color.white, "PAWN_HealEffect");
@@ -467,7 +480,6 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
         isActive = false;
         isDead = true;
 
-
         CancelTimer(ref animationTimer);
         CancelTimer(ref damageEffectTimer);
 
@@ -477,6 +489,16 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
             CancelTimer(ref p_hpRegenStartTimer);
             CancelTimer(ref p_hpRegenTickTimer);
 
+            GameManager.Instance.eventSystem.SetPause(true);
+            GameManager.Instance.eventSystem.EnableAllControls(false);
+
+            float dissolveStep = 0.05f;
+            p_dissolveTimer = GameManager.Instance.timerSystem.SetTimer(p_dissolveTime, GameManager.Instance.eventSystem.PlayerDeath, dissolveStep, () =>
+            {
+                _matBlock.SetFloat("_AlphaClip", _matBlock.GetFloat("_AlphaClip") + (dissolveStep / p_dissolveTime));
+                _sprite.SetPropertyBlock(_matBlock);
+                _shadowSpr.SetPropertyBlock(_matBlock);
+            }, "PAWN_Player_DeathDissolve", false, false);
         } else
         {
             CancelTimer(ref np_navUpdateTimer);
@@ -486,11 +508,11 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
             _nav.isStopped = true;
             _nav.enabled = false;
 
-            if (statBlock.xpInstant) EventSystem.Instance.GivePlayerXp(statBlock.xpKillValue.Value());
-            else EventSystem.Instance.SpawnXp(transform.position, statBlock.xpKillValue.Value());
+            if (statBlock.xpInstant) GameManager.Instance.eventSystem.GivePlayerXp(statBlock.xpKillValue.Value());
+            else GameManager.Instance.eventSystem.SpawnXp(transform.position, statBlock.xpKillValue.Value());
 
-            if (statBlock.moneyInstant) EventSystem.Instance.GivePlayerMoney(statBlock.moneyKillValue.Value());
-            else EventSystem.Instance.SpawnMoney(transform.position, statBlock.moneyKillValue.Value());
+            if (statBlock.moneyInstant) GameManager.Instance.eventSystem.GivePlayerMoney(statBlock.moneyKillValue.Value());
+            else GameManager.Instance.eventSystem.SpawnMoney(transform.position, statBlock.moneyKillValue.Value());
 
             float dissolveStep = 0.05f;
             np_dissolveTimer = GameManager.Instance.timerSystem.SetTimer(np_dissolveTime, ConfirmDeath, dissolveStep, () =>
@@ -498,14 +520,14 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
                 _matBlock.SetFloat("_AlphaClip", _matBlock.GetFloat("_AlphaClip") + (dissolveStep / np_dissolveTime));
                 _sprite.SetPropertyBlock(_matBlock);
                 _shadowSpr.SetPropertyBlock(_matBlock);
-            });
+            }, "PAWN_Player_DeathDissolve");
         }
 
     }
 
     public void ConfirmDeath()
     {
-        EventSystem.Instance.EnemyDeath(this);
+        GameManager.Instance.eventSystem.EnemyDeath(this);
     }
 
     #region XP
@@ -523,7 +545,7 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
             GainLevel(1);
         }
 
-        EventSystem.Instance.UpdateXp(statBlock.xpCur.Value(), p_levelThreshold);
+        GameManager.Instance.eventSystem.UpdateXp(statBlock.xpCur.Value(), p_levelThreshold);
     }
 
     public void GainLevel(int l, bool silent = false)
@@ -533,7 +555,7 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
         statBlock.level.ModB(l);
         if (!silent) LevelUpEffect(l);
 
-        EventSystem.Instance.UpdateLevel(statBlock.level.ValueInt());
+        GameManager.Instance.eventSystem.UpdateLevel(statBlock.level.ValueInt());
     }
 
     protected void LevelUpEffect(int l)
@@ -585,6 +607,13 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
         if (_weapon == null) return;
 
         _weapon.Reload();
+    }
+    #endregion
+
+    #region Ability
+    public void UseAbility()
+    {
+        _ability?.AbilityUse();
     }
     #endregion
 
@@ -674,7 +703,7 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
             if (se.statusEffectSprite != null) seSprites.Add(se.statusEffectSprite);
         }
 
-        _statusEffectSprite.sprite = SetSprite(seSprites.ToArray(), new Color[seSprites.Count - 1]);
+        if (seSprites.Count > 0) _statusEffectSprite.sprite = SetSprite(seSprites.ToArray(), new Color[seSprites.Count - 1]);
     }
     #endregion
 
@@ -887,6 +916,11 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
     private void ResetSelf()
     {
         GameManager.Instance.pawnSystem.ResetEnemy(transform.position - target.transform.position, this);
+    }
+
+    public bool HasPendingLevelUps()
+    {
+        return p_pendingLevelUps > 0;
     }
     #endregion
 }

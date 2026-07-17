@@ -1,3 +1,4 @@
+using System.Drawing;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,6 +16,8 @@ public class UIFillableBar : MonoBehaviour
 
 
         _image.material.SetFloat("_Invert", _invert ? 1 : 0);
+        _image.material.SetFloat("_Bars", _size);
+        _image.material.SetFloat("_Fill", _currentSize);
     }
 
     public void Init(int size)
@@ -34,8 +37,14 @@ public class UIFillableBar : MonoBehaviour
         _image.material.SetFloat("_Fill", (1f / _size) * _currentSize);
     }
 
-    public void SetColor(Color c)
+    public void UseAltColor(bool altColor)
     {
-        _image.material.SetColor("_Color", c);
+        _image.material.SetFloat("_UseAltColor", altColor ? 1 : 0);
+    }
+
+    public void Invert(bool i)
+    {
+        _invert = i;
+        _image.material.SetFloat("_Invert", _invert ? 1 : 0);
     }
 }

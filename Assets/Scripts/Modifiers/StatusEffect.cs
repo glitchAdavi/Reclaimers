@@ -33,4 +33,9 @@ public abstract class StatusEffect : Modifier
     {
         timerStatus.Reset();
     }
+
+    public void SetDuration(float dur)
+    {
+        duration = dur;
+    }
 }

@@ -14,11 +14,18 @@ public class GameInfo : ScriptableObject
     public StatBlock slimeEnemyStatBlock;
     public StatBlock zombieEnemyStatBlock;
     public StatBlock bugEnemyStatBlock;
+    public StatBlock staticPlantEnemyStatBlock;
+    public StatBlock movingPlantEnemyStatBlock;
+    public StatBlock wolfEnemyStatBlock;
+    public StatBlock fleshGolemStatBlock;
 
     public StatBlock defaultWeaponBlock;
 
+    public StatBlock defaultAbilityBlock;
+
 
     public GameObject pawnPrefab;
+    public GameObject playerCameraPrefab;
     public GameObject projectilePrefab;
     public GameObject floatingTextPrefab;
     public GameObject xpOrbPrefab;

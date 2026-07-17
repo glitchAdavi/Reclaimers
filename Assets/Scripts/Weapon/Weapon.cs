@@ -68,7 +68,7 @@ public class Weapon : MonoBehaviour
     {
         currentBullets -= p.statBlock.bulletsPerShotCost.ValueInt();
         if (currentBullets < 0) currentBullets = 0;
-        EventSystem.Instance.UpdateWeapon(currentBullets, p.statBlock.magSize.ValueInt());
+        GameManager.Instance.eventSystem.UpdateWeapon(currentBullets, p.statBlock.magSize.ValueInt());
 
         int bulletsToFire = p.statBlock.bulletsPerShot.ValueInt();
 
@@ -127,7 +127,7 @@ public class Weapon : MonoBehaviour
     {
         isReloading = false;
         currentBullets = p.statBlock.magSize.ValueInt();
-        EventSystem.Instance.UpdateWeapon(currentBullets, p.statBlock.magSize.ValueInt());
+        GameManager.Instance.eventSystem.UpdateWeapon(currentBullets, p.statBlock.magSize.ValueInt());
     }
 
 
@@ -145,7 +145,7 @@ public class Weapon : MonoBehaviour
     {
         this.p = p;
         currentBullets = this.p.statBlock.magSize.ValueInt();
-        EventSystem.Instance.UpdateWeaponName(p.statBlock.weaponName);
-        EventSystem.Instance.UpdateWeapon(currentBullets, p.statBlock.magSize.ValueInt());
+        GameManager.Instance.eventSystem.UpdateWeaponName(p.statBlock.weaponName);
+        GameManager.Instance.eventSystem.UpdateWeapon(currentBullets, p.statBlock.magSize.ValueInt());
     }
 }

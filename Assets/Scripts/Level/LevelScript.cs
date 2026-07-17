@@ -1,13 +1,13 @@
 using Reclaimers.DeveloperConsole;
 using Reclaimers.Systems;
+using Reclaimers.UpdateSystem;
 using UnityEngine;
 
 public abstract class LevelScript : MonoBehaviour
 {
-    public float stage1Time = 180f;
-    public float stage2Time = 300f;
+    public float stage1Time = 5f;
+    public float stage2Time = 5f;
     public bool hasStage3 = true;
-    public float scaling = 1f;
 
     Timer timerLevelScript;
 

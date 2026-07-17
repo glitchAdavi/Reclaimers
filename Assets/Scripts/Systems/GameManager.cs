@@ -1,12 +1,20 @@
-using System.Collections.Generic;
-using System.Reflection;
-using System.Linq;
-using Reclaimers.Systems;
 using Reclaimers.DataPersistence;
 using Reclaimers.DeveloperConsole;
+using Reclaimers.Systems;
 using Reclaimers.UpdateSystem;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static Unity.Burst.Intrinsics.X86;
+
+public enum Difficulty
+{
+    Normal = 10,
+    Hard = 15,
+    Suicide = 20
+}
 
 public class GameManager : MonoBehaviour, IDataPersistence
 {
@@ -26,10 +34,12 @@ public class GameManager : MonoBehaviour, IDataPersistence
     public LevelSystem levelSystem;
 
     public UISystem uiSystem;
+    public StatCollection statCollection;
 
 
     public PlayerController playerController;
     public Pawn playerPawn;
+    public StatBlock loadedStatBlock;
     public PlayerCamera playerCamera;
 
     public CustomList<SpritePart> spriteParts = new CustomList<SpritePart>();
@@ -43,7 +53,8 @@ public class GameManager : MonoBehaviour, IDataPersistence
 
     public int accountLevel = 0;
     public float accountXp = 0f;
-
+    public float scaling = 1f;
+    public Difficulty selectedDifficulty = Difficulty.Normal;
 
     private void Awake()
     {
@@ -51,21 +62,20 @@ public class GameManager : MonoBehaviour, IDataPersistence
         {
             Instance = this;
             DontDestroyOnLoad(this);
+
+            LoadSpriteParts();
+            LoadModifiers();
+
+            SceneManager.sceneLoaded += OnSceneLoaded;
+            SceneManager.sceneUnloaded += OnSceneUnloaded;
         }
-        else Destroy(this);
-
-        LoadSpriteParts();
-        LoadModifiers();
-
-        SceneManager.sceneLoaded += OnSceneLoaded;
-        SceneManager.sceneUnloaded += OnSceneUnloaded;
-
-
+        else Destroy(gameObject);
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
     {
-        dataPersistenceSystem = CreateSystem<DataPersistenceSystem>();
+        TryGetComponent(out dataPersistenceSystem);
+        if (dataPersistenceSystem == null) dataPersistenceSystem = CreateSystem<DataPersistenceSystem>(false);
 
         updateSystem = GetComponent<UpdateSystem>();
         gridSystem = GameObject.Find("Grid").GetComponent<GridSystem>();
@@ -75,21 +85,32 @@ public class GameManager : MonoBehaviour, IDataPersistence
         levelSystem = CreateSystem<LevelSystem>();
 
         uiSystem = InstantiateUI();
+        if (SceneManager.GetActiveScene().buildIndex != 0) eventSystem.EnableUITop();
+        statCollection = CreateSystem<StatCollection>();
 
         playerPawn = InstantiatePlayer();
+        playerPawn.SetAsPlayer(gameInfo.tempPlayerStatBlock);
+        playerCamera = InstantiateCamera();
         playerController = CreateSystem<PlayerController>();
         playerController.AssignPlayerPawn(playerPawn);
 
 
 
-        EventSystem.Instance.onSetPause += SetPause;
+        Instance.eventSystem.onSetPause += SetPause;
+        Instance.eventSystem.onLevelUpFinish += UpdateScaling;
 
-        timerSystem.SetTimer(1f, levelSystem.StartLevel);
+        uiSystem.FadeIn(levelSystem.StartLevel);
     }
 
     private void OnSceneUnloaded(Scene current)
     {
+        SetPause(false);
 
+        foreach (Object system in allSystems)
+        {
+            Destroy(system);
+        }
+        allSystems.Clear();
     }
 
     public void LoadData(GameData data)
@@ -106,7 +127,7 @@ public class GameManager : MonoBehaviour, IDataPersistence
             }
         }
 
-        playerPawn.SetAsPlayer(gameInfo.tempPlayerStatBlock);
+        loadedStatBlock = gameInfo.tempPlayerStatBlock;
 
     }
 
@@ -125,10 +146,10 @@ public class GameManager : MonoBehaviour, IDataPersistence
         }
     }
 
-    public T CreateSystem<T>() where T : Component
+    public T CreateSystem<T>(bool addToList = true) where T : Component
     {
         T system = gameObject.AddComponent<T>();
-        allSystems.Add(system);
+        if (addToList) allSystems.Add(system);
         LogSystem.Log($"GameManager: Created " + typeof(T) + ".");
         return system;
     }
@@ -138,9 +159,19 @@ public class GameManager : MonoBehaviour, IDataPersistence
         Pawn player = Instantiate(gameInfo.pawnPrefab, new Vector3(0f, 0.5633f, 0f), Quaternion.identity)
             .GetComponent<Pawn>();
 
-        //player.SetAsPlayer(gameInfo.defaultPlayerStatBlock);
-
         return player;
+    }
+
+    private PlayerCamera InstantiateCamera()
+    {
+        PlayerCamera cam = GameObject.Find("PlayerCamera").GetComponent<PlayerCamera>();
+
+        if (cam == null)
+        {
+            cam = Instantiate(gameInfo.playerCameraPrefab).GetComponent<PlayerCamera>();
+        }
+
+        return cam;
     }
 
     private UISystem InstantiateUI()
@@ -255,15 +286,14 @@ public class GameManager : MonoBehaviour, IDataPersistence
 
     public void SetPause(bool pause)
     {
-        if (pause && updateSystem.isPaused) return;
-        if (!pause && !updateSystem.isPaused) return;
+        if (pause == updateSystem.isPaused) return;
 
         updateSystem.TogglePause();
     }
 
-    public float Scaling()
+    public void UpdateScaling()
     {
-        return 1f + (0.02f * playerPawn.statBlock.level.ValueInt());
+        scaling =  1f + (0.02f * playerPawn.statBlock.level.ValueInt()) * ((int)selectedDifficulty / 10f);
     }
 
     public void GoToLevel(int sceneIndex)

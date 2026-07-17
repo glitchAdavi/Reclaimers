@@ -21,7 +21,7 @@ public class XpOrb : Orb
     {
         if (target != null)
         {
-            if (value > 0) EventSystem.Instance.GivePlayerXp(value);
+            if (value > 0) GameManager.Instance.eventSystem.GivePlayerXp(value);
         }
     }
 
@@ -33,18 +33,18 @@ public class XpOrb : Orb
     protected override void Die()
     {
         base.Die();
-        EventSystem.Instance.XpOrbDeath(this);
+        GameManager.Instance.eventSystem.XpOrbDeath(this);
     }
 
     protected override void Decay()
     {
-        EventSystem.Instance.XpOrbDecay(this);
+        GameManager.Instance.eventSystem.XpOrbDecay(this);
         base.Decay();
     }
 
     protected override void UpdateVisibility()
     {
         base.UpdateVisibility();
-        EventSystem.Instance.XpOrbUpdateVisibility(this, isVisible);
+        GameManager.Instance.eventSystem.XpOrbUpdateVisibility(this, isVisible);
     }
 }

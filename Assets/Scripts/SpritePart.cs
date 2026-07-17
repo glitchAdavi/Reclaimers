@@ -16,7 +16,11 @@ public enum SpritePartCategory
     Player,
     Slime,
     Zombie,
-    Bug
+    Bug,
+    StaticPlant,
+    MovingPlant,
+    Wolf,
+    FleshGolem
 }
 
 [CreateAssetMenu(fileName = "SpritePart")]

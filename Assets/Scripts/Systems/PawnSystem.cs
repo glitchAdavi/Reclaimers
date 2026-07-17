@@ -59,7 +59,7 @@ namespace Reclaimers.Systems
         {
             this.Register();
 
-            EventSystem.Instance.onEnemyDeath += OnEnemyDeath;
+            GameManager.Instance.eventSystem.onEnemyDeath += OnEnemyDeath;
             
             _enemyParent = new GameObject("EnemyParent");
             _enemyBuilder = new ObjectBuilder<Pawn>();

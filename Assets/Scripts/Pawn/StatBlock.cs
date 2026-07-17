@@ -80,6 +80,7 @@ public enum StatBlockVars
     projSpeed,
     projPenetration,
     projStun,
+    abilityDuration,
     abilityCooldown,
     abilityDamage,
     abilityRadius,
@@ -113,6 +114,9 @@ public class StatBlock : ScriptableObject, ICloneable
     // 6 - GeneralDetails
     [PawnVar] public string[] sprNames = new string[7];
     [PawnVar] public Color[] sprFrameColor = new Color[7];
+
+    [PawnVar] public bool spriteVariableHue = false;
+    [PawnVar] public int spriteVariableHueRange = 0;
 
     [PawnVar] public Stat scale = new Stat(0f, 0f, 0.1f);
 
@@ -205,7 +209,12 @@ public class StatBlock : ScriptableObject, ICloneable
     [Header("Ability Stats")]
     [Header("")]
     [AbilityVar] public string abilityName = "";
-    [AbilityVar] public AbilityType abilityType;
+    [AbilityVar] public AbilityScripts abilityScript;
+
+    [AbilityVar] public StatusEffect seToApply;
+    [AbilityVar] public GameObject goToInstantiate;
+
+    [AbilityVar] public Stat abilityDuration = new Stat(0f, 0f, 0f);
 
     [AbilityVar] public Stat abilityCooldown = new Stat(0f, 0f, 0f);
 

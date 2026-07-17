@@ -2,24 +2,29 @@ using UnityEngine;
 using Reclaimers.UpdateSystem;
 using Reclaimers.Systems;
 
-public enum AbilityType
+public enum AbilityScripts
 {
-    TEST
+    A_StatusEffect,
+    A_Building,
+    A_Throwable
 }
 
 public abstract class Ability : MonoBehaviour, IPauseable
 {
-    [SerializeField] protected Pawn p;
+    [SerializeField] protected Pawn _p;
 
     int curCharges = 0;
 
     Timer timerCooldown;
 
-    protected virtual void OnEnable()
+    public virtual void SetOwner(Pawn p)
     {
-        curCharges = p.statBlock.abilityCharges.ValueInt();
-
+        _p = p;
+        curCharges = _p.statBlock.abilityCharges.ValueInt();
         this.Register();
+
+        GameManager.Instance.eventSystem.UpdateAbilityName(_p.statBlock.abilityName);
+        GameManager.Instance.eventSystem.UpdateAbility(curCharges, _p.statBlock.abilityCharges.ValueInt());
     }
 
     public virtual void ManagedPause(bool paused)
@@ -32,15 +37,16 @@ public abstract class Ability : MonoBehaviour, IPauseable
         this.Unregister();
     }
 
-    protected virtual void AbilityUse()
+    public virtual void AbilityUse()
     {
         if (curCharges < 1) return;
         Effect();
         curCharges--;
+        GameManager.Instance.eventSystem.UpdateAbility(curCharges, _p.statBlock.abilityCharges.ValueInt());
 
         if (!timerCooldown)
         {
-            timerCooldown = GameManager.Instance.timerSystem.SetTimer(p.statBlock.abilityCooldown.Value(), CooldownEnd);
+            timerCooldown = GameManager.Instance.timerSystem.SetTimer(_p.statBlock.abilityCooldown.Value(), CooldownEnd);
         }
     }
 
@@ -52,10 +58,11 @@ public abstract class Ability : MonoBehaviour, IPauseable
     public virtual void CooldownEnd()
     {
         curCharges++;
+        GameManager.Instance.eventSystem.UpdateAbility(curCharges, _p.statBlock.abilityCharges.ValueInt());
         timerCooldown = null;
-        if (curCharges < p.statBlock.abilityCharges.ValueInt())
+        if (curCharges < _p.statBlock.abilityCharges.ValueInt())
         {
-            timerCooldown = GameManager.Instance.timerSystem.SetTimer(p.statBlock.abilityCooldown.Value(), CooldownEnd);
+            timerCooldown = GameManager.Instance.timerSystem.SetTimer(_p.statBlock.abilityCooldown.Value(), CooldownEnd);
         }
     }
 
@@ -63,4 +70,5 @@ public abstract class Ability : MonoBehaviour, IPauseable
     {
 
     }
+
 }
