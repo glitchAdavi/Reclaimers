@@ -3,11 +3,8 @@ using UnityEngine;
 public enum SpritePartType
 {
     Head,
-    HeadDetail,
     Torso,
-    TorsoDetail,
     Legs,
-    LegsDetail,
     Details
 }
 
@@ -18,7 +15,7 @@ public enum SpritePartCategory
     Zombie,
     Bug,
     StaticPlant,
-    MovingPlant,
+    Rat,
     Wolf,
     FleshGolem
 }
@@ -35,4 +32,11 @@ public class SpritePart : ScriptableObject
 
     public Sprite frame1;
     public Sprite frame2;
+
+    public Color defaultColor;
+
+    public Sprite frame1Det;
+    public Sprite frame2Det;
+
+    public Color detDefaultColor;
 }

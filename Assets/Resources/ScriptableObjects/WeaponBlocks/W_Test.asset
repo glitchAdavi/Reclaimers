@@ -20,6 +20,7 @@ MonoBehaviour:
   projType: 1
   onHitEffects: []
   abilityBlock: {fileID: 0}
+  sprCat: 0
   sprNames:
   - 
   - 
@@ -28,14 +29,8 @@ MonoBehaviour:
   - 
   - 
   - 
-  sprFrameColor:
-  - {r: 0, g: 0, b: 0, a: 0}
-  - {r: 0, g: 0, b: 0, a: 0}
-  - {r: 0, g: 0, b: 0, a: 0}
-  - {r: 0, g: 0, b: 0, a: 0}
-  - {r: 0, g: 0, b: 0, a: 0}
-  - {r: 0, g: 0, b: 0, a: 0}
-  - {r: 0, g: 0, b: 0, a: 0}
+  spriteVariableHue: 0
+  spriteVariableHueRange: 0
   scale:
     _base: 0
     _mult: 0
@@ -234,7 +229,7 @@ MonoBehaviour:
   weaponName: NEWWEAPON
   wepType: 0
   magSize:
-    _base: 50
+    _base: 30
     _mult: 1
     _addTotal: 0
     _multTotal: 1
@@ -262,15 +257,15 @@ MonoBehaviour:
     _min: 0
     _max: Infinity
   burstAmount:
-    _base: 1
+    _base: 5
     _mult: 1
     _addTotal: 0
     _multTotal: 1
     _min: 0
     _max: Infinity
   burstDelay:
-    _base: 0
-    _mult: 0
+    _base: 0.05
+    _mult: 1
     _addTotal: 0
     _multTotal: 1
     _min: 0
@@ -290,7 +285,7 @@ MonoBehaviour:
     _min: 0
     _max: Infinity
   fireRate:
-    _base: 0.1
+    _base: 0.5
     _mult: 1
     _addTotal: 0
     _multTotal: 1
@@ -318,7 +313,7 @@ MonoBehaviour:
     _min: 0
     _max: Infinity
   projSpeed:
-    _base: 10
+    _base: 20
     _mult: 1
     _addTotal: 0
     _multTotal: 1
@@ -339,7 +334,16 @@ MonoBehaviour:
     _min: 0
     _max: Infinity
   abilityName: TESTAGAin
-  abilityType: 0
+  abilityScript: 0
+  seToApply: {fileID: 0}
+  goToInstantiate: {fileID: 0}
+  abilityDuration:
+    _base: 0
+    _mult: 0
+    _addTotal: 0
+    _multTotal: 1
+    _min: 0
+    _max: Infinity
   abilityCooldown:
     _base: 321
     _mult: 0

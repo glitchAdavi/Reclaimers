@@ -10,11 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 41a66c61327107a42889fcf8777ec82c, type: 3}
-  m_Name: DefaultHeadDet
+  m_Name: NP_Zombie_Torso_1
   m_EditorClassIdentifier: 
-  spCategory: 0
-  spType: 0
+  spCategory: 2
+  spType: 1
   levelRequirement: 0
-  partName: DefaultHeadDet
-  frame1: {fileID: -1193671215, guid: 48b860379e2c16742b27ddd34fe5d75d, type: 3}
-  frame2: {fileID: -1193671215, guid: 48b860379e2c16742b27ddd34fe5d75d, type: 3}
+  partName: NP_Zombie_Torso_1
+  frame1: {fileID: -1781450488, guid: 25daa89cb1dae7c498bc7de1e725fc05, type: 3}
+  frame2: {fileID: -6810873, guid: 25daa89cb1dae7c498bc7de1e725fc05, type: 3}
+  defaultColor: {r: 1, g: 1, b: 1, a: 0}
+  frame1Det: {fileID: 0}
+  frame2Det: {fileID: 0}
+  detDefaultColor: {r: 0, g: 0, b: 0, a: 0}

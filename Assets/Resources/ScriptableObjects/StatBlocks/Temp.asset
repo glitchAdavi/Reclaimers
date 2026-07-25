@@ -21,21 +21,10 @@ MonoBehaviour:
   onHitEffects: []
   abilityBlock: {fileID: 0}
   sprNames:
-  - DefaultHead1
+  - P_Head_Camo
+  - P_Torso_Camo
+  - P_Legs_Camo
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  sprFrameColor:
-  - {r: 1, g: 1, b: 1, a: 0}
-  - {r: 0, g: 0, b: 0, a: 0}
-  - {r: 0, g: 0, b: 0, a: 0}
-  - {r: 0, g: 0, b: 0, a: 0}
-  - {r: 0, g: 0, b: 0, a: 0}
-  - {r: 0, g: 0, b: 0, a: 0}
-  - {r: 0, g: 0, b: 0, a: 0}
   spriteVariableHue: 0
   spriteVariableHueRange: 0
   scale:

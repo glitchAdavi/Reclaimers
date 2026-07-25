@@ -14,9 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pName: Slime
   pDesc: A slime.
+  upgrades: []
+  items: []
   weaponBlock: {fileID: 0}
   projType: 0
+  onHitEffects: []
   abilityBlock: {fileID: 0}
+  sprCat: 1
   sprNames:
   - DefaultHead1
   - 
@@ -25,14 +29,8 @@ MonoBehaviour:
   - 
   - 
   - 
-  sprFrameColor:
-  - {r: 1, g: 1, b: 1, a: 1}
-  - {r: 1, g: 1, b: 1, a: 1}
-  - {r: 1, g: 1, b: 1, a: 1}
-  - {r: 1, g: 1, b: 1, a: 1}
-  - {r: 1, g: 1, b: 1, a: 1}
-  - {r: 1, g: 1, b: 1, a: 1}
-  - {r: 1, g: 1, b: 1, a: 1}
+  spriteVariableHue: 0
+  spriteVariableHueRange: 0
   scale:
     _base: 1
     _mult: 1
@@ -336,7 +334,16 @@ MonoBehaviour:
     _min: 0
     _max: Infinity
   abilityName: 
-  abilityType: 0
+  abilityScript: 0
+  seToApply: {fileID: 0}
+  goToInstantiate: {fileID: 0}
+  abilityDuration:
+    _base: 0
+    _mult: 0
+    _addTotal: 0
+    _multTotal: 1
+    _min: 0
+    _max: Infinity
   abilityCooldown:
     _base: 0
     _mult: 0

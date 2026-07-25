@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   quality: 1
   modName: Speed Up
-  modDesc: x2 speed for 5s.
+  modDesc: x1.25 speed for 3s.
   modId: se_stat_speed
   modImage: {fileID: 0}
   statVarsToModify:
@@ -22,9 +22,9 @@ MonoBehaviour:
     valueB: 0
     valueM: 0
     valueATotal: 0
-    valueMTotal: 1
+    valueMTotal: 0.25
   statusEffectSprite: {fileID: 0}
-  duration: 5
+  duration: 3
   tickTime: 0
   executePartialOnEnd: 0
   value: 0

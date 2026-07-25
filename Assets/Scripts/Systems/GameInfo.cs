@@ -33,8 +33,11 @@ public class GameInfo : ScriptableObject
     public GameObject obstaclePartPrefab;
     public GameObject audioSourcePrefab;
     public GameObject playerUIPrefab;
+    public GameObject hitPrefab;
 
 
-
+    public Sprite hitWall;
+    public Sprite hitPlayer;
+    public Sprite hitEnemy;
     
 }

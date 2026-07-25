@@ -14,25 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pName: Enemy
   pDesc: Default Enemy.
+  upgrades: []
+  items: []
   weaponBlock: {fileID: 0}
   projType: 0
+  onHitEffects: []
   abilityBlock: {fileID: 0}
+  sprCat: 1
   sprNames:
-  - DefaultHead1
   - 
   - 
   - 
   - 
-  - 
-  - 
-  sprFrameColor:
-  - {r: 1, g: 0, b: 0, a: 0}
-  - {r: 0, g: 0, b: 0, a: 0}
-  - {r: 0, g: 0, b: 0, a: 0}
-  - {r: 0, g: 0, b: 0, a: 0}
-  - {r: 0, g: 0, b: 0, a: 0}
-  - {r: 0, g: 0, b: 0, a: 0}
-  - {r: 0, g: 0, b: 0, a: 0}
+  spriteVariableHue: 1
+  spriteVariableHueRange: 30
   scale:
     _base: 1
     _mult: 1
@@ -83,7 +78,7 @@ MonoBehaviour:
     _min: 0
     _max: Infinity
   speed:
-    _base: 2.5
+    _base: 3
     _mult: 1
     _addTotal: 0
     _multTotal: 1
@@ -336,7 +331,16 @@ MonoBehaviour:
     _min: 0
     _max: Infinity
   abilityName: 
-  abilityType: 0
+  abilityScript: 0
+  seToApply: {fileID: 0}
+  goToInstantiate: {fileID: 0}
+  abilityDuration:
+    _base: 0
+    _mult: 0
+    _addTotal: 0
+    _multTotal: 1
+    _min: 0
+    _max: Infinity
   abilityCooldown:
     _base: 0
     _mult: 0

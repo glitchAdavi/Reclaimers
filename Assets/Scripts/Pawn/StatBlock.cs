@@ -106,17 +106,16 @@ public class StatBlock : ScriptableObject, ICloneable
     [PawnVar] public StatBlock abilityBlock;
 
     // 0 - Head
-    // 1 - HeadDetails
-    // 2 - Torso
-    // 3 - TorsoDetails
-    // 4 - Legs
-    // 5 - LegsDetails
-    // 6 - GeneralDetails
-    [PawnVar] public string[] sprNames = new string[7];
-    [PawnVar] public Color[] sprFrameColor = new Color[7];
+    // 1 - Torso
+    // 2 - Legs
+    // 3 - GeneralDetails
+    [PawnVar] public SpritePartCategory sprCat = SpritePartCategory.Player;
+    [PawnVar] public string[] sprNames = new string[4];
 
     [PawnVar] public bool spriteVariableHue = false;
     [PawnVar] public int spriteVariableHueRange = 0;
+
+    [PawnVar] public Sprite hitSprite;
 
     [PawnVar] public Stat scale = new Stat(0f, 0f, 0.1f);
 

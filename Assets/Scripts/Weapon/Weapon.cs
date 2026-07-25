@@ -12,6 +12,7 @@ public class Weapon : MonoBehaviour
 
     [SerializeField] int currentBullets = 0;
     [SerializeField] float bulletSpreadCurrent = 0f;
+    [SerializeField] int targetLayer = 11;
 
     Timer bulletSpreadResetTimer;
     Timer reloadTimer;
@@ -23,9 +24,13 @@ public class Weapon : MonoBehaviour
 
     Plane aimPlane = new Plane(Vector3.up, new Vector3(0f, 0.25f, 0f));
 
-    public void Shoot()
+    [SerializeField] protected Vector3? overrideForward = null;
+
+    public void Shoot(Vector3? overrideForward = null)
     {
         if (!canShoot) return;
+
+        this.overrideForward = overrideForward;
 
         if (reloadTimer != null && currentBullets > 0)
         {
@@ -68,23 +73,34 @@ public class Weapon : MonoBehaviour
     {
         currentBullets -= p.statBlock.bulletsPerShotCost.ValueInt();
         if (currentBullets < 0) currentBullets = 0;
-        GameManager.Instance.eventSystem.UpdateWeapon(currentBullets, p.statBlock.magSize.ValueInt());
+        if (p.isPlayer) GameManager.Instance.eventSystem.UpdateWeapon(currentBullets, p.statBlock.magSize.ValueInt());
 
         int bulletsToFire = p.statBlock.bulletsPerShot.ValueInt();
 
         Vector3 tempForward = Vector3.zero;
-        Ray ray = GameManager.Instance.playerCamera.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
-
-        if (aimPlane.Raycast(ray, out float enterDistance))
+        if (overrideForward == null)
         {
-            tempForward = ray.GetPoint(enterDistance) - p.transform.position;
+            Ray ray = GameManager.Instance.playerCamera.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
+
+            if (aimPlane.Raycast(ray, out float enterDistance))
+            {
+                tempForward = ray.GetPoint(enterDistance) - p.transform.position;
+
+                InstantiateProjectile(tempForward, Random.Range(-bulletSpreadCurrent / 2, bulletSpreadCurrent / 2));
+
+                bulletsToFire--;
+            }
+        } else
+        {
+            tempForward = (Vector3)overrideForward;
 
             InstantiateProjectile(tempForward, Random.Range(-bulletSpreadCurrent / 2, bulletSpreadCurrent / 2));
 
             bulletsToFire--;
         }
 
-        while(bulletsToFire > 0)
+
+        while (bulletsToFire > 0)
         {
             InstantiateProjectile(tempForward, Random.Range(-p.statBlock.bulletsPerShotSpread.Value() / 2, p.statBlock.bulletsPerShotSpread.Value() / 2));
 
@@ -98,6 +114,8 @@ public class Weapon : MonoBehaviour
             if (bulletSpreadCurrent > p.statBlock.bulletSpread.Value()) bulletSpreadCurrent = p.statBlock.bulletSpread.Value();
             bulletSpreadResetTimer = GameManager.Instance.timerSystem.SetTimer(0.5f, () => bulletSpreadCurrent = 0f, "WEAPON_BulletSpreadReset");
         }
+
+        overrideForward = null;
     }
 
     public void ShootEnd()
@@ -138,6 +156,7 @@ public class Weapon : MonoBehaviour
         proj.transform.position = new Vector3(transform.position.x, 0.25f, transform.position.z);
         proj.transform.forward = forw;
         proj.transform.Rotate(Vector3.up, spread);
+        proj.SetTargetLayer(targetLayer);
         proj.SetShooter(p);
     }
 
@@ -145,7 +164,15 @@ public class Weapon : MonoBehaviour
     {
         this.p = p;
         currentBullets = this.p.statBlock.magSize.ValueInt();
-        GameManager.Instance.eventSystem.UpdateWeaponName(p.statBlock.weaponName);
-        GameManager.Instance.eventSystem.UpdateWeapon(currentBullets, p.statBlock.magSize.ValueInt());
+        if (p.isPlayer)
+        {
+            GameManager.Instance.eventSystem.UpdateWeaponName(p.statBlock.weaponName);
+            GameManager.Instance.eventSystem.UpdateWeapon(currentBullets, p.statBlock.magSize.ValueInt());
+        }
+    }
+
+    public void SetTargetLayer(int targetLayer)
+    {
+        this.targetLayer = targetLayer;
     }
 }

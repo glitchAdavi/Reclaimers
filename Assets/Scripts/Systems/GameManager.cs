@@ -7,7 +7,6 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using static Unity.Burst.Intrinsics.X86;
 
 public enum Difficulty
 {
@@ -188,6 +187,26 @@ public class GameManager : MonoBehaviour, IDataPersistence
     public float DistanceToPlayer(Vector3 pos)
     {
         return Vector3.Distance(playerPawn.transform.position, pos);
+    }
+
+    public string[] GetRandomSpriteParts(SpritePartCategory cat)
+    {
+        string[] result = new string[4];
+        result[0] = GetRandomSpritePart(SpritePartType.Head, cat)?.partName;
+        result[1] = GetRandomSpritePart(SpritePartType.Torso, cat)?.partName;
+        result[2] = GetRandomSpritePart(SpritePartType.Legs, cat)?.partName;
+        result[3] = GetRandomSpritePart(SpritePartType.Details, cat)?.partName;
+        return result;
+    }
+
+    public SpritePart GetRandomSpritePart(SpritePartType spType, SpritePartCategory cat)
+    {
+        SpritePart result = null;
+        List<SpritePart> filteredList = spriteParts.Where(x => x.spType.Equals(spType) && x.spCategory.Equals(cat)).ToList();
+        if (filteredList.Count == 0) return result;
+        int rnd = Random.Range(0, filteredList.Count);
+        result = filteredList[rnd];
+        return result;
     }
 
     public void LoadSpriteParts()

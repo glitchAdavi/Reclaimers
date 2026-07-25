@@ -15,9 +15,16 @@ public abstract class Projectile : MonoBehaviour, IUpdateable, IPauseable
     [SerializeField] protected Pawn p;
 
     [SerializeField] protected ExternalCollider _extCol;
+    [SerializeField] protected Vector3 _extColBaseScale = Vector3.zero;
     [SerializeField] protected SpriteRenderer _sprt;
+    [SerializeField] protected Vector3 _sprtBaseScale = Vector3.zero;
+    [SerializeField] protected Light _lgt;
+    [SerializeField] protected TrailRenderer _tr;
+    [SerializeField] protected float _trBaseScale = 0;
     [SerializeField] protected List<GameObject> hitEnemies = new List<GameObject>();
     [SerializeField] protected List<string> onHitEffectsToApply = new List<string>();
+
+    [SerializeField] protected int targetLayer = 11;
 
     [SerializeField] protected int currentPen = 0;
 
@@ -25,8 +32,9 @@ public abstract class Projectile : MonoBehaviour, IUpdateable, IPauseable
     protected bool isActive = false;
     protected bool isPaused = false;
 
+    protected Sprite hitSprite;
 
-    protected void OnEnable()
+    protected virtual void OnEnable()
     {
         this.Register();
 
@@ -36,6 +44,14 @@ public abstract class Projectile : MonoBehaviour, IUpdateable, IPauseable
         lastHit = null;
         _extCol.transform.localPosition = new Vector3(0f, 0f, 0f);
         _extCol.onCollisionEnter += ManageOnCollisionEnter;
+
+        if (_extColBaseScale == Vector3.zero) _extColBaseScale = _extCol.transform.localScale;
+        if (_sprtBaseScale == Vector3.zero) _sprtBaseScale = _sprt.transform.localScale;
+        if (_trBaseScale == 0) _trBaseScale = _tr.startWidth;
+
+        _sprt.transform.localScale = _sprtBaseScale;
+        _extCol.transform.localScale = _extColBaseScale;
+        _tr.startWidth = _trBaseScale;
 
         GameManager.Instance.eventSystem.onEnemyDeath += RemoveFromHit;
     }
@@ -53,6 +69,7 @@ public abstract class Projectile : MonoBehaviour, IUpdateable, IPauseable
     {
         if (!isPaused)
         {
+            if (!_tr.emitting) _tr.emitting = true;
             Move();
             LookAtCamera();
         }
@@ -138,6 +155,8 @@ public abstract class Projectile : MonoBehaviour, IUpdateable, IPauseable
     {
         _extCol = gameObject.GetComponentInChildren<ExternalCollider>();
         _sprt = gameObject.GetComponentInChildren<SpriteRenderer>();
+        //_lgt = gameObject.GetComponentInChildren<Light>();
+        _tr = gameObject.GetComponentInChildren<TrailRenderer>();
     }
 
     public void RemoveFromHit(Pawn enemy)
@@ -146,5 +165,10 @@ public abstract class Projectile : MonoBehaviour, IUpdateable, IPauseable
 
         GameObject enemyGO = enemy.GetComponentInChildren<Collider>().gameObject;
         if (hitEnemies.Contains(enemyGO)) hitEnemies.Remove(enemyGO);
+    }
+
+    public void SetTargetLayer(int targetLayer)
+    {
+        this.targetLayer = targetLayer;
     }
 }

@@ -95,12 +95,1156 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: pawn_0
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 991
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4c9832b44ade22b4cbdc63540de931d6
+      internalID: -75642772
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pawn_1
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 991
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0a54c092b54a586499101f65d0fe217c
+      internalID: 1410226147
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pawn_2
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 991
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 57db676b756e7e742ba66f24512400c9
+      internalID: 1328731321
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pawn_3
+      rect:
+        serializedVersion: 2
+        x: 103
+        y: 991
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e4f57d389df83a0439e93920bdc27157
+      internalID: 2133150571
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pawn_4
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 957
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 39c000906616de4478f0f8663daa6553
+      internalID: 1763953217
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pawn_5
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 957
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a4a2344aa026a3a438c60b186bdb6239
+      internalID: 829340825
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pawn_6
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 957
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 723f00d84a3f53344b473c282ce9bd27
+      internalID: 245765753
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pawn_7
+      rect:
+        serializedVersion: 2
+        x: 103
+        y: 957
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 02d257625ac840749a67f75a31ac96d1
+      internalID: 1295069787
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pawn_8
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 923
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 49a4fd67fcde1274898102261aeb2d32
+      internalID: 288103882
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pawn_9
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 923
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 097c32c1b335b784486fe7aee8e66e35
+      internalID: -1103597727
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pawn_10
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 923
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: feaf3de0937715349ae14e29683ba3e7
+      internalID: 788663865
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pawn_11
+      rect:
+        serializedVersion: 2
+        x: 103
+        y: 923
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2c37dbced91cf3e429e3f63eebcdac46
+      internalID: 392335051
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pawn_12
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 855
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4c24d81bf68a4de47bd506a4741a8398
+      internalID: 758384271
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pawn_13
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 855
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cc0bf5e6c89a44e4194a0061fb76ef00
+      internalID: 620108594
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pawn_14
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 787
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 04f36c5959bdff24ab37c825a5c9fc33
+      internalID: -61525963
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pawn_15
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 787
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4ece6440a08f5ec499c6211bfb9e1e1a
+      internalID: 1772257580
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pawn_16
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 753
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d456a1ea44f4c904a976192b0cde9e4c
+      internalID: -1713142153
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pawn_17
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 753
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8e82cfeeba8881343ace147b5d8be619
+      internalID: -1204963583
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pawn_18
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 753
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 09d7636626c667545aea320cccf4d9fc
+      internalID: 673264687
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pawn_19
+      rect:
+        serializedVersion: 2
+        x: 103
+        y: 753
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0bdf8c30874c15f4a974e6634ac4825d
+      internalID: -1658974098
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pawn_20
+      rect:
+        serializedVersion: 2
+        x: 137
+        y: 753
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cc582e95440e5bc4ebd2c2cb70cc9219
+      internalID: 1831119561
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pawn_21
+      rect:
+        serializedVersion: 2
+        x: 171
+        y: 753
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 17f6d814fa0ee0641bab987da85913d7
+      internalID: 1003529237
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pawn_22
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 719
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 33f61732eb24a784abf409927c492ab9
+      internalID: -1767776092
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pawn_23
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 719
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6755fd293d5711c4b9e9f99d0ca224be
+      internalID: 1521415914
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pawn_24
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 719
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 285e91e5187b1304296c73e7b644110a
+      internalID: 535400194
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pawn_25
+      rect:
+        serializedVersion: 2
+        x: 103
+        y: 719
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 97bd498d394b1f4428b5cfa6971b3fa2
+      internalID: 34362997
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pawn_26
+      rect:
+        serializedVersion: 2
+        x: 137
+        y: 719
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7c25323980a37214bb41a0fe3384a175
+      internalID: 403125487
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pawn_27
+      rect:
+        serializedVersion: 2
+        x: 171
+        y: 719
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 545fb8e511491d6409c32945fba7f873
+      internalID: 1499321855
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pawn_28
+      rect:
+        serializedVersion: 2
+        x: 205
+        y: 719
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 58d7ccce5844c0748af4da14c13cf599
+      internalID: -1506414416
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pawn_29
+      rect:
+        serializedVersion: 2
+        x: 239
+        y: 719
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 35fcc394eddf94a4ba32f0f11bfb449c
+      internalID: -905261609
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pawn_30
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 685
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 770833bcc7cd21e45a71452e9293371b
+      internalID: 2114287871
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pawn_31
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 685
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 91e33d9a486745d4e91fefe8aa28c3e2
+      internalID: 227211549
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pawn_32
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 685
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 38d8a042ff04c0f42932bef12c217fbf
+      internalID: 1542640544
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pawn_33
+      rect:
+        serializedVersion: 2
+        x: 103
+        y: 685
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 745990f1eae50c54891d945fcd97126c
+      internalID: 1780202057
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pawn_34
+      rect:
+        serializedVersion: 2
+        x: 137
+        y: 685
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 17494f5f28a2b664380ce7605193310d
+      internalID: 679207141
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pawn_35
+      rect:
+        serializedVersion: 2
+        x: 171
+        y: 685
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2a429df995af0f4498cb58aa01ff7861
+      internalID: 1314581670
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pawn_36
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 651
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f7e6ffb232bb54945810df98dc38e6be
+      internalID: 145356124
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pawn_37
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 651
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 97131295a59290d4b90e8dcee05fe227
+      internalID: 951630534
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pawn_38
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 651
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 35a247717020cb947acfa2f56fd937bb
+      internalID: 1815314205
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pawn_39
+      rect:
+        serializedVersion: 2
+        x: 103
+        y: 651
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 803aa372de9f8ad4f90dd62f8035e820
+      internalID: -605902002
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pawn_40
+      rect:
+        serializedVersion: 2
+        x: 137
+        y: 651
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 52204f293fdd23148a69b55d2df54be4
+      internalID: 578436360
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pawn_41
+      rect:
+        serializedVersion: 2
+        x: 171
+        y: 651
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a02930648cb5e414680f91108ff8c6f2
+      internalID: 593894028
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pawn_42
+      rect:
+        serializedVersion: 2
+        x: 205
+        y: 651
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b231c001da81ff7489fa53e87cfe6e7b
+      internalID: 1675375453
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pawn_43
+      rect:
+        serializedVersion: 2
+        x: 239
+        y: 651
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c9f6d803fac6f40468e82a5b936439b3
+      internalID: 1153176916
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pawn_44
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 617
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ba613e45213b9ad4aab6427c44766023
+      internalID: -556096685
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pawn_45
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 617
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7c10f409129ec0e478d368ebedb662fc
+      internalID: -997562577
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pawn_46
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 617
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 69deba2f82327a84387d3e7211525332
+      internalID: -1781450488
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pawn_47
+      rect:
+        serializedVersion: 2
+        x: 103
+        y: 617
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1f191a98cc66cdd4aa5027f2c2b502e3
+      internalID: -6810873
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pawn_48
+      rect:
+        serializedVersion: 2
+        x: 137
+        y: 617
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bdabd531abb04cd409d483599a2fef30
+      internalID: -1094312684
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pawn_49
+      rect:
+        serializedVersion: 2
+        x: 171
+        y: 617
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f843f659c96d66a43969a851f327407a
+      internalID: -1214020609
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pawn_50
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 412
+        width: 66
+        height: 66
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 581a35fa38440d94d8cbdd4be1fba641
+      internalID: 535737077
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pawn_51
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 412
+        width: 66
+        height: 66
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e5038dc0ef3df3846beea79c816bb103
+      internalID: 102921870
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 1a84a1181f40ed04db0c71aaeadebb7b
     internalID: 0
     vertices: []
     indices: 
@@ -109,7 +1253,66 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      pawn_0: -75642772
+      pawn_1: 1410226147
+      pawn_10: 788663865
+      pawn_11: 392335051
+      pawn_12: 758384271
+      pawn_13: 620108594
+      pawn_14: -61525963
+      pawn_15: 1772257580
+      pawn_16: -1713142153
+      pawn_17: -1204963583
+      pawn_18: 673264687
+      pawn_19: -1658974098
+      pawn_2: 1328731321
+      pawn_20: 1831119561
+      pawn_21: 1003529237
+      pawn_22: -1767776092
+      pawn_23: 1521415914
+      pawn_24: 535400194
+      pawn_25: 34362997
+      pawn_26: 403125487
+      pawn_27: 1499321855
+      pawn_28: -1506414416
+      pawn_29: -905261609
+      pawn_3: 2133150571
+      pawn_30: 2114287871
+      pawn_31: 227211549
+      pawn_32: 1542640544
+      pawn_33: 1780202057
+      pawn_34: 679207141
+      pawn_35: 1314581670
+      pawn_36: 145356124
+      pawn_37: 951630534
+      pawn_38: 1815314205
+      pawn_39: -605902002
+      pawn_4: 1763953217
+      pawn_40: 578436360
+      pawn_41: 593894028
+      pawn_42: 1675375453
+      pawn_43: 1153176916
+      pawn_44: -556096685
+      pawn_45: -997562577
+      pawn_46: -1781450488
+      pawn_47: -6810873
+      pawn_48: -1094312684
+      pawn_49: -1214020609
+      pawn_5: 829340825
+      pawn_50: 535737077
+      pawn_51: 102921870
+      pawn_52: -410562439
+      pawn_53: -1620403371
+      pawn_54: 1812360767
+      pawn_55: -589781774
+      pawn_56: 284220784
+      pawn_57: -151264457
+      pawn_58: -1807542760
+      pawn_6: 245765753
+      pawn_7: 1295069787
+      pawn_8: 288103882
+      pawn_9: -1103597727
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -144,8 +144,8 @@ TextureImporter:
       name: UI1_2
       rect:
         serializedVersion: 2
-        x: 1259
-        y: 468
+        x: 1258
+        y: 470
         width: 240
         height: 340
       alignment: 0
@@ -206,6 +206,94 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: UI1_5
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 740
+        width: 82
+        height: 34
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 5, y: 5, z: 5, w: 5}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eb20ecadd3fc7894e838b8062f2c872f
+      internalID: 581924591
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI1_6
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 705
+        width: 82
+        height: 34
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 5, y: 5, z: 5, w: 5}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2e60272d0a17ae649a4e237c26deb65f
+      internalID: 203696541
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI1_7
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 740
+        width: 82
+        height: 34
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 5, y: 5, z: 5, w: 5}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e1ead83c4d0cd614fb455b8594dc8ae6
+      internalID: -673140904
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI1_8
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 705
+        width: 82
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 5, y: 5, z: 5, w: 5}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 23b04a7eb407fa74686414f94d884960
+      internalID: 903278363
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -227,6 +315,10 @@ TextureImporter:
       UI1_2: 1775165774
       UI1_3: -780106536
       UI1_4: 126847192
+      UI1_5: 581924591
+      UI1_6: 203696541
+      UI1_7: -673140904
+      UI1_8: 903278363
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

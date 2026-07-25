@@ -55,7 +55,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  - {fileID: 2100000, guid: 51eb16f4d3a85c540bb65ecace9ae34e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -75,7 +75,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 49
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -96,10 +96,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 849523915162334190}
+  - component: {fileID: 7785422593907587645}
   - component: {fileID: 2279835419702148837}
   - component: {fileID: 7658930034010967725}
   - component: {fileID: 556852552354108534}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: ObstaclePart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -123,6 +124,20 @@ Transform:
   - {fileID: 2629698462806864066}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7785422593907587645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4649148250982660532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 650c9cadcadda7e4bb51aba8feba04fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _front: {fileID: 745361549517424545}
+  _top: {fileID: 7469527529734471004}
 --- !u!33 &2279835419702148837
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -252,7 +267,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  - {fileID: 2100000, guid: 51eb16f4d3a85c540bb65ecace9ae34e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -272,7 +287,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 52
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

@@ -2,11 +2,9 @@ using Reclaimers.DeveloperConsole;
 using Reclaimers.Systems;
 using Reclaimers.UpdateSystem;
 using System;
-using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Rendering;
 
 public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateable, IPauseable
 {
@@ -27,6 +25,8 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
 
     public Sprite frame1;
     public Sprite frame2;
+
+    public int spriteVariableHueMult = 0;
 
     public float currentHp = 0f;
 
@@ -111,6 +111,8 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
         projectileBuilder = new ObjectBuilder<Projectile>();
         projectileBuilder.BuildPool(ProjectileFactory, 50, projParent.transform);
 
+        statBlock.hitSprite = GameManager.Instance.gameInfo.hitPlayer;
+
         _col.gameObject.layer = 10;
 
         LevelThreshold();
@@ -134,17 +136,30 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
         _nav.isStopped = false;
         SetTarget(target);
 
+        statBlock.hitSprite = GameManager.Instance.gameInfo.hitEnemy;
+
         _col.gameObject.layer = 11;
+
+        if (_weapon == null && statBlock.weaponBlock != null)
+        {
+            Utilities.CopyValues(statBlock.weaponBlock, statBlock, typeof(WeaponVar));
+            _weapon = gameObject.AddComponent<Weapon>();
+            _weapon.SetOwner(this);
+            _weapon.SetTargetLayer(10);
+
+            projParent = new GameObject();
+            projParent.name = "ProjectileParentNP";
+            projectileBuilder = new ObjectBuilder<Projectile>();
+            projectileBuilder.BuildPool(ProjectileFactory, 10, projParent.transform);
+        }
+
+        statBlock.sprNames = GameManager.Instance.GetRandomSpriteParts(statBlock.sprCat);
 
         Setup();
     }
 
     public void Setup()
     {
-        _matBlock.SetFloat("_AlphaClip", 0.01f);
-        _sprite.SetPropertyBlock(_matBlock);
-        _shadowSpr.SetPropertyBlock(_matBlock);
-
         isActive = true;
         isDead = false;
         isInvulnerable = false;
@@ -154,6 +169,15 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
 
         SetSprites();
         SetScale();
+
+        _matBlock.SetFloat("_AlphaClip", 0.01f);
+        if (statBlock.spriteVariableHue)
+        {
+            spriteVariableHueMult = UnityEngine.Random.Range(-1, 2);
+            _matBlock.SetFloat("_HueOffset", statBlock.spriteVariableHueRange * spriteVariableHueMult);
+        }
+        _sprite.SetPropertyBlock(_matBlock);
+        _shadowSpr.SetPropertyBlock(_matBlock);
 
         currentHp = statBlock.hp.Value();
 
@@ -170,10 +194,12 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
         if (_weapon != null)
         {
             Destroy(_weapon);
+            _weapon = null;
         }
         if (_ability != null)
         {
             Destroy(_ability);
+            _ability = null;
         }
         GameManager.Instance.eventSystem.onGivePlayerXp -= GainXp;
         GameManager.Instance.eventSystem.onGivePlayerLevel -= GainLevel;
@@ -331,13 +357,24 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
 
     public void MoveAnimation()
     {
+        if (statBlock.spriteVariableHue) _matBlock.SetFloat("_HueOffset", statBlock.spriteVariableHueRange * spriteVariableHueMult);
+        _sprite.SetPropertyBlock(_matBlock);
+
         if (isFrame1)
         {
-            if (frame2 != null) _sprite.sprite = frame2;
+            if (frame2 != null)
+            {
+                _sprite.sprite = frame2;
+                _shadowSpr.sprite = frame2;
+            }
             isFrame1 = false;
         } else
         {
-            if (frame1 != null) _sprite.sprite = frame1;
+            if (frame1 != null)
+            {
+                _sprite.sprite = frame1;
+                _shadowSpr.sprite = frame1;
+            }
             isFrame1 = true;
         }
     }
@@ -470,7 +507,14 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
     public void Melee()
     {
         isMeleeAvailable = false;
-        target.GetHit(-statBlock.meleeDamage.Value(), false);
+        if (_weapon == null)
+        {
+            target.GetHit(-statBlock.meleeDamage.Value(), false);
+        } else
+        {
+            Vector3 overrideForward = GameManager.Instance.playerPawn.transform.position - transform.position;
+            _weapon.Shoot(new Vector3(overrideForward.x, 0.25f, overrideForward.z));
+        }
         meleeCooldownTimer = GameManager.Instance.timerSystem.SetTimer(statBlock.meleeCooldown.Value(), () => isMeleeAvailable = true, "PAWN_MeleeCooldown");
     }
 
@@ -792,22 +836,30 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
 
     public void SetSprites()
     {
-        Sprite[] sprFrame1 = new Sprite[7];
-        Sprite[] sprFrame2 = new Sprite[7];
+        Sprite[] sprFrame1 = new Sprite[8];
+        Sprite[] sprFrame2 = new Sprite[8];
+        Color[] sprFrameColors = new Color[8];
 
         for (int i = 0; i < statBlock.sprNames.Length; i++)
         {
             if (string.IsNullOrEmpty(statBlock.sprNames[i])) continue;
+            int j = i * 2;
             SpritePart part = GameManager.Instance.GetSpritePart(statBlock.sprNames[i]);
             if (part != null)
             {
-                sprFrame1[i] = part.frame1;
-                sprFrame2[i] = part.frame2;
+
+                sprFrame1[j] = part.frame1;
+                sprFrame2[j] = part.frame2;
+                sprFrameColors[j] = part.defaultColor;
+
+                if (part.frame1Det != null) sprFrame1[j + 1] = part.frame1Det;
+                if (part.frame2Det != null) sprFrame2[j + 1] = part.frame2Det;
+                sprFrameColors[j + 1] = part.detDefaultColor;
             }
         }
 
-        Sprite aux1 = SetSprite(sprFrame1, statBlock.sprFrameColor);
-        Sprite aux2 = SetSprite(sprFrame2, statBlock.sprFrameColor);
+        Sprite aux1 = SetSprite(sprFrame1, sprFrameColors);
+        Sprite aux2 = SetSprite(sprFrame2, sprFrameColors);
 
         if (aux1 != null)
         {
@@ -884,6 +936,22 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
             pixels[i].r *= colorToApply.r;
             pixels[i].g *= colorToApply.g;
             pixels[i].b *= colorToApply.b;
+
+            //if (statBlock.spriteVariableHue)
+            //{
+            //    Color currentColor = new Color(pixels[i].r, pixels[i].g, pixels[i].b);
+            //    Color.RGBToHSV(currentColor, out float H, out float S, out float V);
+
+            //    int mult = UnityEngine.Random.Range(-1, 2);
+
+            //    H += (statBlock.spriteVariableHueRange * mult);
+
+            //    currentColor = Color.HSVToRGB(H, S, V);
+
+            //    pixels[i].r = currentColor.r;
+            //    pixels[i].g = currentColor.g;
+            //    pixels[i].b = currentColor.b;
+            //}
         }
 
         result.SetPixels(pixels);
