@@ -444,6 +444,22 @@ namespace Reclaimers.Systems
             return grid.CellToWorld(tile) + (new Vector3(grid.cellSize.x, 0, grid.cellSize.y) / 2);
         }
 
+        public Vector3 GetRandomPosInRadius(Vector3 pos, float radius)
+        {
+            Vector3 randomPos = new Vector3(0f, -100f, 0f);
+
+            while (!NavMesh.SamplePosition(pos, out NavMeshHit hit, 0.5f, NavMesh.AllAreas))
+            {
+                randomPos = new Vector3(Random.Range(-radius / 2, radius / 2),
+                                        0f,
+                                        Random.Range(-radius / 2, radius / 2));
+
+                randomPos += pos;
+            }
+
+            return randomPos;
+        }
+
         private List<Vector3Int> GetAllTiles(Tilemap tilemap)
         {
             List<Vector3Int> result = new List<Vector3Int>();

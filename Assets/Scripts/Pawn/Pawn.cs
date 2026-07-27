@@ -165,6 +165,8 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
         isInvulnerable = false;
         isMeleeAvailable = true;
 
+        _col.enabled = true;
+
         _nav.updateRotation = false;
 
         SetSprites();
@@ -523,6 +525,8 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
     {
         isActive = false;
         isDead = true;
+
+        _col.enabled = false;
 
         CancelTimer(ref animationTimer);
         CancelTimer(ref damageEffectTimer);
@@ -936,22 +940,6 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
             pixels[i].r *= colorToApply.r;
             pixels[i].g *= colorToApply.g;
             pixels[i].b *= colorToApply.b;
-
-            //if (statBlock.spriteVariableHue)
-            //{
-            //    Color currentColor = new Color(pixels[i].r, pixels[i].g, pixels[i].b);
-            //    Color.RGBToHSV(currentColor, out float H, out float S, out float V);
-
-            //    int mult = UnityEngine.Random.Range(-1, 2);
-
-            //    H += (statBlock.spriteVariableHueRange * mult);
-
-            //    currentColor = Color.HSVToRGB(H, S, V);
-
-            //    pixels[i].r = currentColor.r;
-            //    pixels[i].g = currentColor.g;
-            //    pixels[i].b = currentColor.b;
-            //}
         }
 
         result.SetPixels(pixels);

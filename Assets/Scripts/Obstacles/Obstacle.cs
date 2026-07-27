@@ -44,13 +44,20 @@ public class Obstacle : MonoBehaviour
                 {
                     p.transform.localPosition = new Vector3(((p.transform.localScale.x - 1) / 2) + scaleCummulative, 0f, 0f);
                     scaleCummulative += p.transform.localScale.x;
-                    p.GetComponent<ObstaclePart>().SetActiveFront(true);
+                    ObstaclePart op = p.GetComponent<ObstaclePart>();
+                    op.SetActiveFront(true);
+                    op.SetHorizontal(true);
                 }
                 else
                 {
                     p.transform.localPosition = new Vector3(0f, 0f, ((p.transform.localScale.z - 1.4f) / 2) + scaleCummulative);
                     scaleCummulative += p.transform.localScale.z;
-                    if (!p.Equals(parts[0])) p.GetComponent<ObstaclePart>().SetActiveFront(false);
+                    if (!p.Equals(parts[0]))
+                    {
+                        ObstaclePart op = p.GetComponent<ObstaclePart>();
+                        op.SetActiveFront(false);
+                        op.SetHorizontal(false);
+                    }
                 }
             }
         } else

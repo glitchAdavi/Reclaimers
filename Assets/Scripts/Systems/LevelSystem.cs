@@ -57,6 +57,7 @@ namespace Reclaimers.Systems
             GameManager.Instance.eventSystem.onTriggerWin += OnWin;
             GameManager.Instance.eventSystem.onTriggerLose += OnLose;
 
+            GetInteractablesInScene();
         }
 
         public void StartLevel()
@@ -203,6 +204,7 @@ namespace Reclaimers.Systems
             accumulatedMoney += moneyOrb.GetValue();
         }
         #endregion
+
         public void OnEnd()
         {
 
@@ -227,6 +229,38 @@ namespace Reclaimers.Systems
             {
                 interactablesInScene.Add(i);
             }
+        }
+
+        public Interactable GetClosestInteractable(Vector3 pos, float range)
+        {
+            if (interactablesInScene.Count < 1) return null;
+
+            Interactable result = null;
+            float currentResultDistance = range * 2;
+
+            for (int i = 0; i < interactablesInScene.Count; i++)
+            {
+                if (interactablesInScene[i].used) continue;
+                float currentIODistance = Vector3.Distance(interactablesInScene[i].transform.position, pos);
+                if (currentIODistance <= range)
+                {
+                    if (result != null)
+                    {
+                        if (currentIODistance < currentResultDistance)
+                        {
+                            currentResultDistance = currentIODistance;
+                            result = interactablesInScene[i];
+                        }
+                    }
+                    else
+                    {
+                        currentResultDistance = currentIODistance;
+                        result = interactablesInScene[i];
+                    }
+                }
+            }
+
+            return result;
         }
 
         public void RemoveInteractable(Interactable i)

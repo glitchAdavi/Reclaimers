@@ -4,15 +4,18 @@ using Reclaimers.Systems;
 
 public abstract class Interactable : MonoBehaviour
 {
-    [SerializeField] SpriteRenderer _sr;
+    [SerializeField] protected SpriteRenderer _sr;
 
     protected float useThreshold = 1f;
 
-    protected bool used = false;
+    public bool used = false;
     protected bool destroyOnUse = false;
 
     Timer timerUse;
 
+    public string IText = "";
+    public string IName = "Name";
+    public string IVerb = "Verb";
 
     public void Use()
     {
