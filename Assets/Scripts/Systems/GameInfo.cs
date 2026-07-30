@@ -34,10 +34,17 @@ public class GameInfo : ScriptableObject
     public GameObject audioSourcePrefab;
     public GameObject playerUIPrefab;
     public GameObject hitPrefab;
+    public GameObject upgradePrefab;
 
 
     public Sprite hitWall;
     public Sprite hitPlayer;
     public Sprite hitEnemy;
+    public Sprite upgradePawn;
+    public Sprite upgradeWeapon;
+    public Sprite upgradeAbility;
+
+    public Material spriteShader;
+    public Material selectableShader;
     
 }

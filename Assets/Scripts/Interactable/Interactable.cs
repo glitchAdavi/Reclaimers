@@ -21,17 +21,19 @@ public abstract class Interactable : MonoBehaviour
     {
         if (used || timerUse) return;
 
-        timerUse = GameManager.Instance.timerSystem.SetTimer(useThreshold, OnUse, 0.05f, UsePartial, "", true);
+        GameManager.Instance.eventSystem.UpdateInteractFill(0, 1);
+        timerUse = GameManager.Instance.timerSystem.SetTimer(useThreshold, OnUse, 0.01f, UsePartial, "", true);
     }
 
     public void UsePartial()
     {
-
+        GameManager.Instance.eventSystem.UpdateInteractFill(timerUse.durationElapsed / useThreshold, 1);
     }
 
     public void ResetUse()
     {
-        timerUse.Cancel();
+        GameManager.Instance.eventSystem.UpdateInteractFill(0, 1);
+        timerUse?.Cancel();
     }
 
     public void OnUse()
@@ -43,6 +45,11 @@ public abstract class Interactable : MonoBehaviour
     protected virtual void Effect()
     {
         if (destroyOnUse) Destroy(gameObject);
+    }
+
+    public virtual void Reset()
+    {
+        used = false;
     }
 
     public virtual void SetMaterial(Material newMat)

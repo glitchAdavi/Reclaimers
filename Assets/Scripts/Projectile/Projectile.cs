@@ -3,13 +3,6 @@ using Reclaimers.Systems;
 using Reclaimers.UpdateSystem;
 using UnityEngine;
 
-public enum ProjectileType
-{
-    P_Basic,
-    P_Bounce,
-    P_Split
-}
-
 public abstract class Projectile : MonoBehaviour, IUpdateable, IPauseable
 {
     [SerializeField] protected Pawn p;

@@ -1,0 +1,120 @@
+{
+    "accountLevel": 0,
+    "accountXp": 0.0,
+    "pName": "Pawn",
+    "pDesc": "A Pawn.",
+    "xpTotal": {
+        "_base": 0.0,
+        "_mult": 1.0,
+        "_min": 0.0,
+        "_max": Infinity
+    },
+    "xpCur": {
+        "_base": 0.0,
+        "_mult": 1.0,
+        "_min": 0.0,
+        "_max": Infinity
+    },
+    "xpGain": {
+        "_base": 1.0,
+        "_mult": 1.0,
+        "_min": 0.0,
+        "_max": Infinity
+    },
+    "level": {
+        "_base": 1.0,
+        "_mult": 1.0,
+        "_min": 0.0,
+        "_max": Infinity
+    },
+    "money": {
+        "_base": 0.0,
+        "_mult": 1.0,
+        "_min": 0.0,
+        "_max": Infinity
+    },
+    "materialGain": {
+        "_base": 1.0,
+        "_mult": 1.0,
+        "_min": 0.0,
+        "_max": Infinity
+    },
+    "speed": {
+        "_base": 10.0,
+        "_mult": 1.0,
+        "_min": -Infinity,
+        "_max": Infinity
+    },
+    "hp": {
+        "_base": 100.0,
+        "_mult": 1.0,
+        "_min": 1.0,
+        "_max": Infinity
+    },
+    "hpRegen": {
+        "_base": 1.0,
+        "_mult": 1.0,
+        "_min": 0.0,
+        "_max": Infinity
+    },
+    "hpRegenDelay": {
+        "_base": 1.0,
+        "_mult": 1.0,
+        "_min": 0.0,
+        "_max": Infinity
+    },
+    "hpRegenTickTime": {
+        "_base": 0.10000000149011612,
+        "_mult": 1.0,
+        "_min": 0.0,
+        "_max": Infinity
+    },
+    "iFrameDuration": {
+        "_base": 0.10000000149011612,
+        "_mult": 1.0,
+        "_min": -Infinity,
+        "_max": Infinity
+    },
+    "damageModifier": {
+        "_base": 1.0,
+        "_mult": 1.0,
+        "_min": -Infinity,
+        "_max": Infinity
+    },
+    "healingModifier": {
+        "_base": 1.0,
+        "_mult": 1.0,
+        "_min": -Infinity,
+        "_max": Infinity
+    },
+    "meleeDamage": {
+        "_base": 1.0,
+        "_mult": 1.0,
+        "_min": 0.0,
+        "_max": Infinity
+    },
+    "meleeRange": {
+        "_base": 1.0,
+        "_mult": 1.0,
+        "_min": 0.0,
+        "_max": Infinity
+    },
+    "meleeCooldown": {
+        "_base": 1.0,
+        "_mult": 1.0,
+        "_min": 0.0,
+        "_max": Infinity
+    },
+    "pickUpRange": {
+        "_base": 5.0,
+        "_mult": 1.0,
+        "_min": 0.0,
+        "_max": Infinity
+    },
+    "interactionRange": {
+        "_base": 5.0,
+        "_mult": 1.0,
+        "_min": 0.0,
+        "_max": Infinity
+    }
+}

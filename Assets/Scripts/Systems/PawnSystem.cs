@@ -47,8 +47,8 @@ namespace Reclaimers.Systems
         private int totalWeight = 0;
 
         public bool canSpawn = false;
-        public bool enemiesSpawnAlert = false;
         public bool enemiesSpawnIdle = false;
+        public bool populateLevel = false;
 
         public bool isPaused = false;
         public bool showGizmos = false;
@@ -114,7 +114,7 @@ namespace Reclaimers.Systems
         {
             if (!canSpawn || isPaused) return;
 
-            if (enemiesSpawnIdle)
+            if (populateLevel)
             {
                 for (int i = 0; i < mapSpawnPoints.Count; i++)
                 {
@@ -123,10 +123,8 @@ namespace Reclaimers.Systems
                         SpawnEnemy(SelectEnemy(), mapSpawnPoints[i], -1, true);
                     }
                 }
-                enemiesSpawnIdle = false;
-            }
-
-            if (enemiesSpawnAlert)
+                populateLevel = false;
+            } else
             {
                 for (int i = 0; i < spawnBatch; i++)
                 {
@@ -171,17 +169,8 @@ namespace Reclaimers.Systems
                 newEnemy.Teleport(GetRandomSpawnableTile());
                 enemiesInPlay++;
             }
+            if (idle || enemy.spawnsIdle) newEnemy.SetIdle();
             pawnsInScene.Add(newEnemy);
-
-
-            /*
-            Pawn newEnemy = _enemyBuilder.GetObject();
-
-            pawnsInScene.Add(newEnemy);
-
-            newEnemy.SetAsNonPlayer(GameManager.Instance.gameInfo.defaultEnemyStatBlock, GameManager.Instance.playerPawn);
-            if (pos != null) newEnemy.transform.position = (Vector3)pos;
-            */
         }
 
 

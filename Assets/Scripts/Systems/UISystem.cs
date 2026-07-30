@@ -55,6 +55,10 @@ namespace Reclaimers.Systems
         public TMP_Text abilityAmmo;
         public UIFillableBar abilityBar;
 
+        public GameObject interact;
+        public TMP_Text interactText;
+        public UIFillableBar interactFill;
+
         public UIMenu levelUpMenu;
 
 
@@ -97,6 +101,8 @@ namespace Reclaimers.Systems
             GameManager.Instance.eventSystem.onUpdateMoneyGained += UpdateMoneyGained;
             GameManager.Instance.eventSystem.onUpdateObjective += UpdateObjective;
             GameManager.Instance.eventSystem.onUpdateObjectiveBar += UpdateObjectiveBar;
+            GameManager.Instance.eventSystem.onUpdateInteractText += UpdateInteractText;
+            GameManager.Instance.eventSystem.onUpdateInteractFill += UpdateInteractFill;
 
             GameManager.Instance.eventSystem.onTriggerWin += SetFadeWin;
             GameManager.Instance.eventSystem.onTriggerLose += SetFadeLose;
@@ -307,6 +313,18 @@ namespace Reclaimers.Systems
             objectiveBar.UpdateBar(current / max, 1);
             if (updateText) objectiveText.text = $"{current:#}<size=26>s";
             else objectiveText.text = "";
+        }
+
+        public void UpdateInteractText(string t, bool enable, bool hasKey = true)
+        {
+            interact.SetActive(enable);
+            if (hasKey) interactText.text = $"[F] {t}";
+            else interactText.text = $"{t}";
+        }
+
+        public void UpdateInteractFill(float current, float max)
+        {
+            interactFill.UpdateBar(current, max);
         }
         #endregion
 

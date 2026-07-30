@@ -8,13 +8,6 @@ using System.Reflection;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public enum Difficulty
-{
-    Normal = 10,
-    Hard = 15,
-    Suicide = 20
-}
-
 public class GameManager : MonoBehaviour, IDataPersistence
 {
     public static GameManager Instance { get; private set; }
@@ -189,7 +182,7 @@ public class GameManager : MonoBehaviour, IDataPersistence
         return Vector3.Distance(playerPawn.transform.position, pos);
     }
 
-    public string[] GetRandomSpriteParts(SpritePartCategory cat)
+    public string[] GetRandomSpriteParts(PawnType cat)
     {
         string[] result = new string[4];
         result[0] = GetRandomSpritePart(SpritePartType.Head, cat)?.partName;
@@ -199,7 +192,7 @@ public class GameManager : MonoBehaviour, IDataPersistence
         return result;
     }
 
-    public SpritePart GetRandomSpritePart(SpritePartType spType, SpritePartCategory cat)
+    public SpritePart GetRandomSpritePart(SpritePartType spType, PawnType cat)
     {
         SpritePart result = null;
         List<SpritePart> filteredList = spriteParts.Where(x => x.spType.Equals(spType) && x.spCategory.Equals(cat)).ToList();
@@ -216,7 +209,7 @@ public class GameManager : MonoBehaviour, IDataPersistence
 
         foreach  (SpritePart sp in spriteParts)
         {
-            if (sp.spCategory.Equals(SpritePartCategory.Player)) playerParts.Add(sp);
+            if (sp.spCategory.Equals(PawnType.Player)) playerParts.Add(sp);
         }
     }
 
@@ -242,13 +235,13 @@ public class GameManager : MonoBehaviour, IDataPersistence
         return result;
     }
 
-    public Modifier GetRandomModifier()
+    public Modifier GetRandomModifier(bool randomQuality = true)
     {
         int r = Random.Range(1, 11);
         Modifier result;
 
         result = (Upgrade)upgradeList[Random.Range(0, upgradeList.Count())].Clone();
-        result.quality = GetRandomQuality();
+        if (randomQuality) result.quality = GetRandomQuality();
 
 
 
@@ -261,6 +254,16 @@ public class GameManager : MonoBehaviour, IDataPersistence
             //result = (Item)itemList[Random.Range(0, itemList.Count())].Clone();
             //result.quality = GetRandomQuality();
         //}
+
+        return result;
+    }
+
+    public Upgrade GetRandomUpgrade(bool randomQuality = true)
+    {
+        Upgrade result;
+
+        result = (Upgrade)upgradeList[Random.Range(0, upgradeList.Count())].Clone();
+        if (randomQuality) result.quality = GetRandomQuality();
 
         return result;
     }

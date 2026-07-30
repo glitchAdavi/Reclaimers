@@ -2,13 +2,6 @@ using UnityEngine;
 using Reclaimers.UpdateSystem;
 using Reclaimers.Systems;
 
-public enum AbilityScripts
-{
-    A_StatusEffect,
-    A_Building,
-    A_Throwable
-}
-
 public abstract class Ability : MonoBehaviour, IPauseable
 {
     [SerializeField] protected Pawn _p;

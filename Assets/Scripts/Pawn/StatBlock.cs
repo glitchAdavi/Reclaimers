@@ -109,7 +109,7 @@ public class StatBlock : ScriptableObject, ICloneable
     // 1 - Torso
     // 2 - Legs
     // 3 - GeneralDetails
-    [PawnVar] public SpritePartCategory sprCat = SpritePartCategory.Player;
+    [PawnVar] public PawnType sprCat = PawnType.Player;
     [PawnVar] public string[] sprNames = new string[4];
 
     [PawnVar] public bool spriteVariableHue = false;
@@ -152,6 +152,10 @@ public class StatBlock : ScriptableObject, ICloneable
     [PawnVar] public Stat interactionRange = new Stat(0f, 0f, 0f);
 
     // Enemy Exclusive
+    [PawnVar] public bool spawnsIdle = false;
+    [PawnVar] public List<Sprite> idleDisguises = new List<Sprite>();
+
+    [PawnVar] public bool immobile = false;
 
     [PawnVar] public bool xpInstant = false;
     [PawnVar] public Stat xpKillValue = new Stat(0f, 0f, 0f);
@@ -173,6 +177,8 @@ public class StatBlock : ScriptableObject, ICloneable
     [Header("Weapon Stats")]
     [Header("")]
     [WeaponVar] public string weaponName = "";
+
+    [WeaponVar] public Sprite wepSprite;
 
     [WeaponVar] public WeaponType wepType;
 

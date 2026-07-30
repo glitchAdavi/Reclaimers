@@ -228,6 +228,7 @@ MonoBehaviour:
     _min: 1
     _max: Infinity
   weaponName: NEWWEAPON
+  wepSprite: {fileID: 295675122, guid: f80cba83b28aa684a97c381f98df3645, type: 3}
   wepType: 0
   magSize:
     _base: 49

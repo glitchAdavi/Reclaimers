@@ -28,6 +28,7 @@ MonoBehaviour:
   - 
   spriteVariableHue: 1
   spriteVariableHueRange: 30
+  hitSprite: {fileID: 0}
   scale:
     _base: 1
     _mult: 1
@@ -182,6 +183,10 @@ MonoBehaviour:
     _multTotal: 1
     _min: 0
     _max: Infinity
+  spawnsIdle: 1
+  idleDisguises:
+  - {fileID: -115498399, guid: 48b860379e2c16742b27ddd34fe5d75d, type: 3}
+  immobile: 0
   xpInstant: 0
   xpKillValue:
     _base: 1
@@ -224,6 +229,7 @@ MonoBehaviour:
     _min: 1
     _max: Infinity
   weaponName: 
+  wepSprite: {fileID: 0}
   wepType: 0
   magSize:
     _base: 0

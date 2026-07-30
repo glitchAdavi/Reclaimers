@@ -448,7 +448,7 @@ namespace Reclaimers.Systems
         {
             Vector3 randomPos = new Vector3(0f, -100f, 0f);
 
-            while (!NavMesh.SamplePosition(pos, out NavMeshHit hit, 0.5f, NavMesh.AllAreas))
+            while (!NavMesh.SamplePosition(randomPos, out NavMeshHit hit, 0.5f, NavMesh.AllAreas))
             {
                 randomPos = new Vector3(Random.Range(-radius / 2, radius / 2),
                                         0f,

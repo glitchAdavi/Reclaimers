@@ -56,6 +56,12 @@ namespace Reclaimers.Systems
 
         public event Action onEnableUITop;
         public void EnableUITop() => onEnableUITop?.Invoke();
+
+        public event Action<string, bool, bool> onUpdateInteractText;
+        public void UpdateInteractText(string t, bool enable, bool hasKey = true) => onUpdateInteractText?.Invoke(t, enable, hasKey);
+
+        public event Action<float, float> onUpdateInteractFill;
+        public void UpdateInteractFill(float cur, float max) => onUpdateInteractFill?.Invoke(cur, max);
         #endregion
 
         #region Level
@@ -79,6 +85,9 @@ namespace Reclaimers.Systems
 
         public event Action onTriggerLose;
         public void TriggerLose() => onTriggerLose?.Invoke();
+
+        public event Action<Vector3> onSpawnRandomUpgrade;
+        public void SpawnRandomUpgrade(Vector3 pos) => onSpawnRandomUpgrade?.Invoke(pos);
         #endregion
 
 

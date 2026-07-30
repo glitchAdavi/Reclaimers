@@ -1,3 +1,4 @@
+using Reclaimers.DeveloperConsole;
 using UnityEngine;
 
 public class I_Container : Interactable
@@ -26,20 +27,29 @@ public class I_Container : Interactable
         int xpRange = Random.Range(xpMinMax.x, xpMinMax.y + 1);
         for (int i = 0; i < xpRange; i++)
         {
+            LogSystem.Log($"({i})XP");
             GameManager.Instance.eventSystem.SpawnXp(GameManager.Instance.gridSystem.GetRandomPosInRadius(transform.position, lootSpreadRange + transform.localScale.x), 1f);
         }
 
         int materialRange = Random.Range(moneyMinMax.x, moneyMinMax.y + 1);
         for (int i = 0; i < materialRange; i++)
         {
+            LogSystem.Log($"({i})Mat");
             GameManager.Instance.eventSystem.SpawnMoney(GameManager.Instance.gridSystem.GetRandomPosInRadius(transform.position, lootSpreadRange + transform.localScale.x), 1f);
         }
 
         int upgradeRange = Random.Range(upgradeMinMax.x, upgradeMinMax.y + 1);
         for (int i = 0; i < upgradeRange; i++)
         {
-            //GameManager.Instance.eventSystem.SpawnRandomUpgrade(GetRandomPosInRadius());
+            LogSystem.Log($"({i})Upgrade");
+            GameManager.Instance.eventSystem.SpawnRandomUpgrade(GameManager.Instance.gridSystem.GetRandomPosInRadius(transform.position, lootSpreadRange + transform.localScale.x));
         }
+    }
+
+    public override void Reset()
+    {
+        base.Reset();
+        _sr.sprite = closed;
     }
 
     public void OnDrawGizmos()

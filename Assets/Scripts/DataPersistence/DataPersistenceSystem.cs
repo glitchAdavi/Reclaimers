@@ -16,6 +16,7 @@ namespace Reclaimers.DataPersistence
 
         public static DataPersistenceSystem Instance { get; private set; }
 
+
         private void Awake()
         {
             if (Instance != null) Destroy(this);
@@ -24,7 +25,7 @@ namespace Reclaimers.DataPersistence
 
         private void Start()
         {
-            dataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
+            dataHandler = new FileDataHandler(Application.dataPath, fileName);
             dataPersistenceObjects = FindAllDataPersistenceObjects();
             LoadGame();
         }

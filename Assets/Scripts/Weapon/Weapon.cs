@@ -1,11 +1,6 @@
 using Reclaimers.Systems;
 using UnityEngine;
 
-public enum WeaponType
-{
-    Projectile
-}
-
 public class Weapon : MonoBehaviour
 {
     [SerializeField] private Pawn p;

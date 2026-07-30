@@ -20,6 +20,7 @@ MonoBehaviour:
   projType: 0
   onHitEffects: []
   abilityBlock: {fileID: 0}
+  sprCat: 0
   sprNames:
   - P_Head_Camo
   - P_Torso_Camo
@@ -27,6 +28,7 @@ MonoBehaviour:
   - 
   spriteVariableHue: 0
   spriteVariableHueRange: 0
+  hitSprite: {fileID: 0}
   scale:
     _base: 1
     _mult: 1
@@ -35,14 +37,14 @@ MonoBehaviour:
     _min: 0.1
     _max: Infinity
   xpTotal:
-    _base: 7996
+    _base: 0
     _mult: 1
     _addTotal: 0
     _multTotal: 1
     _min: 0
     _max: Infinity
   xpCur:
-    _base: 256
+    _base: 0
     _mult: 1
     _addTotal: 0
     _multTotal: 1
@@ -56,7 +58,7 @@ MonoBehaviour:
     _min: 0
     _max: Infinity
   level:
-    _base: 60
+    _base: 1
     _mult: 1
     _addTotal: 0
     _multTotal: 1
@@ -175,7 +177,7 @@ MonoBehaviour:
     _min: 0
     _max: Infinity
   interactionRange:
-    _base: 1
+    _base: 5
     _mult: 1
     _addTotal: 0
     _multTotal: 1

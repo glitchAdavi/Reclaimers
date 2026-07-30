@@ -57,6 +57,8 @@ namespace Reclaimers.Systems
             GameManager.Instance.eventSystem.onTriggerWin += OnWin;
             GameManager.Instance.eventSystem.onTriggerLose += OnLose;
 
+            GameManager.Instance.eventSystem.onSpawnRandomUpgrade += SpawnRandomUpgrade;
+
             GetInteractablesInScene();
         }
 
@@ -268,7 +270,11 @@ namespace Reclaimers.Systems
             interactablesInScene.Remove(i);
         }
 
-
+        public void SpawnRandomUpgrade(Vector3 pos)
+        {
+            I_Upgrade u = Instantiate(GameManager.Instance.gameInfo.upgradePrefab, pos, Quaternion.identity).GetComponent<I_Upgrade>();
+            interactablesInScene.Add(u);
+        }
         #endregion
     }
 }
