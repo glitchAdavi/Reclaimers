@@ -50,6 +50,8 @@ public enum PawnType
     StaticPlant,
     Rat,
     Mimic,
-    FleshGolem,
-    FleshGolemSmall
+    Amalgam,
+    AmalgamPart,
+    BossSlime,
+    BossAmalgam
 }

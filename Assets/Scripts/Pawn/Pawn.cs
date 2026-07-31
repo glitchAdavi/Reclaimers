@@ -53,6 +53,7 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
     public bool isStunned = false;
     public bool isFrame1 = true;
     public bool isTeleportable = true;
+    public bool isBoss = false;
 
     private Timer p_iFrameTimer;
     private Timer p_hpRegenStartTimer;
@@ -68,6 +69,7 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
     private Timer p_closestInteractableTimer;
 
     public Interactable closestInteractable;
+    public Interactable interactableBeingUsed;
 
     public Pawn target = null;
 
@@ -127,6 +129,8 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
 
         p_closestInteractableTimer = GameManager.Instance.timerSystem.SetForeverTimer(0.2f, FindClosestInteractable);
 
+        GameManager.Instance.eventSystem.onInteractableUsed += InteractReset;
+
         GameManager.Instance.eventSystem.UpdateHp(statBlock.hp.Value(), statBlock.hp.Value());
         GameManager.Instance.eventSystem.UpdateXp(statBlock.xpCur.Value(), p_levelThreshold);
         GameManager.Instance.eventSystem.UpdateLevel(statBlock.level.ValueInt());
@@ -141,6 +145,13 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
         SetupCleanup();
 
         isPlayer = false;
+        isBoss = statBlock.isBoss;
+        if (isBoss)
+        {
+            np_dissolveTime = 1f;
+            GameManager.Instance.eventSystem.UpdateObjectiveBar(statBlock.hp.Value(), statBlock.hp.Value(), true);
+        }
+
         _nav.enabled = true;
         _nav.avoidancePriority = 50;
         _nav.isStopped = false;
@@ -194,7 +205,6 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
         _shadowSpr.SetPropertyBlock(_matBlock);
 
         currentHp = statBlock.hp.Value();
-
     }
 
     private void SetupCleanup()
@@ -495,6 +505,7 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
     public void DamageEffect()
     {
         if (isPlayer) GameManager.Instance.eventSystem.UpdateHp(currentHp, statBlock.hp.Value());
+        if (isBoss) GameManager.Instance.eventSystem.UpdateObjectiveBar(currentHp, statBlock.hp.Value(), true);
 
         _sprite.color = Color.red;
         damageEffectTimer = GameManager.Instance.timerSystem.SetTimer(0.1f, () => _sprite.color = Color.white, "PAWN_DamageEffect");
@@ -620,7 +631,8 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
 
     public void ConfirmDeath()
     {
-        GameManager.Instance.eventSystem.EnemyDeath(this);
+        if (isBoss) GameManager.Instance.eventSystem.BossDeath();
+        else GameManager.Instance.eventSystem.EnemyDeath(this);
     }
 
     #region XP
@@ -713,16 +725,17 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
     #region Interact
     public void Interact()
     {
-        p_closestInteractableTimer?.Pause(true);
+        //p_closestInteractableTimer?.Pause(true);
 
-        closestInteractable?.Use();
+        interactableBeingUsed = closestInteractable;
+        interactableBeingUsed?.Use();
     }
 
     public void InteractReset()
     {
-        p_closestInteractableTimer?.Pause(false);
+        //p_closestInteractableTimer?.Pause(false);
 
-        closestInteractable?.ResetUse();
+        interactableBeingUsed?.ResetUse();
     }
 
     public void FindClosestInteractable()
@@ -744,6 +757,8 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
             if (current != null) current.SetMaterial(GameManager.Instance.gameInfo.spriteShader);
             GameManager.Instance.eventSystem.UpdateInteractText("", false);
         }
+
+        if (closestInteractable != interactableBeingUsed) InteractReset();
     }
     #endregion
 

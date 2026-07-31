@@ -15,9 +15,13 @@ public class GameInfo : ScriptableObject
     public StatBlock zombieEnemyStatBlock;
     public StatBlock bugEnemyStatBlock;
     public StatBlock staticPlantEnemyStatBlock;
-    public StatBlock movingPlantEnemyStatBlock;
-    public StatBlock wolfEnemyStatBlock;
-    public StatBlock fleshGolemStatBlock;
+    public StatBlock ratEnemyStatBlock;
+    public StatBlock mimicEnemyStatBlock;
+    public StatBlock amalgamStatBlock;
+    public StatBlock amalgamPartStatBlock;
+
+    public StatBlock slimeBossStatBlack;
+    public StatBlock amalgamBossStatBlack;
 
     public StatBlock defaultWeaponBlock;
 

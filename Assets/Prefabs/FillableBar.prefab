@@ -53,6 +53,7 @@ MonoBehaviour:
   _image: {fileID: 4078595215358155105}
   _size: 1
   _currentSize: 1
+  _invert: 0
 --- !u!222 &6518444413032401820
 CanvasRenderer:
   m_ObjectHideFlags: 0

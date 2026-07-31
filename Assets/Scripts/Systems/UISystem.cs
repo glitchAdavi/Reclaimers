@@ -89,6 +89,10 @@ namespace Reclaimers.Systems
             GameManager.Instance.eventSystem.onQueueLevelUp += LevelUpMenu;
             GameManager.Instance.eventSystem.onLevelUpFinish += CloseLevelUpMenu;
 
+            GameManager.Instance.eventSystem.onOpenMissionMenu += MissionMenu;
+            GameManager.Instance.eventSystem.onOpenUpgradeMenu += UpgradeMenu;
+            GameManager.Instance.eventSystem.onOpenCustomizationMenu += CustomizationMenu;
+
             GameManager.Instance.eventSystem.onUpdateHp += UpdateHp;
             GameManager.Instance.eventSystem.onUpdateXp += UpdateXp;
             GameManager.Instance.eventSystem.onUpdateLevel += UpdateLevel;
@@ -322,8 +326,9 @@ namespace Reclaimers.Systems
             else interactText.text = $"{t}";
         }
 
-        public void UpdateInteractFill(float current, float max)
+        public void UpdateInteractFill(float current, float max, bool enable)
         {
+            interactFill.gameObject.SetActive(enable);
             interactFill.UpdateBar(current, max);
         }
         #endregion

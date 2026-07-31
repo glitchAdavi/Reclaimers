@@ -152,6 +152,8 @@ public class StatBlock : ScriptableObject, ICloneable
     [PawnVar] public Stat interactionRange = new Stat(0f, 0f, 0f);
 
     // Enemy Exclusive
+    [PawnVar] public bool isBoss = false;
+
     [PawnVar] public bool spawnsIdle = false;
     [PawnVar] public List<Sprite> idleDisguises = new List<Sprite>();
 

@@ -18,6 +18,15 @@ namespace Reclaimers.Systems
         public event Action onOpenCloseMenues;
         public void OpenCloseMenues() => onOpenCloseMenues?.Invoke();
 
+        public event Action onOpenMissionMenu;
+        public void OpenMissionMenu() => onOpenMissionMenu?.Invoke();
+
+        public event Action onOpenUpgradeMenu;
+        public void OpenUpgradeMenu() => onOpenUpgradeMenu?.Invoke();
+
+        public event Action onOpenCustomizationMenu;
+        public void OpenCustomizationMenu() => onOpenCustomizationMenu?.Invoke();
+
         public event Action<float, float> onUpdateHp;
         public void UpdateHp(float c, float m) => onUpdateHp?.Invoke(c, m);
 
@@ -60,8 +69,8 @@ namespace Reclaimers.Systems
         public event Action<string, bool, bool> onUpdateInteractText;
         public void UpdateInteractText(string t, bool enable, bool hasKey = true) => onUpdateInteractText?.Invoke(t, enable, hasKey);
 
-        public event Action<float, float> onUpdateInteractFill;
-        public void UpdateInteractFill(float cur, float max) => onUpdateInteractFill?.Invoke(cur, max);
+        public event Action<float, float, bool> onUpdateInteractFill;
+        public void UpdateInteractFill(float cur, float max, bool enable) => onUpdateInteractFill?.Invoke(cur, max, enable);
         #endregion
 
         #region Level
@@ -122,6 +131,13 @@ namespace Reclaimers.Systems
         public event Action<Pawn> onEnemyDeath;
         public void EnemyDeath(Pawn enemy) => onEnemyDeath?.Invoke(enemy);
 
+        public event Action onBossDeath;
+        public void BossDeath() => onBossDeath?.Invoke();
+        #endregion
+
+        #region Interactable
+        public event Action onInteractableUsed;
+        public void InteractableUsed() => onInteractableUsed?.Invoke();
 
         #endregion
 

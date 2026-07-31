@@ -21,24 +21,31 @@ public abstract class Interactable : MonoBehaviour
     {
         if (used || timerUse) return;
 
-        GameManager.Instance.eventSystem.UpdateInteractFill(0, 1);
-        timerUse = GameManager.Instance.timerSystem.SetTimer(useThreshold, OnUse, 0.01f, UsePartial, "", true);
+        if (useThreshold > 0f)
+        {
+            GameManager.Instance.eventSystem.UpdateInteractFill(0, 1, true);
+            timerUse = GameManager.Instance.timerSystem.SetTimer(useThreshold, OnUse, 0.01f, UsePartial, "", true);
+        } else
+        {
+            OnUse();
+        }
     }
 
     public void UsePartial()
     {
-        GameManager.Instance.eventSystem.UpdateInteractFill(timerUse.durationElapsed / useThreshold, 1);
+        GameManager.Instance.eventSystem.UpdateInteractFill(timerUse.durationElapsed / useThreshold, 1, useThreshold > 0f ? true : false);
     }
 
     public void ResetUse()
     {
-        GameManager.Instance.eventSystem.UpdateInteractFill(0, 1);
+        GameManager.Instance.eventSystem.UpdateInteractFill(0, 1, false);
         timerUse?.Cancel();
     }
 
     public void OnUse()
     {
         used = true;
+        GameManager.Instance.eventSystem.InteractableUsed();
         Effect();
     }
 

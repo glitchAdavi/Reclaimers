@@ -16,7 +16,7 @@ MonoBehaviour:
   pDesc: A slime.
   upgrades: []
   items: []
-  weaponBlock: {fileID: 11400000, guid: 096d9b5cb8b6eb94bb7e6d6393abf0cc, type: 2}
+  weaponBlock: {fileID: 0}
   projType: 0
   onHitEffects: []
   abilityBlock: {fileID: 0}
@@ -31,7 +31,7 @@ MonoBehaviour:
   - 
   spriteVariableHue: 0
   spriteVariableHueRange: 0
-  hitSprite: {fileID: 0}
+  hitSprite: {fileID: -1642617151, guid: fc03dc4dd5ed2be458f3bf505ed441f8, type: 3}
   scale:
     _base: 1
     _mult: 1
@@ -186,9 +186,10 @@ MonoBehaviour:
     _multTotal: 1
     _min: 0
     _max: Infinity
+  isBoss: 0
   spawnsIdle: 0
   idleDisguises: []
-  immobile: 1
+  immobile: 0
   xpInstant: 0
   xpKillValue:
     _base: 1
