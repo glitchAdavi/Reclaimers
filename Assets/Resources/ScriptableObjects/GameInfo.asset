@@ -28,6 +28,7 @@ MonoBehaviour:
   slimeBossStatBlack: {fileID: 11400000, guid: 9d5e768af96e6e748a15f88c6a6cf5a1, type: 2}
   amalgamBossStatBlack: {fileID: 11400000, guid: 2e262004e2f2f1343a2bfb423d5bfebe, type: 2}
   defaultWeaponBlock: {fileID: 11400000, guid: 3f5c620b243a5554b9a7dfcb85d7037e, type: 2}
+  E_Pistol: {fileID: 0}
   defaultAbilityBlock: {fileID: 11400000, guid: 7517908b9d2dc804980d21a9c661b217, type: 2}
   pawnPrefab: {fileID: 7670317755826226318, guid: a7836d36845584b4aba91a530fb6249f, type: 3}
   playerCameraPrefab: {fileID: 6444985827976779412, guid: d0ca0aa53c5718a44a91518f40c6194f, type: 3}

@@ -11,6 +11,9 @@ namespace Reclaimers.Systems
         public event Action<float> onGiveAccountXp;
         public void GiveAccountXp(float val) => onGiveAccountXp?.Invoke(val);
 
+        public event Action onFinishLoading;
+        public void FinishLoading() => onFinishLoading?.Invoke();
+
         #region UI
         public event Action<Vector3, string, Sprite, Color, float, float> onSpawnFloatingText;
         public void SpawnFloatingText(Vector3 pos, string text, Sprite image, Color c, float driftRange = 0f, float maxSize = 1f) => onSpawnFloatingText?.Invoke(pos, text, image, c, driftRange, maxSize);

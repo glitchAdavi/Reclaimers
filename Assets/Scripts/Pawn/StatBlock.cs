@@ -2,94 +2,11 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-[Serializable]
-public class StatOnHitEffect
-{
-    public StatusEffect effect;
-    public float chance;
-
-    public StatOnHitEffect(StatusEffect se, float chance)
-    {
-        effect = se;
-        this.chance = chance;
-    }
-}
-
-[Serializable]
-public class StatUpgrade
-{
-    public string modId;
-    public int modStacks;
-
-    public StatUpgrade(string id, int stacks)
-    {
-        modId = id;
-        modStacks = stacks;
-    }
-}
-
-[Serializable]
-public class ItemUpgrade
-{
-    public string modId;
-    public int modStacks;
-
-    public ItemUpgrade(string id, int stacks)
-    {
-        modId = id;
-        modStacks = stacks;
-    }
-}
-
-public enum StatBlockVars
-{
-    scale,
-    xpTotal,
-    xpCur,
-    xpGain,
-    level,
-    money,
-    moneyGain,
-    speed,
-    hp,
-    hpRegen,
-    hpRegenDelay,
-    hpRegenTickTime,
-    iFrameDuration,
-    damageModifier,
-    healingModifier,
-    meleeDamage,
-    meleeRange,
-    meleeCooldown,
-    critChance,
-    critMult,
-    pickUpRange,
-    interactionRange,
-    magSize,
-    bulletsPerShot,
-    bulletsPerShotCost,
-    bulletsPerShotSpread,
-    burstAmount,
-    burstDelay,
-    bulletSpread,
-    bulletSpreadGain,
-    fireRate,
-    reloadTime,
-    projDamage,
-    projDamageRadius,
-    projSpeed,
-    projPenetration,
-    projStun,
-    abilityDuration,
-    abilityCooldown,
-    abilityDamage,
-    abilityRadius,
-    abilityCharges
-}
-
 [CreateAssetMenu(fileName = "StatBlock")]
 public class StatBlock : ScriptableObject, ICloneable
 {
+    public bool firstTime = true;
+
     #region Pawn
     [Header("Pawn Stats")]
     [Header("")]
@@ -99,11 +16,11 @@ public class StatBlock : ScriptableObject, ICloneable
     [PawnVar] public List<StatUpgrade> upgrades = new List<StatUpgrade>();
     [PawnVar] public List<ItemUpgrade> items = new List<ItemUpgrade>();
 
-    [PawnVar] public StatBlock weaponBlock;
+    [PawnVar] public string weaponBlock;
     [PawnVar] public ProjectileType projType;
     [PawnVar] public List<StatOnHitEffect> onHitEffects = new List<StatOnHitEffect>();
 
-    [PawnVar] public StatBlock abilityBlock;
+    [PawnVar] public string abilityBlock;
 
     // 0 - Head
     // 1 - Torso
@@ -165,12 +82,12 @@ public class StatBlock : ScriptableObject, ICloneable
     [PawnVar] public Stat moneyKillValue = new Stat(0f, 0f, 0f);
 
     [PawnVar] public bool onDamageSpawnEnemy;
-    [PawnVar] public StatBlock onDamageEnemyToSpawn;
+    [PawnVar] public string onDamageEnemyToSpawn;
     [PawnVar] public Stat onDamageInterval = new Stat(0f, 0f, 1f);
     [PawnVar] public Stat onDamageNumToSpawn = new Stat(0f, 0f, 1f);
 
     [PawnVar] public bool onDeathSpawnEnemy;
-    [PawnVar] public StatBlock onDeathEnemyToSpawn;
+    [PawnVar] public string onDeathEnemyToSpawn;
     [PawnVar] public Stat onDeathNumToSpawn = new Stat(0f, 0f, 1f);
     #endregion
 

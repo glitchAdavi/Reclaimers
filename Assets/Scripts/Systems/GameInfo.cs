@@ -24,6 +24,7 @@ public class GameInfo : ScriptableObject
     public StatBlock amalgamBossStatBlack;
 
     public StatBlock defaultWeaponBlock;
+    public StatBlock E_Pistol;
 
     public StatBlock defaultAbilityBlock;
 

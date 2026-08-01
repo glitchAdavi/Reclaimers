@@ -39,6 +39,10 @@ public class GameManager : MonoBehaviour, IDataPersistence
     public CustomList<Upgrade> upgradeList = new CustomList<Upgrade>();
     public CustomList<StatusEffect> statusEffectList = new CustomList<StatusEffect>();
     public CustomList<Item> itemList = new CustomList<Item>();
+
+    public CustomList<StatBlock> pawns = new CustomList<StatBlock>();
+    public CustomList<StatBlock> weapons = new CustomList<StatBlock>();
+    public CustomList<StatBlock> abilities = new CustomList<StatBlock>();
     
 
     //---AccountData---
@@ -47,6 +51,7 @@ public class GameManager : MonoBehaviour, IDataPersistence
     public float accountXp = 0f;
     public float scaling = 1f;
     public Difficulty selectedDifficulty = Difficulty.Normal;
+    public List<StatUpgrade> permanentUpgrade = new List<StatUpgrade>();
 
     private void Awake()
     {
@@ -55,6 +60,7 @@ public class GameManager : MonoBehaviour, IDataPersistence
             Instance = this;
             DontDestroyOnLoad(this);
 
+            LoadStatBlocks();
             LoadSpriteParts();
             LoadModifiers();
 
@@ -66,9 +72,6 @@ public class GameManager : MonoBehaviour, IDataPersistence
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
     {
-        TryGetComponent(out dataPersistenceSystem);
-        if (dataPersistenceSystem == null) dataPersistenceSystem = CreateSystem<DataPersistenceSystem>(false);
-
         updateSystem = GetComponent<UpdateSystem>();
         gridSystem = GameObject.Find("Grid").GetComponent<GridSystem>();
         eventSystem = CreateSystem<EventSystem>();
@@ -81,15 +84,16 @@ public class GameManager : MonoBehaviour, IDataPersistence
         statCollection = CreateSystem<StatCollection>();
 
         playerPawn = InstantiatePlayer();
-        playerPawn.SetAsPlayer(gameInfo.tempPlayerStatBlock);
         playerCamera = InstantiateCamera();
         playerController = CreateSystem<PlayerController>();
         playerController.AssignPlayerPawn(playerPawn);
 
-
+        TryGetComponent(out dataPersistenceSystem);
+        if (dataPersistenceSystem == null) dataPersistenceSystem = CreateSystem<DataPersistenceSystem>(false);
 
         Instance.eventSystem.onSetPause += SetPause;
         Instance.eventSystem.onLevelUpFinish += UpdateScaling;
+        Instance.eventSystem.onFinishLoading += LoadPlayer;
 
         uiSystem.FadeIn(levelSystem.StartLevel);
     }
@@ -109,6 +113,7 @@ public class GameManager : MonoBehaviour, IDataPersistence
     {
         accountLevel = data.accountLevel;
         accountXp = data.accountXp;
+        permanentUpgrade = data.permanentUpgrade;
 
         foreach (FieldInfo dataField in typeof(GameData).GetFields())
         {
@@ -127,6 +132,7 @@ public class GameManager : MonoBehaviour, IDataPersistence
     {
         data.accountLevel = accountLevel;
         data.accountXp = accountXp;
+        data.permanentUpgrade = permanentUpgrade;
 
         foreach (FieldInfo fieldStat in typeof(StatBlock).GetFields())
         {
@@ -152,6 +158,11 @@ public class GameManager : MonoBehaviour, IDataPersistence
             .GetComponent<Pawn>();
 
         return player;
+    }
+
+    public void LoadPlayer()
+    {
+        playerPawn.SetAsPlayer(gameInfo.tempPlayerStatBlock);
     }
 
     private PlayerCamera InstantiateCamera()
@@ -180,6 +191,24 @@ public class GameManager : MonoBehaviour, IDataPersistence
     public float DistanceToPlayer(Vector3 pos)
     {
         return Vector3.Distance(playerPawn.transform.position, pos);
+    }
+
+    public void LoadStatBlocks()
+    {
+        pawns = new CustomList<StatBlock>(Resources.LoadAll<StatBlock>("ScriptableObjects/StatBlocks/Players").ToList());
+        LogSystem.Log($"GameManager: Loaded {pawns.Count} pawn StatBlocks.");
+        weapons = new CustomList<StatBlock>(Resources.LoadAll<StatBlock>("ScriptableObjects/WeaponBlocks").ToList());
+        LogSystem.Log($"GameManager: Loaded {weapons.Count} weapon StatBlocks.");
+        abilities = new CustomList<StatBlock>(Resources.LoadAll<StatBlock>("ScriptableObjects/AbilityBlocks").ToList());
+        LogSystem.Log($"GameManager: Loaded {abilities.Count} ability StatBlocks.");
+    }
+
+    public StatBlock GetStatBlock(string sbName)
+    {
+        StatBlock result = pawns.FirstOrDefault(sb => sb.name == sbName);
+        if (result == null) result = weapons.FirstOrDefault(sb => sb.name == sbName);
+        if (result == null) result = abilities.FirstOrDefault(sb => sb.name == sbName);
+        return result;
     }
 
     public string[] GetRandomSpriteParts(PawnType cat)
@@ -225,6 +254,8 @@ public class GameManager : MonoBehaviour, IDataPersistence
         LogSystem.Log($"GameManager: Loaded {upgradeList.Count} upgrades.");
         statusEffectList = new CustomList<StatusEffect>(Resources.LoadAll<StatusEffect>("ScriptableObjects/Modifiers/StatusEffects").ToList());
         LogSystem.Log($"GameManager: Loaded {statusEffectList.Count} status effects.");
+        itemList = new CustomList<Item>(Resources.LoadAll<Item>("ScriptableObjects/Modifiers/Items").ToList());
+        LogSystem.Log($"GameManager: Loaded {itemList.Count} items.");
     }
 
     public Modifier GetModifier(string id, bool randomQuality = false)
@@ -240,9 +271,9 @@ public class GameManager : MonoBehaviour, IDataPersistence
         int r = Random.Range(1, 11);
         Modifier result;
 
-        result = (Upgrade)upgradeList[Random.Range(0, upgradeList.Count())].Clone();
+        List<Upgrade> filteredUpgradeList = upgradeList.Where(x => !x.permanent).ToList();
+        result = (Upgrade)filteredUpgradeList[Random.Range(0, filteredUpgradeList.Count())].Clone();
         if (randomQuality) result.quality = GetRandomQuality();
-
 
 
         //if (r > 2)

@@ -28,7 +28,7 @@ public class UILevelUpButton : MonoBehaviour
         else _image.gameObject.SetActive(false);
 
         _name.text = mod.modName;
-        _desc.text = mod.modDesc;
+        _desc.text = mod.GetDesc();
 
         _image.color = SetColorAlpha(_image.color, 0f);
         _name.color = SetColorAlpha(_name.color, 0f);

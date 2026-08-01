@@ -10,15 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 07ac7a9bffc1531439280b0bb641e4cf, type: 3}
-  m_Name: Test
+  m_Name: UP_hp_perm
   m_EditorClassIdentifier: 
   quality: 1
-  modName: Test Upgrade
-  modDesc: Desc
-  modId: upgrade_test
+  modName: Life
+  modDesc: 
+  modId: u_pawn_hp_permanent
+  modImage: {fileID: -2041149101, guid: fc03dc4dd5ed2be458f3bf505ed441f8, type: 3}
   statVarsToModify:
   - statBlockVar: 8
-    valueB: 5
-    valueM: 0
-  weaponVarsToModify: []
-  abilityVarsToModify: []
+    valueB: 0
+    valueM: 0.01
+    valueATotal: 0
+    valueMTotal: 0
+  permanent: 1
+  buyCost: 5
+  uCat: 0

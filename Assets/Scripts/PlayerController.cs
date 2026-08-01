@@ -21,6 +21,8 @@ public class PlayerController : MonoBehaviour, IUpdateable, IPauseable
 
     public void ManagedUpdate()
     {
+        if (Input.GetKeyDown(KeyCode.Alpha0)) GameManager.Instance.dataPersistenceSystem.SaveGame();
+
 
         if (!controlEnabledAll) return;
 

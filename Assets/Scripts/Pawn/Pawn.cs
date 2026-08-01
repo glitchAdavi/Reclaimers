@@ -31,6 +31,7 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
     public int spriteVariableHueMult = 0;
 
     public float currentHp = 0f;
+    public float maxHp = 0f;
 
     [SerializeField] private int p_levelThreshold = 10;
     [SerializeField] private int p_pendingLevelUps = 0;
@@ -67,6 +68,7 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
     private Timer np_dissolveTimer;
     private Timer p_dissolveTimer;
     private Timer p_closestInteractableTimer;
+    private Timer p_checkChangeOnHealth;
 
     public Interactable closestInteractable;
     public Interactable interactableBeingUsed;
@@ -78,6 +80,14 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
     public void SetAsPlayer(StatBlock toClone)
     {
         statBlock = toClone.Clone() as StatBlock;
+
+        if (statBlock.firstTime)
+        {
+            foreach (StatUpgrade u in GameManager.Instance.permanentUpgrade)
+            {
+                AddUpgrade(GameManager.Instance.GetModifier(u.modId) as Upgrade, u.modStacks);
+            }
+        }
 
         SetupCleanup();
 
@@ -91,12 +101,16 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
 
         if (_weapon == null)
         {
-            if (statBlock.weaponBlock == null)
+            if (string.IsNullOrEmpty(statBlock.weaponBlock))
             {
-                statBlock.weaponBlock = GameManager.Instance.gameInfo.defaultWeaponBlock;
-                
+                statBlock.weaponBlock = GameManager.Instance.gameInfo.defaultWeaponBlock.name;
             }
-            Utilities.CopyValues(statBlock.weaponBlock, statBlock, typeof(WeaponVar));
+            StatBlock weaponStatBlock = GameManager.Instance.GetStatBlock(statBlock.weaponBlock);
+            if (statBlock.firstTime) Utilities.CopyValues(weaponStatBlock, statBlock, typeof(WeaponVar));
+            else
+            {
+                statBlock.wepSprite = weaponStatBlock.wepSprite;
+            }
 
             _weapon = gameObject.AddComponent<Weapon>();
             _weapon.SetOwner(this);
@@ -106,11 +120,17 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
 
         if (_ability == null)
         {
-            if (statBlock.abilityBlock == null)
+            if (string.IsNullOrEmpty(statBlock.abilityBlock))
             {
-                statBlock.abilityBlock = GameManager.Instance.gameInfo.defaultAbilityBlock;
+                statBlock.abilityBlock = GameManager.Instance.gameInfo.defaultAbilityBlock.name;
             }
-            Utilities.CopyValues(statBlock.abilityBlock, statBlock, typeof(AbilityVar));
+            StatBlock abilityStatBlock = GameManager.Instance.GetStatBlock(statBlock.abilityBlock);
+            if (statBlock.firstTime) Utilities.CopyValues(abilityStatBlock, statBlock, typeof(AbilityVar));
+            else
+            {
+                statBlock.seToApply = abilityStatBlock.seToApply;
+                statBlock.goToInstantiate = abilityStatBlock.goToInstantiate;
+            }
 
             _ability = gameObject.AddComponent(Type.GetType(statBlock.abilityScript.ToString())) as Ability;
             _ability.SetOwner(this);
@@ -134,6 +154,20 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
         GameManager.Instance.eventSystem.UpdateHp(statBlock.hp.Value(), statBlock.hp.Value());
         GameManager.Instance.eventSystem.UpdateXp(statBlock.xpCur.Value(), p_levelThreshold);
         GameManager.Instance.eventSystem.UpdateLevel(statBlock.level.ValueInt());
+
+        maxHp = statBlock.hp.Value();
+        p_checkChangeOnHealth = GameManager.Instance.timerSystem.SetForeverTimer(0.2f, () =>
+        {
+            if (statBlock.hp.Value() > maxHp)
+            {
+                float difference = statBlock.hp.Value() - maxHp;
+                currentHp += difference;
+                GameManager.Instance.eventSystem.UpdateHp(currentHp, statBlock.hp.Value());
+                maxHp = statBlock.hp.Value();
+            }
+        });
+
+        statBlock.firstTime = false;
 
         Setup();
     }
@@ -161,9 +195,10 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
 
         _col.gameObject.layer = 11;
 
-        if (_weapon == null && statBlock.weaponBlock != null)
+        if (_weapon == null && !string.IsNullOrEmpty(statBlock.weaponBlock))
         {
-            Utilities.CopyValues(statBlock.weaponBlock, statBlock, typeof(WeaponVar));
+            StatBlock weaponStatBlock = GameManager.Instance.GetStatBlock(statBlock.weaponBlock);
+            Utilities.CopyValues(weaponStatBlock, statBlock, typeof(WeaponVar));
             _weapon = gameObject.AddComponent<Weapon>();
             _weapon.SetOwner(this);
             _weapon.SetTargetLayer(10);
@@ -252,6 +287,7 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
         CancelTimer(ref stunTimer);
         CancelTimer(ref damageEffectTimer);
         CancelTimer(ref animationTimer);
+        CancelTimer(ref p_checkChangeOnHealth);
 
         GameManager.Instance.eventSystem.onGivePlayerXp -= GainXp;
         GameManager.Instance.eventSystem.onGivePlayerLevel -= GainLevel;
@@ -588,6 +624,7 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
             CancelTimer(ref p_hpRegenStartTimer);
             CancelTimer(ref p_hpRegenTickTimer);
             CancelTimer(ref p_closestInteractableTimer);
+            CancelTimer(ref p_checkChangeOnHealth);
 
             GameManager.Instance.eventSystem.SetPause(true);
             GameManager.Instance.eventSystem.EnableAllControls(false);
@@ -682,7 +719,7 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
 
     public void RemoveMoney(float v)
     {
-        statBlock.money.ModB(-(v * statBlock.moneyGain.Value()));
+        statBlock.money.ModB(-v);
     }
     #endregion
 
@@ -725,16 +762,12 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
     #region Interact
     public void Interact()
     {
-        //p_closestInteractableTimer?.Pause(true);
-
         interactableBeingUsed = closestInteractable;
         interactableBeingUsed?.Use();
     }
 
     public void InteractReset()
     {
-        //p_closestInteractableTimer?.Pause(false);
-
         interactableBeingUsed?.ResetUse();
     }
 
@@ -770,11 +803,11 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
     }
 
     #region Upgrade
-    public void AddUpgrade(Upgrade u)
+    public void AddUpgrade(Upgrade u, int stacks = 0)
     {
         int index = statBlock.upgrades.FindIndex(su => su.modId == u.modId);
-        if (index > -1) statBlock.upgrades[index].modStacks += (int)u.quality;
-        else statBlock.upgrades.Add(new StatUpgrade(u.modId, 1));
+        if (index > -1) statBlock.upgrades[index].modStacks += stacks > 0 ? (int)u.quality : stacks;
+        else statBlock.upgrades.Add(new StatUpgrade(u.modId, stacks > 0 ? (int)u.quality : stacks));
         u.Apply(this);
         GameManager.Instance.statCollection.AddUpgradeGained();
     }

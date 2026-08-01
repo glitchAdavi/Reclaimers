@@ -16,6 +16,8 @@ namespace Reclaimers.DataPersistence
 
         public static DataPersistenceSystem Instance { get; private set; }
 
+        public bool hasLoaded = false;
+
 
         private void Awake()
         {
@@ -49,6 +51,9 @@ namespace Reclaimers.DataPersistence
             {
                 dataPersistenceObj.LoadData(gameData);
             }
+
+            hasLoaded = true;
+            GameManager.Instance.eventSystem.FinishLoading();
         }
 
         public void SaveGame()

@@ -13,21 +13,12 @@ public struct StatVarStruct
     public float valueMTotal;
 }
 
-public enum Quality
-{
-    Common = 1,
-    Uncommon = 2,
-    Rare = 3,
-    Epic = 4,
-    Legendary = 5
-}
-
 public abstract class Modifier : ScriptableObject, ICloneable
 {
     public Quality quality = Quality.Common;
 
     public string modName = "";
-    public string modDesc = "";
+    [TextArea] public string modDesc = "";
     public string modId = "";
 
     public Sprite modImage;
@@ -35,6 +26,9 @@ public abstract class Modifier : ScriptableObject, ICloneable
     public List<StatVarStruct> statVarsToModify = new List<StatVarStruct>();
 
     protected Pawn target;
+
+    public bool permanent = false;
+    public float buyCost = 0;
 
     public virtual void Apply(Pawn target)
     {
@@ -77,6 +71,11 @@ public abstract class Modifier : ScriptableObject, ICloneable
             }
             param.SetValue(target.statBlock, aux);
         }
+    }
+
+    public virtual string GetDesc()
+    {
+        return modDesc;
     }
 
     public object Clone()

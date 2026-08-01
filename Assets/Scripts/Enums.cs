@@ -1,4 +1,45 @@
+using System;
 using UnityEngine;
+
+[Serializable]
+public class StatOnHitEffect
+{
+    public StatusEffect effect;
+    public float chance;
+
+    public StatOnHitEffect(StatusEffect se, float chance)
+    {
+        effect = se;
+        this.chance = chance;
+    }
+}
+
+[Serializable]
+public class StatUpgrade
+{
+    public string modId;
+    public int modStacks;
+
+    public StatUpgrade(string id, int stacks)
+    {
+        modId = id;
+        modStacks = stacks;
+    }
+}
+
+[Serializable]
+public class ItemUpgrade
+{
+    public string modId;
+    public int modStacks;
+
+    public ItemUpgrade(string id, int stacks)
+    {
+        modId = id;
+        modStacks = stacks;
+    }
+}
+
 
 public enum Difficulty
 {
@@ -7,9 +48,19 @@ public enum Difficulty
     Suicide = 20
 }
 
+public enum Quality
+{
+    Common = 1,
+    Uncommon = 2,
+    Rare = 3,
+    Epic = 4,
+    Legendary = 5
+}
+
 public enum WeaponType
 {
-    Projectile
+    Projectile,
+    Enemy
 }
 
 public enum ProjectileType
@@ -54,4 +105,50 @@ public enum PawnType
     AmalgamPart,
     BossSlime,
     BossAmalgam
+}
+
+public enum StatBlockVars
+{
+    scale,
+    xpTotal,
+    xpCur,
+    xpGain,
+    level,
+    money,
+    moneyGain,
+    speed,
+    hp,
+    hpRegen,
+    hpRegenDelay,
+    hpRegenTickTime,
+    iFrameDuration,
+    damageModifier,
+    healingModifier,
+    meleeDamage,
+    meleeRange,
+    meleeCooldown,
+    critChance,
+    critMult,
+    pickUpRange,
+    interactionRange,
+    magSize,
+    bulletsPerShot,
+    bulletsPerShotCost,
+    bulletsPerShotSpread,
+    burstAmount,
+    burstDelay,
+    bulletSpread,
+    bulletSpreadGain,
+    fireRate,
+    reloadTime,
+    projDamage,
+    projDamageRadius,
+    projSpeed,
+    projPenetration,
+    projStun,
+    abilityDuration,
+    abilityCooldown,
+    abilityDamage,
+    abilityRadius,
+    abilityCharges
 }
