@@ -234,7 +234,7 @@ MonoBehaviour:
   wepType: 0
   magSize:
     _base: 100
-    _mult: 1.2
+    _mult: 1
     _addTotal: 0
     _multTotal: 1
     _min: 1
@@ -256,6 +256,13 @@ MonoBehaviour:
   bulletsPerShotSpread:
     _base: 30
     _mult: 1
+    _addTotal: 0
+    _multTotal: 1
+    _min: 0
+    _max: Infinity
+  bulletsPerShotFirstBulletSpread:
+    _base: 0
+    _mult: 0
     _addTotal: 0
     _multTotal: 1
     _min: 0
@@ -370,7 +377,7 @@ MonoBehaviour:
     _min: 0
     _max: Infinity
   abilityCharges:
-    _base: 3
+    _base: 2
     _mult: 1
     _addTotal: 0
     _multTotal: 1

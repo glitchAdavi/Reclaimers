@@ -5,12 +5,7 @@
     "firstTime": false,
     "pName": "Test",
     "pDesc": "A Pawn.",
-    "upgrades": [
-        {
-            "modId": "u_pawn_hp_permanent",
-            "modStacks": 9
-        }
-    ],
+    "upgrades": [],
     "items": [],
     "weaponBlock": "W_Test",
     "projType": 0,
@@ -90,7 +85,7 @@
     },
     "hp": {
         "_base": 100.0,
-        "_mult": 1.0899999141693116,
+        "_mult": 1.0,
         "_addTotal": 0.0,
         "_multTotal": 1.0,
         "_min": 1.0,
@@ -204,7 +199,7 @@
     "wepType": 0,
     "magSize": {
         "_base": 100.0,
-        "_mult": 2.0,
+        "_mult": 1.0,
         "_addTotal": 0.0,
         "_multTotal": 1.0,
         "_min": 1.0,
@@ -229,6 +224,14 @@
     "bulletsPerShotSpread": {
         "_base": 30.0,
         "_mult": 1.0,
+        "_addTotal": 0.0,
+        "_multTotal": 1.0,
+        "_min": 0.0,
+        "_max": Infinity
+    },
+    "bulletsPerShotFirstBulletSpread": {
+        "_base": 0.0,
+        "_mult": 0.0,
         "_addTotal": 0.0,
         "_multTotal": 1.0,
         "_min": 0.0,
@@ -357,7 +360,7 @@
         "_max": Infinity
     },
     "abilityCharges": {
-        "_base": 3.0,
+        "_base": 2.0,
         "_mult": 1.0,
         "_addTotal": 0.0,
         "_multTotal": 1.0,

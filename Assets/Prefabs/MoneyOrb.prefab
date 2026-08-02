@@ -54,6 +54,9 @@ MonoBehaviour:
   gracePeriod: 0.15
   decay: 30
   value: 1
+  valueSprite:
+  - {fileID: 1970929301, guid: fc03dc4dd5ed2be458f3bf505ed441f8, type: 3}
+  - {fileID: -1820624281, guid: fc03dc4dd5ed2be458f3bf505ed441f8, type: 3}
 --- !u!1 &6735917785633538640
 GameObject:
   m_ObjectHideFlags: 0
@@ -130,7 +133,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 47
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: 1970929301, guid: fc03dc4dd5ed2be458f3bf505ed441f8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -204,7 +207,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8869095273601330907}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1

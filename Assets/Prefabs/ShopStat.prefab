@@ -192,6 +192,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92a538722917f18439c7f0d6819e0dd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myMenu: {fileID: 0}
   upgradeName: u_pawn_hp_permanent
   upgrade: {fileID: 0}
   buy: {fileID: 1486560104729211313}
@@ -604,7 +605,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -83.8, y: -84.8}
-  m_SizeDelta: {x: 25, y: 25}
+  m_SizeDelta: {x: 40, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2586091763204925528
 CanvasRenderer:
@@ -634,7 +635,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 1970929301, guid: fc03dc4dd5ed2be458f3bf505ed441f8, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

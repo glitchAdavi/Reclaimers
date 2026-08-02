@@ -17,7 +17,7 @@ public class P_Bounce : Projectile
                 }
             } else
             {
-                p.projectileBuilder.ReturnObject(this);
+                Return();
             }
 
         }
@@ -48,7 +48,7 @@ public class P_Bounce : Projectile
                     Reflect(11);
                 }
 
-                p.projectileBuilder.ReturnObject(this);
+                Return();
             }
         }
     }

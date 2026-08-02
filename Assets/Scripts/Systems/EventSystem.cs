@@ -86,6 +86,12 @@ namespace Reclaimers.Systems
         public event Action<StatBlock, int> onRequestAddPawnSpawn;
         public void RequestAddPawnSpawn(StatBlock sb, int w) => onRequestAddPawnSpawn?.Invoke(sb, w);
 
+        public event Action<bool> onToggleSpawn;
+        public void ToggleSpawn(bool active) => onToggleSpawn?.Invoke(active);
+
+        public event Action onPopulateLevel;
+        public void PopulateLevel() => onPopulateLevel?.Invoke();
+
         public event Action onRequestBossSpawn;
         public void RequestBossSpawn() => onRequestBossSpawn?.Invoke();
 
@@ -100,6 +106,9 @@ namespace Reclaimers.Systems
 
         public event Action<Vector3> onSpawnRandomUpgrade;
         public void SpawnRandomUpgrade(Vector3 pos) => onSpawnRandomUpgrade?.Invoke(pos);
+
+        public event Action<bool> onSetSafeToLeave;
+        public void SetSafeToLeave(bool safe) => onSetSafeToLeave?.Invoke(safe);
         #endregion
 
 

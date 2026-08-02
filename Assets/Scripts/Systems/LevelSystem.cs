@@ -26,7 +26,7 @@ namespace Reclaimers.Systems
         [SerializeField] CustomList<Interactable> interactablesInScene = new CustomList<Interactable>();
 
         [SerializeField] LevelLogic currentLevelLogic;
-
+        public bool safeToLeave = true;
 
 
 
@@ -59,6 +59,8 @@ namespace Reclaimers.Systems
 
             GameManager.Instance.eventSystem.onSpawnRandomUpgrade += SpawnRandomUpgrade;
 
+            GameManager.Instance.eventSystem.onSetSafeToLeave += SetSafeToLeave;
+
             GetInteractablesInScene();
         }
 
@@ -87,6 +89,8 @@ namespace Reclaimers.Systems
 
         public void SpawnXpOrb(Vector3 pos, float val)
         {
+            if (val <= 0) return;
+
             if (xpOrbsInScene.Count >= maxXpOrbsInScene)
             {
                 XpOrb notVis = null;
@@ -151,6 +155,8 @@ namespace Reclaimers.Systems
 
         public void SpawnMoneyOrb(Vector3 pos, float val)
         {
+            if (val <= 0) return;
+
             if (moneyOrbsInScene.Count >= maxMoneyOrbsInScene)
             {
                 MoneyOrb notVis = null;
@@ -276,6 +282,11 @@ namespace Reclaimers.Systems
             interactablesInScene.Add(u);
         }
         #endregion
+
+        public void SetSafeToLeave(bool safe)
+        {
+            safeToLeave = safe;
+        }
     }
 }
 

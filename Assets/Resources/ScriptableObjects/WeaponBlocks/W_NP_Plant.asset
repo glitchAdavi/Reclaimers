@@ -12,14 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf8a7c16e162b404db46caec6e350b8a, type: 3}
   m_Name: W_NP_Plant
   m_EditorClassIdentifier: 
+  firstTime: 1
   pName: Pawn
   pDesc: A Pawn.
   upgrades: []
   items: []
-  weaponBlock: {fileID: 0}
+  weaponBlock: 
   projType: 0
   onHitEffects: []
-  abilityBlock: {fileID: 0}
+  abilityBlock: 
   sprCat: 0
   sprNames:
   - 
@@ -28,6 +29,7 @@ MonoBehaviour:
   - 
   spriteVariableHue: 0
   spriteVariableHueRange: 0
+  hitSprite: {fileID: 0}
   scale:
     _base: 0
     _mult: 0
@@ -182,6 +184,10 @@ MonoBehaviour:
     _multTotal: 1
     _min: 0
     _max: Infinity
+  isBoss: 0
+  spawnsIdle: 0
+  idleDisguises: []
+  immobile: 0
   xpInstant: 0
   xpKillValue:
     _base: 0
@@ -199,7 +205,7 @@ MonoBehaviour:
     _min: 0
     _max: Infinity
   onDamageSpawnEnemy: 0
-  onDamageEnemyToSpawn: {fileID: 0}
+  onDamageEnemyToSpawn: 
   onDamageInterval:
     _base: 0
     _mult: 0
@@ -215,7 +221,7 @@ MonoBehaviour:
     _min: 1
     _max: Infinity
   onDeathSpawnEnemy: 0
-  onDeathEnemyToSpawn: {fileID: 0}
+  onDeathEnemyToSpawn: 
   onDeathNumToSpawn:
     _base: 0
     _mult: 0
@@ -224,7 +230,8 @@ MonoBehaviour:
     _min: 1
     _max: Infinity
   weaponName: NP_Plant_Weapon
-  wepType: 0
+  wepSprite: {fileID: 0}
+  wepType: 1
   magSize:
     _base: 9999
     _mult: 1

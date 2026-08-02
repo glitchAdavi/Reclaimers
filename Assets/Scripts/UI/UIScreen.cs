@@ -20,15 +20,6 @@ public class UIScreen : MonoBehaviour
         if (turnedOn) _image.material.SetFloat("_TurnOn", 1f);
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.U))
-        {
-            if (turnedOn) TurnOff();
-            else TurnOn();
-        }
-    }
-
     public void TurnOn()
     {
         turnedOn = true;

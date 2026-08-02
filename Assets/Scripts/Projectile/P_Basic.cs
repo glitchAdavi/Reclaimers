@@ -17,7 +17,7 @@ public class P_Basic : Projectile
         if (collision.gameObject.layer == 20)
         {
             SeparateFromWall(collision.collider, collision.transform.position, collision.transform.rotation);
-            p.projectileBuilder.ReturnObject(this);
+            Return();
 
             if (hitSprite != null)
             {
@@ -52,7 +52,7 @@ public class P_Basic : Projectile
                     HitPawn(enemyHit);
                 }
 
-                p.projectileBuilder.ReturnObject(this);
+                Return();
             }
 
             if (enemyHit.statBlock.hitSprite != null)

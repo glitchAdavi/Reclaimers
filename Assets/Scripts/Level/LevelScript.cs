@@ -5,19 +5,21 @@ using UnityEngine;
 
 public abstract class LevelScript : MonoBehaviour
 {
-    public float stage1Time = 5f;
-    public float stage2Time = 5f;
+    public float stage1Time = 180f;
+    public float stage2Time = 300f;
     public bool hasStage3 = true;
 
     Timer timerLevelScript;
 
     public virtual void StartStage1Script()
     {
-
+        GameManager.Instance.eventSystem.ToggleSpawn(true);
+        GameManager.Instance.eventSystem.PopulateLevel();
     }
 
     public virtual void StartStage2Script()
     {
+        GameManager.Instance.eventSystem.SetSafeToLeave(false);
         timerLevelScript = GameManager.Instance.timerSystem.SetTimer(1f, Minute1);
     }
 

@@ -26,6 +26,8 @@ public class UIMenu_Pause : UIMenu
 
     public void ReturnToBase()
     {
+        GameManager.Instance.dataPersistenceSystem.LoadGame(!GameManager.Instance.levelSystem.safeToLeave);
+
         returnTimer = GameManager.Instance.timerSystem.SetTimer(0.1f, () =>
         {
             GameManager.Instance.uiSystem.FadeOut(() =>
@@ -37,6 +39,11 @@ public class UIMenu_Pause : UIMenu
 
     public void Quit()
     {
+        if (SceneManager.GetActiveScene().buildIndex != 0)
+        {
+            GameManager.Instance.dataPersistenceSystem.LoadGame(!GameManager.Instance.levelSystem.safeToLeave);
+        }
+
         returnTimer = GameManager.Instance.timerSystem.SetTimer(0.1f, () =>
         {
             GameManager.Instance.uiSystem.FadeOut(Application.Quit);

@@ -3,8 +3,10 @@ using Reclaimers.Systems;
 using Reclaimers.UpdateSystem;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Rendering;
 
 public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateable, IPauseable
 {
@@ -12,6 +14,9 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
 
     public ObjectBuilder<Projectile> projectileBuilder;
     public GameObject projParent;
+
+    public ObjectBuilder<Projectile> oldProjectileBuilder;
+    public GameObject oldProjParent;
 
     [SerializeField] private NavMeshAgent _nav;
     [SerializeField] private Rigidbody _rb;
@@ -59,16 +64,17 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
     private Timer p_iFrameTimer;
     private Timer p_hpRegenStartTimer;
     private Timer p_hpRegenTickTimer;
-    private Timer meleeCooldownTimer;
-    private Timer stunTimer;
-    private Timer np_navUpdateTimer;
-    private Timer np_idleDetectPlayerTimer;
-    private Timer damageEffectTimer;
-    private Timer animationTimer;
-    private Timer np_dissolveTimer;
     private Timer p_dissolveTimer;
     private Timer p_closestInteractableTimer;
     private Timer p_checkChangeOnHealth;
+    private Timer np_navUpdateTimer;
+    private Timer np_idleDetectPlayerTimer;
+    private Timer np_dissolveTimer;
+    private Timer np_resetTimer;
+    private Timer meleeCooldownTimer;
+    private Timer stunTimer;
+    private Timer damageEffectTimer;
+    private Timer animationTimer;
 
     public Interactable closestInteractable;
     public Interactable interactableBeingUsed;
@@ -79,7 +85,8 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
 
     public void SetAsPlayer(StatBlock toClone)
     {
-        statBlock = toClone.Clone() as StatBlock;
+        statBlock = ScriptableObject.CreateInstance<StatBlock>();
+        Utilities.CopyValues(toClone, statBlock);
 
         if (statBlock.firstTime)
         {
@@ -105,17 +112,7 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
             {
                 statBlock.weaponBlock = GameManager.Instance.gameInfo.defaultWeaponBlock.name;
             }
-            StatBlock weaponStatBlock = GameManager.Instance.GetStatBlock(statBlock.weaponBlock);
-            if (statBlock.firstTime) Utilities.CopyValues(weaponStatBlock, statBlock, typeof(WeaponVar));
-            else
-            {
-                statBlock.wepSprite = weaponStatBlock.wepSprite;
-            }
-
-            _weapon = gameObject.AddComponent<Weapon>();
-            _weapon.SetOwner(this);
-
-            _wepSprite.sprite = statBlock.wepSprite;
+            SetWeapon(statBlock.weaponBlock, statBlock.firstTime);
         }
 
         if (_ability == null)
@@ -124,22 +121,10 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
             {
                 statBlock.abilityBlock = GameManager.Instance.gameInfo.defaultAbilityBlock.name;
             }
-            StatBlock abilityStatBlock = GameManager.Instance.GetStatBlock(statBlock.abilityBlock);
-            if (statBlock.firstTime) Utilities.CopyValues(abilityStatBlock, statBlock, typeof(AbilityVar));
-            else
-            {
-                statBlock.seToApply = abilityStatBlock.seToApply;
-                statBlock.goToInstantiate = abilityStatBlock.goToInstantiate;
-            }
-
-            _ability = gameObject.AddComponent(Type.GetType(statBlock.abilityScript.ToString())) as Ability;
-            _ability.SetOwner(this);
+            SetAbility(statBlock.abilityBlock, statBlock.firstTime);
         }
 
-        projParent = new GameObject();
-        projParent.name = "ProjectileParent";
-        projectileBuilder = new ObjectBuilder<Projectile>();
-        projectileBuilder.BuildPool(ProjectileFactory, 50, projParent.transform);
+        ReplaceBullets();
 
         statBlock.hitSprite = GameManager.Instance.gameInfo.hitPlayer;
 
@@ -174,7 +159,9 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
 
     public void SetAsNonPlayer(StatBlock toClone, Pawn target = null)
     {
-        statBlock = toClone.Clone() as StatBlock;
+        statBlock = ScriptableObject.CreateInstance<StatBlock>();
+        Utilities.CopyValues(toClone, statBlock);
+
 
         SetupCleanup();
 
@@ -211,7 +198,7 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
 
         _wepStretcher.SetActive(false);
 
-        statBlock.sprNames = GameManager.Instance.GetRandomSpriteParts(statBlock.sprCat);
+        statBlock.sprNames = GameManager.Instance.GetRandomSpriteParts(statBlock.sprCat).ToList();
 
         Setup();
     }
@@ -288,6 +275,7 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
         CancelTimer(ref damageEffectTimer);
         CancelTimer(ref animationTimer);
         CancelTimer(ref p_checkChangeOnHealth);
+        CancelTimer(ref np_resetTimer);
 
         GameManager.Instance.eventSystem.onGivePlayerXp -= GainXp;
         GameManager.Instance.eventSystem.onGivePlayerLevel -= GainLevel;
@@ -344,6 +332,19 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
     {
         isPaused = paused;
 
+        _nav.velocity = Vector3.zero;
+
+        if (isPaused)
+        {
+            _nav.ResetPath();
+            _nav.isStopped = true;
+            _nav.enabled = false;
+        } else {
+            _nav.enabled = true;
+            _nav.isStopped = false;
+            _nav.ResetPath();
+        }
+
         if (isPlayer)
         {
             p_iFrameTimer?.Pause(isPaused);
@@ -352,8 +353,6 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
             p_closestInteractableTimer?.Pause(isPaused);
 
         } else {
-            _nav.enabled = !isPaused;
-
             np_navUpdateTimer?.Pause(isPaused);
             np_idleDetectPlayerTimer?.Pause(isPaused);
             stunTimer?.Pause(isPaused);
@@ -383,10 +382,15 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
         {
             if (target != null)
             {
-                if (isTeleportable && GameManager.Instance.pawnSystem.IsOutsidePlayerRange(transform.position))
+                if (isTeleportable)
                 {
-                    ResetSelf();
-                    return;
+                    if (GameManager.Instance.pawnSystem.IsOutsidePlayerRange(transform.position))
+                    {
+                        if (!np_resetTimer) np_resetTimer = GameManager.Instance.timerSystem.SetTimer(3f, ResetSelf, "PAWN_NP_Reset");
+                    } else
+                    {
+                        CancelTimer(ref np_resetTimer);
+                    }
                 }
 
                 finalPos = target.GetPosition();
@@ -616,7 +620,7 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
         _col.enabled = false;
 
         CancelTimer(ref animationTimer);
-        CancelTimer(ref damageEffectTimer);
+        FinishTimer(ref damageEffectTimer);
 
         if (isPlayer)
         {
@@ -980,6 +984,13 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
         t = null;
     }
 
+    public void FinishTimer(ref Timer t)
+    {
+        if (t == null) return;
+        t.Finish();
+        t = null;
+    }
+
     public bool CheckIfTargetIsInRange(float range)
     {
         float maxRangeSqr = range * range;
@@ -1009,7 +1020,7 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
         Sprite[] sprFrame2 = new Sprite[8];
         Color[] sprFrameColors = new Color[8];
 
-        for (int i = 0; i < statBlock.sprNames.Length; i++)
+        for (int i = 0; i < statBlock.sprNames.Count; i++)
         {
             if (string.IsNullOrEmpty(statBlock.sprNames[i])) continue;
             int j = i * 2;
@@ -1142,6 +1153,83 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
     public bool HasPendingLevelUps()
     {
         return p_pendingLevelUps > 0;
+    }
+
+    public void SetWeapon(string wName, bool replaceAllValues = false)
+    {
+
+        StatBlock weaponStatBlock = GameManager.Instance.GetStatBlock(wName);
+        if (weaponStatBlock == null)
+        {
+            LogSystem.Log("Pawn: SetWeapon failed, weapon non existant");
+            return;
+        }
+
+        if (_weapon != null)
+        {
+            Destroy(_weapon);
+            _weapon = null;
+        }
+
+        if (replaceAllValues) Utilities.CopyValues(weaponStatBlock, statBlock, typeof(WeaponVar));
+        else
+        {
+            statBlock.wepSprite = weaponStatBlock.wepSprite;
+        }
+
+        _weapon = gameObject.AddComponent<Weapon>();
+        _weapon.SetOwner(this);
+
+        _wepSprite.sprite = statBlock.wepSprite;
+    }
+
+    public void SetAbility(string aName, bool replaceAllValues = false)
+    {
+
+        StatBlock abilityStatBlock = GameManager.Instance.GetStatBlock(aName);
+        if (abilityStatBlock == null)
+        {
+            LogSystem.Log("Pawn: SetAbility failed, ability non existant");
+            return;
+        }
+
+        if (_ability != null)
+        {
+            Destroy(_ability);
+            _ability = null;
+        }
+
+        if (replaceAllValues) Utilities.CopyValues(abilityStatBlock, statBlock, typeof(AbilityVar));
+        else
+        {
+            statBlock.seToApply = abilityStatBlock.seToApply;
+            statBlock.goToInstantiate = abilityStatBlock.goToInstantiate;
+        }
+
+        _ability = gameObject.AddComponent(Type.GetType(statBlock.abilityScript.ToString())) as Ability;
+        _ability.SetOwner(this);
+    }
+
+    public void ReplaceBullets()
+    {
+        if (oldProjectileBuilder != null)
+        {
+            Destroy(oldProjParent);
+            oldProjParent = null;
+            oldProjectileBuilder = null;
+        }
+
+        if (projectileBuilder != null)
+        {
+            oldProjectileBuilder = projectileBuilder;
+            oldProjParent = projParent;
+            oldProjParent.name = "OldProjectileParent";
+        }
+
+        projParent = new GameObject();
+        projParent.name = "ProjectileParent";
+        projectileBuilder = new ObjectBuilder<Projectile>();
+        projectileBuilder.BuildPool(ProjectileFactory, 50, projParent.transform);
     }
     #endregion
 }

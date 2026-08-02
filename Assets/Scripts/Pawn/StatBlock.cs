@@ -27,7 +27,7 @@ public class StatBlock : ScriptableObject, ICloneable
     // 2 - Legs
     // 3 - GeneralDetails
     [PawnVar] public PawnType sprCat = PawnType.Player;
-    [PawnVar] public string[] sprNames = new string[4];
+    [PawnVar] public List<string> sprNames = new List<string>();
 
     [PawnVar] public bool spriteVariableHue = false;
     [PawnVar] public int spriteVariableHueRange = 0;
@@ -106,6 +106,7 @@ public class StatBlock : ScriptableObject, ICloneable
     [WeaponVar] public Stat bulletsPerShot = new Stat(0f, 0f, 1f);
     [WeaponVar] public Stat bulletsPerShotCost = new Stat(0f, 0f, 1f);
     [WeaponVar] public Stat bulletsPerShotSpread = new Stat(0f, 0f, 0f);
+    [WeaponVar] public Stat bulletsPerShotFirstBulletSpread = new Stat(0f, 0f, 0f);
 
     [WeaponVar] public Stat burstAmount = new Stat(0f, 0f, 0f);
     [WeaponVar] public Stat burstDelay = new Stat(0f, 0f, 0f);

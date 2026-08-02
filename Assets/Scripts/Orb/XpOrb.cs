@@ -1,9 +1,11 @@
+using System.Collections.Generic;
 using Reclaimers.Systems;
 using UnityEngine;
 
 public class XpOrb : Orb
 {
     [SerializeField] protected float value = 1;
+    [SerializeField] List<Sprite> valueSprites = new List<Sprite>();
 
     public void Init(float v)
     {
@@ -14,7 +16,47 @@ public class XpOrb : Orb
     {
         value = v;
 
-        // Change color depending value
+        switch (value)
+        {
+            case > 0 and < 5:
+                _sr.sprite = valueSprites[0];
+                _sr.color = new Color(0, 1f, 1f, 1f);
+                break;
+            case >= 5 and < 10:
+                _sr.sprite = valueSprites[0];
+                _sr.color = Color.yellow;
+                break;
+            case >= 10 and < 25:
+                _sr.sprite = valueSprites[0];
+                _sr.color = Color.red;
+                break;
+            case >= 25 and < 50:
+                _sr.sprite = valueSprites[1];
+                _sr.color = new Color(0, 1f, 1f, 1f);
+                break;
+            case >= 50 and < 100:
+                _sr.sprite = valueSprites[1];
+                _sr.color = Color.yellow;
+                break;
+            case >= 100 and < 250:
+                _sr.sprite = valueSprites[1];
+                _sr.color = Color.red;
+                break;
+            case >= 250 and < 500:
+                _sr.sprite = valueSprites[2];
+                _sr.color = new Color(0, 1f, 1f, 1f);
+                break;
+            case >= 500 and < 1000:
+                _sr.sprite = valueSprites[2];
+                _sr.color = Color.yellow;
+                break;
+            case >= 1000:
+                _sr.sprite = valueSprites[2];
+                _sr.color = Color.red;
+                break;
+            default:
+                break;
+        }
     }
 
     protected override void Effect()

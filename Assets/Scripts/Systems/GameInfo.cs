@@ -28,7 +28,7 @@ public class GameInfo : ScriptableObject
 
     public StatBlock defaultAbilityBlock;
 
-
+    public GameObject devConsolePrefab;
     public GameObject pawnPrefab;
     public GameObject playerCameraPrefab;
     public GameObject projectilePrefab;

@@ -2,9 +2,11 @@ using Reclaimers.DataPersistence;
 using Reclaimers.DeveloperConsole;
 using Reclaimers.Systems;
 using Reclaimers.UpdateSystem;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -12,18 +14,20 @@ public class GameManager : MonoBehaviour, IDataPersistence
 {
     public static GameManager Instance { get; private set; }
 
-    public List<Object> allSystems = new List<Object>();
+    public List<UnityEngine.Object> allSystems = new List<UnityEngine.Object>();
 
     public GameInfo gameInfo;
 
     public DataPersistenceSystem dataPersistenceSystem;
 
+    public DeveloperConsole devConsole;
     public UpdateSystem updateSystem;
     public GridSystem gridSystem;
     public EventSystem eventSystem;
     public TimerSystem timerSystem;
     public PawnSystem pawnSystem;
     public LevelSystem levelSystem;
+    public AudioSystem audioSystem;
 
     public UISystem uiSystem;
     public StatCollection statCollection;
@@ -31,7 +35,6 @@ public class GameManager : MonoBehaviour, IDataPersistence
 
     public PlayerController playerController;
     public Pawn playerPawn;
-    public StatBlock loadedStatBlock;
     public PlayerCamera playerCamera;
 
     public CustomList<SpritePart> spriteParts = new CustomList<SpritePart>();
@@ -72,12 +75,16 @@ public class GameManager : MonoBehaviour, IDataPersistence
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
     {
+        Cursor.visible = false;
+
+        devConsole = CreateSystem<DeveloperConsole>();
         updateSystem = GetComponent<UpdateSystem>();
         gridSystem = GameObject.Find("Grid").GetComponent<GridSystem>();
         eventSystem = CreateSystem<EventSystem>();
         timerSystem = CreateSystem<TimerSystem>();
         pawnSystem = CreateSystem<PawnSystem>();
         levelSystem = CreateSystem<LevelSystem>();
+        audioSystem = CreateSystem<AudioSystem>();
 
         uiSystem = InstantiateUI();
         if (SceneManager.GetActiveScene().buildIndex != 0) eventSystem.EnableUITop();
@@ -88,12 +95,14 @@ public class GameManager : MonoBehaviour, IDataPersistence
         playerController = CreateSystem<PlayerController>();
         playerController.AssignPlayerPawn(playerPawn);
 
+        Instance.eventSystem.onFinishLoading += LoadPlayer;
+
         TryGetComponent(out dataPersistenceSystem);
         if (dataPersistenceSystem == null) dataPersistenceSystem = CreateSystem<DataPersistenceSystem>(false);
+        else dataPersistenceSystem.LoadGame();
 
         Instance.eventSystem.onSetPause += SetPause;
         Instance.eventSystem.onLevelUpFinish += UpdateScaling;
-        Instance.eventSystem.onFinishLoading += LoadPlayer;
 
         uiSystem.FadeIn(levelSystem.StartLevel);
     }
@@ -102,7 +111,7 @@ public class GameManager : MonoBehaviour, IDataPersistence
     {
         SetPause(false);
 
-        foreach (Object system in allSystems)
+        foreach (UnityEngine.Object system in allSystems)
         {
             Destroy(system);
         }
@@ -115,17 +124,7 @@ public class GameManager : MonoBehaviour, IDataPersistence
         accountXp = data.accountXp;
         permanentUpgrade = data.permanentUpgrade;
 
-        foreach (FieldInfo dataField in typeof(GameData).GetFields())
-        {
-            FieldInfo statField = typeof(StatBlock).GetField(dataField.Name);
-            if (statField != null)
-            {
-                statField.SetValue(gameInfo.tempPlayerStatBlock, dataField.GetValue(data));
-            }
-        }
-
-        loadedStatBlock = gameInfo.tempPlayerStatBlock;
-
+        Utilities.CopyValues(data, gameInfo.tempPlayerStatBlock);
     }
 
     public void SaveData(GameData data)
@@ -134,14 +133,7 @@ public class GameManager : MonoBehaviour, IDataPersistence
         data.accountXp = accountXp;
         data.permanentUpgrade = permanentUpgrade;
 
-        foreach (FieldInfo fieldStat in typeof(StatBlock).GetFields())
-        {
-            FieldInfo fieldData = typeof(GameData).GetField(fieldStat.Name);
-            if (fieldData != null)
-            {
-                fieldData.SetValue(data, fieldStat.GetValue(playerPawn.statBlock));
-            }
-        }
+        Utilities.CopyValues(playerPawn.statBlock, data);
     }
 
     public T CreateSystem<T>(bool addToList = true) where T : Component
@@ -226,7 +218,7 @@ public class GameManager : MonoBehaviour, IDataPersistence
         SpritePart result = null;
         List<SpritePart> filteredList = spriteParts.Where(x => x.spType.Equals(spType) && x.spCategory.Equals(cat)).ToList();
         if (filteredList.Count == 0) return result;
-        int rnd = Random.Range(0, filteredList.Count);
+        int rnd = UnityEngine.Random.Range(0, filteredList.Count);
         result = filteredList[rnd];
         return result;
     }
@@ -268,12 +260,10 @@ public class GameManager : MonoBehaviour, IDataPersistence
 
     public Modifier GetRandomModifier(bool randomQuality = true)
     {
-        int r = Random.Range(1, 11);
+        int r = UnityEngine.Random.Range(1, 11);
         Modifier result;
 
-        List<Upgrade> filteredUpgradeList = upgradeList.Where(x => !x.permanent).ToList();
-        result = (Upgrade)filteredUpgradeList[Random.Range(0, filteredUpgradeList.Count())].Clone();
-        if (randomQuality) result.quality = GetRandomQuality();
+        result = GetRandomUpgrade(randomQuality);
 
 
         //if (r > 2)
@@ -289,11 +279,18 @@ public class GameManager : MonoBehaviour, IDataPersistence
         return result;
     }
 
+    public Upgrade GetUpgrade(string uName)
+    {
+        List<Upgrade> filteredUpgradeList = upgradeList.Where(x => !x.permanent).ToList();
+        return filteredUpgradeList.FirstOrDefault(u => u.modName == uName);
+    }
+
     public Upgrade GetRandomUpgrade(bool randomQuality = true)
     {
         Upgrade result;
 
-        result = (Upgrade)upgradeList[Random.Range(0, upgradeList.Count())].Clone();
+        List<Upgrade> filteredUpgradeList = upgradeList.Where(x => !x.permanent).ToList();
+        result = (Upgrade)filteredUpgradeList[UnityEngine.Random.Range(0, filteredUpgradeList.Count())].Clone();
         if (randomQuality) result.quality = GetRandomQuality();
 
         return result;
@@ -302,7 +299,7 @@ public class GameManager : MonoBehaviour, IDataPersistence
 
     public Quality GetRandomQuality()
     {
-        int r = Random.Range(1, 101);
+        int r = UnityEngine.Random.Range(1, 101);
 
         if (r <= 50) return Quality.Common;
         else r -= 50;
@@ -352,11 +349,6 @@ public class GameManager : MonoBehaviour, IDataPersistence
     public void GoToLevel(int sceneIndex)
     {
         SceneManager.LoadScene(sceneIndex);
-    }
-
-    public void QuitGame()
-    {
-        Application.Quit();
     }
 }
 

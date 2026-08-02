@@ -1,9 +1,11 @@
 using UnityEngine;
 using Reclaimers.Systems;
+using System.Collections.Generic;
 
 public class MoneyOrb : Orb
 {
     [SerializeField] protected float value = 1;
+    [SerializeField] protected List<Sprite> valueSprite = new List<Sprite>();
 
     public void Init(float v)
     {
@@ -13,6 +15,8 @@ public class MoneyOrb : Orb
     public void SetValue(float v)
     {
         value = v;
+
+        _sr.sprite = valueSprite[Random.Range(0, valueSprite.Count)];
 
         // Change color depending value
     }

@@ -39,6 +39,8 @@ public abstract class LevelLogic : MonoBehaviour, IUpdateable, IPauseable
         if (ended) return;
         ended = true;
 
+        GameManager.Instance.dataPersistenceSystem.SaveGame();
+
         GameManager.Instance.uiSystem.FadeOut(null, 3f, true);
     }
 
@@ -46,6 +48,8 @@ public abstract class LevelLogic : MonoBehaviour, IUpdateable, IPauseable
     {
         if (ended) return;
         ended = true;
+
+        GameManager.Instance.dataPersistenceSystem.LoadGame(true);
 
         GameManager.Instance.uiSystem.FadeOut(null, 3f, true);
     }

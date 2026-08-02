@@ -30,6 +30,7 @@ MonoBehaviour:
   defaultWeaponBlock: {fileID: 11400000, guid: 3f5c620b243a5554b9a7dfcb85d7037e, type: 2}
   E_Pistol: {fileID: 0}
   defaultAbilityBlock: {fileID: 11400000, guid: 7517908b9d2dc804980d21a9c661b217, type: 2}
+  devConsolePrefab: {fileID: 8410180372988992237, guid: af76ad57e39928e46917b91628a91fd1, type: 3}
   pawnPrefab: {fileID: 7670317755826226318, guid: a7836d36845584b4aba91a530fb6249f, type: 3}
   playerCameraPrefab: {fileID: 6444985827976779412, guid: d0ca0aa53c5718a44a91518f40c6194f, type: 3}
   projectilePrefab: {fileID: 1786039620101491116, guid: 2126f2636b206074da66c30bbad4297f, type: 3}
@@ -37,7 +38,7 @@ MonoBehaviour:
   xpOrbPrefab: {fileID: 723975431341748206, guid: 6078e0a66bb5f304cb5acf41b6b8343f, type: 3}
   moneyOrbPrefab: {fileID: 3181928448100911058, guid: 2728bf09882e889438e793373f7e4768, type: 3}
   obstaclePartPrefab: {fileID: 4649148250982660532, guid: d18abb4d0e092084dab1f574a2015d66, type: 3}
-  audioSourcePrefab: {fileID: 0}
+  audioSourcePrefab: {fileID: 4811710059589624638, guid: 1bb3ef252b1094144aeb40300c4ad256, type: 3}
   playerUIPrefab: {fileID: 1963103617486795866, guid: b34a5eb88d813c246ab71c44b1a16cde, type: 3}
   hitPrefab: {fileID: 2819041928499780480, guid: 6b17f2be319931e43a8801465cfaecd7, type: 3}
   upgradePrefab: {fileID: 7704083453131563642, guid: 879076a5409c21a439d242d09c87e976, type: 3}

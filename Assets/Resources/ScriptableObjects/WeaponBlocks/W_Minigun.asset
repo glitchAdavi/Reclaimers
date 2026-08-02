@@ -1,0 +1,381 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf8a7c16e162b404db46caec6e350b8a, type: 3}
+  m_Name: W_Minigun
+  m_EditorClassIdentifier: 
+  firstTime: 1
+  pName: Pawn
+  pDesc: A Pawn.
+  upgrades: []
+  items: []
+  weaponBlock: 
+  projType: 0
+  onHitEffects: []
+  abilityBlock: 
+  sprCat: 0
+  sprNames: []
+  spriteVariableHue: 0
+  spriteVariableHueRange: 0
+  hitSprite: {fileID: 0}
+  scale:
+    _base: 0
+    _mult: 0
+    _addTotal: 0
+    _multTotal: 1
+    _min: 0.1
+    _max: Infinity
+  xpTotal:
+    _base: 0
+    _mult: 0
+    _addTotal: 0
+    _multTotal: 1
+    _min: 0
+    _max: Infinity
+  xpCur:
+    _base: 0
+    _mult: 0
+    _addTotal: 0
+    _multTotal: 1
+    _min: 0
+    _max: Infinity
+  xpGain:
+    _base: 0
+    _mult: 0
+    _addTotal: 0
+    _multTotal: 1
+    _min: 0
+    _max: Infinity
+  level:
+    _base: 0
+    _mult: 0
+    _addTotal: 0
+    _multTotal: 1
+    _min: 0
+    _max: Infinity
+  money:
+    _base: 0
+    _mult: 0
+    _addTotal: 0
+    _multTotal: 1
+    _min: 0
+    _max: Infinity
+  moneyGain:
+    _base: 0
+    _mult: 0
+    _addTotal: 0
+    _multTotal: 1
+    _min: 0
+    _max: Infinity
+  speed:
+    _base: 0
+    _mult: 0
+    _addTotal: 0
+    _multTotal: 1
+    _min: -Infinity
+    _max: Infinity
+  hp:
+    _base: 0
+    _mult: 0
+    _addTotal: 0
+    _multTotal: 1
+    _min: 1
+    _max: Infinity
+  hpRegen:
+    _base: 0
+    _mult: 0
+    _addTotal: 0
+    _multTotal: 1
+    _min: 0
+    _max: Infinity
+  hpRegenDelay:
+    _base: 0
+    _mult: 0
+    _addTotal: 0
+    _multTotal: 1
+    _min: 0
+    _max: Infinity
+  hpRegenTickTime:
+    _base: 0
+    _mult: 0
+    _addTotal: 0
+    _multTotal: 1
+    _min: 0
+    _max: Infinity
+  iFrameDuration:
+    _base: 0
+    _mult: 0
+    _addTotal: 0
+    _multTotal: 1
+    _min: -Infinity
+    _max: Infinity
+  damageModifier:
+    _base: 0
+    _mult: 0
+    _addTotal: 0
+    _multTotal: 1
+    _min: 0
+    _max: Infinity
+  healingModifier:
+    _base: 0
+    _mult: 0
+    _addTotal: 0
+    _multTotal: 1
+    _min: 0
+    _max: Infinity
+  meleeDamage:
+    _base: 0
+    _mult: 0
+    _addTotal: 0
+    _multTotal: 1
+    _min: 0
+    _max: Infinity
+  meleeRange:
+    _base: 0
+    _mult: 0
+    _addTotal: 0
+    _multTotal: 1
+    _min: 0
+    _max: Infinity
+  meleeCooldown:
+    _base: 0
+    _mult: 0
+    _addTotal: 0
+    _multTotal: 1
+    _min: 0
+    _max: Infinity
+  critChance:
+    _base: 0
+    _mult: 0
+    _addTotal: 0
+    _multTotal: 1
+    _min: 0
+    _max: Infinity
+  critMult:
+    _base: 0
+    _mult: 0
+    _addTotal: 0
+    _multTotal: 1
+    _min: 0
+    _max: Infinity
+  pickUpRange:
+    _base: 0
+    _mult: 0
+    _addTotal: 0
+    _multTotal: 1
+    _min: 0
+    _max: Infinity
+  interactionRange:
+    _base: 0
+    _mult: 0
+    _addTotal: 0
+    _multTotal: 1
+    _min: 0
+    _max: Infinity
+  isBoss: 0
+  spawnsIdle: 0
+  idleDisguises: []
+  immobile: 0
+  xpInstant: 0
+  xpKillValue:
+    _base: 0
+    _mult: 0
+    _addTotal: 0
+    _multTotal: 1
+    _min: 0
+    _max: Infinity
+  moneyInstant: 0
+  moneyKillValue:
+    _base: 0
+    _mult: 0
+    _addTotal: 0
+    _multTotal: 1
+    _min: 0
+    _max: Infinity
+  onDamageSpawnEnemy: 0
+  onDamageEnemyToSpawn: 
+  onDamageInterval:
+    _base: 0
+    _mult: 0
+    _addTotal: 0
+    _multTotal: 1
+    _min: 1
+    _max: Infinity
+  onDamageNumToSpawn:
+    _base: 0
+    _mult: 0
+    _addTotal: 0
+    _multTotal: 1
+    _min: 1
+    _max: Infinity
+  onDeathSpawnEnemy: 0
+  onDeathEnemyToSpawn: 
+  onDeathNumToSpawn:
+    _base: 0
+    _mult: 0
+    _addTotal: 0
+    _multTotal: 1
+    _min: 1
+    _max: Infinity
+  weaponName: Minigun
+  wepSprite: {fileID: 759972978, guid: f80cba83b28aa684a97c381f98df3645, type: 3}
+  wepType: 0
+  magSize:
+    _base: 250
+    _mult: 1
+    _addTotal: 0
+    _multTotal: 1
+    _min: 1
+    _max: Infinity
+  bulletsPerShot:
+    _base: 3
+    _mult: 1
+    _addTotal: 0
+    _multTotal: 1
+    _min: 1
+    _max: Infinity
+  bulletsPerShotCost:
+    _base: 1
+    _mult: 1
+    _addTotal: 0
+    _multTotal: 1
+    _min: 1
+    _max: Infinity
+  bulletsPerShotSpread:
+    _base: 10
+    _mult: 1
+    _addTotal: 0
+    _multTotal: 1
+    _min: 0
+    _max: Infinity
+  bulletsPerShotFirstBulletSpread:
+    _base: 2
+    _mult: 1
+    _addTotal: 0
+    _multTotal: 1
+    _min: 0
+    _max: Infinity
+  burstAmount:
+    _base: 0
+    _mult: 1
+    _addTotal: 0
+    _multTotal: 1
+    _min: 0
+    _max: Infinity
+  burstDelay:
+    _base: 0
+    _mult: 1
+    _addTotal: 0
+    _multTotal: 1
+    _min: 0
+    _max: Infinity
+  bulletSpread:
+    _base: 0
+    _mult: 1
+    _addTotal: 0
+    _multTotal: 1
+    _min: 0
+    _max: Infinity
+  bulletSpreadGain:
+    _base: 0
+    _mult: 1
+    _addTotal: 0
+    _multTotal: 1
+    _min: 0
+    _max: Infinity
+  fireRate:
+    _base: 0.035
+    _mult: 1
+    _addTotal: 0
+    _multTotal: 1
+    _min: 0
+    _max: Infinity
+  reloadTime:
+    _base: 3
+    _mult: 1
+    _addTotal: 0
+    _multTotal: 1
+    _min: 0
+    _max: Infinity
+  projDamage:
+    _base: 1
+    _mult: 1
+    _addTotal: 0
+    _multTotal: 1
+    _min: 0
+    _max: Infinity
+  projDamageRadius:
+    _base: 0
+    _mult: 1
+    _addTotal: 0
+    _multTotal: 1
+    _min: 0
+    _max: Infinity
+  projSpeed:
+    _base: 25
+    _mult: 1
+    _addTotal: 0
+    _multTotal: 1
+    _min: 0
+    _max: 50
+  projPenetration:
+    _base: 1
+    _mult: 1
+    _addTotal: 0
+    _multTotal: 1
+    _min: 0
+    _max: Infinity
+  projStun:
+    _base: 0.2
+    _mult: 1
+    _addTotal: 0
+    _multTotal: 1
+    _min: 0
+    _max: Infinity
+  abilityName: 
+  abilityScript: 0
+  seToApply: {fileID: 0}
+  goToInstantiate: {fileID: 0}
+  abilityDuration:
+    _base: 0
+    _mult: 0
+    _addTotal: 0
+    _multTotal: 1
+    _min: 0
+    _max: Infinity
+  abilityCooldown:
+    _base: 0
+    _mult: 0
+    _addTotal: 0
+    _multTotal: 1
+    _min: 0
+    _max: Infinity
+  abilityDamage:
+    _base: 0
+    _mult: 0
+    _addTotal: 0
+    _multTotal: 1
+    _min: 0
+    _max: Infinity
+  abilityRadius:
+    _base: 0
+    _mult: 0
+    _addTotal: 0
+    _multTotal: 1
+    _min: 0
+    _max: Infinity
+  abilityCharges:
+    _base: 0
+    _mult: 0
+    _addTotal: 0
+    _multTotal: 1
+    _min: 0
+    _max: Infinity

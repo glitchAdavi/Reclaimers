@@ -41,6 +41,8 @@ public class Stat
     {
         _base = stat.Base;
         _mult = stat.Mult;
+        _addTotal = stat.AddTotal;
+        _multTotal = stat.MultTotal;
         _min = stat.Min;
         _max = stat.Max;
     }

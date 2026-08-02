@@ -5,10 +5,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
+using static UnityEditorInternal.ReorderableList;
+using static UnityEngine.Rendering.DebugUI;
 
 public class Utilities : MonoBehaviour
 {
-    public static void CopyValues<T>(T Base, T Copy, Type customAttribute = null)
+    public static void CopyValues<T>(T From, T To, Type customAttribute = null)
     {
         foreach (FieldInfo field in typeof(T).GetFields())
         {
@@ -17,10 +19,23 @@ public class Utilities : MonoBehaviour
                 if (!field.IsDefined(customAttribute, true)) continue;
             }
 
-            field.SetValue(Copy, field.GetValue(Base));
+            Type fieldType = field.FieldType;
+
+            ConstructorInfo copyConstructor = fieldType.GetConstructor(new[] { fieldType });
+            if (copyConstructor != null)
+            {
+                object copiedValue = copyConstructor.Invoke(new[] { field.GetValue(From) });
+                field.SetValue(To, copiedValue);
+            }
+            else
+            {
+                field.SetValue(To, field.GetValue(From));
+            }
         }
     }
-    public static void CopyValues<T1, T2>(T1 Base, T1 Copy, Type customAttribute = null, System.Func<T2, bool> filter = null)
+
+
+    public static void CopyValues<T1, T2>(T1 From, T1 To, Type customAttribute = null, System.Func<T2, bool> filter = null)
     {
         foreach (FieldInfo field in typeof(T1).GetFields())
         {
@@ -34,7 +49,41 @@ public class Utilities : MonoBehaviour
                 if (!field.IsDefined(customAttribute, true)) continue;
             }
 
-            field.SetValue(Copy, field.GetValue(Base));
+            Type fieldType = field.FieldType;
+
+            ConstructorInfo copyConstructor = fieldType.GetConstructor(new[] { fieldType });
+            if (copyConstructor != null)
+            {
+                object copiedValue = copyConstructor.Invoke(new[] { field.GetValue(From) });
+                field.SetValue(To, copiedValue);
+            }
+            else
+            {
+                field.SetValue(To, field.GetValue(From));
+            }
+        }
+    }
+
+    public static void CopyValues<T1, T2>(T1 From, T2 To)
+    {
+        foreach (FieldInfo fieldT1 in typeof(T1).GetFields())
+        {
+            FieldInfo fieldT2 = typeof(T2).GetField(fieldT1.Name);
+            if (fieldT2 != null)
+            {
+                Type fieldType = fieldT2.FieldType;
+
+                ConstructorInfo copyConstructor = fieldType.GetConstructor(new[] { fieldType });
+                if (copyConstructor != null)
+                {
+                    object copiedValue = copyConstructor.Invoke(new[] { fieldT1.GetValue(From) });
+                    fieldT2.SetValue(To, copiedValue);
+                }
+                else
+                {
+                    fieldT2.SetValue(To, fieldT1.GetValue(From));
+                }
+            }
         }
     }
 }

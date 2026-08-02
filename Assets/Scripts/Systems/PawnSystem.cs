@@ -47,7 +47,6 @@ namespace Reclaimers.Systems
         private int totalWeight = 0;
 
         public bool canSpawn = false;
-        public bool enemiesSpawnIdle = false;
         public bool populateLevel = false;
 
         public bool isPaused = false;
@@ -58,15 +57,13 @@ namespace Reclaimers.Systems
         private void Start()
         {
             this.Register();
-
-            GameManager.Instance.eventSystem.onEnemyDeath += OnEnemyDeath;
             
             _enemyParent = new GameObject("EnemyParent");
             _enemyBuilder = new ObjectBuilder<Pawn>();
             _enemyBuilder.BuildPool(EnemyFactory, 100, _enemyParent.transform);
 
-            Transform[] currentMapSpawnPoints = GameObject.Find("MapSpawnPoints").GetComponentsInChildren<Transform>();
-            foreach (Transform t in currentMapSpawnPoints)
+            Transform[] playerSpawnPoints = GameObject.Find("PlayerSpawnPoints").GetComponentsInChildren<Transform>();
+            foreach (Transform t in playerSpawnPoints)
             {
                 if (t.position.Equals(Vector3.zero)) continue;
                 mapSpawnPoints.Add(t.position);
@@ -74,7 +71,15 @@ namespace Reclaimers.Systems
 
             spawnTimer = GameManager.Instance.timerSystem.SetForeverTimer(spawnTime, TrySpawn, "SYSTEM_PAWN_Spawn");
 
-            AddSpawns(GameManager.Instance.gameInfo.defaultEnemyStatBlock, 100);
+            AddSpawns(GameManager.Instance.gameInfo.slimeEnemyStatBlock, 100);
+
+            GameManager.Instance.eventSystem.onEnemyDeath += OnEnemyDeath;
+            GameManager.Instance.eventSystem.onToggleSpawn += (active) => canSpawn = active;
+            GameManager.Instance.eventSystem.onPopulateLevel += () => populateLevel = true;
+            GameManager.Instance.eventSystem.onRequestAddPawnSpawn += AddSpawns;
+            GameManager.Instance.eventSystem.onRequestClearPawnSpawns += ClearSpawns;
+            GameManager.Instance.eventSystem.onSetPawnSpawnVars += SetSpawnVars;
+            GameManager.Instance.eventSystem.onRequestBossSpawn += SpawnBoss;
         }
 
 
@@ -116,6 +121,7 @@ namespace Reclaimers.Systems
 
             if (populateLevel)
             {
+                LogSystem.Log("PawnSystem: populating level.");
                 for (int i = 0; i < mapSpawnPoints.Count; i++)
                 {
                     for (int j = 0; j < spawnBatch; j++)
@@ -123,6 +129,7 @@ namespace Reclaimers.Systems
                         SpawnEnemy(SelectEnemy(), mapSpawnPoints[i], -1, true);
                     }
                 }
+                canSpawn = false;
                 populateLevel = false;
             } else
             {
@@ -136,6 +143,8 @@ namespace Reclaimers.Systems
 
         public StatBlock SelectEnemy()
         {
+            if (enemiesToSpawn.Count < 1) return null;
+
             int setWeight = Random.Range(0, totalWeight + 1);
             int partialWeight = 0;
             foreach (SpawnBlock sBlock in enemiesToSpawn)
@@ -172,13 +181,6 @@ namespace Reclaimers.Systems
             if (idle || enemy.spawnsIdle) newEnemy.SetIdle();
             pawnsInScene.Add(newEnemy);
         }
-
-
-
-
-
-
-
 
 
 
@@ -305,7 +307,10 @@ namespace Reclaimers.Systems
             spawnBatch = (batch > maxEnemiesInPlay) ? maxEnemiesInPlay : batch;
         }
 
-
+        public void SpawnBoss()
+        {
+            LogSystem.Log("Spawn Boss");
+        }
 
 
 

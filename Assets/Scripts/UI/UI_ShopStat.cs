@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class UI_ShopStat : MonoBehaviour
 {
+    public UIMenu_Upgrade myMenu;
+
     public string upgradeName;
     public Upgrade upgrade;
 
@@ -54,5 +56,10 @@ public class UI_ShopStat : MonoBehaviour
 
         if (percentage) statMod.text = $"{(upgrade.statVarsToModify[0].valueM * bought * 100):0.##}% -> {(upgrade.statVarsToModify[0].valueM * (bought + 1) * 100):0.##}%";
         else statMod.text = $"{(upgrade.statVarsToModify[0].valueB * bought):0.##}% -> {(upgrade.statVarsToModify[0].valueB * (bought + 1)):0.##}%";
+
+        myMenu.UpdateMoney();
+
+        if (GameManager.Instance.playerPawn.statBlock.money.Value() < cost) buy.interactable = false;
+        else buy.interactable = true;
     }
 }

@@ -120,9 +120,9 @@ namespace Reclaimers.Systems
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.N)) MissionMenu();
-            if (Input.GetKeyDown(KeyCode.M)) UpgradeMenu();
-            if (Input.GetKeyDown(KeyCode.B)) CustomizationMenu();
+            //if (Input.GetKeyDown(KeyCode.N)) MissionMenu();
+            //if (Input.GetKeyDown(KeyCode.M)) UpgradeMenu();
+            //if (Input.GetKeyDown(KeyCode.B)) CustomizationMenu();
         }
 
 
@@ -130,6 +130,7 @@ namespace Reclaimers.Systems
         {
             if (activeMenues.Count > 0)
             {
+                Cursor.visible = false;
                 UIMenu m = activeMenues[^1];
                 activeMenues.Remove(m);
                 m.BeforeClose();
@@ -143,6 +144,7 @@ namespace Reclaimers.Systems
 
         public void OpenPauseMenu()
         {
+            Cursor.visible = true;
             activeMenues.Add(pauseMenu);
             pauseMenu.BeforeOpen();
 
@@ -151,6 +153,7 @@ namespace Reclaimers.Systems
 
         public void MissionMenu()
         {
+            Cursor.visible = true;
             activeMenues.Add(missionMenu);
             missionMenu.BeforeOpen();
 
@@ -159,6 +162,7 @@ namespace Reclaimers.Systems
 
         public void CustomizationMenu()
         {
+            Cursor.visible = true;
             activeMenues.Add(customizationMenu);
             customizationMenu.BeforeOpen();
 
@@ -167,6 +171,7 @@ namespace Reclaimers.Systems
 
         public void UpgradeMenu()
         {
+            Cursor.visible = true;
             activeMenues.Add(upgradeMenu);
             upgradeMenu.BeforeOpen();
 
@@ -175,6 +180,7 @@ namespace Reclaimers.Systems
 
         public void LevelUpMenu()
         {
+            Cursor.visible = true;
             activeMenues.Add(levelUpMenu);
             levelUpMenu.BeforeOpen();
 
@@ -183,6 +189,7 @@ namespace Reclaimers.Systems
 
         public void CloseLevelUpMenu()
         {
+            Cursor.visible = false;
             activeMenues.Remove(levelUpMenu);
             GameManager.Instance.eventSystem.SetPause(false);
         }
@@ -212,6 +219,7 @@ namespace Reclaimers.Systems
 
         public void FadeOut(Action callback, float time = 3f, bool menu = false)
         {
+            Cursor.visible = false;
             GameManager.Instance.eventSystem.EnableAllControls(false);
             GameManager.Instance.eventSystem.EnablePlayerControls(false);
 

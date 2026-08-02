@@ -37,13 +37,13 @@ namespace Reclaimers.DataPersistence
             gameData = new GameData();
         }
 
-        public void LoadGame()
+        public void LoadGame(bool reset = false)
         {
             gameData = dataHandler.Load();
 
-            if (gameData == null)
+            if (gameData == null || reset)
             {
-                LogSystem.Log("No data was found. Initializing data to defaults.");
+                LogSystem.Log($"{(gameData == null ? "No data was found." : "Reset.")} Initializing data to defaults.");
                 NewGame();
             }
 

@@ -81,7 +81,8 @@ public class Weapon : MonoBehaviour
             {
                 tempForward = ray.GetPoint(enterDistance) - p.transform.position;
 
-                InstantiateProjectile(tempForward, Random.Range(-bulletSpreadCurrent / 2, bulletSpreadCurrent / 2));
+                float bulletSpreadFirst = p.statBlock.bulletsPerShotFirstBulletSpread.Value();
+                InstantiateProjectile(tempForward, Random.Range(-bulletSpreadCurrent + bulletSpreadFirst / 2, bulletSpreadCurrent + bulletSpreadFirst / 2));
 
                 bulletsToFire--;
             }
@@ -153,6 +154,7 @@ public class Weapon : MonoBehaviour
         proj.transform.Rotate(Vector3.up, spread);
         proj.SetTargetLayer(targetLayer);
         proj.SetShooter(p);
+        proj.SetVisible();
     }
 
     public void SetOwner(Pawn p)

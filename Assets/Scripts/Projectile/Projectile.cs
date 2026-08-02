@@ -49,13 +49,28 @@ public abstract class Projectile : MonoBehaviour, IUpdateable, IPauseable
         GameManager.Instance.eventSystem.onEnemyDeath += RemoveFromHit;
     }
 
+    public virtual void SetVisible()
+    {
+        _sprt.gameObject.SetActive(true);
+        _tr.time = 0.05f;
+        _tr.Clear();
+    }
+
     protected void OnDisable()
     {
         GameManager.Instance.eventSystem.onEnemyDeath -= RemoveFromHit;
 
         _extCol.onCollisionEnter -= ManageOnCollisionEnter;
 
+        SetInvisible();
+
         this.Unregister();
+    }
+
+    protected virtual void SetInvisible()
+    {
+        _tr.time = 0;
+        _sprt.gameObject.SetActive(false);
     }
 
     public void ManagedUpdate()
@@ -163,5 +178,11 @@ public abstract class Projectile : MonoBehaviour, IUpdateable, IPauseable
     public void SetTargetLayer(int targetLayer)
     {
         this.targetLayer = targetLayer;
+    }
+
+    public virtual void Return()
+    {
+        SetInvisible();
+        p.projectileBuilder.ReturnObject(this);
     }
 }

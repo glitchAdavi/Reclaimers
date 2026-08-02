@@ -1,5 +1,8 @@
-using UnityEngine;
+using Reclaimers.DeveloperConsole;
 using System.Collections.Generic;
+using System.Reflection;
+using UnityEngine;
+using System;
 
 namespace Reclaimers.DataPersistence
 {
@@ -26,7 +29,7 @@ namespace Reclaimers.DataPersistence
         public string abilityBlock;
 
         public PawnType sprCat;
-        public string[] sprNames = new string[4];
+        public List<string> sprNames = new List<string>();
 
         public bool spriteVariableHue;
         public int spriteVariableHueRange;
@@ -75,6 +78,7 @@ namespace Reclaimers.DataPersistence
         public Stat bulletsPerShot;
         public Stat bulletsPerShotCost;
         public Stat bulletsPerShotSpread;
+        public Stat bulletsPerShotFirstBulletSpread;
 
         public Stat burstAmount;
         public Stat burstDelay;
@@ -119,103 +123,7 @@ namespace Reclaimers.DataPersistence
 
             StatBlock defaultSB = GameManager.Instance.gameInfo.defaultPlayerStatBlock;
 
-            //---PlayerStatBlock---
-            firstTime = defaultSB.firstTime;
-
-            pName = defaultSB.pName;
-            pDesc = defaultSB.pDesc;
-
-            upgrades = defaultSB.upgrades;
-            items = defaultSB.items;
-
-            weaponBlock = defaultSB.weaponBlock;
-
-            projType = defaultSB.projType;
-
-            abilityBlock = defaultSB.abilityBlock;
-
-            sprCat = defaultSB.sprCat;
-            sprNames = defaultSB.sprNames;
-
-            spriteVariableHue = defaultSB.spriteVariableHue;
-            spriteVariableHueRange = defaultSB.spriteVariableHueRange;
-
-            scale = defaultSB.scale;
-
-            xpTotal = defaultSB.xpTotal;
-            xpCur = defaultSB.xpCur;
-            xpGain = defaultSB.xpGain;
-
-            level = defaultSB.level;
-
-            money = defaultSB.money;
-            moneyGain = defaultSB.moneyGain;
-
-            speed = defaultSB.speed;
-
-            hp = defaultSB.hp;
-
-            hpRegen = defaultSB.hpRegen;
-            hpRegenDelay = defaultSB.hpRegenDelay;
-            hpRegenTickTime = defaultSB.hpRegenTickTime;
-
-            iFrameDuration = defaultSB.iFrameDuration;
-
-            damageModifier = defaultSB.damageModifier;
-            healingModifier = defaultSB.healingModifier;
-
-            meleeDamage = defaultSB.meleeDamage;
-            meleeRange = defaultSB.meleeRange;
-            meleeCooldown = defaultSB.meleeCooldown;
-
-            critChance = defaultSB.critChance;
-            critMult = defaultSB.critMult;
-
-            pickUpRange = defaultSB.pickUpRange;
-            interactionRange = defaultSB.interactionRange;
-
-
-            weaponName = defaultSB.weaponName;
-
-            wepType = defaultSB.wepType;
-
-            magSize = defaultSB.magSize;
-
-            bulletsPerShot = defaultSB.bulletsPerShot;
-            bulletsPerShotCost = defaultSB.bulletsPerShotCost;
-            bulletsPerShotSpread = defaultSB.bulletsPerShotSpread;
-
-            burstAmount = defaultSB.burstAmount;
-            burstDelay = defaultSB.burstDelay;
-
-            bulletSpread = defaultSB.bulletSpread;
-            bulletSpreadGain = defaultSB.bulletSpreadGain;
-
-            fireRate = defaultSB.fireRate;
-
-            reloadTime = defaultSB.reloadTime;
-
-            projDamage = defaultSB.projDamage;
-            projDamageRadius = defaultSB.projDamageRadius;
-
-            projSpeed = defaultSB.projSpeed;
-
-            projPenetration = defaultSB.projPenetration;
-
-            projStun = defaultSB.projStun;
-
-            abilityScript = defaultSB.abilityScript;
-
-            abilityName = defaultSB.abilityName;
-
-            abilityDuration = defaultSB.abilityDuration;
-
-            abilityCooldown = defaultSB.abilityCooldown;
-
-            abilityDamage = defaultSB.abilityDamage;
-            abilityRadius = defaultSB.abilityRadius;
-
-            abilityCharges = defaultSB.abilityCharges;
+            Utilities.CopyValues(defaultSB, this);
         }
     }
 }
