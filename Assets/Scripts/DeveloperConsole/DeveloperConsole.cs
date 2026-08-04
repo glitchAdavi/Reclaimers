@@ -31,7 +31,9 @@ public class DeveloperConsole : MonoBehaviour
         AddCommand("close", Close, "close || Close console");
         AddCommand("give", Give, "Multiple variations:" +
             "\ngive xp [x] || Give player [x] xp" +
+            "\ngive accxp [x] || Give account [x] xp" +
             "\ngive level [x] [silent=false] || Give player [x] levels, [silent] skips the upgrade selection menu and no upgrade is given" +
+            "\ngive acclvl [x] || Give account [x] lvls" +
             "\ngive money [x] || Give player [x] money" +
             "\ngive upgrade [x] [stacks=1] || Give player [stacks] of [x] upgrade" +
             "\ngive weapon [x] || Give player [x] weapon" +
@@ -154,9 +156,19 @@ public class DeveloperConsole : MonoBehaviour
             return GiveXp(args.Skip(1).ToArray());
         }
 
+        if (args[0].Equals("accxp"))
+        {
+            return GiveAccXp(args.Skip(1).ToArray());
+        }
+
         if (args[0].Equals("level"))
         {
             return GiveLevel(args.Skip(1).ToArray());
+        }
+
+        if (args[0].Equals("acclvl"))
+        {
+            return GiveAccLvl(args.Skip(1).ToArray());
         }
 
         if (args[0].Equals("money"))
@@ -204,6 +216,23 @@ public class DeveloperConsole : MonoBehaviour
         }
     }
 
+    string GiveAccXp(string[] args)
+    {
+        if (args.Length < 1) return "ERROR: Quantity needed";
+        if (args.Length > 1) return "ERROR: Too many parameters";
+
+        float result;
+        if (float.TryParse(args[0], out result))
+        {
+            GameManager.Instance.GiveAccountXp(result);
+            return $"{result} xp given to Account";
+        }
+        else
+        {
+            return "ERROR: give accxp [x] || x has to be a number";
+        }
+    }
+
     string GiveLevel(string[] args)
     {
         if (args.Length < 1) return "ERROR: Quantity needed";
@@ -220,6 +249,23 @@ public class DeveloperConsole : MonoBehaviour
         else
         {
             return "ERROR: give level [x] || x has to be a number";
+        }
+    }
+
+    string GiveAccLvl(string[] args)
+    {
+        if (args.Length < 1) return "ERROR: Quantity needed";
+        if (args.Length > 1) return "ERROR: Too many parameters";
+
+        int result;
+        if (int.TryParse(args[0], out result))
+        {
+            GameManager.Instance.GiveAccountLevel(result);
+            return $"{result} lvls given to Account";
+        }
+        else
+        {
+            return "ERROR: give xp [x] || x has to be a number";
         }
     }
 

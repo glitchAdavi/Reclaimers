@@ -29,7 +29,7 @@ MonoBehaviour:
   - 
   spriteVariableHue: 0
   spriteVariableHueRange: 0
-  hitSprite: {fileID: 0}
+  hitSprite: {fileID: 2131538309, guid: f80cba83b28aa684a97c381f98df3645, type: 3}
   scale:
     _base: 0
     _mult: 0
@@ -254,6 +254,13 @@ MonoBehaviour:
     _min: 1
     _max: Infinity
   bulletsPerShotSpread:
+    _base: 0
+    _mult: 0
+    _addTotal: 0
+    _multTotal: 1
+    _min: 0
+    _max: Infinity
+  bulletsPerShotFirstBulletSpread:
     _base: 0
     _mult: 0
     _addTotal: 0

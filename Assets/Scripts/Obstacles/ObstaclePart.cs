@@ -14,7 +14,9 @@ public class ObstaclePart : MonoBehaviour
     public void SetHorizontal(bool active)
     {
         horizontal = active;
-        if (horizontal) _top.transform.localScale += new Vector3(0f, 0.01f, 0f);
-        else _top.transform.localScale -= new Vector3(0f, 0.01f, 0f);
+        if (horizontal) _top.transform.localScale -= new Vector3(0f, 0.01f, 0f);
+        else _top.transform.localScale += new Vector3(0f, 0.01f, 0f);
     }
+
+    public bool IsHorizontal() => horizontal;
 }

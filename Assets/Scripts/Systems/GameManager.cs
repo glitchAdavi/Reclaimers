@@ -13,6 +13,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour, IDataPersistence
 {
     public static GameManager Instance { get; private set; }
+    public bool firstTime = true;
 
     public List<UnityEngine.Object> allSystems = new List<UnityEngine.Object>();
 
@@ -52,9 +53,12 @@ public class GameManager : MonoBehaviour, IDataPersistence
 
     public int accountLevel = 0;
     public float accountXp = 0f;
+    public int accountThreshold = 1;
     public float scaling = 1f;
     public Difficulty selectedDifficulty = Difficulty.Normal;
     public List<StatUpgrade> permanentUpgrade = new List<StatUpgrade>();
+
+    bool finishedLoading = false;
 
     private void Awake()
     {
@@ -96,6 +100,8 @@ public class GameManager : MonoBehaviour, IDataPersistence
         playerController.AssignPlayerPawn(playerPawn);
 
         Instance.eventSystem.onFinishLoading += LoadPlayer;
+        Instance.eventSystem.onFinishLoading += Threshold;
+        Instance.eventSystem.onFinishLoading += () => finishedLoading = true;
 
         TryGetComponent(out dataPersistenceSystem);
         if (dataPersistenceSystem == null) dataPersistenceSystem = CreateSystem<DataPersistenceSystem>(false);
@@ -104,7 +110,21 @@ public class GameManager : MonoBehaviour, IDataPersistence
         Instance.eventSystem.onSetPause += SetPause;
         Instance.eventSystem.onLevelUpFinish += UpdateScaling;
 
-        uiSystem.FadeIn(levelSystem.StartLevel);
+
+        if (firstTime)
+        {
+            firstTime = false;
+            uiSystem.EnableLogo();
+            timerSystem.SetTimer(2f, () =>
+            {
+                uiSystem.DisableLogo();
+            });
+        }
+        else
+        {
+            uiSystem.FadeIn(levelSystem.StartLevel);
+        }
+            
     }
 
     private void OnSceneUnloaded(Scene current)
@@ -349,6 +369,28 @@ public class GameManager : MonoBehaviour, IDataPersistence
     public void GoToLevel(int sceneIndex)
     {
         SceneManager.LoadScene(sceneIndex);
+    }
+
+    public void Threshold()
+    {
+        accountThreshold = 1 + accountLevel;
+    }
+
+    public void GiveAccountXp(float val)
+    {
+        accountXp += val;
+
+        while (accountXp >= accountThreshold)
+        {
+            accountXp -= accountThreshold;
+            accountLevel++;
+            Threshold();
+        }
+    }
+
+    public void GiveAccountLevel(int lvl)
+    {
+        accountLevel += lvl;
     }
 }
 

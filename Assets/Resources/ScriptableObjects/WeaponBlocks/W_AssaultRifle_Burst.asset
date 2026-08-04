@@ -29,7 +29,7 @@ MonoBehaviour:
   - 
   spriteVariableHue: 0
   spriteVariableHueRange: 0
-  hitSprite: {fileID: 0}
+  hitSprite: {fileID: 1565399788, guid: f80cba83b28aa684a97c381f98df3645, type: 3}
   scale:
     _base: 0
     _mult: 0

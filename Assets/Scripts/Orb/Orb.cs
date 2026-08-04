@@ -7,6 +7,7 @@ public class Orb : MonoBehaviour, IUpdateable, IPauseable
 {
     [SerializeField] protected ExternalCollider _extColl;
     [SerializeField] protected SpriteRenderer _sr;
+    [SerializeField] protected Light _light;
 
     [SerializeField] protected Pawn target;
     [SerializeField] protected bool active = false;

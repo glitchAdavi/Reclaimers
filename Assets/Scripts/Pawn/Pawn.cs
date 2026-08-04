@@ -29,6 +29,9 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
     [SerializeField] private GameObject _wepStretcher;
     [SerializeField] private Weapon _weapon;
     [SerializeField] private Ability _ability;
+    [SerializeField] private GameObject _lightDirector; 
+    [SerializeField] private Light _flashLight;
+    [SerializeField] private Light _muzzleFlash;
 
     public Sprite frame1;
     public Sprite frame2;
@@ -67,10 +70,12 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
     private Timer p_dissolveTimer;
     private Timer p_closestInteractableTimer;
     private Timer p_checkChangeOnHealth;
+    private Timer p_muzzleFlash;
     private Timer np_navUpdateTimer;
     private Timer np_idleDetectPlayerTimer;
     private Timer np_dissolveTimer;
     private Timer np_resetTimer;
+    private Timer np_updateShadow;
     private Timer meleeCooldownTimer;
     private Timer stunTimer;
     private Timer damageEffectTimer;
@@ -154,6 +159,8 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
 
         statBlock.firstTime = false;
 
+        _flashLight.enabled = true;
+
         Setup();
     }
 
@@ -199,6 +206,11 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
         _wepStretcher.SetActive(false);
 
         statBlock.sprNames = GameManager.Instance.GetRandomSpriteParts(statBlock.sprCat).ToList();
+
+        np_updateShadow = GameManager.Instance.timerSystem.SetForeverTimer(0.05f, () =>
+        {
+            if (target != null) _shadowSpr.transform.LookAt(target.GetFlashlight());
+        });
 
         Setup();
     }
@@ -276,6 +288,7 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
         CancelTimer(ref animationTimer);
         CancelTimer(ref p_checkChangeOnHealth);
         CancelTimer(ref np_resetTimer);
+        CancelTimer(ref np_updateShadow);
 
         GameManager.Instance.eventSystem.onGivePlayerXp -= GainXp;
         GameManager.Instance.eventSystem.onGivePlayerLevel -= GainLevel;
@@ -470,6 +483,7 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
             if (aimPlane.Raycast(ray, out float enterDistance))
             {
                 Vector3 dir = ray.GetPoint(enterDistance) - transform.position;
+                _lightDirector.transform.rotation = Quaternion.LookRotation(-Vector3.up, dir);
                 _wepSprite.transform.rotation = Quaternion.LookRotation(-Vector3.up, dir) * Quaternion.AngleAxis(90, Vector3.forward);
             }
         } else
@@ -482,9 +496,12 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
             if (aimPlane.Raycast(ray, out float enterDistance))
             {
                 Vector3 dir = ray.GetPoint(enterDistance) - transform.position;
+                _lightDirector.transform.rotation = Quaternion.LookRotation(-Vector3.up, dir);
                 _wepSprite.transform.rotation = Quaternion.LookRotation(-Vector3.up, -dir) * Quaternion.AngleAxis(90, Vector3.forward);
             }
         }
+
+
     }
 
 
@@ -616,6 +633,7 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
     {
         isActive = false;
         isDead = true;
+        _flashLight.enabled = false;
 
         _col.enabled = false;
 
@@ -629,6 +647,7 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
             CancelTimer(ref p_hpRegenTickTimer);
             CancelTimer(ref p_closestInteractableTimer);
             CancelTimer(ref p_checkChangeOnHealth);
+            FinishTimer(ref p_muzzleFlash);
 
             GameManager.Instance.eventSystem.SetPause(true);
             GameManager.Instance.eventSystem.EnableAllControls(false);
@@ -646,6 +665,7 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
             CancelTimer(ref np_idleDetectPlayerTimer);
             CancelTimer(ref meleeCooldownTimer);
             CancelTimer(ref stunTimer);
+            CancelTimer(ref np_updateShadow);
 
             if (_nav.isActiveAndEnabled)
             {
@@ -1150,8 +1170,9 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
         GameManager.Instance.pawnSystem.ResetEnemy(transform.position - target.transform.position, this);
     }
 
-    public bool HasPendingLevelUps()
+    public bool HasPendingLevelUps(out int pendingLevelUps)
     {
+        pendingLevelUps = p_pendingLevelUps;
         return p_pendingLevelUps > 0;
     }
 
@@ -1230,6 +1251,24 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
         projParent.name = "ProjectileParent";
         projectileBuilder = new ObjectBuilder<Projectile>();
         projectileBuilder.BuildPool(ProjectileFactory, 50, projParent.transform);
+    }
+
+    public Transform GetFlashlight()
+    {
+        return _flashLight.transform;
+    }
+
+    public void MuzzleFlash()
+    {
+        if (!isPlayer) return;
+        if (p_muzzleFlash) p_muzzleFlash.Cancel();
+        _muzzleFlash.intensity = 1 + UnityEngine.Random.Range(0f, 1.5f);
+        _muzzleFlash.enabled = true;
+        p_muzzleFlash = GameManager.Instance.timerSystem.SetTimer(0.05f, () =>
+        {
+            _muzzleFlash.enabled = false;
+            p_muzzleFlash = null;
+        });
     }
     #endregion
 }

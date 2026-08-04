@@ -23,8 +23,8 @@ public class UIMenu_Play : UIMenu
             if (b != null) b.interactable = true;
         }
 
-        levelButtons[0].Select();
-        difficultyButtons[0].Select();
+        levelButtons[0].isOn = true;
+        difficultyButtons[0].isOn = true;
     }
 
     public override void BeforeClose()

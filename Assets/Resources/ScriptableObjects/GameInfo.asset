@@ -27,7 +27,7 @@ MonoBehaviour:
   amalgamPartStatBlock: {fileID: 11400000, guid: 3fb88a2502b43ee45a2b202dbc5a77b0, type: 2}
   slimeBossStatBlack: {fileID: 11400000, guid: 9d5e768af96e6e748a15f88c6a6cf5a1, type: 2}
   amalgamBossStatBlack: {fileID: 11400000, guid: 2e262004e2f2f1343a2bfb423d5bfebe, type: 2}
-  defaultWeaponBlock: {fileID: 11400000, guid: 3f5c620b243a5554b9a7dfcb85d7037e, type: 2}
+  defaultWeaponBlock: {fileID: 11400000, guid: 34799d585ef7f8c4492f076046318765, type: 2}
   E_Pistol: {fileID: 0}
   defaultAbilityBlock: {fileID: 11400000, guid: 7517908b9d2dc804980d21a9c661b217, type: 2}
   devConsolePrefab: {fileID: 8410180372988992237, guid: af76ad57e39928e46917b91628a91fd1, type: 3}
@@ -50,3 +50,12 @@ MonoBehaviour:
   upgradeAbility: {fileID: -202280855, guid: f80cba83b28aa684a97c381f98df3645, type: 3}
   spriteShader: {fileID: -876546973899608171, guid: d3ac7302e4dfb92478c02b1a7cb8b559, type: 3}
   selectableShader: {fileID: 2100000, guid: 42edaf2345efb9c4aaae076b1fd3452e, type: 2}
+  buttonPress: {fileID: 0}
+  playerShoot: {fileID: 0}
+  playerSearch: {fileID: 0}
+  playerHurt: {fileID: 0}
+  playerPickUp: {fileID: 0}
+  playerLevelUp: {fileID: 0}
+  enemyHit: {fileID: 0}
+  grenadeLand: {fileID: 0}
+  explosion: {fileID: 0}

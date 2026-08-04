@@ -155,6 +155,7 @@ public class Weapon : MonoBehaviour
         proj.SetTargetLayer(targetLayer);
         proj.SetShooter(p);
         proj.SetVisible();
+        p.MuzzleFlash();
     }
 
     public void SetOwner(Pawn p)

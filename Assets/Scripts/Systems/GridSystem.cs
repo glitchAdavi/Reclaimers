@@ -247,14 +247,16 @@ namespace Reclaimers.Systems
             if (groups.Count <= 0) return;
             colliderList.Clear();
 
-            float extra = 0.1f;
+            //float extra = -0.0001f;
+            float extra = 0f;
+            float tall = 10f;
 
             foreach (List<Vector3Int> v in groups)
             {
                 Vector3 center = GetCenterOfCollection(v);
                 center = center + new Vector3(grid.cellSize.x / 2, 0f, grid.cellSize.y / 2);
                 Vector3 size = (v[v.Count - 1] - v[0]) + new Vector3(1, 1, 1);
-                size = new Vector3(size.x * grid.cellSize.x + extra, size.z * grid.cellSize.z + 2.8f, size.y * grid.cellSize.y + extra);
+                size = new Vector3(size.x * grid.cellSize.x + extra, size.z * grid.cellSize.z + tall, size.y * grid.cellSize.y + extra);
 
                 GameObject collider = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 collider.name = "EdgeCollider";
@@ -265,7 +267,7 @@ namespace Reclaimers.Systems
 
                 collider.transform.localScale = size;
 
-                collider.transform.position = new Vector3(center.x, 1.4f, center.z);
+                collider.transform.position = new Vector3(center.x, tall / 2, center.z);
 
                 colliderList.Add(collider);
             }

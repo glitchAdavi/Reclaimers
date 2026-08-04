@@ -51,5 +51,16 @@ public class GameInfo : ScriptableObject
 
     public Material spriteShader;
     public Material selectableShader;
+
+    public AudioClip buttonPress;
+    public AudioClip playerShoot;
+    public AudioClip playerSearch;
+    public AudioClip playerHurt;
+    public AudioClip playerPickUp;
+    public AudioClip playerLevelUp;
+    public AudioClip enemyHit;
+
+    public AudioClip grenadeLand;
+    public AudioClip explosion;
     
 }

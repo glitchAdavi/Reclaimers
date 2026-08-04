@@ -45,8 +45,11 @@ public class Obstacle : MonoBehaviour
                     p.transform.localPosition = new Vector3(((p.transform.localScale.x - 1) / 2) + scaleCummulative, 0f, 0f);
                     scaleCummulative += p.transform.localScale.x;
                     ObstaclePart op = p.GetComponent<ObstaclePart>();
-                    op.SetActiveFront(true);
-                    op.SetHorizontal(true);
+                    if (!op.IsHorizontal())
+                    {
+                        op.SetActiveFront(true);
+                        op.SetHorizontal(true);
+                    }
                 }
                 else
                 {
@@ -55,8 +58,11 @@ public class Obstacle : MonoBehaviour
                     if (!p.Equals(parts[0]))
                     {
                         ObstaclePart op = p.GetComponent<ObstaclePart>();
-                        op.SetActiveFront(false);
-                        op.SetHorizontal(false);
+                        if (op.IsHorizontal())
+                        {
+                            op.SetActiveFront(false);
+                            op.SetHorizontal(false);
+                        }
                     }
                 }
             }

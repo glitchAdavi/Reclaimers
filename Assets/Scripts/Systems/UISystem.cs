@@ -1,8 +1,9 @@
-using UnityEngine;
-using UnityEngine.UI;
 using Reclaimers.UpdateSystem;
 using System;
 using TMPro;
+using UnityEditor;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace Reclaimers.Systems
 {
@@ -11,6 +12,8 @@ namespace Reclaimers.Systems
         public ObjectBuilder<FloatingText> floatingTextBuilder;
 
         public CustomList<UIMenu> activeMenues = new CustomList<UIMenu>();
+
+        public Image logo;
 
         public GameObject fadeObject;
         public Image fadeImage;
@@ -63,6 +66,7 @@ namespace Reclaimers.Systems
 
 
         Timer timerFade;
+        Timer logoFade;
         bool isPaused = false;
 
         private void OnEnable()
@@ -77,6 +81,8 @@ namespace Reclaimers.Systems
             Material fMaterial = fadeImage.material;
             fadeImage.material = Instantiate(fMaterial);
 
+            Material lMaterial = logo.material;
+            logo.material = Instantiate(lMaterial);
 
 
 
@@ -234,6 +240,25 @@ namespace Reclaimers.Systems
             {
                 fadeImage.material.SetFloat("_AlphaClip", 1 - (timerFade.durationElapsed / time));
             }, "UI_FadeOut", false, false);
+        }
+
+        public void EnableLogo()
+        {
+            logo.enabled = true;
+        }
+
+        public void DisableLogo()
+        {
+            float time = 3f;
+            float stepTime = time / 100;
+            logoFade = GameManager.Instance.timerSystem.SetTimer(time, () =>
+            {
+                logo.enabled = false;
+                FadeIn(GameManager.Instance.levelSystem.StartLevel, 3f);
+            }, stepTime, () =>
+            {
+                logo.material.SetFloat("_AlphaClip", (logoFade.durationElapsed / time));
+            }, "UI_LogoFadeOut", false, false);
         }
 
         public void OpenFadeMenu()
