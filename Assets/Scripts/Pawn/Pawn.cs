@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
 
 public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateable, IPauseable
 {
@@ -24,20 +24,24 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
     [SerializeField] private MaterialPropertyBlock _matBlock;
     [SerializeField] private SpriteRenderer _sprite;
     [SerializeField] private SpriteRenderer _shadowSpr;
+    [SerializeField] private SpriteRenderer _shadowFlashLightSpr;
     [SerializeField] private SpriteRenderer _statusEffectSprite;
     [SerializeField] private SpriteRenderer _wepSprite;
+    [SerializeField] private SpriteRenderer _aura;
     [SerializeField] private GameObject _wepStretcher;
     [SerializeField] private Weapon _weapon;
     [SerializeField] private Ability _ability;
     [SerializeField] private GameObject _lightDirector; 
     [SerializeField] private Light _flashLight;
     [SerializeField] private Light _muzzleFlash;
+    [SerializeField] private AudioSource _as;
 
     public Sprite frame1;
     public Sprite frame2;
 
     public int spriteVariableHueMult = 0;
 
+    private float onDamageSpawnPartialLeftover = 0f;
     public float currentHp = 0f;
     public float maxHp = 0f;
 
@@ -47,9 +51,10 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
     private float np_dissolveTime = 0.25f;
     private float p_dissolveTime = 3f;
 
-    [SerializeField] private List<Pawn> p_nearbyEnemies = new List<Pawn>();
+    [SerializeField] public List<Pawn> p_nearbyEnemies = new List<Pawn>();
     [SerializeField] private List<Interactable> p_nearbyInteractables = new List<Interactable>();
     [SerializeField] private List<StatusEffect> activeStatusEffects = new List<StatusEffect>();
+    [SerializeField] public List<Item> activeItems = new List<Item>();
 
     public bool isActive = false;
     public bool isIdle = false;
@@ -63,6 +68,7 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
     public bool isFrame1 = true;
     public bool isTeleportable = true;
     public bool isBoss = false;
+    public bool isIrregularSpawn = false;
 
     private Timer p_iFrameTimer;
     private Timer p_hpRegenStartTimer;
@@ -71,6 +77,7 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
     private Timer p_closestInteractableTimer;
     private Timer p_checkChangeOnHealth;
     private Timer p_muzzleFlash;
+    private Timer p_itemTimer;
     private Timer np_navUpdateTimer;
     private Timer np_idleDetectPlayerTimer;
     private Timer np_dissolveTimer;
@@ -137,7 +144,15 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
 
         LevelThreshold();
 
-        p_closestInteractableTimer = GameManager.Instance.timerSystem.SetForeverTimer(0.2f, FindClosestInteractable);
+        p_closestInteractableTimer = GameManager.Instance.timerSystem.SetForeverTimer(0.2f, FindClosestInteractable, "PAWN_P_FindClosestInteractable");
+
+        p_itemTimer = GameManager.Instance.timerSystem.SetForeverTimer(1f, () =>
+        {
+            foreach (Item i in activeItems)
+            {
+                
+            }
+        }, "PAWN_UpdateItems");
 
         GameManager.Instance.eventSystem.onInteractableUsed += InteractReset;
 
@@ -157,18 +172,30 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
             }
         });
 
+        _aura.transform.localScale = new Vector3(statBlock.pickUpRange.Value(), statBlock.pickUpRange.Value(), statBlock.pickUpRange.Value());
+        _aura.gameObject.SetActive(statBlock.showAura);
+
         statBlock.firstTime = false;
 
-        _flashLight.enabled = true;
+        if (SceneManager.GetActiveScene().buildIndex != 0)
+        {
+            _flashLight.enabled = true;
+        }
+
+        SetSprites();
 
         Setup();
     }
 
-    public void SetAsNonPlayer(StatBlock toClone, Pawn target = null)
+    public void SetAsNonPlayer(StatBlock toClone, Pawn target)
     {
         statBlock = ScriptableObject.CreateInstance<StatBlock>();
         Utilities.CopyValues(toClone, statBlock);
 
+        float scaling = GameManager.Instance.scaling;
+        statBlock.meleeDamage.SetMult(scaling);
+        statBlock.hp.SetMult(scaling);
+        statBlock.xpKillValue.ModMult((scaling - 1) / 2);
 
         SetupCleanup();
 
@@ -209,10 +236,41 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
 
         np_updateShadow = GameManager.Instance.timerSystem.SetForeverTimer(0.05f, () =>
         {
-            if (target != null) _shadowSpr.transform.LookAt(target.GetFlashlight());
-        });
+            if (target != null && _shadowSpr.enabled) _shadowSpr.transform.LookAt(target.GetFlashlight());
+        }, "PAWN_NP_ShadowRotate");
 
-        Setup();
+        SetSprites();
+
+        _aura.transform.localScale = new Vector3(statBlock.pickUpRange.Value(), statBlock.pickUpRange.Value(), statBlock.pickUpRange.Value());
+        _aura.gameObject.SetActive(statBlock.showAura);
+        _aura.sprite = GameManager.Instance.gameInfo.auraEnemyRed;
+
+        _matBlock.SetFloat("_AlphaClip", 0f);
+        if (statBlock.spriteVariableHue)
+        {
+            spriteVariableHueMult = UnityEngine.Random.Range(-1, 2);
+            _matBlock.SetFloat("_HueOffset", statBlock.spriteVariableHueRange * spriteVariableHueMult);
+        } else
+        {
+            _matBlock.SetFloat("_HueOffset", 0);
+        }
+        
+        _matBlock.SetFloat("_AlphaClip", 1f);
+        _sprite.SetPropertyBlock(_matBlock);
+        _shadowSpr.SetPropertyBlock(_matBlock);
+        float dissolveStep = 0.05f;
+        np_dissolveTimer = GameManager.Instance.timerSystem.SetTimer(np_dissolveTime, () => {
+            _matBlock.SetFloat("_AlphaClip", 0.01f);
+            _sprite.SetPropertyBlock(_matBlock);
+            _shadowSpr.SetPropertyBlock(_matBlock);
+            Setup();
+        }
+        , dissolveStep, () =>
+        {
+            _matBlock.SetFloat("_AlphaClip", _matBlock.GetFloat("_AlphaClip") - (dissolveStep / np_dissolveTime));
+            _sprite.SetPropertyBlock(_matBlock);
+            _shadowSpr.SetPropertyBlock(_matBlock);
+        }, "PAWN_NonPlayer_Spawn");
     }
 
     public void Setup()
@@ -226,15 +284,10 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
 
         _nav.updateRotation = false;
 
-        SetSprites();
+
         SetScale();
 
         _matBlock.SetFloat("_AlphaClip", 0f);
-        if (statBlock.spriteVariableHue)
-        {
-            spriteVariableHueMult = UnityEngine.Random.Range(-1, 2);
-            _matBlock.SetFloat("_HueOffset", statBlock.spriteVariableHueRange * spriteVariableHueMult);
-        }
         _sprite.SetPropertyBlock(_matBlock);
         _shadowSpr.SetPropertyBlock(_matBlock);
 
@@ -310,8 +363,8 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
 
             GameManager.Instance.gameInfo.playerPositionVar.SetValue(transform.position);
 
-            UpdateSpriteFlip();
             WeaponAim();
+            UpdateSpriteFlip();
             DetectionCast();
 
         } else
@@ -353,9 +406,12 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
             _nav.isStopped = true;
             _nav.enabled = false;
         } else {
-            _nav.enabled = true;
-            _nav.isStopped = false;
-            _nav.ResetPath();
+            if (!statBlock.immobile)
+            {
+                _nav.enabled = true;
+                _nav.isStopped = false;
+                _nav.ResetPath();
+            }
         }
 
         if (isPlayer)
@@ -525,6 +581,18 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
                 p_iFrameTimer = GameManager.Instance.timerSystem.SetTimer(statBlock.iFrameDuration.Value(), () => isInvulnerable = false, "PAWN_P_iFrame");
 
                 p_hpRegenStartTimer = GameManager.Instance.timerSystem.SetTimer(statBlock.hpRegenDelay.Value(), StartHpRegen, "PAWN_P_HpRegenStart");
+            } else
+            {
+                if (statBlock.onDamageSpawnEnemy && statBlock.onDamageEnemyToSpawn != null)
+                {
+                    float temp = MathF.Abs(value) + onDamageSpawnPartialLeftover;
+                    while (temp >= statBlock.onDamageInterval.Value())
+                    {
+                        GameManager.Instance.eventSystem.RequestEnemySpawn(statBlock.onDamageEnemyToSpawn, new Vector3(transform.position.x, 0.5f, transform.position.z), 2f);
+                        temp -= statBlock.onDamageInterval.Value();
+                    }
+                    onDamageSpawnPartialLeftover = temp;
+                }
             }
         }
         else if (value > 0)
@@ -679,13 +747,23 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
             if (statBlock.moneyInstant) GameManager.Instance.eventSystem.GivePlayerMoney(statBlock.moneyKillValue.Value());
             else GameManager.Instance.eventSystem.SpawnMoney(transform.position, statBlock.moneyKillValue.Value());
 
+            if (statBlock.onDeathSpawnEnemy && statBlock.onDeathEnemyToSpawn != null)
+            {
+                int eToSpawn = statBlock.onDeathNumToSpawn.ValueInt();
+                while (eToSpawn > 0)
+                {
+                    GameManager.Instance.eventSystem.RequestEnemySpawn(statBlock.onDeathEnemyToSpawn, new Vector3(transform.position.x, 0.5f, transform.position.z), 1f);
+                    eToSpawn--;
+                }
+            }
+
             float dissolveStep = 0.05f;
             np_dissolveTimer = GameManager.Instance.timerSystem.SetTimer(np_dissolveTime, ConfirmDeath, dissolveStep, () =>
             {
                 _matBlock.SetFloat("_AlphaClip", _matBlock.GetFloat("_AlphaClip") + (dissolveStep / np_dissolveTime));
                 _sprite.SetPropertyBlock(_matBlock);
                 _shadowSpr.SetPropertyBlock(_matBlock);
-            }, "PAWN_Player_DeathDissolve");
+            }, "PAWN_NonPlayer_DeathDissolve");
         }
 
     }
@@ -731,7 +809,7 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
 
     protected void LevelThreshold()
     {
-        p_levelThreshold += 10 + (2 * (statBlock.level.ValueInt() - 1));
+        p_levelThreshold = 5 + (2 * (statBlock.level.ValueInt() - 1));
     }
     #endregion
 
@@ -835,13 +913,15 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
         u.Apply(this);
         GameManager.Instance.statCollection.AddUpgradeGained();
     }
-
     #endregion
 
     #region Items
-    public void AddItem(Item i)
+    public void AddItem(Item i, int stacks = 0)
     {
-
+        int index = statBlock.items.FindIndex(si => si.modId == i.modId);
+        if (index > -1) statBlock.items[index].modStacks += stacks > 0 ? (int)i.quality : stacks;
+        else statBlock.items.Add(new ItemUpgrade(i.modId, stacks > 0 ? (int)i.quality : stacks));
+        i.Apply(this);
         GameManager.Instance.statCollection.AddItemGained();
     }
 
@@ -1058,8 +1138,8 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
             }
         }
 
-        Sprite aux1 = SetSprite(sprFrame1, sprFrameColors);
-        Sprite aux2 = SetSprite(sprFrame2, sprFrameColors);
+        Sprite aux1 = SetSprite(sprFrame1, sprFrameColors, isBoss ? 66 : 32);
+        Sprite aux2 = SetSprite(sprFrame2, sprFrameColors, isBoss ? 66 : 32);
 
         if (aux1 != null)
         {
@@ -1073,7 +1153,7 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
         else LogSystem.Log($"{(isPlayer ? "Player" : "Pawn")}: frame 2 empty.");
     }
 
-    public Sprite SetSprite(Sprite[] sprFrame, Color[] sprFrameColor)
+    public Sprite SetSprite(Sprite[] sprFrame, Color[] sprFrameColor, int pixelRes = 32)
     {
         List<Texture2D> allSprites = new List<Texture2D>();
 
@@ -1088,10 +1168,10 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
 
         if (allSprites.Count == 0) return null;
 
-        Texture2D merged = new Texture2D(32, 32, TextureFormat.RGBA32, false);
+        Texture2D merged = new Texture2D(pixelRes, pixelRes, TextureFormat.RGBA32, false);
         merged.filterMode = FilterMode.Point;
 
-        Color[] clear = new Color[32 * 32];
+        Color[] clear = new Color[pixelRes * pixelRes];
 
         for (int i = 0; i < clear.Length; i++)
         {
@@ -1104,11 +1184,11 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
         {
             Color[] pixels = spr.GetPixels(0);
 
-            for (int y = 0; y < 32; y++)
+            for (int y = 0; y < pixelRes; y++)
             {
-                for (int x = 0; x < 32; x++)
+                for (int x = 0; x < pixelRes; x++)
                 {
-                    int index = (y * 32) + x;
+                    int index = (y * pixelRes) + x;
                     if (pixels[index].a > 0) merged.SetPixel(x, y, pixels[index]);
                 }
             }
@@ -1116,7 +1196,7 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
 
         merged.Apply();
 
-        Sprite mergedSprite = Sprite.Create(merged, new Rect(0, 0, 32, 32), new Vector2(0.5f, 0.5f), 32);
+        Sprite mergedSprite = Sprite.Create(merged, new Rect(0, 0, pixelRes, pixelRes), new Vector2(0.5f, 0.5f), pixelRes);
         
 
         return mergedSprite;
@@ -1186,6 +1266,8 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
             return;
         }
 
+        statBlock.weaponBlock = wName;
+
         if (_weapon != null)
         {
             Destroy(_weapon);
@@ -1193,10 +1275,7 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
         }
 
         if (replaceAllValues) Utilities.CopyValues(weaponStatBlock, statBlock, typeof(WeaponVar));
-        else
-        {
-            statBlock.wepSprite = weaponStatBlock.wepSprite;
-        }
+        statBlock.wepSprite = weaponStatBlock.wepSprite;
 
         _weapon = gameObject.AddComponent<Weapon>();
         _weapon.SetOwner(this);
@@ -1214,6 +1293,8 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
             return;
         }
 
+        statBlock.abilityBlock = aName;
+
         if (_ability != null)
         {
             Destroy(_ability);
@@ -1221,11 +1302,8 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
         }
 
         if (replaceAllValues) Utilities.CopyValues(abilityStatBlock, statBlock, typeof(AbilityVar));
-        else
-        {
-            statBlock.seToApply = abilityStatBlock.seToApply;
-            statBlock.goToInstantiate = abilityStatBlock.goToInstantiate;
-        }
+        statBlock.seToApply = abilityStatBlock.seToApply;
+        statBlock.goToInstantiate = abilityStatBlock.goToInstantiate;
 
         _ability = gameObject.AddComponent(Type.GetType(statBlock.abilityScript.ToString())) as Ability;
         _ability.SetOwner(this);
@@ -1271,4 +1349,9 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
         });
     }
     #endregion
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(transform.position, statBlock.pickUpRange.Value());
+    }
 }

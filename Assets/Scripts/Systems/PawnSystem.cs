@@ -2,6 +2,7 @@ using Reclaimers.DeveloperConsole;
 using Reclaimers.UpdateSystem;
 using UnityEngine;
 using UnityEngine.AI;
+using System.Collections.Generic;
 
 namespace Reclaimers.Systems
 {
@@ -25,6 +26,7 @@ namespace Reclaimers.Systems
         ObjectBuilder<Pawn> _enemyBuilder;
         GameObject _enemyParent;
 
+        [SerializeField] private Pawn bossInPlay;
         [SerializeField] private CustomList<Pawn> pawnsInScene = new CustomList<Pawn>();
         [SerializeField] private CustomList<Corpse> corpsesInScene = new CustomList<Corpse>();
         public int maxCorpsesInScene = 150;
@@ -41,10 +43,10 @@ namespace Reclaimers.Systems
         public int maxEnemiesInPlay = 30;
         public int enemiesInPlay = 0;
 
-        public int permanentMaxEnemiesInPlay = 300;
+        public int permanentMaxEnemiesInPlay = 500;
 
-        public CustomList<SpawnBlock> enemiesToSpawn = new CustomList<SpawnBlock>();
-        private int totalWeight = 0;
+        [SerializeField] public List<SpawnBlock> enemiesToSpawn = new List<SpawnBlock>();
+        [SerializeField] private int totalWeight = 0;
 
         public bool canSpawn = false;
         public bool populateLevel = false;
@@ -62,8 +64,8 @@ namespace Reclaimers.Systems
             _enemyBuilder = new ObjectBuilder<Pawn>();
             _enemyBuilder.BuildPool(EnemyFactory, 100, _enemyParent.transform);
 
-            Transform[] playerSpawnPoints = GameObject.Find("PlayerSpawnPoints").GetComponentsInChildren<Transform>();
-            foreach (Transform t in playerSpawnPoints)
+            Transform[] fixedSpawnPoints = GameObject.Find("FixedSpawnPoints").GetComponentsInChildren<Transform>();
+            foreach (Transform t in fixedSpawnPoints)
             {
                 if (t.position.Equals(Vector3.zero)) continue;
                 mapSpawnPoints.Add(t.position);
@@ -80,6 +82,7 @@ namespace Reclaimers.Systems
             GameManager.Instance.eventSystem.onRequestClearPawnSpawns += ClearSpawns;
             GameManager.Instance.eventSystem.onSetPawnSpawnVars += SetSpawnVars;
             GameManager.Instance.eventSystem.onRequestBossSpawn += SpawnBoss;
+            GameManager.Instance.eventSystem.onRequestEnemySpawn += SpawnEnemy;
         }
 
 
@@ -89,7 +92,7 @@ namespace Reclaimers.Systems
 
             if (Input.GetKeyDown(KeyCode.I))
             {
-                SpawnEnemy(GameManager.Instance.gameInfo.defaultEnemyStatBlock, new Vector3(-10f, 0.25f, -10f), 0, false);
+                //SpawnEnemy(GameManager.Instance.gameInfo.defaultEnemyStatBlock, new Vector3(-10f, 0.25f, -10f), 0, false);
             }
         }
 
@@ -167,24 +170,29 @@ namespace Reclaimers.Systems
             }
 
             Pawn newEnemy = _enemyBuilder.GetObject();
-            newEnemy.SetAsNonPlayer(enemy, idle ? null : GameManager.Instance.playerPawn);
+            newEnemy.SetAsNonPlayer(enemy, GameManager.Instance.playerPawn);
             if (pos.HasValue)
             {
                 Vector3 position = (Vector3)pos;
                 if (radius < 0) newEnemy.Teleport(GetRandomPosInRadius(position, mapSpawnPointRange));
                 else newEnemy.Teleport(GetRandomPosInRadius(position, radius));
+                enemiesInPlay++;
             } else
             {
                 newEnemy.Teleport(GetRandomSpawnableTile());
                 enemiesInPlay++;
             }
-            if (idle || enemy.spawnsIdle) newEnemy.SetIdle();
+            if (idle || enemy.spawnsIdle)
+            {
+                enemiesInPlay--;
+                newEnemy.SetIdle();
+            }
             pawnsInScene.Add(newEnemy);
         }
 
 
 
-        public void SetSpawnList(CustomList<SpawnBlock> enemies)
+        public void SetSpawnList(List<SpawnBlock> enemies)
         {
             ClearSpawns();
             foreach (SpawnBlock sb in enemies)
@@ -196,6 +204,7 @@ namespace Reclaimers.Systems
 
         public void AddSpawns(StatBlock enemy, int weight)
         {
+            LogSystem.Log(enemy.name);
             totalWeight += weight;
             enemiesToSpawn.Add(new SpawnBlock(enemy, weight));
         }
@@ -270,7 +279,7 @@ namespace Reclaimers.Systems
         {
             pawnsInScene.Remove(enemy);
             _enemyBuilder.ReturnObject(enemy);
-            enemiesInPlay--;
+            if (!enemy.isIrregularSpawn) enemiesInPlay--;
         }
 
         private Vector3 GetRandomPosInRadius(Vector3 pos, float radius)
@@ -309,10 +318,20 @@ namespace Reclaimers.Systems
 
         public void SpawnBoss()
         {
-            LogSystem.Log("Spawn Boss");
+            Pawn boss = _enemyBuilder.GetObject();
+            boss.SetAsNonPlayer(GameManager.Instance.GetRandomBoss(), GameManager.Instance.playerPawn);
+            boss.Teleport(GetRandomSpawnableTile());
+            bossInPlay = boss;
         }
 
-
+        public void Nuke()
+        {
+            LogSystem.Log(pawnsInScene.Count);
+            foreach (Pawn p in pawnsInScene)
+            {
+                p.GetHit(-9999f);
+            }
+        }
 
 
 

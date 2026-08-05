@@ -1,13 +1,23 @@
 {
-    "accountLevel": 7,
-    "accountXp": 2.0,
+    "accountLevel": 0,
+    "accountXp": 0.0,
+    "showTutorials": true,
     "permanentUpgrade": [],
     "firstTime": false,
     "pName": "Test",
     "pDesc": "A Pawn.",
     "upgrades": [],
-    "items": [],
-    "weaponBlock": "W_Test",
+    "items": [
+        {
+            "modId": "DamageAura",
+            "modStacks": 0
+        },
+        {
+            "modId": "SlowAura",
+            "modStacks": 0
+        }
+    ],
+    "weaponBlock": "W_Pistol",
     "projType": 0,
     "abilityBlock": "A_Sprint",
     "sprCat": 0,
@@ -195,10 +205,10 @@
         "_min": 0.0,
         "_max": Infinity
     },
-    "weaponName": "TestWeapon",
+    "weaponName": "AK-47",
     "wepType": 0,
     "magSize": {
-        "_base": 100.0,
+        "_base": 30.0,
         "_mult": 1.0,
         "_addTotal": 0.0,
         "_multTotal": 1.0,
@@ -218,11 +228,11 @@
         "_mult": 1.0,
         "_addTotal": 0.0,
         "_multTotal": 1.0,
-        "_min": 0.0,
+        "_min": 1.0,
         "_max": Infinity
     },
     "bulletsPerShotSpread": {
-        "_base": 30.0,
+        "_base": 0.0,
         "_mult": 1.0,
         "_addTotal": 0.0,
         "_multTotal": 1.0,
@@ -231,21 +241,13 @@
     },
     "bulletsPerShotFirstBulletSpread": {
         "_base": 0.0,
-        "_mult": 0.0,
-        "_addTotal": 0.0,
-        "_multTotal": 1.0,
-        "_min": 0.0,
-        "_max": Infinity
-    },
-    "burstAmount": {
-        "_base": 1.0,
         "_mult": 1.0,
         "_addTotal": 0.0,
         "_multTotal": 1.0,
         "_min": 0.0,
         "_max": Infinity
     },
-    "burstDelay": {
+    "burstAmount": {
         "_base": 0.0,
         "_mult": 1.0,
         "_addTotal": 0.0,
@@ -253,8 +255,16 @@
         "_min": 0.0,
         "_max": Infinity
     },
+    "burstDelay": {
+        "_base": 0.10000000149011612,
+        "_mult": 1.0,
+        "_addTotal": 0.0,
+        "_multTotal": 1.0,
+        "_min": 0.0,
+        "_max": Infinity
+    },
     "bulletSpread": {
-        "_base": 15.0,
+        "_base": 10.0,
         "_mult": 1.0,
         "_addTotal": 0.0,
         "_multTotal": 1.0,
@@ -262,7 +272,7 @@
         "_max": Infinity
     },
     "bulletSpreadGain": {
-        "_base": 3.0,
+        "_base": 5.0,
         "_mult": 1.0,
         "_addTotal": 0.0,
         "_multTotal": 1.0,
@@ -270,7 +280,7 @@
         "_max": Infinity
     },
     "fireRate": {
-        "_base": 0.05000000074505806,
+        "_base": 0.20000000298023225,
         "_mult": 1.0,
         "_addTotal": 0.0,
         "_multTotal": 1.0,
@@ -278,7 +288,7 @@
         "_max": Infinity
     },
     "reloadTime": {
-        "_base": 1.0,
+        "_base": 1.899999976158142,
         "_mult": 1.0,
         "_addTotal": 0.0,
         "_multTotal": 1.0,
@@ -286,7 +296,7 @@
         "_max": Infinity
     },
     "projDamage": {
-        "_base": 1.0,
+        "_base": 3.0,
         "_mult": 1.0,
         "_addTotal": 0.0,
         "_multTotal": 1.0,
@@ -302,7 +312,7 @@
         "_max": Infinity
     },
     "projSpeed": {
-        "_base": 23.0,
+        "_base": 35.0,
         "_mult": 1.0,
         "_addTotal": 0.0,
         "_multTotal": 1.0,
@@ -310,7 +320,7 @@
         "_max": 50.0
     },
     "projPenetration": {
-        "_base": 1.0,
+        "_base": 2.0,
         "_mult": 1.0,
         "_addTotal": 0.0,
         "_multTotal": 1.0,
@@ -318,7 +328,7 @@
         "_max": Infinity
     },
     "projStun": {
-        "_base": 0.20000000298023225,
+        "_base": 0.30000001192092898,
         "_mult": 1.0,
         "_addTotal": 0.0,
         "_multTotal": 1.0,

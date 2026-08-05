@@ -30,6 +30,7 @@ public class ExtractionLogic : LevelLogic
         hasStage3 = currentLevelScript.hasStage3;
 
         GameManager.Instance.eventSystem.onPlayerDeath += StartLose;
+        GameManager.Instance.eventSystem.onBossDeath += StartWin;
 
         base.Begin();
 
@@ -76,6 +77,8 @@ public class ExtractionLogic : LevelLogic
             
             GameManager.Instance.eventSystem.UpdateObjectiveBar(stage2Progression, stage2ProgressionMax, false);
         }, "LEVELLOGIC_Stage2", true);
+
+        currentLevelScript.StartStage2Script();
     }
 
     public void SetupStage3()
@@ -84,7 +87,7 @@ public class ExtractionLogic : LevelLogic
 
         GameManager.Instance.eventSystem.UpdateObjective("Subdue.");
 
-        //GameManager.Instance.eventSystem.; //no spawn
+        GameManager.Instance.eventSystem.ToggleSpawn(false);
         GameManager.Instance.eventSystem.RequestBossSpawn();
     }
 

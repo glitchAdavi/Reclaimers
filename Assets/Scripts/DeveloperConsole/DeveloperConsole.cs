@@ -48,6 +48,11 @@ public class DeveloperConsole : MonoBehaviour
         AddCommand("save", SaveAndExit, "save || Saves the current state of the player and exits to menu");
         AddCommand("load", LoadGame, "load || Reloads the player and returns to menu");
         AddCommand("reset", ResetSave, "reset || Reset the player and returns to menu");
+        AddCommand("nuke", Nuke, "nuke || Kill all (non-boss) enemies in scene");
+        AddCommand("magnet", Magnet, "magnet || Pull all xp and money in scene");
+        AddCommand("win", TriggerWin, "win || Trigger win condition");
+        AddCommand("lose", TriggerLose, "lose || Trigger lose condition");
+        AddCommand("boss", Boss, "boss || Spawn random boss");
     }
 
     private void Update()
@@ -444,6 +449,40 @@ public class DeveloperConsole : MonoBehaviour
             GameManager.Instance.dataPersistenceSystem.SaveGame();
             GameManager.Instance.GoToLevel(0);
         });
+        return "";
+    }
+
+    string Magnet(string[] args)
+    {
+        if (args.Length > 1) return "ERROR: Too many parameters";
+        Close();
+        GameManager.Instance.levelSystem.TriggerAllOrbs();
+        return "Triggered magnet";
+    }
+
+    string Nuke(string[] args)
+    {
+        if (args.Length > 1) return "ERROR: Too many parameters";
+        Close();
+        GameManager.Instance.pawnSystem.Nuke();
+        return "Triggered nuke";
+    }
+
+    string TriggerWin(string[] args)
+    {
+        GameManager.Instance.eventSystem.BossDeath();
+        return "";
+    }
+
+    string TriggerLose(string[] args)
+    {
+        GameManager.Instance.eventSystem.PlayerDeath();
+        return "";
+    }
+
+    string Boss(string[] args)
+    {
+        GameManager.Instance.eventSystem.RequestBossSpawn();
         return "";
     }
 }

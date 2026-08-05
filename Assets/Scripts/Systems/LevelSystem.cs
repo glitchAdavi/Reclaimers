@@ -287,6 +287,28 @@ namespace Reclaimers.Systems
         {
             safeToLeave = safe;
         }
+
+        public void TriggerAllOrbs()
+        {
+            TriggerAllXpOrbs();
+            TriggerAllMoneyOrbs();
+        }
+
+        public void TriggerAllMoneyOrbs()
+        {
+            foreach (MoneyOrb mo in moneyOrbsInScene)
+            {
+                mo.Trigger(GameManager.Instance.playerPawn);
+            }
+        }
+
+        public void TriggerAllXpOrbs()
+        {
+            foreach (XpOrb xo in xpOrbsInScene)
+            {
+                xo.Trigger(GameManager.Instance.playerPawn);
+            }
+        }
     }
 }
 

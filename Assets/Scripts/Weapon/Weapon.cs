@@ -82,7 +82,7 @@ public class Weapon : MonoBehaviour
                 tempForward = ray.GetPoint(enterDistance) - p.transform.position;
 
                 float bulletSpreadFirst = p.statBlock.bulletsPerShotFirstBulletSpread.Value();
-                InstantiateProjectile(tempForward, Random.Range(-bulletSpreadCurrent + bulletSpreadFirst / 2, bulletSpreadCurrent + bulletSpreadFirst / 2));
+                InstantiateProjectile(tempForward, Random.Range(-(bulletSpreadCurrent + bulletSpreadFirst) / 2, (bulletSpreadCurrent + bulletSpreadFirst) / 2));
 
                 bulletsToFire--;
             }

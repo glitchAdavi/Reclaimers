@@ -16,6 +16,8 @@ public class StatBlock : ScriptableObject, ICloneable
     [PawnVar] public List<StatUpgrade> upgrades = new List<StatUpgrade>();
     [PawnVar] public List<ItemUpgrade> items = new List<ItemUpgrade>();
 
+    [PawnVar] public bool showAura = false;
+
     [PawnVar] public string weaponBlock;
     [PawnVar] public ProjectileType projType;
     [PawnVar] public List<StatOnHitEffect> onHitEffects = new List<StatOnHitEffect>();
@@ -82,12 +84,12 @@ public class StatBlock : ScriptableObject, ICloneable
     [PawnVar] public Stat moneyKillValue = new Stat(0f, 0f, 0f);
 
     [PawnVar] public bool onDamageSpawnEnemy;
-    [PawnVar] public string onDamageEnemyToSpawn;
+    [PawnVar] public StatBlock onDamageEnemyToSpawn;
     [PawnVar] public Stat onDamageInterval = new Stat(0f, 0f, 1f);
     [PawnVar] public Stat onDamageNumToSpawn = new Stat(0f, 0f, 1f);
 
     [PawnVar] public bool onDeathSpawnEnemy;
-    [PawnVar] public string onDeathEnemyToSpawn;
+    [PawnVar] public StatBlock onDeathEnemyToSpawn;
     [PawnVar] public Stat onDeathNumToSpawn = new Stat(0f, 0f, 1f);
     #endregion
 

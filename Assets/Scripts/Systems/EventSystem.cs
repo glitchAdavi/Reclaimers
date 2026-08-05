@@ -21,6 +21,9 @@ namespace Reclaimers.Systems
         public event Action onOpenCloseMenues;
         public void OpenCloseMenues() => onOpenCloseMenues?.Invoke();
 
+        public event Action onOpenStatMenu;
+        public void OpenStatMenu() => onOpenStatMenu?.Invoke();
+
         public event Action onOpenMissionMenu;
         public void OpenMissionMenu() => onOpenMissionMenu?.Invoke();
 
@@ -74,6 +77,9 @@ namespace Reclaimers.Systems
 
         public event Action<float, float, bool> onUpdateInteractFill;
         public void UpdateInteractFill(float cur, float max, bool enable) => onUpdateInteractFill?.Invoke(cur, max, enable);
+
+        public event Action<bool> onToggleTutorials;
+        public void ToggleTutorials(bool enable) => onToggleTutorials?.Invoke(enable);
         #endregion
 
         #region Level
@@ -91,6 +97,9 @@ namespace Reclaimers.Systems
 
         public event Action onPopulateLevel;
         public void PopulateLevel() => onPopulateLevel?.Invoke();
+
+        public event Action<StatBlock, Vector3?, float, bool> onRequestEnemySpawn;
+        public void RequestEnemySpawn(StatBlock sbEnemy, Vector3? pos, float radius = -1, bool idle = false) => onRequestEnemySpawn?.Invoke(sbEnemy, pos, radius, idle);
 
         public event Action onRequestBossSpawn;
         public void RequestBossSpawn() => onRequestBossSpawn?.Invoke();

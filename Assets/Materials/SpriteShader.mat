@@ -55,10 +55,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AlphaClip: -13.9
+    - _AlphaClip: 0
     - _FlipX: 0
     - _FlipY: 0
-    - _HueOffset: 0
+    - _HueOffset: 0.87
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors: []

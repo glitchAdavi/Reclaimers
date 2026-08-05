@@ -11,6 +11,7 @@ namespace Reclaimers.DataPersistence
     {
         public int accountLevel;
         public float accountXp;
+        public bool showTutorials;
 
         public List<StatUpgrade> permanentUpgrade;
 
@@ -118,6 +119,7 @@ namespace Reclaimers.DataPersistence
         {
             accountLevel = 0;
             accountXp = 0f;
+            showTutorials = true;
 
             permanentUpgrade = new List<StatUpgrade>();
 

@@ -13,11 +13,16 @@ MonoBehaviour:
   m_Name: Temp
   m_EditorClassIdentifier: 
   firstTime: 0
-  pName: Default
-  pDesc: DefaultDesc
+  pName: Test
+  pDesc: A Pawn.
   upgrades: []
-  items: []
-  weaponBlock: W_Test
+  items:
+  - modId: DamageAura
+    modStacks: 0
+  - modId: SlowAura
+    modStacks: 0
+  showAura: 0
+  weaponBlock: W_Pistol
   projType: 0
   onHitEffects: []
   abilityBlock: A_Sprint
@@ -66,7 +71,7 @@ MonoBehaviour:
     _min: 0
     _max: Infinity
   money:
-    _base: 425
+    _base: 0
     _mult: 1
     _addTotal: 0
     _multTotal: 1
@@ -80,7 +85,7 @@ MonoBehaviour:
     _min: 0
     _max: Infinity
   speed:
-    _base: 10
+    _base: 8
     _mult: 1
     _addTotal: 0
     _multTotal: 1
@@ -157,15 +162,15 @@ MonoBehaviour:
     _min: 0
     _max: Infinity
   critChance:
-    _base: 0
-    _mult: 0
+    _base: 1
+    _mult: 0.01
     _addTotal: 0
     _multTotal: 1
     _min: 0
     _max: Infinity
   critMult:
-    _base: 0
-    _mult: 0
+    _base: 1
+    _mult: 1.25
     _addTotal: 0
     _multTotal: 1
     _min: 0
@@ -205,7 +210,7 @@ MonoBehaviour:
     _min: 0
     _max: Infinity
   onDamageSpawnEnemy: 0
-  onDamageEnemyToSpawn: 
+  onDamageEnemyToSpawn: {fileID: 0}
   onDamageInterval:
     _base: 0
     _mult: 0
@@ -221,7 +226,7 @@ MonoBehaviour:
     _min: 1
     _max: Infinity
   onDeathSpawnEnemy: 0
-  onDeathEnemyToSpawn: 
+  onDeathEnemyToSpawn: {fileID: 0}
   onDeathNumToSpawn:
     _base: 0
     _mult: 0
@@ -229,11 +234,11 @@ MonoBehaviour:
     _multTotal: 1
     _min: 1
     _max: Infinity
-  weaponName: TestWeapon
+  weaponName: Deagle
   wepSprite: {fileID: 0}
   wepType: 0
   magSize:
-    _base: 100
+    _base: 7
     _mult: 1
     _addTotal: 0
     _multTotal: 1
@@ -251,10 +256,10 @@ MonoBehaviour:
     _mult: 1
     _addTotal: 0
     _multTotal: 1
-    _min: 0
+    _min: 1
     _max: Infinity
   bulletsPerShotSpread:
-    _base: 30
+    _base: 0
     _mult: 1
     _addTotal: 0
     _multTotal: 1
@@ -262,41 +267,41 @@ MonoBehaviour:
     _max: Infinity
   bulletsPerShotFirstBulletSpread:
     _base: 0
-    _mult: 0
-    _addTotal: 0
-    _multTotal: 1
-    _min: 0
-    _max: Infinity
-  burstAmount:
-    _base: 1
     _mult: 1
     _addTotal: 0
     _multTotal: 1
     _min: 0
     _max: Infinity
-  burstDelay:
+  burstAmount:
     _base: 0
     _mult: 1
     _addTotal: 0
     _multTotal: 1
     _min: 0
     _max: Infinity
+  burstDelay:
+    _base: 0.1
+    _mult: 1
+    _addTotal: 0
+    _multTotal: 1
+    _min: 0
+    _max: Infinity
   bulletSpread:
-    _base: 15
+    _base: 7
     _mult: 1
     _addTotal: 0
     _multTotal: 1
     _min: 0
     _max: Infinity
   bulletSpreadGain:
-    _base: 3
+    _base: 3.5
     _mult: 1
     _addTotal: 0
     _multTotal: 1
     _min: 0
     _max: Infinity
   fireRate:
-    _base: 0.05
+    _base: 0.25
     _mult: 1
     _addTotal: 0
     _multTotal: 1
@@ -324,14 +329,14 @@ MonoBehaviour:
     _min: 0
     _max: Infinity
   projSpeed:
-    _base: 23
+    _base: 20
     _mult: 1
     _addTotal: 0
     _multTotal: 1
     _min: 0
     _max: 50
   projPenetration:
-    _base: 1
+    _base: 0
     _mult: 1
     _addTotal: 0
     _multTotal: 1

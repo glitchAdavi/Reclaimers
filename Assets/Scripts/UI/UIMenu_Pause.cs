@@ -2,10 +2,12 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Reclaimers.Systems;
+using TMPro;
 
 public class UIMenu_Pause : UIMenu
 {
     public Button btnReturnToBase;
+    public TMP_Text tmpToggleTutorials;
 
     Timer returnTimer;
 
@@ -19,9 +21,16 @@ public class UIMenu_Pause : UIMenu
         }
     }
 
+    public void ToggleTutorials()
+    {
+        GameManager.Instance.showTutorials = !GameManager.Instance.showTutorials;
+        tmpToggleTutorials.text = $"Toggle Tutorials ({(GameManager.Instance.showTutorials ? "On" : "Off")})";
+        GameManager.Instance.eventSystem.ToggleTutorials(GameManager.Instance.showTutorials);
+    }
+
     public void Stats()
     {
-
+        GameManager.Instance.eventSystem.OpenStatMenu();
     }
 
     public void ReturnToBase()

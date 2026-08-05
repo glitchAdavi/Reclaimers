@@ -16,7 +16,7 @@ MonoBehaviour:
   alternativePositionVar: {fileID: 11400000, guid: 6579cdfbceab6674ebb63814f589727a, type: 2}
   defaultPlayerStatBlock: {fileID: 11400000, guid: 6ea78e35f8d9c58458ae43b7c90e0720, type: 2}
   tempPlayerStatBlock: {fileID: 11400000, guid: 01197f6572b7d1f429765855636682b9, type: 2}
-  defaultEnemyStatBlock: {fileID: 11400000, guid: 8cafd92b56406c94e89ab60da06ff5d4, type: 2}
+  defaultEnemyStatBlock: {fileID: 11400000, guid: 4283cece7bdb33e4eb0d1bb2294b29f8, type: 2}
   slimeEnemyStatBlock: {fileID: 11400000, guid: 4283cece7bdb33e4eb0d1bb2294b29f8, type: 2}
   zombieEnemyStatBlock: {fileID: 11400000, guid: fad24b9a1c559e6459659909fbbbe3fc, type: 2}
   bugEnemyStatBlock: {fileID: 11400000, guid: 515f5a8510b6f0342976d600d27e295a, type: 2}
@@ -42,12 +42,17 @@ MonoBehaviour:
   playerUIPrefab: {fileID: 1963103617486795866, guid: b34a5eb88d813c246ab71c44b1a16cde, type: 3}
   hitPrefab: {fileID: 2819041928499780480, guid: 6b17f2be319931e43a8801465cfaecd7, type: 3}
   upgradePrefab: {fileID: 7704083453131563642, guid: 879076a5409c21a439d242d09c87e976, type: 3}
+  crosshairPrefab: {fileID: 2983764989087571786, guid: b74d03cbf52b9f14f956da0deacd3877, type: 3}
   hitWall: {fileID: 1631352340, guid: fc03dc4dd5ed2be458f3bf505ed441f8, type: 3}
   hitPlayer: {fileID: 1846551403, guid: fc03dc4dd5ed2be458f3bf505ed441f8, type: 3}
   hitEnemy: {fileID: -1642617151, guid: fc03dc4dd5ed2be458f3bf505ed441f8, type: 3}
   upgradePawn: {fileID: 597401965, guid: f80cba83b28aa684a97c381f98df3645, type: 3}
   upgradeWeapon: {fileID: 503981681, guid: f80cba83b28aa684a97c381f98df3645, type: 3}
   upgradeAbility: {fileID: -202280855, guid: f80cba83b28aa684a97c381f98df3645, type: 3}
+  auraPlayerGreen: {fileID: -1722382761, guid: fc03dc4dd5ed2be458f3bf505ed441f8, type: 3}
+  auraPlayerRed: {fileID: 1509502496, guid: fc03dc4dd5ed2be458f3bf505ed441f8, type: 3}
+  auraEnemyGreen: {fileID: 396691627, guid: fc03dc4dd5ed2be458f3bf505ed441f8, type: 3}
+  auraEnemyRed: {fileID: -1387557881, guid: fc03dc4dd5ed2be458f3bf505ed441f8, type: 3}
   spriteShader: {fileID: -876546973899608171, guid: d3ac7302e4dfb92478c02b1a7cb8b559, type: 3}
   selectableShader: {fileID: 2100000, guid: 42edaf2345efb9c4aaae076b1fd3452e, type: 2}
   buttonPress: {fileID: 0}

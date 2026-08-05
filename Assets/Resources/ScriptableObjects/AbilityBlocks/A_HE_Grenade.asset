@@ -10,187 +10,184 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bf8a7c16e162b404db46caec6e350b8a, type: 3}
-  m_Name: DefaultEnemy
+  m_Name: A_HE_Grenade
   m_EditorClassIdentifier: 
-  pName: Enemy
-  pDesc: Default Enemy.
+  firstTime: 1
+  pName: Pawn
+  pDesc: A Pawn.
   upgrades: []
   items: []
-  weaponBlock: {fileID: 0}
+  weaponBlock: 
   projType: 0
   onHitEffects: []
-  abilityBlock: {fileID: 0}
-  sprCat: 1
-  sprNames:
-  - 
-  - 
-  - 
-  - 
-  spriteVariableHue: 1
-  spriteVariableHueRange: 30
+  abilityBlock: 
+  sprCat: 0
+  sprNames: []
+  spriteVariableHue: 0
+  spriteVariableHueRange: 0
   hitSprite: {fileID: 0}
   scale:
-    _base: 1
-    _mult: 1
+    _base: 0
+    _mult: 0
     _addTotal: 0
     _multTotal: 1
     _min: 0.1
     _max: Infinity
   xpTotal:
     _base: 0
-    _mult: 1
+    _mult: 0
     _addTotal: 0
     _multTotal: 1
     _min: 0
     _max: Infinity
   xpCur:
     _base: 0
-    _mult: 1
+    _mult: 0
     _addTotal: 0
     _multTotal: 1
     _min: 0
     _max: Infinity
   xpGain:
-    _base: 1
-    _mult: 1
+    _base: 0
+    _mult: 0
     _addTotal: 0
     _multTotal: 1
     _min: 0
     _max: Infinity
   level:
     _base: 0
-    _mult: 1
+    _mult: 0
     _addTotal: 0
     _multTotal: 1
     _min: 0
     _max: Infinity
   money:
     _base: 0
-    _mult: 1
+    _mult: 0
     _addTotal: 0
     _multTotal: 1
     _min: 0
     _max: Infinity
   moneyGain:
-    _base: 1
-    _mult: 1
+    _base: 0
+    _mult: 0
     _addTotal: 0
     _multTotal: 1
     _min: 0
     _max: Infinity
   speed:
-    _base: 3
-    _mult: 1
+    _base: 0
+    _mult: 0
     _addTotal: 0
     _multTotal: 1
     _min: -Infinity
     _max: Infinity
   hp:
-    _base: 1
-    _mult: 1
+    _base: 0
+    _mult: 0
     _addTotal: 0
     _multTotal: 1
     _min: 1
     _max: Infinity
   hpRegen:
     _base: 0
-    _mult: 1
+    _mult: 0
     _addTotal: 0
     _multTotal: 1
     _min: 0
     _max: Infinity
   hpRegenDelay:
     _base: 0
-    _mult: 1
+    _mult: 0
     _addTotal: 0
     _multTotal: 1
     _min: 0
     _max: Infinity
   hpRegenTickTime:
     _base: 0
-    _mult: 1
+    _mult: 0
     _addTotal: 0
     _multTotal: 1
     _min: 0
     _max: Infinity
   iFrameDuration:
     _base: 0
-    _mult: 1
+    _mult: 0
     _addTotal: 0
     _multTotal: 1
     _min: -Infinity
     _max: Infinity
   damageModifier:
-    _base: 1
-    _mult: 1
+    _base: 0
+    _mult: 0
     _addTotal: 0
     _multTotal: 1
     _min: 0
     _max: Infinity
   healingModifier:
     _base: 0
-    _mult: 1
+    _mult: 0
     _addTotal: 0
     _multTotal: 1
     _min: 0
     _max: Infinity
   meleeDamage:
-    _base: 1
-    _mult: 1
+    _base: 0
+    _mult: 0
     _addTotal: 0
     _multTotal: 1
     _min: 0
     _max: Infinity
   meleeRange:
-    _base: 1
-    _mult: 1
+    _base: 0
+    _mult: 0
     _addTotal: 0
     _multTotal: 1
     _min: 0
     _max: Infinity
   meleeCooldown:
-    _base: 0.5
-    _mult: 1
+    _base: 0
+    _mult: 0
     _addTotal: 0
     _multTotal: 1
     _min: 0
     _max: Infinity
   critChance:
     _base: 0
-    _mult: 1
+    _mult: 0
     _addTotal: 0
     _multTotal: 1
     _min: 0
     _max: Infinity
   critMult:
-    _base: 1
-    _mult: 2
+    _base: 0
+    _mult: 0
     _addTotal: 0
     _multTotal: 1
     _min: 0
     _max: Infinity
   pickUpRange:
-    _base: 5
-    _mult: 1
+    _base: 0
+    _mult: 0
     _addTotal: 0
     _multTotal: 1
     _min: 0
     _max: Infinity
   interactionRange:
-    _base: 3
-    _mult: 1
+    _base: 0
+    _mult: 0
     _addTotal: 0
     _multTotal: 1
     _min: 0
     _max: Infinity
-  spawnsIdle: 1
-  idleDisguises:
-  - {fileID: -115498399, guid: 48b860379e2c16742b27ddd34fe5d75d, type: 3}
+  isBoss: 0
+  spawnsIdle: 0
+  idleDisguises: []
   immobile: 0
   xpInstant: 0
   xpKillValue:
-    _base: 1
-    _mult: 1
+    _base: 0
+    _mult: 0
     _addTotal: 0
     _multTotal: 1
     _min: 0
@@ -198,7 +195,7 @@ MonoBehaviour:
   moneyInstant: 0
   moneyKillValue:
     _base: 0
-    _mult: 1
+    _mult: 0
     _addTotal: 0
     _multTotal: 1
     _min: 0
@@ -207,14 +204,14 @@ MonoBehaviour:
   onDamageEnemyToSpawn: {fileID: 0}
   onDamageInterval:
     _base: 0
-    _mult: 1
+    _mult: 0
     _addTotal: 0
     _multTotal: 1
     _min: 1
     _max: Infinity
   onDamageNumToSpawn:
     _base: 0
-    _mult: 1
+    _mult: 0
     _addTotal: 0
     _multTotal: 1
     _min: 1
@@ -223,7 +220,7 @@ MonoBehaviour:
   onDeathEnemyToSpawn: {fileID: 0}
   onDeathNumToSpawn:
     _base: 0
-    _mult: 1
+    _mult: 0
     _addTotal: 0
     _multTotal: 1
     _min: 1
@@ -253,6 +250,13 @@ MonoBehaviour:
     _min: 1
     _max: Infinity
   bulletsPerShotSpread:
+    _base: 0
+    _mult: 0
+    _addTotal: 0
+    _multTotal: 1
+    _min: 0
+    _max: Infinity
+  bulletsPerShotFirstBulletSpread:
     _base: 0
     _mult: 0
     _addTotal: 0
@@ -336,41 +340,41 @@ MonoBehaviour:
     _multTotal: 1
     _min: 0
     _max: Infinity
-  abilityName: 
-  abilityScript: 0
+  abilityName: HE Grenade
+  abilityScript: 2
   seToApply: {fileID: 0}
   goToInstantiate: {fileID: 0}
   abilityDuration:
     _base: 0
-    _mult: 0
+    _mult: 1
     _addTotal: 0
     _multTotal: 1
     _min: 0
     _max: Infinity
   abilityCooldown:
-    _base: 0
-    _mult: 0
+    _base: 15
+    _mult: 1
     _addTotal: 0
     _multTotal: 1
     _min: 0
     _max: Infinity
   abilityDamage:
-    _base: 0
-    _mult: 0
+    _base: 3
+    _mult: 1
     _addTotal: 0
     _multTotal: 1
     _min: 0
     _max: Infinity
   abilityRadius:
-    _base: 0
-    _mult: 0
+    _base: 7.5
+    _mult: 1
     _addTotal: 0
     _multTotal: 1
     _min: 0
     _max: Infinity
   abilityCharges:
-    _base: 0
-    _mult: 0
+    _base: 2
+    _mult: 1
     _addTotal: 0
     _multTotal: 1
     _min: 0

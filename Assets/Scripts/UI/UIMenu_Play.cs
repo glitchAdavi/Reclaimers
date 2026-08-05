@@ -40,6 +40,8 @@ public class UIMenu_Play : UIMenu
 
     public void StartGame()
     {
+        GameManager.Instance.dataPersistenceSystem.SaveGame();
+
         GameManager.Instance.selectedDifficulty = selectedDifficulty;
         startTimer = GameManager.Instance.timerSystem.SetTimer(0.1f, () =>
         {

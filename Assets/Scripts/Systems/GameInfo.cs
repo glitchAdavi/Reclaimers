@@ -40,6 +40,7 @@ public class GameInfo : ScriptableObject
     public GameObject playerUIPrefab;
     public GameObject hitPrefab;
     public GameObject upgradePrefab;
+    public GameObject crosshairPrefab;
 
 
     public Sprite hitWall;
@@ -48,6 +49,10 @@ public class GameInfo : ScriptableObject
     public Sprite upgradePawn;
     public Sprite upgradeWeapon;
     public Sprite upgradeAbility;
+    public Sprite auraPlayerGreen;
+    public Sprite auraPlayerRed;
+    public Sprite auraEnemyGreen;
+    public Sprite auraEnemyRed;
 
     public Material spriteShader;
     public Material selectableShader;

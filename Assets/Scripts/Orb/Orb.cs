@@ -13,14 +13,17 @@ public class Orb : MonoBehaviour, IUpdateable, IPauseable
     [SerializeField] protected bool active = false;
     [SerializeField] protected bool triggered = false;
     [SerializeField] protected float gracePeriod = 0.15f;
+    [SerializeField] protected int maxDecay = 60;
     [SerializeField] protected int decay = 60;
-    protected float speed = 0f;
+    [SerializeField] protected float addSpeed = 0f;
+    [SerializeField] protected float speed = 0f;
 
     protected bool isPaused = false;
-    protected bool isVisible = false;
+    [SerializeField] protected bool isVisible = false;
 
     Timer gracePeriodTimer;
     Timer decayTimer;
+    Timer accelerationTimer;
 
     protected virtual void OnEnable()
     {
@@ -28,8 +31,13 @@ public class Orb : MonoBehaviour, IUpdateable, IPauseable
 
         _extColl.onTriggerEnter += ManageOnTriggerEnter;
 
-        decay = 60;
-        decayTimer = GameManager.Instance.timerSystem.SetTimer(decay, Decay, 1f, () => decay--, "ORB_Decay");
+        decay = maxDecay;
+        if (decayTimer)
+        {
+            decayTimer.Cancel();
+            decayTimer = null;
+        }
+        decayTimer = GameManager.Instance.timerSystem.SetTimer(maxDecay, Decay, 1f, () => decay--, "ORB_Decay");
 
         if (gracePeriod > 0) gracePeriodTimer = GameManager.Instance.timerSystem.SetTimer(gracePeriod, () =>
         {
@@ -40,7 +48,7 @@ public class Orb : MonoBehaviour, IUpdateable, IPauseable
 
     public virtual void ManagedUpdate()
     {
-        if (isPaused) return;
+        if (isPaused || !active) return;
 
         if (!triggered) UpdateVisibility();
 
@@ -51,6 +59,7 @@ public class Orb : MonoBehaviour, IUpdateable, IPauseable
     {
         isPaused = paused;
 
+        accelerationTimer?.Pause(isPaused);
         gracePeriodTimer?.Pause(isPaused);
         decayTimer?.Pause(isPaused);
     }
@@ -61,6 +70,10 @@ public class Orb : MonoBehaviour, IUpdateable, IPauseable
         triggered = false;
         target = null;
 
+        addSpeed = 0f;
+
+        accelerationTimer?.Cancel();
+        accelerationTimer = null;
         decayTimer?.Cancel();
         decayTimer = null;
         gracePeriodTimer?.Cancel();
@@ -71,7 +84,7 @@ public class Orb : MonoBehaviour, IUpdateable, IPauseable
 
     protected virtual void Move()
     {
-        speed = target.statBlock.speed.Value() * 2f;
+        speed = target.statBlock.speed.Value() * 2f + addSpeed;
         Vector3 thisPos = new Vector3(transform.position.x, 0.25f, transform.position.z);
         Vector3 targetPos = new Vector3(target.transform.position.x, 0.25f, target.transform.position.z);
         transform.position = Vector3.MoveTowards(thisPos, targetPos, speed * Time.deltaTime);
@@ -79,12 +92,14 @@ public class Orb : MonoBehaviour, IUpdateable, IPauseable
 
     public virtual void Trigger(Pawn target)
     {
-        if (!active) return;
+        if (!active || triggered) return;
 
+        triggered = true;
         decayTimer?.Cancel();
         decayTimer = null;
         this.target = target;
-        triggered = true;
+
+        accelerationTimer = GameManager.Instance.timerSystem.SetForeverTimer(0.25f, () => addSpeed += 0.25f, "ORB_Accelerate");
     }
 
     protected virtual void ManageOnTriggerEnter(Collider other)

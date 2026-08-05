@@ -39,6 +39,9 @@ public abstract class LevelLogic : MonoBehaviour, IUpdateable, IPauseable
         if (ended) return;
         ended = true;
 
+        GameManager.Instance.eventSystem.GivePlayerMoney(50);
+        GameManager.Instance.eventSystem.GiveAccountXp(1);
+
         GameManager.Instance.dataPersistenceSystem.SaveGame();
 
         GameManager.Instance.uiSystem.FadeOut(null, 3f, true);
@@ -49,8 +52,11 @@ public abstract class LevelLogic : MonoBehaviour, IUpdateable, IPauseable
         if (ended) return;
         ended = true;
 
-        GameManager.Instance.dataPersistenceSystem.LoadGame(true);
+        GameManager.Instance.dataPersistenceSystem.LoadGame();
 
-        GameManager.Instance.uiSystem.FadeOut(null, 3f, true);
+        GameManager.Instance.uiSystem.FadeOut(() => {
+            GameManager.Instance.eventSystem.GivePlayerMoney(10);
+            GameManager.Instance.dataPersistenceSystem.SaveGame();
+        }, 3f, true);
     }
 }

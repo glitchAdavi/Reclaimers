@@ -16,8 +16,13 @@ MonoBehaviour:
   pName: Test
   pDesc: A Pawn.
   upgrades: []
-  items: []
-  weaponBlock: W_Test
+  items:
+  - modId: DamageAura
+    modStacks: 0
+  - modId: SlowAura
+    modStacks: 0
+  showAura: 0
+  weaponBlock: W_Pistol
   projType: 0
   onHitEffects: []
   abilityBlock: A_Sprint
@@ -80,7 +85,7 @@ MonoBehaviour:
     _min: 0
     _max: Infinity
   speed:
-    _base: 10
+    _base: 8
     _mult: 1
     _addTotal: 0
     _multTotal: 1
@@ -205,7 +210,7 @@ MonoBehaviour:
     _min: 0
     _max: Infinity
   onDamageSpawnEnemy: 0
-  onDamageEnemyToSpawn: 
+  onDamageEnemyToSpawn: {fileID: 0}
   onDamageInterval:
     _base: 0
     _mult: 0
@@ -221,7 +226,7 @@ MonoBehaviour:
     _min: 1
     _max: Infinity
   onDeathSpawnEnemy: 0
-  onDeathEnemyToSpawn: 
+  onDeathEnemyToSpawn: {fileID: 0}
   onDeathNumToSpawn:
     _base: 0
     _mult: 0
@@ -229,7 +234,7 @@ MonoBehaviour:
     _multTotal: 1
     _min: 1
     _max: Infinity
-  weaponName: Test
+  weaponName: W_Pistol
   wepSprite: {fileID: 0}
   wepType: 0
   magSize:
@@ -344,7 +349,7 @@ MonoBehaviour:
     _multTotal: 1
     _min: 0
     _max: Infinity
-  abilityName: 
+  abilityName: A_Sprint
   abilityScript: 0
   seToApply: {fileID: 0}
   goToInstantiate: {fileID: 0}

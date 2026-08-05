@@ -9,18 +9,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 896367dc873d09f4298131337ad26017, type: 3}
-  m_Name: SE_DoTest
+  m_Script: {fileID: 11500000, guid: d695791c29a3a024db306d86b43425ad, type: 3}
+  m_Name: SE_Slow
   m_EditorClassIdentifier: 
   quality: 1
-  modName: DoT Test
+  modName: Slowed
   modDesc: 
-  modId: se_dot_test
-  statVarsToModify: []
-  weaponVarsToModify: []
-  abilityVarsToModify: []
+  modId: se_stat_slow
+  modImage: {fileID: 0}
+  statVarsToModify:
+  - statBlockVar: 7
+    valueB: 0
+    valueM: 0
+    valueATotal: 0
+    valueMTotal: -0.5
+  permanent: 0
+  buyCost: 0
   statusEffectSprite: {fileID: 0}
-  duration: 10
-  tickTime: 1
+  duration: 3
+  tickTime: 0
   executePartialOnEnd: 0
-  value: 3
+  value: 0

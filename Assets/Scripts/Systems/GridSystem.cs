@@ -183,6 +183,7 @@ namespace Reclaimers.Systems
 
                 mesh.transform.position = new Vector3(center.x, 0f, center.z);
                 mesh.transform.localScale = new Vector3(size.x / 10, 1f, size.y / 10);
+                mesh.layer = 21;
                 //mesh.transform.Rotate(Vector3.right, 90f);
 
                 meshList.Add(mesh);
@@ -191,6 +192,7 @@ namespace Reclaimers.Systems
 
         private void BakeMeshes()
         {
+            meshParent.GetComponent<NavMeshSurface>().layerMask = LayerMask.GetMask("Platform");
             meshParent.GetComponent<NavMeshSurface>().BuildNavMesh();
         }
         #endregion

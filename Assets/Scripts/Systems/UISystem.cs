@@ -27,8 +27,7 @@ namespace Reclaimers.Systems
 
         public UIMenu upgradeMenu;
 
-        public GameObject statMenu;
-        public TMP_Text statMenuText;
+        public UIMenu statMenu;
 
         public GameObject uiTop;
         public GameObject uiBot;
@@ -84,11 +83,18 @@ namespace Reclaimers.Systems
             Material lMaterial = logo.material;
             logo.material = Instantiate(lMaterial);
 
+            if (GameManager.Instance.showTutorials)
+            {
+
+            }
+
 
 
             GameManager.Instance.eventSystem.onSpawnFloatingText += SpawnFloatingText;
 
             GameManager.Instance.eventSystem.onOpenCloseMenues += OpenCloseMenues;
+
+            GameManager.Instance.eventSystem.onOpenStatMenu += StatMenu;
 
             GameManager.Instance.eventSystem.onEnableUITop += EnableUITop;
 
@@ -113,6 +119,7 @@ namespace Reclaimers.Systems
             GameManager.Instance.eventSystem.onUpdateObjectiveBar += UpdateObjectiveBar;
             GameManager.Instance.eventSystem.onUpdateInteractText += UpdateInteractText;
             GameManager.Instance.eventSystem.onUpdateInteractFill += UpdateInteractFill;
+            GameManager.Instance.eventSystem.onToggleTutorials += ToggleTutorials;
 
             GameManager.Instance.eventSystem.onTriggerWin += SetFadeWin;
             GameManager.Instance.eventSystem.onTriggerLose += SetFadeLose;
@@ -136,11 +143,14 @@ namespace Reclaimers.Systems
         {
             if (activeMenues.Count > 0)
             {
-                Cursor.visible = false;
                 UIMenu m = activeMenues[^1];
                 activeMenues.Remove(m);
                 m.BeforeClose();
-                if (isPaused) GameManager.Instance.eventSystem.SetPause(false);
+                if (isPaused && activeMenues.Count == 0)
+                {
+                    Cursor.visible = false;
+                    GameManager.Instance.eventSystem.SetPause(false);
+                }
             } else
             {
                 OpenPauseMenu();
@@ -155,6 +165,12 @@ namespace Reclaimers.Systems
             pauseMenu.BeforeOpen();
 
             GameManager.Instance.eventSystem.SetPause(true);
+        }
+
+        public void StatMenu()
+        {
+            activeMenues.Add(statMenu);
+            statMenu.BeforeOpen();
         }
 
         public void MissionMenu()
@@ -270,13 +286,24 @@ namespace Reclaimers.Systems
         public void SetFadeWin()
         {
             fadeMenu.SetText("You Survived!");
-            fadeMenu.SetStats("STATS");
+            fadeMenu.SetStats($"Enemies killed: {GameManager.Instance.statCollection.enemiesKilled:0.##}" +
+                $"\nXp earned: {GameManager.Instance.statCollection.xpGained:0.##}" +
+                $"\nLevels earned: {GameManager.Instance.statCollection.levelsGained:0.##}" +
+                $"\nMaterials earned: {GameManager.Instance.statCollection.moneyGained:0.##}" +
+                $"\nUpgrades found: {GameManager.Instance.statCollection.upgradesGained:0.##}" +
+                $"\nItems found: {GameManager.Instance.statCollection.itemsGained:0.##}" +
+                $"\n\nVictory: +50 materials!");
         }
 
         public void SetFadeLose()
         {
             fadeMenu.SetText("You Died.");
-            fadeMenu.SetStats("");
+            fadeMenu.SetStats("Defeat: +10 materials.");
+        }
+
+        public void ToggleTutorials(bool toggle)
+        {
+
         }
 
         #region UpdateUIValues

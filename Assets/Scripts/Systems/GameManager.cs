@@ -9,6 +9,7 @@ using System.Reflection;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static UnityEditor.PlayerSettings;
 
 public class GameManager : MonoBehaviour, IDataPersistence
 {
@@ -37,6 +38,7 @@ public class GameManager : MonoBehaviour, IDataPersistence
     public PlayerController playerController;
     public Pawn playerPawn;
     public PlayerCamera playerCamera;
+    public List<Vector3> playerSpawnPoints = new List<Vector3>();
 
     public CustomList<SpritePart> spriteParts = new CustomList<SpritePart>();
     public CustomList<SpritePart> playerParts = new CustomList<SpritePart>();
@@ -45,6 +47,7 @@ public class GameManager : MonoBehaviour, IDataPersistence
     public CustomList<Item> itemList = new CustomList<Item>();
 
     public CustomList<StatBlock> pawns = new CustomList<StatBlock>();
+    public CustomList<StatBlock> ePawns = new CustomList<StatBlock>();
     public CustomList<StatBlock> weapons = new CustomList<StatBlock>();
     public CustomList<StatBlock> abilities = new CustomList<StatBlock>();
     
@@ -55,6 +58,7 @@ public class GameManager : MonoBehaviour, IDataPersistence
     public float accountXp = 0f;
     public int accountThreshold = 1;
     public float scaling = 1f;
+    public bool showTutorials = true;
     public Difficulty selectedDifficulty = Difficulty.Normal;
     public List<StatUpgrade> permanentUpgrade = new List<StatUpgrade>();
 
@@ -94,10 +98,19 @@ public class GameManager : MonoBehaviour, IDataPersistence
         if (SceneManager.GetActiveScene().buildIndex != 0) eventSystem.EnableUITop();
         statCollection = CreateSystem<StatCollection>();
 
+        playerSpawnPoints.Clear();
+        Transform[] spawnPoints = GameObject.Find("PlayerSpawnPoints").GetComponentsInChildren<Transform>();
+        foreach (Transform t in spawnPoints)
+        {
+            if (t.position.Equals(Vector3.zero)) continue;
+            playerSpawnPoints.Add(t.position);
+        }
+
         playerPawn = InstantiatePlayer();
         playerCamera = InstantiateCamera();
         playerController = CreateSystem<PlayerController>();
         playerController.AssignPlayerPawn(playerPawn);
+        Instantiate(gameInfo.crosshairPrefab);
 
         Instance.eventSystem.onFinishLoading += LoadPlayer;
         Instance.eventSystem.onFinishLoading += Threshold;
@@ -143,6 +156,7 @@ public class GameManager : MonoBehaviour, IDataPersistence
         accountLevel = data.accountLevel;
         accountXp = data.accountXp;
         permanentUpgrade = data.permanentUpgrade;
+        showTutorials = data.showTutorials;
 
         Utilities.CopyValues(data, gameInfo.tempPlayerStatBlock);
     }
@@ -152,6 +166,7 @@ public class GameManager : MonoBehaviour, IDataPersistence
         data.accountLevel = accountLevel;
         data.accountXp = accountXp;
         data.permanentUpgrade = permanentUpgrade;
+        data.showTutorials = showTutorials;
 
         Utilities.CopyValues(playerPawn.statBlock, data);
     }
@@ -166,7 +181,14 @@ public class GameManager : MonoBehaviour, IDataPersistence
 
     private Pawn InstantiatePlayer()
     {
-        Pawn player = Instantiate(gameInfo.pawnPrefab, new Vector3(0f, 0.5633f, 0f), Quaternion.identity)
+        Vector3 pos = Vector3.zero;
+        if (playerSpawnPoints.Count > 0)
+        {
+            pos = playerSpawnPoints[UnityEngine.Random.Range(0, playerSpawnPoints.Count)];
+        }
+        pos += new Vector3(0f, 0.5633f, 0f);
+
+        Pawn player = Instantiate(gameInfo.pawnPrefab, pos, Quaternion.identity)
             .GetComponent<Pawn>();
 
         return player;
@@ -209,6 +231,8 @@ public class GameManager : MonoBehaviour, IDataPersistence
     {
         pawns = new CustomList<StatBlock>(Resources.LoadAll<StatBlock>("ScriptableObjects/StatBlocks/Players").ToList());
         LogSystem.Log($"GameManager: Loaded {pawns.Count} pawn StatBlocks.");
+        ePawns = new CustomList<StatBlock>(Resources.LoadAll<StatBlock>("ScriptableObjects/StatBlocks/Enemies").ToList());
+        LogSystem.Log($"GameManager: Loaded {ePawns.Count} enemy pawn StatBlocks");
         weapons = new CustomList<StatBlock>(Resources.LoadAll<StatBlock>("ScriptableObjects/WeaponBlocks").ToList());
         LogSystem.Log($"GameManager: Loaded {weapons.Count} weapon StatBlocks.");
         abilities = new CustomList<StatBlock>(Resources.LoadAll<StatBlock>("ScriptableObjects/AbilityBlocks").ToList());
@@ -391,6 +415,16 @@ public class GameManager : MonoBehaviour, IDataPersistence
     public void GiveAccountLevel(int lvl)
     {
         accountLevel += lvl;
+    }
+
+    public StatBlock GetRandomBoss()
+    {
+        StatBlock result;
+
+        List<StatBlock> filteredEPawnList = ePawns.Where(x => x.isBoss).ToList();
+        result = (StatBlock)filteredEPawnList[UnityEngine.Random.Range(0, filteredEPawnList.Count())].Clone();
+
+        return result;
     }
 }
 

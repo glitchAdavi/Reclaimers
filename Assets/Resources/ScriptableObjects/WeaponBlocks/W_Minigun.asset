@@ -17,6 +17,7 @@ MonoBehaviour:
   pDesc: A Pawn.
   upgrades: []
   items: []
+  showAura: 0
   weaponBlock: 
   projType: 0
   onHitEffects: []
@@ -201,7 +202,7 @@ MonoBehaviour:
     _min: 0
     _max: Infinity
   onDamageSpawnEnemy: 0
-  onDamageEnemyToSpawn: 
+  onDamageEnemyToSpawn: {fileID: 0}
   onDamageInterval:
     _base: 0
     _mult: 0
@@ -217,7 +218,7 @@ MonoBehaviour:
     _min: 1
     _max: Infinity
   onDeathSpawnEnemy: 0
-  onDeathEnemyToSpawn: 
+  onDeathEnemyToSpawn: {fileID: 0}
   onDeathNumToSpawn:
     _base: 0
     _mult: 0
@@ -226,7 +227,7 @@ MonoBehaviour:
     _min: 1
     _max: Infinity
   weaponName: Minigun
-  wepSprite: {fileID: 759972978, guid: f80cba83b28aa684a97c381f98df3645, type: 3}
+  wepSprite: {fileID: -1939037217, guid: f80cba83b28aa684a97c381f98df3645, type: 3}
   wepType: 0
   magSize:
     _base: 250
@@ -257,7 +258,7 @@ MonoBehaviour:
     _min: 0
     _max: Infinity
   bulletsPerShotFirstBulletSpread:
-    _base: 2
+    _base: 10
     _mult: 1
     _addTotal: 0
     _multTotal: 1
@@ -271,7 +272,7 @@ MonoBehaviour:
     _min: 0
     _max: Infinity
   burstDelay:
-    _base: 0
+    _base: 0.01
     _mult: 1
     _addTotal: 0
     _multTotal: 1
@@ -292,7 +293,7 @@ MonoBehaviour:
     _min: 0
     _max: Infinity
   fireRate:
-    _base: 0.035
+    _base: 0.025
     _mult: 1
     _addTotal: 0
     _multTotal: 1

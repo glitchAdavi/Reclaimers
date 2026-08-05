@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07ac7a9bffc1531439280b0bb641e4cf, type: 3}
+  m_Name: UP_burst
+  m_EditorClassIdentifier: 
+  quality: 1
+  modName: Cyclical Chamber Mod
+  modDesc: Enables Burst. +&valB0 burst.
+  modId: u_weapon_burst
+  modImage: {fileID: 0}
+  statVarsToModify:
+  - statBlockVar: 26
+    valueB: 1
+    valueM: 0
+    valueATotal: 0
+    valueMTotal: 0
+  permanent: 0
+  buyCost: 0
+  uCat: 1
