@@ -140,7 +140,7 @@ MonoBehaviour:
     _min: 0
     _max: Infinity
   meleeDamage:
-    _base: 10
+    _base: 5
     _mult: 1
     _addTotal: 0
     _multTotal: 1

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: UP_abilityCooldown
   m_EditorClassIdentifier: 
   quality: 1
+  qualityChangesValues: 1
   modName: Cooling Agent
   modDesc: +&valM0% ability cooldown.
   modId: u_ability_cooldown
@@ -20,7 +21,7 @@ MonoBehaviour:
   statVarsToModify:
   - statBlockVar: 38
     valueB: 0
-    valueM: 0.01
+    valueM: 0.05
     valueATotal: 0
     valueMTotal: 0
   permanent: 0

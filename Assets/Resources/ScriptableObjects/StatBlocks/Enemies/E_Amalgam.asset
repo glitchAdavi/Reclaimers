@@ -91,7 +91,7 @@ MonoBehaviour:
     _min: -Infinity
     _max: Infinity
   hp:
-    _base: 15
+    _base: 10
     _mult: 1
     _addTotal: 0
     _multTotal: 1

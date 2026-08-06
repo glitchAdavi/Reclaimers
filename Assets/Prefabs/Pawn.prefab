@@ -742,6 +742,7 @@ MonoBehaviour:
   _flashLight: {fileID: 4493984423065446921}
   _muzzleFlash: {fileID: 6011645062120817888}
   _as: {fileID: 2592445660378651998}
+  _asShooting: {fileID: 0}
   frame1: {fileID: 0}
   frame2: {fileID: 0}
   spriteVariableHueMult: 0
@@ -865,8 +866,8 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
+  MinDistance: 10
+  MaxDistance: 100
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -901,7 +902,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0

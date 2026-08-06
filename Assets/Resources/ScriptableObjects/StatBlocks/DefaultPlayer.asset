@@ -162,15 +162,15 @@ MonoBehaviour:
     _min: 0
     _max: Infinity
   critChance:
-    _base: 0
-    _mult: 0
+    _base: 1
+    _mult: 0.01
     _addTotal: 0
     _multTotal: 1
     _min: 0
     _max: Infinity
   critMult:
-    _base: 0
-    _mult: 0
+    _base: 1
+    _mult: 2
     _addTotal: 0
     _multTotal: 1
     _min: 0
@@ -237,6 +237,9 @@ MonoBehaviour:
   weaponName: W_Pistol
   wepSprite: {fileID: 0}
   wepType: 0
+  wepShootAudio: {fileID: 0}
+  wepStartReloadAudio: {fileID: 0}
+  wepEndReloadAudio: {fileID: 0}
   magSize:
     _base: 100
     _mult: 1
@@ -350,6 +353,7 @@ MonoBehaviour:
     _min: 0
     _max: Infinity
   abilityName: A_Sprint
+  abilitySprite: {fileID: 0}
   abilityScript: 0
   seToApply: {fileID: 0}
   goToInstantiate: {fileID: 0}

@@ -825,6 +825,8 @@ public class Pawn : MonoBehaviour, IUpdateable, IFixedUpdateable, ILateUpdateabl
 
     protected void LevelUpEffect(int l)
     {
+        statBlock.projDamage.ModMult(0.01f);
+        statBlock.hp.ModMult(0.01f);
         p_pendingLevelUps += l;
     }
 

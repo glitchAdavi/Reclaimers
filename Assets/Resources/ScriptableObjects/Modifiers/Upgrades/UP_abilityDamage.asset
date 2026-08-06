@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: UP_abilityDamage
   m_EditorClassIdentifier: 
   quality: 1
+  qualityChangesValues: 1
   modName: Tech Booster
   modDesc: +&valM0% ability damage.
   modId: u_ability_damage
@@ -20,7 +21,7 @@ MonoBehaviour:
   statVarsToModify:
   - statBlockVar: 39
     valueB: 0
-    valueM: 0.01
+    valueM: 0.05
     valueATotal: 0
     valueMTotal: 0
   permanent: 0

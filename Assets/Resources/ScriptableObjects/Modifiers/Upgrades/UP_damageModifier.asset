@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: UP_damageModifier
   m_EditorClassIdentifier: 
   quality: 1
+  qualityChangesValues: 1
   modName: Kevlar
   modDesc: -&valM0% damage taken.
   modId: u_pawn_armor
@@ -20,7 +21,7 @@ MonoBehaviour:
   statVarsToModify:
   - statBlockVar: 13
     valueB: 0
-    valueM: -0.005
+    valueM: -0.01
     valueATotal: 0
     valueMTotal: 0
   permanent: 0
