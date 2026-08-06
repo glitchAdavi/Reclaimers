@@ -7,6 +7,7 @@ public class UIToggle_LevelSelect : MonoBehaviour
 
     public void SelectNextLevel()
     {
+        GameManager.Instance.audioSystem.PlaySound(GameManager.Instance.gameInfo.buttonPressAudio);
         menu.nextLevelIndex = levelIndex;
     }
 }

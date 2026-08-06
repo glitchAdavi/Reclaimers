@@ -5,7 +5,7 @@ public class ExtractionLogic : LevelLogic
 {
     public LevelScript currentLevelScript;
 
-    public float stage1ProgressionMax = 180f;
+    public float stage1ProgressionMax = 120f;
     public float stage1Progression = 0f;
 
     public float stage2ProgressionMax = 300f;
@@ -49,6 +49,7 @@ public class ExtractionLogic : LevelLogic
 
     public void SetupStage1()
     {
+        GameManager.Instance.eventSystem.SetStage1();
         GameManager.Instance.eventSystem.UpdateObjective("Scavenge.");
         GameManager.Instance.eventSystem.UpdateObjectiveBar(stage1Progression, stage1ProgressionMax, true);
 
@@ -66,6 +67,7 @@ public class ExtractionLogic : LevelLogic
 
     public void SetupStage2()
     {
+        GameManager.Instance.eventSystem.SetStage2();
         GameManager.Instance.eventSystem.UpdateObjective("Survive.");
         GameManager.Instance.eventSystem.UpdateObjectiveBar(stage2Progression, stage2ProgressionMax, false);
 
@@ -83,7 +85,11 @@ public class ExtractionLogic : LevelLogic
 
     public void SetupStage3()
     {
+        GameManager.Instance.eventSystem.SetStage3();
         if (!hasStage3) triggerWin = true;
+
+        timerStageProgression?.Cancel();
+        timerStageProgression = null;
 
         GameManager.Instance.eventSystem.UpdateObjective("Subdue.");
 

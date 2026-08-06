@@ -27,4 +27,9 @@ public class AuraRotate : MonoBehaviour, IUpdateable, IPauseable
     {
         isPaused = paused;
     }
+
+    public void SetRotateAngle(float newAngle)
+    {
+        rotateAngle = newAngle;
+    }
 }

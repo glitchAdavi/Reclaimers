@@ -48,11 +48,17 @@ namespace Reclaimers.Systems
         public event Action<string> onUpdateWeaponName;
         public void UpdateWeaponName(string s) => onUpdateWeaponName?.Invoke(s);
 
+        public event Action<float, float, bool> onUpdateWeaponReload;
+        public void UpdateWeaponReload(float cur, float max, bool enable) => onUpdateWeaponReload?.Invoke(cur, max, enable);
+
         public event Action<float, float> onUpdateAbility;
         public void UpdateAbility(float c, float m) => onUpdateAbility?.Invoke(c, m);
 
         public event Action<string> onUpdateAbilityName;
         public void UpdateAbilityName(string s) => onUpdateAbilityName?.Invoke(s);
+
+        public event Action<float, float, bool> onUpdateAbilityReload;
+        public void UpdateAbilityReload(float cur, float max, bool enable) => onUpdateAbilityReload?.Invoke(cur, max, enable);
 
         public event Action<float> onUpdateKillCount;
         public void UpdateKillCount(float c) => onUpdateKillCount?.Invoke(c);
@@ -80,6 +86,15 @@ namespace Reclaimers.Systems
 
         public event Action<bool> onToggleTutorials;
         public void ToggleTutorials(bool enable) => onToggleTutorials?.Invoke(enable);
+
+        public event Action onSetStage1;
+        public void SetStage1() => onSetStage1?.Invoke();
+
+        public event Action onSetStage2;
+        public void SetStage2() => onSetStage2?.Invoke();
+
+        public event Action onSetStage3;
+        public void SetStage3() => onSetStage3?.Invoke();
         #endregion
 
         #region Level

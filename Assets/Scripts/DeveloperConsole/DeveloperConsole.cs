@@ -53,6 +53,7 @@ public class DeveloperConsole : MonoBehaviour
         AddCommand("win", TriggerWin, "win || Trigger win condition");
         AddCommand("lose", TriggerLose, "lose || Trigger lose condition");
         AddCommand("boss", Boss, "boss || Spawn random boss");
+        AddCommand("godmode", Invulnerable, "godmode || Toggles player invulnerability");
     }
 
     private void Update()
@@ -483,6 +484,18 @@ public class DeveloperConsole : MonoBehaviour
     string Boss(string[] args)
     {
         GameManager.Instance.eventSystem.RequestBossSpawn();
+        return "";
+    }
+
+    string Invulnerable(string[] args)
+    {
+        GameManager.Instance.playerPawn.SetInvul(!GameManager.Instance.playerPawn.isInvulnerable);
+        return "";
+    }
+
+    string TogglePause(string[] args)
+    {
+        GameManager.Instance.eventSystem.SetPause(!GameManager.Instance.updateSystem.isPaused);
         return "";
     }
 }

@@ -23,6 +23,7 @@ public class UIMenu_Pause : UIMenu
 
     public void ToggleTutorials()
     {
+        GameManager.Instance.audioSystem.PlaySound(GameManager.Instance.gameInfo.buttonPressAudio);
         GameManager.Instance.showTutorials = !GameManager.Instance.showTutorials;
         tmpToggleTutorials.text = $"Toggle Tutorials ({(GameManager.Instance.showTutorials ? "On" : "Off")})";
         GameManager.Instance.eventSystem.ToggleTutorials(GameManager.Instance.showTutorials);
@@ -30,11 +31,13 @@ public class UIMenu_Pause : UIMenu
 
     public void Stats()
     {
+        GameManager.Instance.audioSystem.PlaySound(GameManager.Instance.gameInfo.buttonPressAudio);
         GameManager.Instance.eventSystem.OpenStatMenu();
     }
 
     public void ReturnToBase()
     {
+        GameManager.Instance.audioSystem.PlaySound(GameManager.Instance.gameInfo.buttonPressAudio);
         GameManager.Instance.dataPersistenceSystem.LoadGame(!GameManager.Instance.levelSystem.safeToLeave);
 
         returnTimer = GameManager.Instance.timerSystem.SetTimer(0.1f, () =>
@@ -48,6 +51,7 @@ public class UIMenu_Pause : UIMenu
 
     public void Quit()
     {
+        GameManager.Instance.audioSystem.PlaySound(GameManager.Instance.gameInfo.buttonPressAudio);
         if (SceneManager.GetActiveScene().buildIndex != 0)
         {
             GameManager.Instance.dataPersistenceSystem.LoadGame(!GameManager.Instance.levelSystem.safeToLeave);

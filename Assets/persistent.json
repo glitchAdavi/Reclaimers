@@ -86,7 +86,7 @@
         "_max": Infinity
     },
     "speed": {
-        "_base": 10.0,
+        "_base": 8.0,
         "_mult": 1.0,
         "_addTotal": 0.0,
         "_multTotal": 1.0,
@@ -205,10 +205,10 @@
         "_min": 0.0,
         "_max": Infinity
     },
-    "weaponName": "AK-47",
+    "weaponName": "Deagle",
     "wepType": 0,
     "magSize": {
-        "_base": 30.0,
+        "_base": 7.0,
         "_mult": 1.0,
         "_addTotal": 0.0,
         "_multTotal": 1.0,
@@ -264,7 +264,7 @@
         "_max": Infinity
     },
     "bulletSpread": {
-        "_base": 10.0,
+        "_base": 7.0,
         "_mult": 1.0,
         "_addTotal": 0.0,
         "_multTotal": 1.0,
@@ -272,7 +272,7 @@
         "_max": Infinity
     },
     "bulletSpreadGain": {
-        "_base": 5.0,
+        "_base": 3.5,
         "_mult": 1.0,
         "_addTotal": 0.0,
         "_multTotal": 1.0,
@@ -280,7 +280,7 @@
         "_max": Infinity
     },
     "fireRate": {
-        "_base": 0.20000000298023225,
+        "_base": 0.25,
         "_mult": 1.0,
         "_addTotal": 0.0,
         "_multTotal": 1.0,
@@ -288,7 +288,7 @@
         "_max": Infinity
     },
     "reloadTime": {
-        "_base": 1.899999976158142,
+        "_base": 1.0,
         "_mult": 1.0,
         "_addTotal": 0.0,
         "_multTotal": 1.0,
@@ -296,7 +296,7 @@
         "_max": Infinity
     },
     "projDamage": {
-        "_base": 3.0,
+        "_base": 1.0,
         "_mult": 1.0,
         "_addTotal": 0.0,
         "_multTotal": 1.0,
@@ -312,7 +312,7 @@
         "_max": Infinity
     },
     "projSpeed": {
-        "_base": 35.0,
+        "_base": 20.0,
         "_mult": 1.0,
         "_addTotal": 0.0,
         "_multTotal": 1.0,
@@ -320,7 +320,7 @@
         "_max": 50.0
     },
     "projPenetration": {
-        "_base": 2.0,
+        "_base": 0.0,
         "_mult": 1.0,
         "_addTotal": 0.0,
         "_multTotal": 1.0,
@@ -328,7 +328,7 @@
         "_max": Infinity
     },
     "projStun": {
-        "_base": 0.30000001192092898,
+        "_base": 0.20000000298023225,
         "_mult": 1.0,
         "_addTotal": 0.0,
         "_multTotal": 1.0,

@@ -36,10 +36,14 @@ public abstract class Ability : MonoBehaviour, IPauseable
         Effect();
         curCharges--;
         GameManager.Instance.eventSystem.UpdateAbility(curCharges, _p.statBlock.abilityCharges.ValueInt());
+        GameManager.Instance.eventSystem.UpdateAbilityReload(0f, 1f, true);
 
         if (!timerCooldown)
         {
-            timerCooldown = GameManager.Instance.timerSystem.SetTimer(_p.statBlock.abilityCooldown.Value(), CooldownEnd);
+            timerCooldown = GameManager.Instance.timerSystem.SetTimer(_p.statBlock.abilityCooldown.Value(), CooldownEnd, 0.01f, () =>
+            {
+                GameManager.Instance.eventSystem.UpdateAbilityReload(timerCooldown.durationElapsed, _p.statBlock.abilityCooldown.Value(), true);
+            }, "ABILITY_Cooldown");
         }
     }
 
@@ -55,7 +59,13 @@ public abstract class Ability : MonoBehaviour, IPauseable
         timerCooldown = null;
         if (curCharges < _p.statBlock.abilityCharges.ValueInt())
         {
-            timerCooldown = GameManager.Instance.timerSystem.SetTimer(_p.statBlock.abilityCooldown.Value(), CooldownEnd);
+            timerCooldown = GameManager.Instance.timerSystem.SetTimer(_p.statBlock.abilityCooldown.Value(), CooldownEnd, 0.01f, () =>
+            {
+                GameManager.Instance.eventSystem.UpdateAbilityReload(timerCooldown.durationElapsed, _p.statBlock.abilityCooldown.Value(), true);
+            }, "ABILITY_Cooldown");
+        } else
+        {
+            GameManager.Instance.eventSystem.UpdateAbilityReload(0f, 1f, false);
         }
     }
 

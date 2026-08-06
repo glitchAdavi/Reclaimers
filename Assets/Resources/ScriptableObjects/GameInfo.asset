@@ -34,6 +34,7 @@ MonoBehaviour:
   pawnPrefab: {fileID: 7670317755826226318, guid: a7836d36845584b4aba91a530fb6249f, type: 3}
   playerCameraPrefab: {fileID: 6444985827976779412, guid: d0ca0aa53c5718a44a91518f40c6194f, type: 3}
   projectilePrefab: {fileID: 1786039620101491116, guid: 2126f2636b206074da66c30bbad4297f, type: 3}
+  enemyProjectilePrefab: {fileID: 1786039620101491116, guid: 2aefed9c8d02f264dbf6659cbb764997, type: 3}
   floatingTextPrefab: {fileID: 7148867433677660254, guid: 9eceed23d104c5c4c899490c4f468635, type: 3}
   xpOrbPrefab: {fileID: 723975431341748206, guid: 6078e0a66bb5f304cb5acf41b6b8343f, type: 3}
   moneyOrbPrefab: {fileID: 3181928448100911058, guid: 2728bf09882e889438e793373f7e4768, type: 3}
@@ -43,6 +44,7 @@ MonoBehaviour:
   hitPrefab: {fileID: 2819041928499780480, guid: 6b17f2be319931e43a8801465cfaecd7, type: 3}
   upgradePrefab: {fileID: 7704083453131563642, guid: 879076a5409c21a439d242d09c87e976, type: 3}
   crosshairPrefab: {fileID: 2983764989087571786, guid: b74d03cbf52b9f14f956da0deacd3877, type: 3}
+  auraPrefab: {fileID: 0}
   hitWall: {fileID: 1631352340, guid: fc03dc4dd5ed2be458f3bf505ed441f8, type: 3}
   hitPlayer: {fileID: 1846551403, guid: fc03dc4dd5ed2be458f3bf505ed441f8, type: 3}
   hitEnemy: {fileID: -1642617151, guid: fc03dc4dd5ed2be458f3bf505ed441f8, type: 3}
@@ -55,12 +57,13 @@ MonoBehaviour:
   auraEnemyRed: {fileID: -1387557881, guid: fc03dc4dd5ed2be458f3bf505ed441f8, type: 3}
   spriteShader: {fileID: -876546973899608171, guid: d3ac7302e4dfb92478c02b1a7cb8b559, type: 3}
   selectableShader: {fileID: 2100000, guid: 42edaf2345efb9c4aaae076b1fd3452e, type: 2}
-  buttonPress: {fileID: 0}
-  playerShoot: {fileID: 0}
-  playerSearch: {fileID: 0}
-  playerHurt: {fileID: 0}
-  playerPickUp: {fileID: 0}
-  playerLevelUp: {fileID: 0}
-  enemyHit: {fileID: 0}
-  grenadeLand: {fileID: 0}
-  explosion: {fileID: 0}
+  buttonPressAudio: {fileID: 8300000, guid: 4c06476c7c725d84097365356b60d175, type: 3}
+  playerShootAudio: {fileID: 0}
+  playerSearchAudio: {fileID: 8300000, guid: 8c386fdf0d0922c44b84cbed26cf10a1, type: 3}
+  playerHurtAudio: {fileID: 8300000, guid: 7881e6c525538344983019d3bdd3c53a, type: 3}
+  playerPickUpAudio: {fileID: 8300000, guid: ed4501b0b5fdf4e48a6dac16ba2f2837, type: 3}
+  playerLevelUpAudio: {fileID: 8300000, guid: 94d546606cf1d8f4d9ba2eec44e05e66, type: 3}
+  enemyHitAudio: {fileID: 8300000, guid: f2c724146b4c8e04c8230d24a35d07b1, type: 3}
+  wallHitAudio: {fileID: 8300000, guid: 66dc1a48acb1a3641b12d0c3b0c88993, type: 3}
+  grenadeLandAudio: {fileID: 8300000, guid: 7f6bde9f31c2b0d448d5b45b8aafc28e, type: 3}
+  explosionAudio: {fileID: 8300000, guid: e4f618ffcbeda3f48bcde0e7615dad91, type: 3}

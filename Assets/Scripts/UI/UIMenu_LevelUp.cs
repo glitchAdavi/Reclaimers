@@ -43,6 +43,12 @@ public class UIMenu_LevelUp : UIMenu
         closeTimer = GameManager.Instance.timerSystem.SetTimer(0.8f, Close);
     }
 
+    public void Skip()
+    {
+        GameManager.Instance.audioSystem.PlaySound(GameManager.Instance.gameInfo.buttonPressAudio);
+        GameManager.Instance.eventSystem.OpenCloseMenues();
+    }
+
     protected override void OnClose()
     {
         base.OnClose();

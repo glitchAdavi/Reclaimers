@@ -17,6 +17,8 @@ public abstract class Modifier : ScriptableObject, ICloneable
 {
     public Quality quality = Quality.Common;
 
+    public bool qualityChangesValues = true;
+
     public string modName = "";
     [TextArea] public string modDesc = "";
     public string modId = "";
@@ -57,17 +59,17 @@ public abstract class Modifier : ScriptableObject, ICloneable
 
             if (remove)
             {
-                aux.ModB(-stat.valueB * (int)quality);
-                aux.ModMult(-stat.valueM * (int)quality);
-                aux.ModAddTotal(-stat.valueATotal * (int)quality);
-                aux.ModMultTotal(-stat.valueMTotal * (int)quality);
+                aux.ModB(-stat.valueB * (qualityChangesValues ? (int)quality : 1));
+                aux.ModMult(-stat.valueM * (qualityChangesValues ? (int)quality : 1));
+                aux.ModAddTotal(-stat.valueATotal * (qualityChangesValues ? (int)quality : 1));
+                aux.ModMultTotal(-stat.valueMTotal * (qualityChangesValues ? (int)quality : 1));
             }
             else
             {
-                aux.ModB(stat.valueB * (int)quality);
-                aux.ModMult(stat.valueM * (int)quality);
-                aux.ModAddTotal(stat.valueATotal * (int)quality);
-                aux.ModMultTotal(stat.valueMTotal * (int)quality);
+                aux.ModB(stat.valueB * (qualityChangesValues ? (int)quality : 1));
+                aux.ModMult(stat.valueM * (qualityChangesValues ? (int)quality : 1));
+                aux.ModAddTotal(stat.valueATotal * (qualityChangesValues ? (int)quality : 1));
+                aux.ModMultTotal(stat.valueMTotal * (qualityChangesValues ? (int)quality : 1));
             }
             param.SetValue(target.statBlock, aux);
         }

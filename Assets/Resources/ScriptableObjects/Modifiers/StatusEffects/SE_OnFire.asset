@@ -20,8 +20,8 @@ MonoBehaviour:
   statVarsToModify: []
   permanent: 0
   buyCost: 0
-  statusEffectSprite: {fileID: 1631352340, guid: fc03dc4dd5ed2be458f3bf505ed441f8, type: 3}
+  statusEffectSprite: {fileID: 0}
   duration: 5
   tickTime: 1
   executePartialOnEnd: 1
-  value: 1
+  value: -1

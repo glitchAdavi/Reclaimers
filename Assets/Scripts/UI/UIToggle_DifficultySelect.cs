@@ -7,6 +7,7 @@ public class UIToggle_DifficultySelect : MonoBehaviour
 
     public void SelectDifficulty()
     {
+        GameManager.Instance.audioSystem.PlaySound(GameManager.Instance.gameInfo.buttonPressAudio);
         menu.selectedDifficulty = difficulty;
     }
 }

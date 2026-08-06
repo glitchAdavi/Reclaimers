@@ -233,6 +233,9 @@ MonoBehaviour:
   weaponName: Deagle
   wepSprite: {fileID: 759972978, guid: f80cba83b28aa684a97c381f98df3645, type: 3}
   wepType: 0
+  wepShootAudio: {fileID: 8300000, guid: 0a16030fcebb53d48ab5bba3df61dffa, type: 3}
+  wepStartReloadAudio: {fileID: 8300000, guid: 733e5ebe74aba8b4186edbdf69eb7c61, type: 3}
+  wepEndReloadAudio: {fileID: 8300000, guid: 1268cd2b8ba59b5449940a37fedd3b40, type: 3}
   magSize:
     _base: 7
     _mult: 1
@@ -346,6 +349,7 @@ MonoBehaviour:
     _min: 0
     _max: Infinity
   abilityName: 
+  abilitySprite: {fileID: 0}
   abilityScript: 0
   seToApply: {fileID: 0}
   goToInstantiate: {fileID: 0}

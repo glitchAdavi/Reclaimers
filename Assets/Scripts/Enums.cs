@@ -67,7 +67,8 @@ public enum ProjectileType
 {
     P_Basic,
     P_Bounce,
-    P_Split
+    P_Split,
+    P_Enemy
 }
 
 public enum AbilityScripts

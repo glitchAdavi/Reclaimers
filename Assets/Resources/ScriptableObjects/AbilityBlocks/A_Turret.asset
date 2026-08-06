@@ -17,6 +17,7 @@ MonoBehaviour:
   pDesc: A Pawn.
   upgrades: []
   items: []
+  showAura: 0
   weaponBlock: 
   projType: 0
   onHitEffects: []
@@ -340,7 +341,8 @@ MonoBehaviour:
     _multTotal: 1
     _min: 0
     _max: Infinity
-  abilityName: Automatic Turret
+  abilityName: 
+  abilitySprite: {fileID: 0}
   abilityScript: 1
   seToApply: {fileID: 0}
   goToInstantiate: {fileID: 0}

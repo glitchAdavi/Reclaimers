@@ -32,6 +32,7 @@ public class GameInfo : ScriptableObject
     public GameObject pawnPrefab;
     public GameObject playerCameraPrefab;
     public GameObject projectilePrefab;
+    public GameObject enemyProjectilePrefab;
     public GameObject floatingTextPrefab;
     public GameObject xpOrbPrefab;
     public GameObject moneyOrbPrefab;
@@ -41,6 +42,7 @@ public class GameInfo : ScriptableObject
     public GameObject hitPrefab;
     public GameObject upgradePrefab;
     public GameObject crosshairPrefab;
+    public GameObject auraPrefab;
 
 
     public Sprite hitWall;
@@ -57,15 +59,16 @@ public class GameInfo : ScriptableObject
     public Material spriteShader;
     public Material selectableShader;
 
-    public AudioClip buttonPress;
-    public AudioClip playerShoot;
-    public AudioClip playerSearch;
-    public AudioClip playerHurt;
-    public AudioClip playerPickUp;
-    public AudioClip playerLevelUp;
-    public AudioClip enemyHit;
+    public AudioClip buttonPressAudio;
+    public AudioClip playerShootAudio;
+    public AudioClip playerSearchAudio;
+    public AudioClip playerHurtAudio;
+    public AudioClip playerPickUpAudio;
+    public AudioClip playerLevelUpAudio;
+    public AudioClip enemyHitAudio;
+    public AudioClip wallHitAudio;
 
-    public AudioClip grenadeLand;
-    public AudioClip explosion;
+    public AudioClip grenadeLandAudio;
+    public AudioClip explosionAudio;
     
 }

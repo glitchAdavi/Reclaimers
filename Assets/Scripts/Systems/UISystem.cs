@@ -13,6 +13,8 @@ namespace Reclaimers.Systems
 
         public CustomList<UIMenu> activeMenues = new CustomList<UIMenu>();
 
+        public Tutorials tutorials;
+
         public Image logo;
 
         public GameObject fadeObject;
@@ -35,9 +37,9 @@ namespace Reclaimers.Systems
         public UIFillableBar objectiveBar;
         public TMP_Text objectiveText;
         public TMP_Text currentObjective;
-        public GameObject stage1;
-        public GameObject stage2;
-        public GameObject stage3;
+        public GameObject stage1On;
+        public GameObject stage2On;
+        public GameObject stage3On;
 
         public TMP_Text killCount;
         public TMP_Text xpGained;
@@ -52,10 +54,12 @@ namespace Reclaimers.Systems
         public TMP_Text weaponAmmo;
         public TMP_Text weaponName;
         public UIFillableBar weaponBar;
+        public UIFillableBar weaponReloadBar;
 
         public TMP_Text abilityName;
         public TMP_Text abilityAmmo;
         public UIFillableBar abilityBar;
+        public UIFillableBar abilityReloadBar;
 
         public GameObject interact;
         public TMP_Text interactText;
@@ -83,12 +87,9 @@ namespace Reclaimers.Systems
             Material lMaterial = logo.material;
             logo.material = Instantiate(lMaterial);
 
-            if (GameManager.Instance.showTutorials)
-            {
-
-            }
-
-
+            GameObject aux = GameObject.Find("WorldCanvas");
+            if (aux != null) tutorials = aux.GetComponent<Tutorials>();
+            if (tutorials != null) tutorials.ToggleTutorials(GameManager.Instance.showTutorials);
 
             GameManager.Instance.eventSystem.onSpawnFloatingText += SpawnFloatingText;
 
@@ -105,13 +106,19 @@ namespace Reclaimers.Systems
             GameManager.Instance.eventSystem.onOpenUpgradeMenu += UpgradeMenu;
             GameManager.Instance.eventSystem.onOpenCustomizationMenu += CustomizationMenu;
 
+            GameManager.Instance.eventSystem.onSetStage1 += SetStage1;
+            GameManager.Instance.eventSystem.onSetStage2 += SetStage2;
+            GameManager.Instance.eventSystem.onSetStage3 += SetStage3;
+
             GameManager.Instance.eventSystem.onUpdateHp += UpdateHp;
             GameManager.Instance.eventSystem.onUpdateXp += UpdateXp;
             GameManager.Instance.eventSystem.onUpdateLevel += UpdateLevel;
             GameManager.Instance.eventSystem.onUpdateWeapon += UpdateWeapon;
             GameManager.Instance.eventSystem.onUpdateWeaponName += UpdateWeaponName;
+            GameManager.Instance.eventSystem.onUpdateWeaponReload += UpdateWeaponReload;
             GameManager.Instance.eventSystem.onUpdateAbility += UpdateAbility;
             GameManager.Instance.eventSystem.onUpdateAbilityName += UpdateAbilityName;
+            GameManager.Instance.eventSystem.onUpdateAbilityReload += UpdateAbilityReload;
             GameManager.Instance.eventSystem.onUpdateKillCount += UpdateKillCount;
             GameManager.Instance.eventSystem.onUpdateXpGained += UpdateXpGained;
             GameManager.Instance.eventSystem.onUpdateMoneyGained += UpdateMoneyGained;
@@ -202,6 +209,7 @@ namespace Reclaimers.Systems
 
         public void LevelUpMenu()
         {
+            GameManager.Instance.audioSystem.PlaySound(GameManager.Instance.gameInfo.playerLevelUpAudio);
             Cursor.visible = true;
             activeMenues.Add(levelUpMenu);
             levelUpMenu.BeforeOpen();
@@ -219,6 +227,27 @@ namespace Reclaimers.Systems
         public void EnableUITop()
         {
             uiTop.SetActive(true);
+        }
+
+        public void SetStage1()
+        {
+            stage1On.SetActive(true);
+            stage2On.SetActive(false);
+            stage3On.SetActive(false);
+        }
+
+        public void SetStage2()
+        {
+            stage1On.SetActive(false);
+            stage2On.SetActive(true);
+            stage3On.SetActive(false);
+        }
+
+        public void SetStage3()
+        {
+            stage1On.SetActive(false);
+            stage2On.SetActive(false);
+            stage3On.SetActive(true);
         }
 
         public void FadeIn(Action callback, float time = 3f)
@@ -260,6 +289,8 @@ namespace Reclaimers.Systems
 
         public void EnableLogo()
         {
+            GameManager.Instance.eventSystem.EnableAllControls(false);
+            GameManager.Instance.eventSystem.EnablePlayerControls(false);
             logo.enabled = true;
         }
 
@@ -303,7 +334,7 @@ namespace Reclaimers.Systems
 
         public void ToggleTutorials(bool toggle)
         {
-
+            if (tutorials != null) tutorials.ToggleTutorials(toggle);
         }
 
         #region UpdateUIValues
@@ -335,6 +366,13 @@ namespace Reclaimers.Systems
             weaponAmmo.text = $"{current}/{max}";
         }
 
+        public void UpdateWeaponReload(float current, float max, bool enable)
+        {
+            weaponReloadBar.gameObject.SetActive(enable);
+            weaponReloadBar.UpdateBar(current / max, 1f);
+            weaponReloadBar.SetColor(new Color(139, 255, 151, 0));
+        }
+
         public void UpdateWeaponName(string wName)
         {
             weaponName.text = wName;
@@ -344,6 +382,13 @@ namespace Reclaimers.Systems
         {
             abilityBar.UpdateBar(current, max);
             abilityAmmo.text = $"{Mathf.FloorToInt(current)}/{max}";
+        }
+
+        public void UpdateAbilityReload(float current, float max, bool enable)
+        {
+            abilityReloadBar.gameObject.SetActive(enable);
+            abilityReloadBar.UpdateBar(current / max, 1f);
+            abilityReloadBar.SetColor(new Color(139, 255, 151));
         }
 
         public void UpdateAbilityName(string aName)
@@ -375,7 +420,7 @@ namespace Reclaimers.Systems
         {
             objectiveBar.UseAltColor(altColor);
             objectiveBar.UpdateBar(current / max, 1);
-            if (updateText) objectiveText.text = $"{current:#}<size=26>s";
+            if (updateText) objectiveText.text = $"{max - current:#}<size=26>s";
             else objectiveText.text = "";
         }
 

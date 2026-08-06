@@ -31,7 +31,7 @@ public class Script1 : LevelScript
     {
         i = 3f;
         b = 10;
-        m = 50;
+        m = 80;
 
         GameManager.Instance.eventSystem.SetPawnSpawnVars(i, b, m);
         GameManager.Instance.eventSystem.RequestClearPawnSpawns();
@@ -45,7 +45,7 @@ public class Script1 : LevelScript
     {
         i = 3f;
         b = 10;
-        m = 80;
+        m = 110;
 
         GameManager.Instance.eventSystem.SetPawnSpawnVars(i, b, m);
         GameManager.Instance.eventSystem.RequestClearPawnSpawns();
@@ -59,7 +59,7 @@ public class Script1 : LevelScript
     {
         i = 1f;
         b = 25;
-        m = 160;
+        m = 200;
 
         GameManager.Instance.eventSystem.SetPawnSpawnVars(i, b, m);
         GameManager.Instance.eventSystem.RequestClearPawnSpawns();
@@ -74,7 +74,7 @@ public class Script1 : LevelScript
     {
         i = 2f;
         b = 20;
-        m = 125;
+        m = 150;
 
         GameManager.Instance.eventSystem.SetPawnSpawnVars(i, b, m);
         GameManager.Instance.eventSystem.RequestClearPawnSpawns();
@@ -89,7 +89,7 @@ public class Script1 : LevelScript
     {
         i = 2f;
         b = 30;
-        m = 200;
+        m = 250;
 
         GameManager.Instance.eventSystem.SetPawnSpawnVars(i, b, m);
         GameManager.Instance.eventSystem.RequestClearPawnSpawns();

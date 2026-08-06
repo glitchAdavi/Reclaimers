@@ -83,17 +83,13 @@ namespace Reclaimers.Systems
             GameManager.Instance.eventSystem.onSetPawnSpawnVars += SetSpawnVars;
             GameManager.Instance.eventSystem.onRequestBossSpawn += SpawnBoss;
             GameManager.Instance.eventSystem.onRequestEnemySpawn += SpawnEnemy;
+            GameManager.Instance.eventSystem.onBossDeath += Nuke;
         }
 
 
         public void ManagedUpdate()
         {
             GetSpawnableTiles();
-
-            if (Input.GetKeyDown(KeyCode.I))
-            {
-                //SpawnEnemy(GameManager.Instance.gameInfo.defaultEnemyStatBlock, new Vector3(-10f, 0.25f, -10f), 0, false);
-            }
         }
 
         public void ManagedPause(bool paused)

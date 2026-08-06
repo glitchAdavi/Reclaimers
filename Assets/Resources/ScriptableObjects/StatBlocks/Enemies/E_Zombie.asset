@@ -91,7 +91,7 @@ MonoBehaviour:
     _min: -Infinity
     _max: Infinity
   hp:
-    _base: 7
+    _base: 10
     _mult: 1
     _addTotal: 0
     _multTotal: 1
@@ -140,7 +140,7 @@ MonoBehaviour:
     _min: 0
     _max: Infinity
   meleeDamage:
-    _base: 1
+    _base: 3
     _mult: 1
     _addTotal: 0
     _multTotal: 1
@@ -236,6 +236,9 @@ MonoBehaviour:
   weaponName: 
   wepSprite: {fileID: 0}
   wepType: 0
+  wepShootAudio: {fileID: 0}
+  wepStartReloadAudio: {fileID: 0}
+  wepEndReloadAudio: {fileID: 0}
   magSize:
     _base: 0
     _mult: 0
@@ -349,6 +352,7 @@ MonoBehaviour:
     _min: 0
     _max: Infinity
   abilityName: 
+  abilitySprite: {fileID: 0}
   abilityScript: 0
   seToApply: {fileID: 0}
   goToInstantiate: {fileID: 0}

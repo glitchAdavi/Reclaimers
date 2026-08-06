@@ -103,6 +103,10 @@ public class StatBlock : ScriptableObject, ICloneable
 
     [WeaponVar] public WeaponType wepType;
 
+    [WeaponVar] public AudioClip wepShootAudio;
+    [WeaponVar] public AudioClip wepStartReloadAudio;
+    [WeaponVar] public AudioClip wepEndReloadAudio;
+
     [WeaponVar] public Stat magSize = new Stat(0f, 0f, 1f);
 
     [WeaponVar] public Stat bulletsPerShot = new Stat(0f, 0f, 1f);
@@ -136,6 +140,7 @@ public class StatBlock : ScriptableObject, ICloneable
     [Header("Ability Stats")]
     [Header("")]
     [AbilityVar] public string abilityName = "";
+    [AbilityVar] public Sprite abilitySprite;
     [AbilityVar] public AbilityScripts abilityScript;
 
     [AbilityVar] public StatusEffect seToApply;

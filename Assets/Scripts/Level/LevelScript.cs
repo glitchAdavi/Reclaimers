@@ -5,7 +5,7 @@ using UnityEngine;
 
 public abstract class LevelScript : MonoBehaviour
 {
-    public float stage1Time = 180f;
+    public float stage1Time = 120f;
     public float stage2Time = 300f;
     public bool hasStage3 = true;
 

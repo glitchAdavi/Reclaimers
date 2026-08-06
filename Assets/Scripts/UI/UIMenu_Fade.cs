@@ -21,6 +21,7 @@ public class UIMenu_Fade : UIMenu
 
     public void ReturnToBase()
     {
+        GameManager.Instance.audioSystem.PlaySound(GameManager.Instance.gameInfo.buttonPressAudio);
         returnTimer = GameManager.Instance.timerSystem.SetTimer(0.1f, () =>
         {
             GameManager.Instance.GoToLevel(0);

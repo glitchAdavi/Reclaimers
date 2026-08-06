@@ -31,6 +31,7 @@ public class Weapon : MonoBehaviour
         {
             p.CancelTimer(ref reloadTimer);
             isReloading = false;
+            GameManager.Instance.eventSystem.UpdateWeaponReload(0f, 1f, false);
         }
 
         if (currentBullets <= 0)
@@ -66,6 +67,7 @@ public class Weapon : MonoBehaviour
 
     public void ShootEffect()
     {
+        GameManager.Instance.audioSystem.PlaySound(p.statBlock.wepShootAudio, p._asShooting, 0, -1, true);
         currentBullets -= p.statBlock.bulletsPerShotCost.ValueInt();
         if (currentBullets < 0) currentBullets = 0;
         if (p.isPlayer) GameManager.Instance.eventSystem.UpdateWeapon(currentBullets, p.statBlock.magSize.ValueInt());
@@ -127,21 +129,30 @@ public class Weapon : MonoBehaviour
         if (isReloading) return;
         if (currentBullets >= p.statBlock.magSize.ValueInt()) return;
 
+
+        GameManager.Instance.audioSystem.PlaySound(p.statBlock.wepStartReloadAudio, p._as);
+        GameManager.Instance.eventSystem.UpdateWeaponReload(0f, 1f, true);
+
         isReloading = true;
-        reloadTimer = GameManager.Instance.timerSystem.SetTimer(p.statBlock.reloadTime.Value(), ReloadEnd, "WEAPON_Reload");
+        reloadTimer = GameManager.Instance.timerSystem.SetTimer(p.statBlock.reloadTime.Value(), ReloadEnd, 0.01f, () =>
+        {
+            GameManager.Instance.eventSystem.UpdateWeaponReload(reloadTimer.durationElapsed, p.statBlock.reloadTime.Value(), true);
+        }, "WEAPON_Reload");
 
     }
 
     public void ReloadEffect()
     {
-
+        
     }
 
     public void ReloadEnd()
     {
+        GameManager.Instance.audioSystem.PlaySound(p.statBlock.wepEndReloadAudio, p._as);
         isReloading = false;
         currentBullets = p.statBlock.magSize.ValueInt();
         GameManager.Instance.eventSystem.UpdateWeapon(currentBullets, p.statBlock.magSize.ValueInt());
+        GameManager.Instance.eventSystem.UpdateWeaponReload(0f, 1f, false);
     }
 
 

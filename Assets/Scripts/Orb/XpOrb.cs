@@ -74,6 +74,7 @@ public class XpOrb : Orb
         if (target != null)
         {
             if (value > 0) GameManager.Instance.eventSystem.GivePlayerXp(value);
+            GameManager.Instance.audioSystem.PlaySound(GameManager.Instance.gameInfo.playerPickUpAudio, transform.position, 0, -1);
         }
     }
 

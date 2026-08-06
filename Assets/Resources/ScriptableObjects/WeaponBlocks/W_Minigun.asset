@@ -229,6 +229,9 @@ MonoBehaviour:
   weaponName: Minigun
   wepSprite: {fileID: -1939037217, guid: f80cba83b28aa684a97c381f98df3645, type: 3}
   wepType: 0
+  wepShootAudio: {fileID: 8300000, guid: 0a16030fcebb53d48ab5bba3df61dffa, type: 3}
+  wepStartReloadAudio: {fileID: 0}
+  wepEndReloadAudio: {fileID: 0}
   magSize:
     _base: 250
     _mult: 1
@@ -342,6 +345,7 @@ MonoBehaviour:
     _min: 0
     _max: Infinity
   abilityName: 
+  abilitySprite: {fileID: 0}
   abilityScript: 0
   seToApply: {fileID: 0}
   goToInstantiate: {fileID: 0}

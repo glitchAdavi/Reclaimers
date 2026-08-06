@@ -54,7 +54,7 @@ Material:
     - _UIMaskSoftnessY: 1
     - _UseAltColor: 0
     m_Colors:
-    - _AltColor: {r: 0, g: 0, b: 0, a: 0}
+    - _AltColor: {r: 1, g: 0, b: 0, a: 1}
     - _ClipRect: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 0.8160377, g: 1, b: 0.8343267, a: 0}
   m_BuildTextureStacks: []

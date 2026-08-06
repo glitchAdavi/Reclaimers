@@ -149,6 +149,7 @@ GameObject:
   - component: {fileID: 5484553866043057475}
   - component: {fileID: 70428593691348392}
   - component: {fileID: 7628201504891795295}
+  - component: {fileID: 6106816033198936759}
   m_Layer: 5
   m_Name: BtnCloseMenu
   m_TagString: Untagged
@@ -227,7 +228,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -258,9 +259,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Reclaimers.Systems.UISystem, Assembly-CSharp
-        m_MethodName: OpenCloseMenues
+      - m_Target: {fileID: 6106816033198936759}
+        m_TargetAssemblyTypeName: BtnCloseMenu, Assembly-CSharp
+        m_MethodName: CloseMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -270,3 +271,15 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &6106816033198936759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3693283951415383274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c5c9efa28f42cf428820bb71392c839, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

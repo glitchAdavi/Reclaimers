@@ -17,6 +17,7 @@ MonoBehaviour:
   pDesc: A Pawn.
   upgrades: []
   items: []
+  showAura: 0
   weaponBlock: 
   projType: 0
   onHitEffects: []
@@ -341,11 +342,12 @@ MonoBehaviour:
     _min: 0
     _max: Infinity
   abilityName: HE Grenade
+  abilitySprite: {fileID: 1072052970, guid: f80cba83b28aa684a97c381f98df3645, type: 3}
   abilityScript: 2
   seToApply: {fileID: 0}
-  goToInstantiate: {fileID: 0}
+  goToInstantiate: {fileID: 3675764533945706723, guid: 3ed5a2df1d64db84e8102c2a38780648, type: 3}
   abilityDuration:
-    _base: 0
+    _base: 2
     _mult: 1
     _addTotal: 0
     _multTotal: 1
@@ -359,14 +361,14 @@ MonoBehaviour:
     _min: 0
     _max: Infinity
   abilityDamage:
-    _base: 3
+    _base: 5
     _mult: 1
     _addTotal: 0
     _multTotal: 1
     _min: 0
     _max: Infinity
   abilityRadius:
-    _base: 7.5
+    _base: 3.5
     _mult: 1
     _addTotal: 0
     _multTotal: 1

@@ -17,6 +17,7 @@ MonoBehaviour:
   pDesc: A Pawn.
   upgrades: []
   items: []
+  showAura: 0
   weaponBlock: 
   projType: 0
   onHitEffects: []
@@ -232,6 +233,9 @@ MonoBehaviour:
   weaponName: SPAS
   wepSprite: {fileID: 2099377769, guid: f80cba83b28aa684a97c381f98df3645, type: 3}
   wepType: 0
+  wepShootAudio: {fileID: 8300000, guid: 649ff15f3a7ad894ca671d1307496e4f, type: 3}
+  wepStartReloadAudio: {fileID: 8300000, guid: 47dfe1fa78452dc47a2afac6946f6d8c, type: 3}
+  wepEndReloadAudio: {fileID: 8300000, guid: 13cd31bfe1e4a71468c1c392e03784e5, type: 3}
   magSize:
     _base: 10
     _mult: 1
@@ -345,6 +349,7 @@ MonoBehaviour:
     _min: 0
     _max: Infinity
   abilityName: 
+  abilitySprite: {fileID: 0}
   abilityScript: 0
   seToApply: {fileID: 0}
   goToInstantiate: {fileID: 0}

@@ -2,14 +2,10 @@ using Reclaimers.DataPersistence;
 using Reclaimers.DeveloperConsole;
 using Reclaimers.Systems;
 using Reclaimers.UpdateSystem;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using static UnityEditor.PlayerSettings;
 
 public class GameManager : MonoBehaviour, IDataPersistence
 {
@@ -149,6 +145,14 @@ public class GameManager : MonoBehaviour, IDataPersistence
             Destroy(system);
         }
         allSystems.Clear();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            eventSystem.SetPause(!updateSystem.isPaused);
+        }
     }
 
     public void LoadData(GameData data)
@@ -326,7 +330,7 @@ public class GameManager : MonoBehaviour, IDataPersistence
     public Upgrade GetUpgrade(string uName)
     {
         List<Upgrade> filteredUpgradeList = upgradeList.Where(x => !x.permanent).ToList();
-        return filteredUpgradeList.FirstOrDefault(u => u.modName == uName);
+        return filteredUpgradeList.FirstOrDefault(u => u.modId == uName);
     }
 
     public Upgrade GetRandomUpgrade(bool randomQuality = true)
@@ -387,7 +391,7 @@ public class GameManager : MonoBehaviour, IDataPersistence
 
     public void UpdateScaling()
     {
-        scaling =  1f + (0.02f * playerPawn.statBlock.level.ValueInt()) * ((int)selectedDifficulty / 10f);
+        scaling =  (1f + (0.02f * playerPawn.statBlock.level.ValueInt())) * ((int)selectedDifficulty / 10f);
     }
 
     public void GoToLevel(int sceneIndex)

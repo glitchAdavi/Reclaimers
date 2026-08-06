@@ -20,7 +20,7 @@ public class AudioSystem : MonoBehaviour, IPauseable
     {
         backgroundSource = gameObject.AddComponent<AudioSource>();
 
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 50; i++)
         {
             _sources.Add(Instantiate(GameManager.Instance.gameInfo.audioSourcePrefab).GetComponent<AudioSource>());
         }
@@ -36,6 +36,20 @@ public class AudioSystem : MonoBehaviour, IPauseable
 
     private void OnDisable()
     {
+        foreach (AudioSource aSource in _sources)
+        {
+            _sources.Remove(aSource);
+            Destroy(aSource);
+        }
+
+        foreach (AudioSource aSource in _reserved)
+        {
+            _reserved.Remove(aSource);
+            Destroy(aSource);
+        }
+
+        Destroy(backgroundSource);
+
         this.Unregister();
     }
 
@@ -105,12 +119,12 @@ public class AudioSystem : MonoBehaviour, IPauseable
                 _reserved.Remove(source);
             }));
             source.clip = clip;
-            source.Play();
+            if (source != null) source.Play();
         }
         else
         {
             if (variation > 0f) source.pitch = Random.Range(1 - (variation / 2), 1 + (variation / 2));
-            source.PlayOneShot(clip);
+            if (source != null) source.PlayOneShot(clip);
         }
     }
 

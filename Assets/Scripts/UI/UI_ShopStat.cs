@@ -42,6 +42,8 @@ public class UI_ShopStat : MonoBehaviour
 
     public void Buy()
     {
+        GameManager.Instance.audioSystem.PlaySound(GameManager.Instance.gameInfo.buttonPressAudio);
+
         int index = GameManager.Instance.permanentUpgrade.FindIndex(su => su.modId == upgrade.modId);
         if (index > -1) GameManager.Instance.permanentUpgrade[index].modStacks++;
         else GameManager.Instance.permanentUpgrade.Add(new StatUpgrade(upgrade.modId, 1));

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: UP_abilityCharges
   m_EditorClassIdentifier: 
   quality: 1
+  qualityChangesValues: 0
   modName: Extra Pouch
   modDesc: +&valB0 ability charges.
   modId: u_ability_charge

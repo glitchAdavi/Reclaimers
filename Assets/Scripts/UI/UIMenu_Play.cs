@@ -40,6 +40,8 @@ public class UIMenu_Play : UIMenu
 
     public void StartGame()
     {
+        GameManager.Instance.audioSystem.PlaySound(GameManager.Instance.gameInfo.buttonPressAudio);
+
         GameManager.Instance.dataPersistenceSystem.SaveGame();
 
         GameManager.Instance.selectedDifficulty = selectedDifficulty;

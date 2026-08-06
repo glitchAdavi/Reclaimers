@@ -233,6 +233,9 @@ MonoBehaviour:
   weaponName: P90
   wepSprite: {fileID: 2024158372, guid: f80cba83b28aa684a97c381f98df3645, type: 3}
   wepType: 0
+  wepShootAudio: {fileID: 8300000, guid: 0a16030fcebb53d48ab5bba3df61dffa, type: 3}
+  wepStartReloadAudio: {fileID: 8300000, guid: 4aead36e701aa5244a3bbac1d1aede6f, type: 3}
+  wepEndReloadAudio: {fileID: 8300000, guid: 3002bd14a8d9be04592f6552ba934f6e, type: 3}
   magSize:
     _base: 50
     _mult: 1
@@ -346,6 +349,7 @@ MonoBehaviour:
     _min: 0
     _max: Infinity
   abilityName: 
+  abilitySprite: {fileID: 0}
   abilityScript: 0
   seToApply: {fileID: 0}
   goToInstantiate: {fileID: 0}

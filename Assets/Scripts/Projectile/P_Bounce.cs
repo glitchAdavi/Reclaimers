@@ -4,8 +4,10 @@ public class P_Bounce : Projectile
 {
     public override void ManageOnCollisionEnter(Collision collision)
     {
+
         if (collision.gameObject.layer == 20)
         {
+            GameManager.Instance.audioSystem.PlaySound(GameManager.Instance.gameInfo.wallHitAudio, transform.position, 0, -1);
             SeparateFromWall(collision.collider, collision.transform.position, collision.transform.rotation);
             
             if (currentPen > 0)
